@@ -1,5 +1,5 @@
 {
-  "name": "@mon-bouchon/api",
+  "name": "api",
   "version": "1.0.0",
   "exports": "./main.ts",
   "tasks": {
@@ -16,6 +16,7 @@
   "imports": {
     "@oak/oak": "jsr:@oak/oak@^17.1.0",
     "@std/http": "jsr:@std/http@^1.0.8",
-    "@std/json": "jsr:@std/json@^1.0.1"
+    "@std/json": "jsr:@std/json@^1.0.1",
+    "cors": "https://deno.land/x/cors@v1.2.2/mod.ts"
   }
 }

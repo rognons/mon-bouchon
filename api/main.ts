@@ -1,5 +1,5 @@
 import { Application, Router } from "@oak/oak";
-import { oakCors } from "https://deno.land/x/cors@v1.2.2/mod.ts";
+import { oakCors } from "cors";
 
 // Infrastructure
 import { JsonBouchonRepository } from "./src/infrastructure/repositories/JsonBouchonRepository.ts";
