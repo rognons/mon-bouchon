@@ -538,9 +538,8 @@ function toggleDistinctionsFilters() {
   <!-- Error state -->
   {:else if apiError}
     <div class="error-state">
-      <h3>❌ Erreur de chargement</h3>
-      <p>Impossible de récupérer les données : {apiError}</p>
-      <p>Vérifiez que l'API est démarrée sur <code>http://localhost:8000</code></p>
+      <h3>😔 Nous sommes en train de tester un nouveau bouchon, patience ! 🍽️</h3>
+      <p>Rafraîchissez la page si l'erreur persiste.</p>
     </div>
   <!-- Results -->
   {:else}
@@ -991,12 +990,12 @@ function toggleDistinctionsFilters() {
   }
 
   .error-state {
-    background: rgba(220, 53, 69, 0.1);
-    border-color: rgba(220, 53, 69, 0.3);
+    background: rgba(240, 198, 218, 0.1);
+    border-color: rgba(240, 198, 218, 0.3);
   }
 
   .error-state h3 {
-    color: #dc3545;
+    color: #f0c6da;
     font-size: 1.5rem;
     margin-bottom: 1rem;
     font-family: 'GiltonRegular', serif;

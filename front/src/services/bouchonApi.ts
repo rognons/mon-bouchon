@@ -80,33 +80,9 @@ export class BouchonApiService {
       return result.data;
     } catch (error) {
       console.error('Failed to search bouchons from API:', error);
-
-      // Fallback: get all and filter locally
-      const allBouchons = await BouchonApiService.getAllBouchons();
-      return BouchonApiService.filterLocally(allBouchons, filters);
+      throw error;
     }
   }
 
-  private static filterLocally(
-    bouchons: BouchonData[],
-    filters: Record<string, string>
-  ): BouchonData[] {
-    return bouchons.filter((bouchon) => {
-      for (const [key, value] of Object.entries(filters)) {
-        if (!value) continue;
 
-        const bouchonValue = (bouchon as any)[key];
-
-        // Boolean filters
-        if (typeof bouchonValue === 'boolean') {
-          if (value === 'true' && !bouchonValue) return false;
-        }
-        // String filters
-        else if (typeof bouchonValue === 'string') {
-          if (bouchonValue !== value) return false;
-        }
-      }
-      return true;
-    });
-  }
 }
