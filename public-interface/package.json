@@ -6,12 +6,23 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "lint": "biome lint src/",
+    "lint:fix": "biome lint --write src/",
+    "format": "biome format --write src/",
+    "format:check": "biome format src/",
+    "check": "biome check src/",
+    "check:fix": "biome check --write src/",
+    "quality": "npm run format:check && npm run lint",
+    "fix": "npm run format && npm run lint:fix"
   },
   "dependencies": {
     "@astrojs/svelte": "^7.2.0",
     "astro": "^5.14.6",
     "svelte": "^5.41.0",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.6"
   }
 }

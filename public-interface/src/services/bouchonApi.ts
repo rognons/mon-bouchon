@@ -38,25 +38,24 @@ export interface ApiResponse {
 }
 
 export class BouchonApiService {
-  
   static async getAllBouchons(): Promise<BouchonData[]> {
     try {
       const response = await fetch(`${API_BASE_URL}/bouchons`);
-      
+
       if (!response.ok) {
         throw new Error(`API Error: ${response.status} ${response.statusText}`);
       }
-      
+
       const result: ApiResponse = await response.json();
-      
+
       if (!result.success) {
         throw new Error('API returned error response');
       }
-      
+
       return result.data;
     } catch (error) {
       console.error('Failed to fetch bouchons from API:', error);
-      
+
       // No fallback - we want to use API only
       console.error('API is not available, cannot fetch bouchons data');
       throw new Error('API is not available');
@@ -67,34 +66,37 @@ export class BouchonApiService {
     try {
       const params = new URLSearchParams(filters);
       const response = await fetch(`${API_BASE_URL}/bouchons?${params}`);
-      
+
       if (!response.ok) {
         throw new Error(`API Error: ${response.status} ${response.statusText}`);
       }
-      
+
       const result: ApiResponse = await response.json();
-      
+
       if (!result.success) {
         throw new Error('API returned error response');
       }
-      
+
       return result.data;
     } catch (error) {
       console.error('Failed to search bouchons from API:', error);
-      
+
       // Fallback: get all and filter locally
-      const allBouchons = await this.getAllBouchons();
-      return this.filterLocally(allBouchons, filters);
+      const allBouchons = await BouchonApiService.getAllBouchons();
+      return BouchonApiService.filterLocally(allBouchons, filters);
     }
   }
 
-  private static filterLocally(bouchons: BouchonData[], filters: Record<string, string>): BouchonData[] {
-    return bouchons.filter(bouchon => {
+  private static filterLocally(
+    bouchons: BouchonData[],
+    filters: Record<string, string>
+  ): BouchonData[] {
+    return bouchons.filter((bouchon) => {
       for (const [key, value] of Object.entries(filters)) {
         if (!value) continue;
-        
+
         const bouchonValue = (bouchon as any)[key];
-        
+
         // Boolean filters
         if (typeof bouchonValue === 'boolean') {
           if (value === 'true' && !bouchonValue) return false;

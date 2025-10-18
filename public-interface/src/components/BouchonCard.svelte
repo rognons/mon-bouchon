@@ -1,18 +1,18 @@
 <script>
-  export let bouchon;
+export let bouchon;
 
-  function formatPrix(prix) {
-    // Since we now have direct prices like "25€", just return as is
-    return prix || 'Prix non précisé';
-  }
+function formatPrix(prix) {
+  // Since we now have direct prices like "25€", just return as is
+  return prix || 'Prix non précisé';
+}
 
-  function getStarRating(note) {
-    return '⭐';
-  }
+function getStarRating(note) {
+  return '⭐';
+}
 
-  function callBouchon() {
-    window.open(`tel:${bouchon.phone}`);
-  }
+function callBouchon() {
+  window.open(`tel:${bouchon.phone}`);
+}
 </script>
 
 <div class="bouchon-card">

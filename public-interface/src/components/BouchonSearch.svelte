@@ -1,232 +1,295 @@
 <script>
-  import { onMount } from 'svelte';
-  import BouchonCard from './BouchonCard.svelte';
-  import { BouchonApiService } from '../services/bouchonApi.ts';
+import { onMount } from 'svelte';
+import { BouchonApiService } from '../services/bouchonApi.ts';
+import BouchonCard from './BouchonCard.svelte';
 
-  let bouchons = []; // Résultats de l'API (toujours filtrés)
-  
-  // Nouveaux filtres selon les critères de la Compagnie du Rognon
-  let selectedPrixMenuBase = '';
-  let selectedArrondissement = '';
-  let selectedQuartier = '';
-  let selectedOuvertures = '';
-  let selectedQuantite = '';
-  let selectedTypeMangeur = '';
-  let selectedTypeAmbiance = '';
-  let selectedTypeTablee = '';
-  let selectedTypeBouchon = '';
-  let optionVegetariens = false;
-  let optionMachon = false;
-  let decorationRemarquable = false;
-  let coupDeCoeurCompagnie = false;
-  let coupDeCoeurVins = false;
-  let labelBouchonsLyonnais = false;
-  let selectionAuthentiques = false;
-  let minNote = 0;
-  let showFilters = false;
-  
-  // Variables de tri
-  let sortBy = 'default'; // default, rating, prix, nom, arrondissement, coupDeCoeur
-  let sortOrder = 'desc'; // asc ou desc
-  
-  // Fonction pour définir l'ordre par défaut selon le critère
-  function getDefaultSortOrder(criteria) {
-    switch (criteria) {
+let bouchons = []; // Résultats de l'API (toujours filtrés)
+
+// Nouveaux filtres selon les critères de la Compagnie du Rognon
+let selectedPrixMenuBase = '';
+let selectedArrondissement = '';
+let selectedQuartier = '';
+let selectedOuvertures = '';
+let selectedQuantite = '';
+let selectedTypeMangeur = '';
+let selectedTypeAmbiance = '';
+let selectedTypeTablee = '';
+let selectedTypeBouchon = '';
+let optionVegetariens = false;
+let optionMachon = false;
+let decorationRemarquable = false;
+let coupDeCoeurCompagnie = false;
+let coupDeCoeurVins = false;
+let labelBouchonsLyonnais = false;
+let selectionAuthentiques = false;
+let minNote = 0;
+let showFilters = false;
+
+// Variables de tri
+let sortBy = 'default'; // default, rating, prix, nom, arrondissement, coupDeCoeur
+let sortOrder = 'desc'; // asc ou desc
+
+// Fonction pour définir l'ordre par défaut selon le critère
+function getDefaultSortOrder(criteria) {
+  switch (criteria) {
+    case 'rating':
+    case 'coupDeCoeur':
+      return 'desc'; // Meilleures notes et coups de cœur d'abord
+    case 'prix':
+      return 'asc'; // Prix les plus bas d'abord
+    case 'nom':
+    case 'arrondissement':
+      return 'asc'; // Ordre alphabétique
+    default:
+      return 'desc';
+  }
+}
+
+// Variables pour les sections pliables
+let showExperienceFilters = false;
+let showDistinctionsFilters = false;
+
+// Options pour les filtres
+const prixMenuBaseOptions = ['', '15-20€', '20-25€', '25-30€', '30-35€', '35€+'];
+const arrondissements = ['', '1er', '2ème', '3ème', '4ème', '5ème', '6ème', '7ème', '8ème', '9ème'];
+const quartiers = [
+  '',
+  'Vieux Lyon',
+  "Presqu'île",
+  'Part-Dieu',
+  'Bellecour',
+  'Croix-Rousse',
+  'Confluence',
+];
+const ouverturesOptions = [
+  '',
+  'Midi uniquement',
+  'Soir uniquement',
+  'Midi et soir',
+  'Toute la journée',
+];
+const quantiteOptions = [
+  '',
+  'Portions légères',
+  'Portions équilibrées',
+  'Portions généreuses',
+  'Portions copieuses',
+];
+const typeMangeurOptions = [
+  '',
+  'Amateur de tradition',
+  'Gourmets exigeants',
+  'Familles',
+  'Jeunes actifs',
+  'Touristes',
+];
+const typeAmbianceOptions = [
+  '',
+  'Conviviale et familiale',
+  'Raffinée et moderne',
+  'Rustique et authentique',
+  'Animée et festive',
+  'Calme et intimiste',
+];
+const typeTableeOptions = [
+  '',
+  'Petites tables intimes',
+  'Tables spacieuses',
+  'Grandes tablées',
+  'Bar et comptoir',
+  'Terrasse',
+];
+const typeBouchonOptions = [
+  '',
+  'Traditionnel',
+  'Gastronomique',
+  'Populaire',
+  'Moderne',
+  'Authentique',
+];
+
+let isLoading = true;
+let apiError = null;
+
+onMount(() => {
+  // Chargement initial avec critères vides (tous les bouchons)
+  searchBouchons();
+});
+
+// Fonction de recherche via API
+async function searchBouchons() {
+  try {
+    isLoading = true;
+    apiError = null;
+
+    // Construction des filtres à envoyer à l'API
+    const filters = {};
+
+    // Ajout des filtres uniquement s'ils sont définis
+    if (selectedPrixMenuBase) filters.baseMenuPrice = selectedPrixMenuBase;
+    if (selectedArrondissement) filters.district = selectedArrondissement;
+    if (selectedQuartier) filters.neighborhood = selectedQuartier;
+    if (selectedOuvertures) filters.openingHours = selectedOuvertures;
+    if (selectedQuantite) filters.portionSize = selectedQuantite;
+    if (selectedTypeMangeur) filters.eaterType = selectedTypeMangeur;
+    if (selectedTypeAmbiance) filters.atmosphereType = selectedTypeAmbiance;
+    if (selectedTypeTablee) filters.tableType = selectedTypeTablee;
+    if (selectedTypeBouchon) filters.bouchonType = selectedTypeBouchon;
+
+    // Filtres booléens
+    if (optionVegetariens) filters.vegetarianOption = 'true';
+    if (optionMachon) filters.machonOption = 'true';
+    if (decorationRemarquable) filters.remarkableDecoration = 'true';
+    if (coupDeCoeurCompagnie) filters.compagnieFavorite = 'true';
+    if (coupDeCoeurVins) filters.wineFavorite = 'true';
+    if (labelBouchonsLyonnais) filters.bouchonLyonnaisLabel = 'true';
+    if (selectionAuthentiques) filters.authenticSelection = 'true';
+    if (minNote > 0) filters.minRating = minNote.toString();
+
+    // Appel à l'API avec les filtres ou tous les bouchons si pas de filtres
+    if (Object.keys(filters).length > 0) {
+      bouchons = await BouchonApiService.searchBouchons(filters);
+    } else {
+      bouchons = await BouchonApiService.getAllBouchons();
+    }
+  } catch (error) {
+    console.error('Failed to search bouchons:', error);
+    apiError = error.message;
+    bouchons = [];
+  } finally {
+    isLoading = false;
+  }
+
+  // Tri des résultats
+  sortResults();
+}
+
+// Fonction de tri
+function sortResults() {
+  if (sortBy === 'default') return;
+
+  bouchons.sort((a, b) => {
+    let compareValue = 0;
+
+    switch (sortBy) {
       case 'rating':
-      case 'coupDeCoeur':
-        return 'desc'; // Meilleures notes et coups de cœur d'abord
-      case 'prix':
-        return 'asc';  // Prix les plus bas d'abord
+        compareValue = a.rating - b.rating;
+        break;
+      case 'prix': {
+        const prixA = extractPrixNumber(a.baseMenuPrice);
+        const prixB = extractPrixNumber(b.baseMenuPrice);
+        compareValue = prixA - prixB;
+        break;
+      }
       case 'nom':
+        compareValue = a.name.localeCompare(b.name);
+        break;
       case 'arrondissement':
-        return 'asc';  // Ordre alphabétique
-      default:
-        return 'desc';
+        compareValue = a.district.localeCompare(b.district);
+        break;
+      case 'coupDeCoeur':
+        compareValue = (a.compagnieFavorite ? 1 : 0) - (b.compagnieFavorite ? 1 : 0);
+        break;
     }
-  }
-  
-  // Variables pour les sections pliables
-  let showExperienceFilters = false;
-  let showDistinctionsFilters = false;
 
-  // Options pour les filtres
-  const prixMenuBaseOptions = ['', '15-20€', '20-25€', '25-30€', '30-35€', '35€+'];
-  const arrondissements = ['', '1er', '2ème', '3ème', '4ème', '5ème', '6ème', '7ème', '8ème', '9ème'];
-  const quartiers = ['', 'Vieux Lyon', 'Presqu\'île', 'Part-Dieu', 'Bellecour', 'Croix-Rousse', 'Confluence'];
-  const ouverturesOptions = ['', 'Midi uniquement', 'Soir uniquement', 'Midi et soir', 'Toute la journée'];
-  const quantiteOptions = ['', 'Portions légères', 'Portions équilibrées', 'Portions généreuses', 'Portions copieuses'];
-  const typeMangeurOptions = ['', 'Amateur de tradition', 'Gourmets exigeants', 'Familles', 'Jeunes actifs', 'Touristes'];
-  const typeAmbianceOptions = ['', 'Conviviale et familiale', 'Raffinée et moderne', 'Rustique et authentique', 'Animée et festive', 'Calme et intimiste'];
-  const typeTableeOptions = ['', 'Petites tables intimes', 'Tables spacieuses', 'Grandes tablées', 'Bar et comptoir', 'Terrasse'];
-  const typeBouchonOptions = ['', 'Traditionnel', 'Gastronomique', 'Populaire', 'Moderne', 'Authentique'];
-
-  let isLoading = true;
-  let apiError = null;
-
-  onMount(() => {
-    // Chargement initial avec critères vides (tous les bouchons)
-    searchBouchons();
+    return sortOrder === 'desc' ? -compareValue : compareValue;
   });
+}
 
-  // Fonction de recherche via API
-  async function searchBouchons() {
-    try {
-      isLoading = true;
-      apiError = null;
-      
-      // Construction des filtres à envoyer à l'API
-      const filters = {};
-      
-      // Ajout des filtres uniquement s'ils sont définis
-      if (selectedPrixMenuBase) filters.baseMenuPrice = selectedPrixMenuBase;
-      if (selectedArrondissement) filters.district = selectedArrondissement;
-      if (selectedQuartier) filters.neighborhood = selectedQuartier;
-      if (selectedOuvertures) filters.openingHours = selectedOuvertures;
-      if (selectedQuantite) filters.portionSize = selectedQuantite;
-      if (selectedTypeMangeur) filters.eaterType = selectedTypeMangeur;
-      if (selectedTypeAmbiance) filters.atmosphereType = selectedTypeAmbiance;
-      if (selectedTypeTablee) filters.tableType = selectedTypeTablee;
-      if (selectedTypeBouchon) filters.bouchonType = selectedTypeBouchon;
-      
-      // Filtres booléens
-      if (optionVegetariens) filters.vegetarianOption = 'true';
-      if (optionMachon) filters.machonOption = 'true';
-      if (decorationRemarquable) filters.remarkableDecoration = 'true';
-      if (coupDeCoeurCompagnie) filters.compagnieFavorite = 'true';
-      if (coupDeCoeurVins) filters.wineFavorite = 'true';
-      if (labelBouchonsLyonnais) filters.bouchonLyonnaisLabel = 'true';
-      if (selectionAuthentiques) filters.authenticSelection = 'true';
-      if (minNote > 0) filters.minRating = minNote.toString();
-      
-      // Appel à l'API avec les filtres ou tous les bouchons si pas de filtres
-      if (Object.keys(filters).length > 0) {
-        bouchons = await BouchonApiService.searchBouchons(filters);
-      } else {
-        bouchons = await BouchonApiService.getAllBouchons();
-      }
-      
-    } catch (error) {
-      console.error('Failed to search bouchons:', error);
-      apiError = error.message;
-      bouchons = [];
-    } finally {
-      isLoading = false;
-    }
-    
-    // Tri des résultats
-    sortResults();
+// Fonction pour extraire le prix numérique
+function extractPrixNumber(prix) {
+  if (!prix) return 0;
+  const match = prix.match(/(\d+)/);
+  return match ? parseInt(match[1]) : 0;
+}
+
+// Fonction pour matcher les prix
+function matchesPrixRange(prixBouchon, prixFiltre) {
+  if (!prixBouchon) return false;
+  const prix = parseInt(prixBouchon.replace('€', ''));
+
+  switch (prixFiltre) {
+    case '15-20€':
+      return prix >= 15 && prix <= 20;
+    case '20-25€':
+      return prix >= 20 && prix <= 25;
+    case '25-30€':
+      return prix >= 25 && prix <= 30;
+    case '30-35€':
+      return prix >= 30 && prix <= 35;
+    case '35€+':
+      return prix >= 35;
+    default:
+      return true;
   }
+}
 
-  // Fonction de tri
-  function sortResults() {
-    if (sortBy === 'default') return;
-    
-    bouchons.sort((a, b) => {
-      let compareValue = 0;
-      
-      switch (sortBy) {
-        case 'rating':
-          compareValue = a.rating - b.rating;
-          break;
-        case 'prix':
-          const prixA = extractPrixNumber(a.baseMenuPrice);
-          const prixB = extractPrixNumber(b.baseMenuPrice);
-          compareValue = prixA - prixB;
-          break;
-        case 'nom':
-          compareValue = a.name.localeCompare(b.name);
-          break;
-        case 'arrondissement':
-          compareValue = a.district.localeCompare(b.district);
-          break;
-        case 'coupDeCoeur':
-          compareValue = (a.compagnieFavorite ? 1 : 0) - (b.compagnieFavorite ? 1 : 0);
-          break;
-      }
-      
-      return sortOrder === 'desc' ? -compareValue : compareValue;
-    });
+// Fonction pour appliquer les filtres (recherche + tri)
+async function applyFilters() {
+  await searchBouchons();
+  sortResults();
+}
+
+// Réactivité : rechercher à chaque changement de critères
+$: {
+  // Tous les critères qui doivent déclencher une nouvelle recherche
+  const searchTriggers = [
+    selectedPrixMenuBase,
+    selectedArrondissement,
+    selectedQuartier,
+    selectedOuvertures,
+    selectedQuantite,
+    selectedTypeMangeur,
+    selectedTypeAmbiance,
+    selectedTypeTablee,
+    selectedTypeBouchon,
+    optionVegetariens,
+    optionMachon,
+    decorationRemarquable,
+    coupDeCoeurCompagnie,
+    coupDeCoeurVins,
+    labelBouchonsLyonnais,
+    selectionAuthentiques,
+    minNote,
+  ];
+
+  // Déclencher recherche seulement après le mount initial
+  if (typeof window !== 'undefined') {
+    searchBouchons();
   }
+}
 
-  // Fonction pour extraire le prix numérique
-  function extractPrixNumber(prix) {
-    if (!prix) return 0;
-    const match = prix.match(/(\d+)/);
-    return match ? parseInt(match[1]) : 0;
-  }
+function clearFilters() {
+  selectedPrixMenuBase = '';
+  selectedArrondissement = '';
+  selectedQuartier = '';
+  selectedOuvertures = '';
+  selectedQuantite = '';
+  selectedTypeMangeur = '';
+  selectedTypeAmbiance = '';
+  selectedTypeTablee = '';
+  selectedTypeBouchon = '';
+  optionVegetariens = false;
+  optionMachon = false;
+  decorationRemarquable = false;
+  coupDeCoeurCompagnie = false;
+  coupDeCoeurVins = false;
+  labelBouchonsLyonnais = false;
+  selectionAuthentiques = false;
+  minNote = 0;
+}
 
-  // Fonction pour matcher les prix
-  function matchesPrixRange(prixBouchon, prixFiltre) {
-    if (!prixBouchon) return false;
-    const prix = parseInt(prixBouchon.replace('€', ''));
-    
-    switch(prixFiltre) {
-      case '15-20€': return prix >= 15 && prix <= 20;
-      case '20-25€': return prix >= 20 && prix <= 25;
-      case '25-30€': return prix >= 25 && prix <= 30;
-      case '30-35€': return prix >= 30 && prix <= 35;
-      case '35€+': return prix >= 35;
-      default: return true;
-    }
-  }
+function toggleFilters() {
+  showFilters = !showFilters;
+}
 
-  // Fonction pour appliquer les filtres (recherche + tri)
-  async function applyFilters() {
-    await searchBouchons();
-    sortResults();
-  }
+function toggleExperienceFilters() {
+  showExperienceFilters = !showExperienceFilters;
+}
 
-  // Réactivité : rechercher à chaque changement de critères
-  $: {
-    // Tous les critères qui doivent déclencher une nouvelle recherche
-    const searchTriggers = [
-      selectedPrixMenuBase, selectedArrondissement, selectedQuartier,
-      selectedOuvertures, selectedQuantite, selectedTypeMangeur,
-      selectedTypeAmbiance, selectedTypeTablee, selectedTypeBouchon,
-      optionVegetariens, optionMachon, decorationRemarquable,
-      coupDeCoeurCompagnie, coupDeCoeurVins, labelBouchonsLyonnais,
-      selectionAuthentiques, minNote
-    ];
-    
-    // Déclencher recherche seulement après le mount initial
-    if (typeof window !== 'undefined') {
-      searchBouchons();
-    }
-  }
-
-  function clearFilters() {
-    selectedPrixMenuBase = '';
-    selectedArrondissement = '';
-    selectedQuartier = '';
-    selectedOuvertures = '';
-    selectedQuantite = '';
-    selectedTypeMangeur = '';
-    selectedTypeAmbiance = '';
-    selectedTypeTablee = '';
-    selectedTypeBouchon = '';
-    optionVegetariens = false;
-    optionMachon = false;
-    decorationRemarquable = false;
-    coupDeCoeurCompagnie = false;
-    coupDeCoeurVins = false;
-    labelBouchonsLyonnais = false;
-    selectionAuthentiques = false;
-    minNote = 0;
-  }
-
-  function toggleFilters() {
-    showFilters = !showFilters;
-  }
-
-  function toggleExperienceFilters() {
-    showExperienceFilters = !showExperienceFilters;
-  }
-
-
-
-  function toggleDistinctionsFilters() {
-    showDistinctionsFilters = !showDistinctionsFilters;
-  }
+function toggleDistinctionsFilters() {
+  showDistinctionsFilters = !showDistinctionsFilters;
+}
 </script>
 
 <div class="search-container">
