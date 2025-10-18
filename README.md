@@ -1,85 +1,188 @@
-# 🍽️ Bouchons Lyonnais - Application de Recherche
+# 🍽️ Mon Bouchon - Recherche de Bouchons Lyonnais
 
-Une application web moderne construite avec **Astro** et **Svelte** pour rechercher et découvrir les meilleurs bouchons traditionnels de Lyon selon des critères personnalisés.
+Application complète pour découvrir les authentiques bouchons lyonnais de La Compagnie du Rognon.
 
-## ✨ Fonctionnalités
+## 🏗️ Architecture du projet
 
-- 🔍 **Recherche textuelle** : Recherchez par nom de bouchon, spécialités ou description
-- 📍 **Filtrage par arrondissement** : Trouvez des bouchons dans votre quartier préféré
-- 💰 **Sélection par prix** : Filtrez selon votre budget (€, €€, €€€)
-- 🍷 **Type de cuisine** : Traditionnel, Gastronomique, ou Populaire
-- ⭐ **Note minimum** : Sélectionnez uniquement les mieux notés
-- 📱 **Design responsive** : Interface optimisée mobile et desktop
-- 🎨 **Interface moderne** : Design élégant avec animations fluides
+Ce projet suit une **architecture modulaire** avec séparation claire entre l'interface utilisateur et l'API backend.
 
-## 🏗️ Technologies utilisées
+### 📱 `/public-interface/` - Interface Web (Astro + Svelte)
 
-- **[Astro](https://astro.build/)** - Framework web moderne
-- **[Svelte](https://svelte.dev/)** - Framework JavaScript réactif
-- **CSS3** - Styles personnalisés avec gradients et animations
-- **JSON** - Base de données locale des bouchons
+Application web moderne pour la recherche et découverte des bouchons lyonnais.
 
-## 🚀 Installation et démarrage
+**🚀 Technologies :**
+- **Astro ^5.14.6** - Framework web moderne
+- **Svelte** - Composants réactifs 
+- **TypeScript** - Typage fort
+- **CSS moderne** - Design system authentique
 
-### Prérequis
-- Node.js (version 18 ou supérieure)
-- npm ou yarn
+**✨ Fonctionnalités :**
+- 🔍 **Recherche avancée** par critères multiples (prix, arrondissement, quartier, type de mangeur, ambiance...)
+- ❤️ **Coups de cœur** de la Compagnie du Rognon et sélection vins
+- ⭐ **Tri intelligent** par note, prix, nom, localisation
+- 🏷️ **Labels authentiques** (Bouchons Lyonnais, sélection Authentiques)
+- 📱 **Responsive design** (desktop, tablette, mobile)
+- 🎨 **Design authentique** avec police GiltonRegular et couleurs signature
 
-### Instructions
+**🛠️ Développement :**
+```bash
+cd public-interface/
+npm install
+npm run dev  # Démarre sur http://localhost:4321
+```
 
-1. **Clonez le projet**
+### 🔧 `/api/` - API Backend (Deno + Architecture Hexagonale)
+
+API REST moderne avec **architecture hexagonale** pour une maintenabilité et testabilité optimales.
+
+**🚀 Technologies :**
+- **Deno** - Runtime JavaScript/TypeScript moderne
+- **Oak** - Framework web pour Deno
+- **Architecture Hexagonale** - Domain-Driven Design
+- **TypeScript strict** - Typage fort et sécurité
+
+**🏗️ Structure hexagonale :**
+```
+src/
+├── domain/           # 🏛️ Cœur métier
+│   ├── entities/     # Entités (Bouchon, SearchCriteria)
+│   ├── ports/        # Interfaces (BouchonRepository)
+│   └── services/     # Services métier (BouchonDomainService)
+├── application/      # 🎯 Cas d'usage
+│   └── usecases/     # Use Cases (SearchBouchonsUseCase)
+└── infrastructure/   # ⚙️ Adaptateurs techniques
+    ├── adapters/     # Controllers HTTP
+    ├── repositories/ # Implémentation repository JSON
+    └── data/         # Données JSON
+```
+
+**📋 API Endpoints :**
+- `GET /bouchons` - Liste tous les bouchons (avec filtres optionnels via query params)
+- `GET /health` - Status de l'API
+
+**🛠️ Développement :**
+```bash
+cd api/
+deno run --allow-net --allow-read main.ts  # Démarre sur http://localhost:8000
+```
+
+**🔧 Outils de développement :**
+```bash
+deno lint    # Linting du code
+deno fmt     # Formatage automatique
+deno check   # Vérification TypeScript
+```
+
+## 🚀 Démarrage rapide
+
+### 📋 Prérequis
+- **Node.js** (version 18+) - pour l'interface web
+- **Deno** (version 1.40+) - pour l'API backend
+- **npm** ou **yarn** - gestionnaire de paquets
+
+### ⚡ Installation
+
+1. **Clonez le repository**
    ```bash
    git clone <url-du-repo>
    cd mon-rognon
    ```
 
-2. **Installez les dépendances**
+2. **Lancez l'interface web**
    ```bash
+   cd public-interface/
    npm install
-   ```
-
-3. **Lancez le serveur de développement**
-   ```bash
    npm run dev
+   # ➡️ Interface disponible sur http://localhost:4321
    ```
 
-4. **Ouvrez votre navigateur**
+3. **Lancez l'API (dans un autre terminal)**
+   ```bash
+   cd api/
+   deno run --allow-net --allow-read main.ts
+   # ➡️ API disponible sur http://localhost:8000
    ```
-   http://localhost:4321
+
+4. **Testez l'API**
+   ```bash
+   # Status de l'API
+   curl http://localhost:8000/health
+   
+   # Liste tous les bouchons
+   curl http://localhost:8000/bouchons
+   
+   # Recherche avec filtres
+   curl "http://localhost:8000/bouchons?district=1er&compagnieFavorite=true"
    ```
 
-## 🚀 Project Structure
+## 📊 Exemples d'utilisation API
 
-Inside of your Astro project, you'll see the following folders and files:
+### Filtres disponibles
+```bash
+# Par arrondissement
+GET /bouchons?district=1er
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+# Par prix
+GET /bouchons?baseMenuPrice=25-30€
+
+# Coups de cœur seulement
+GET /bouchons?compagnieFavorite=true
+
+# Options végétariennes
+GET /bouchons?vegetarianOption=true
+
+# Tri par note décroissant
+GET /bouchons?sortBy=rating&sortOrder=desc
+
+# Combinaison de filtres
+GET /bouchons?district=2ème&minRating=4.5&sortBy=price&sortOrder=asc
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## 🛠️ Commandes de développement
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+### Interface Web (Astro)
+```bash
+cd public-interface/
+npm run dev        # Serveur de développement
+npm run build      # Build de production
+npm run preview    # Prévisualisation du build
+npm run astro ...  # CLI Astro
+```
 
-Any static assets, like images, can be placed in the `public/` directory.
+### API (Deno)
+```bash
+cd api/
+deno run --allow-net --allow-read main.ts  # Démarrer l'API
+deno lint                                  # Linter le code
+deno fmt                                   # Formatter le code
+deno check src/**/*.ts                     # Vérification TypeScript
+```
 
-## 🧞 Commands
+## 🏛️ Architecture & Principes
 
-All commands are run from the root of the project, from a terminal:
+### 🎯 Domain-Driven Design
+- **Entités métier** : `Bouchon`, `SearchCriteria` avec logique métier encapsulée
+- **Services métier** : `BouchonDomainService` pour les règles de filtrage et tri
+- **Value Objects** : Types forts pour éviter les erreurs (ex: `BouchonId`, `Address`)
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+### 🔄 Architecture Hexagonale
+- **Indépendance technologique** : Le domaine métier ne dépend d'aucun framework
+- **Testabilité** : Use cases facilement testables en isolation
+- **Évolutivité** : Facile d'ajouter de nouveaux adapters (BDD, cache, etc.)
 
-## 👀 Want to learn more?
+### 🌍 Code Multilingue
+- **Code source** en anglais pour la lisibilité internationale
+- **Termes métier** en français préservés (`bouchon`, `compagnieFavorite`)
+- **API bilingue** : Support des paramètres français ET anglais
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## � Contribuer
+
+1. Fork le projet
+2. Créez une branche feature (`git checkout -b feature/nouvelle-fonctionnalite`)
+3. Committez vos changes (`git commit -m 'Ajout nouvelle fonctionnalité'`)
+4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
+5. Ouvrez une Pull Request
+
+---
+
+🍷 **Fait avec ❤️ pour La Compagnie du Rognon** 🍷
