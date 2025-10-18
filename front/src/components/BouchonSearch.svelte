@@ -26,8 +26,8 @@ let minNote = 0;
 let showFilters = false;
 
 // Variables de tri
-let sortBy = 'rating'; // rating, prix, nom, arrondissement, coupDeCoeur
-let sortOrder = 'desc'; // asc ou desc
+const sortBy = 'rating'; // rating, prix, nom, arrondissement, coupDeCoeur
+const sortOrder = 'desc'; // asc ou desc
 
 // Fonction pour définir l'ordre par défaut selon le critère
 function getDefaultSortOrder(criteria) {
@@ -170,9 +170,6 @@ function sortResults() {
     let compareValue = 0;
 
     switch (sortBy) {
-      case 'rating':
-        compareValue = a.rating - b.rating;
-        break;
       case 'prix': {
         const prixA = extractPrixNumber(a.baseMenuPrice);
         const prixB = extractPrixNumber(b.baseMenuPrice);
@@ -189,7 +186,8 @@ function sortResults() {
         compareValue = (a.compagnieFavorite ? 1 : 0) - (b.compagnieFavorite ? 1 : 0);
         break;
       default:
-        return;
+        compareValue = a.rating - b.rating;
+        break;
     }
 
     return sortOrder === 'desc' ? -compareValue : compareValue;
