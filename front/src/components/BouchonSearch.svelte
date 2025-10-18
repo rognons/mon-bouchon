@@ -26,7 +26,7 @@ let minNote = 0;
 let showFilters = false;
 
 // Variables de tri
-let sortBy = 'default'; // default, rating, prix, nom, arrondissement, coupDeCoeur
+let sortBy = 'rating'; // rating, prix, nom, arrondissement, coupDeCoeur
 let sortOrder = 'desc'; // asc ou desc
 
 // Fonction pour définir l'ordre par défaut selon le critère
@@ -166,8 +166,6 @@ async function searchBouchons() {
 
 // Fonction de tri
 function sortResults() {
-  if (sortBy === 'default') return;
-
   bouchons.sort((a, b) => {
     let compareValue = 0;
 
@@ -190,6 +188,8 @@ function sortResults() {
       case 'coupDeCoeur':
         compareValue = (a.compagnieFavorite ? 1 : 0) - (b.compagnieFavorite ? 1 : 0);
         break;
+      default:
+        return;
     }
 
     return sortOrder === 'desc' ? -compareValue : compareValue;
@@ -513,22 +513,19 @@ function toggleDistinctionsFilters() {
     <div class="sort-control">
       <label for="sortBy">🎯 Trier par:</label>
       <select id="sortBy" bind:value={sortBy} on:change={() => { sortOrder = getDefaultSortOrder(sortBy); applyFilters(); }}>
-        <option value="default">✨ Défaut</option>
-        <option value="rating">⭐ Note</option>
+        <option value="rating">⭐ Note (Google)</option>
         <option value="prix">💰 Prix</option>
         <option value="nom">📝 Nom</option>
         <option value="arrondissement">📍 Arrondissement</option>
         <option value="coupDeCoeur">❤️ Coups de cœur</option>
       </select>
-      {#if sortBy !== 'default'}
-        <button 
-          class="sort-order-btn" 
-          on:click={() => { sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'; applyFilters(); }}
-          title={sortOrder === 'desc' ? 'Décroissant (clic pour croissant)' : 'Croissant (clic pour décroissant)'}
-        >
-          {sortOrder === 'desc' ? '⬇️' : '⬆️'}
-        </button>
-      {/if}
+      <button 
+        class="sort-order-btn" 
+        on:click={() => { sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'; applyFilters(); }}
+        title={sortOrder === 'desc' ? 'Décroissant (clic pour croissant)' : 'Croissant (clic pour décroissant)'}
+      >
+        {sortOrder === 'desc' ? '⬇️' : '⬆️'}
+      </button>
     </div>
   </div>
 
