@@ -49,7 +49,7 @@ function callBouchon() {
       
       <div class="detail-item">
         <span class="label">Horaires:</span>
-        <span class="value">🕐 {bouchon.ouvertures}</span>
+        <span class="value">🕐 {bouchon.openingHours || 'Non précisé'}</span>
       </div>
       
       <div class="detail-item">
