@@ -1,0 +1,37 @@
+services:
+  # API Backend (Deno)
+  api:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - ENV=production
+    volumes:
+      - ./api/src/data:/app/src/data:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # Front Interface (Astro)
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - "4321:4321"
+    environment:
+      - PUBLIC_API_URL=http://localhost:8000  # Direct access for simple setup
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  default:
+    name: mon-rognon

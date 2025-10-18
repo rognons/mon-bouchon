@@ -2,11 +2,57 @@
 
 Application complète pour découvrir les authentiques bouchons lyonnais de La Compagnie du Rognon.
 
+## 🚀 Démarrage rapide
+
+### 🐳 Avec Docker (Recommandé)
+
+```bash
+# 1. Cloner le projet
+git clone <repo-url>
+cd mon-bouchon
+
+# 2. Démarrer avec Docker
+make up
+
+# ➡️ Front: http://localhost:4321
+# ➡️ API: http://localhost:8000
+```
+
+### 🔄 CI/CD Automatique
+
+- **Quality Check**: Automatique sur chaque Pull Request
+- **Build & Deploy**: Images publiées sur `europe-west1-docker.pkg.dev/rognons/docker/` à chaque push master
+- **Registry**: Google Artifact Registry (europe-west1)
+
 ## 🏗️ Architecture du projet
 
 Ce projet suit une **architecture modulaire** avec séparation claire entre l'interface utilisateur et l'API backend.
 
-### 📱 `/public-interface/` - Interface Web (Astro + Svelte)
+## 📁 Structure du projet
+
+```
+mon-bouchon/
+├── front/                    # 🎨 Front (Astro + Svelte)
+│   ├── src/
+│   │   ├── components/       # Composants Svelte
+│   │   ├── pages/           # Pages Astro
+│   │   └── services/        # Intégration API
+│   ├── biome.json          # Configuration qualité code
+│   └── package.json        # Dépendances et scripts
+├── api/                    # 🦕 Backend (Deno + Architecture Hexagonale)
+│   ├── src/
+│   │   ├── domain/         # Entités métier
+│   │   ├── application/    # Cas d'usage
+│   │   └── infrastructure/ # Adaptateurs techniques
+│   ├── deno.json          # Configuration Deno
+│   └── main.ts            # Point d'entrée API
+├── .github/workflows/     # 🔄 CI/CD automation
+├── docker-compose.yml     # 🐳 Configuration Docker
+├── Makefile              # 📋 Commandes développement
+└── DOCKER.md             # 📖 Documentation Docker
+```
+
+### 📱 `/front/` - Interface Web (Astro + Svelte)
 
 Application web moderne pour la recherche et découverte des bouchons lyonnais.
 
@@ -26,7 +72,7 @@ Application web moderne pour la recherche et découverte des bouchons lyonnais.
 
 **🛠️ Développement :**
 ```bash
-cd public-interface/
+cd front/
 npm install
 npm run dev  # Démarre sur http://localhost:4321
 ```
@@ -53,7 +99,7 @@ src/
 └── infrastructure/   # ⚙️ Adaptateurs techniques
     ├── adapters/     # Controllers HTTP
     ├── repositories/ # Implémentation repository JSON
-    └── data/         # Données JSON
+    └── data/         # Données JSON (bouchons.json)
 ```
 
 **📋 API Endpoints :**
@@ -85,12 +131,12 @@ deno check   # Vérification TypeScript
 1. **Clonez le repository**
    ```bash
    git clone <url-du-repo>
-   cd mon-rognon
+   cd mon-bouchon
    ```
 
 2. **Lancez l'interface web**
    ```bash
-   cd public-interface/
+   cd front/
    npm install
    npm run dev
    # ➡️ Interface disponible sur http://localhost:4321
@@ -99,7 +145,7 @@ deno check   # Vérification TypeScript
 3. **Lancez l'API (dans un autre terminal)**
    ```bash
    cd api/
-   deno run --allow-net --allow-read main.ts
+   deno task dev
    # ➡️ API disponible sur http://localhost:8000
    ```
 
@@ -115,7 +161,41 @@ deno check   # Vérification TypeScript
    curl "http://localhost:8000/bouchons?district=1er&compagnieFavorite=true"
    ```
 
-## 📊 Exemples d'utilisation API
+## 🐳 Déploiement Docker (Recommandé)
+
+### 🚀 Démarrage rapide avec Docker
+```bash
+make up  
+# ➡️ Front: http://localhost:4321
+# ➡️ API: http://localhost:8000
+
+# Voir les logs
+make logs
+
+# Arrêter les services
+make down
+```
+
+### 🛠️ Commandes Docker disponibles
+```bash
+make help       # Afficher l'aide
+make build      # Construire les images
+make up         # Démarrer tous les services
+make down       # Arrêter les services
+make logs       # Voir les logs
+make clean      # Nettoyer tout
+make dev        # Infos développement local
+```
+
+### 📋 Configuration Docker
+- **Front**: Astro app (Node.js Alpine)
+- **API**: Deno application avec health checks
+- **Network**: Réseau Docker interne pour communication
+- **Volumes**: Données montées en lecture seule
+
+Voir [DOCKER.md](DOCKER.md) pour plus de détails.
+
+## �📊 Exemples d'utilisation API
 
 ### Filtres disponibles
 ```bash
@@ -142,7 +222,7 @@ GET /bouchons?district=2ème&minRating=4.5&sortBy=price&sortOrder=asc
 
 ### Interface Web (Astro)
 ```bash
-cd public-interface/
+cd front/
 npm run dev        # Serveur de développement
 npm run build      # Build de production
 npm run preview    # Prévisualisation du build
@@ -152,10 +232,11 @@ npm run astro ...  # CLI Astro
 ### API (Deno)
 ```bash
 cd api/
-deno run --allow-net --allow-read main.ts  # Démarrer l'API
-deno lint                                  # Linter le code
-deno fmt                                   # Formatter le code
-deno check src/**/*.ts                     # Vérification TypeScript
+deno task dev      # Serveur de développement avec reload automatique
+deno task start    # Démarrer l'API
+deno task lint     # Linter le code
+deno task fmt      # Formatter le code
+deno task check    # Vérification TypeScript
 ```
 
 ## 🏛️ Architecture & Principes
@@ -185,4 +266,4 @@ deno check src/**/*.ts                     # Vérification TypeScript
 
 ---
 
-🍷 **Fait avec ❤️ pour La Compagnie du Rognon** 🍷
+🍷 **Fait avec ❤️ par La Compagnie du Rognon** 🍷
