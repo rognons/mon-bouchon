@@ -14,32 +14,32 @@ import {
 // DTO for JSON -> Domain mapping
 interface BouchonJson {
   id: number;
-  nom: string;
-  adresse: string;
-  arrondissement: string;
-  quartier: string;
-  telephone: string;
-  note: number;
-  prixMenuBase?: string;
-  ouvertures?: string;
-  quantite?: string;
-  specialites?: string[];
-  typeMangeur?: string;
-  typeAmbiance?: string;
-  typeTablee?: string;
-  typeBouchon?: string;
-  optionVegetariens?: boolean;
-  optionMachon?: boolean;
-  decorationRemarquable?: boolean;
-  coupDeCoeurCompagnie?: boolean;
-  coupDeCoeurVins?: boolean;
-  labelBouchonsLyonnais?: boolean;
-  selectionAuthentiques?: boolean;
+  name: string;
+  address: string;
+  district: string;
+  neighborhood: string;
+  phone: string;
+  rating: number;
+  baseMenuPrice?: string;
+  openingHours?: string;
+  portionSize?: string;
+  specialties?: string[];
+  eaterType?: string;
+  atmosphereType?: string;
+  tableType?: string;
+  bouchonType?: string;
+  vegetarianOption?: boolean;
+  machonOption?: boolean;
+  remarkableDecoration?: boolean;
+  compagnieFavorite?: boolean;
+  wineFavorite?: boolean;
+  bouchonLyonnaisLabel?: boolean;
+  authenticSelection?: boolean;
   description?: string;
   imageUrl?: string;
   reservation?: boolean;
-  terrasse?: boolean;
-  capacite?: number;
+  terrace?: boolean;
+  capacity?: number;
 }
 
 // Implémentation du repository avec fichier JSON
@@ -69,31 +69,31 @@ export class JsonBouchonRepository implements BouchonRepository {
   private mapJsonToDomain(json: BouchonJson): Bouchon {
     return new Bouchon(
       new BouchonId(json.id),
-      json.nom,
-      new Address(json.adresse, json.arrondissement, json.quartier),
-      new Contact(json.telephone),
-      new Rating(json.note),
-      new MenuInfo(json.prixMenuBase, json.quantite, json.specialites),
+      json.name,
+      new Address(json.address, json.district, json.neighborhood),
+      new Contact(json.phone),
+      new Rating(json.rating),
+      new MenuInfo(json.baseMenuPrice, json.portionSize, json.specialties),
       new Characteristics(
-        json.typeBouchon,
-        json.typeMangeur,
-        json.typeAmbiance,
-        json.typeTablee,
-        json.decorationRemarquable,
+        json.bouchonType,
+        json.eaterType,
+        json.atmosphereType,
+        json.tableType,
+        json.remarkableDecoration,
       ),
       new Services(
-        json.ouvertures,
-        json.optionVegetariens,
-        json.optionMachon,
+        json.openingHours,
+        json.vegetarianOption,
+        json.machonOption,
         json.reservation,
-        json.terrasse,
-        json.capacite,
+        json.terrace,
+        json.capacity,
       ),
       new Labels(
-        json.coupDeCoeurCompagnie,
-        json.coupDeCoeurVins,
-        json.labelBouchonsLyonnais,
-        json.selectionAuthentiques,
+        json.compagnieFavorite,
+        json.wineFavorite,
+        json.bouchonLyonnaisLabel,
+        json.authenticSelection,
       ),
       json.description,
       json.imageUrl,

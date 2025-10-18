@@ -11,14 +11,14 @@
   }
 
   function callBouchon() {
-    window.open(`tel:${bouchon.telephone}`);
+    window.open(`tel:${bouchon.phone}`);
   }
 </script>
 
 <div class="bouchon-card">
   <div class="card-header">
-    <h3 class="bouchon-name">{bouchon.nom}</h3>
-    {#if bouchon.coupDeCoeurCompagnie}
+    <h3 class="bouchon-name">{bouchon.name}</h3>
+    {#if bouchon.compagnieFavorite}
       <div class="coup-de-coeur-header">
         <img src="/favicon.ico" alt="Coup de cœur Rognon" class="cochon-header">
         <span class="coeur-header">❤️</span>
@@ -28,23 +28,23 @@
 
   <div class="bouchon-info">
     <div class="location">
-      📍 {bouchon.adresse}
+      📍 {bouchon.address}
     </div>
     
     <div class="details-grid">
       <div class="detail-item">
         <span class="label">Type:</span>
-        <span class="value type-{bouchon.typeBouchon.toLowerCase()}">{bouchon.typeBouchon}</span>
+        <span class="value type-{bouchon.bouchonType?.toLowerCase() || ''}">{bouchon.bouchonType}</span>
       </div>
       
       <div class="detail-item">
         <span class="label">Prix:</span>
-        <span class="value prix-menu">{bouchon.prixMenuBase}</span>
+        <span class="value prix-menu">{bouchon.baseMenuPrice}</span>
       </div>
       
       <div class="detail-item">
         <span class="label">Capacité:</span>
-        <span class="value">👥 {bouchon.capacite} places</span>
+        <span class="value">👥 {bouchon.capacity} places</span>
       </div>
       
       <div class="detail-item">
@@ -55,7 +55,7 @@
       <div class="detail-item">
         <span class="label">Contact:</span>
         <button class="value phone-value" on:click={callBouchon}>
-          📞 {bouchon.telephone}
+          📞 {bouchon.phone}
         </button>
       </div>
     </div>
@@ -65,7 +65,7 @@
     </div>
 
     <div class="amenities">
-      {#if bouchon.terrasse}
+      {#if bouchon.terrace}
         <span class="amenity">🌿 Terrasse</span>
       {/if}
       {#if bouchon.reservation}
@@ -78,7 +78,7 @@
 
   <!-- Note en bas à droite -->
   <div class="bottom-rating">
-    <span class="bottom-note">⭐ {bouchon.note}/5</span>
+    <span class="bottom-note">⭐ {bouchon.rating}/5</span>
   </div>
 
 </div>

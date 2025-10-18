@@ -1,10 +1,9 @@
 <script>
   import { onMount } from 'svelte';
   import BouchonCard from './BouchonCard.svelte';
-  import bouchonsData from '../data/bouchons.json';
+  import { BouchonApiService } from '../services/bouchonApi.ts';
 
-  let bouchons = [];
-  let filteredBouchons = [];
+  let bouchons = []; // Résultats de l'API (toujours filtrés)
   
   // Nouveaux filtres selon les critères de la Compagnie du Rognon
   let selectedPrixMenuBase = '';
@@ -61,42 +60,58 @@
   const typeTableeOptions = ['', 'Petites tables intimes', 'Tables spacieuses', 'Grandes tablées', 'Bar et comptoir', 'Terrasse'];
   const typeBouchonOptions = ['', 'Traditionnel', 'Gastronomique', 'Populaire', 'Moderne', 'Authentique'];
 
+  let isLoading = true;
+  let apiError = null;
+
   onMount(() => {
-    bouchons = bouchonsData;
-    filteredBouchons = bouchons;
+    // Chargement initial avec critères vides (tous les bouchons)
+    searchBouchons();
   });
 
-  // Fonction de filtrage
-  function filterBouchons() {
-    filteredBouchons = bouchons.filter(bouchon => {
-      // Filtres par critères
-      const matchesPrixMenuBase = selectedPrixMenuBase === '' || matchesPrixRange(bouchon.prixMenuBase, selectedPrixMenuBase);
-      const matchesArrondissement = selectedArrondissement === '' || bouchon.arrondissement === selectedArrondissement;
-      const matchesQuartier = selectedQuartier === '' || bouchon.quartier === selectedQuartier;
-      const matchesOuvertures = selectedOuvertures === '' || bouchon.ouvertures.includes(selectedOuvertures.toLowerCase());
-      const matchesQuantite = selectedQuantite === '' || bouchon.quantite === selectedQuantite;
-      const matchesTypeMangeur = selectedTypeMangeur === '' || bouchon.typeMangeur === selectedTypeMangeur;
-      const matchesTypeAmbiance = selectedTypeAmbiance === '' || bouchon.typeAmbiance === selectedTypeAmbiance;
-      const matchesTypeTablee = selectedTypeTablee === '' || bouchon.typeTablee === selectedTypeTablee;
-      const matchesTypeBouchon = selectedTypeBouchon === '' || bouchon.typeBouchon === selectedTypeBouchon;
+  // Fonction de recherche via API
+  async function searchBouchons() {
+    try {
+      isLoading = true;
+      apiError = null;
+      
+      // Construction des filtres à envoyer à l'API
+      const filters = {};
+      
+      // Ajout des filtres uniquement s'ils sont définis
+      if (selectedPrixMenuBase) filters.baseMenuPrice = selectedPrixMenuBase;
+      if (selectedArrondissement) filters.district = selectedArrondissement;
+      if (selectedQuartier) filters.neighborhood = selectedQuartier;
+      if (selectedOuvertures) filters.openingHours = selectedOuvertures;
+      if (selectedQuantite) filters.portionSize = selectedQuantite;
+      if (selectedTypeMangeur) filters.eaterType = selectedTypeMangeur;
+      if (selectedTypeAmbiance) filters.atmosphereType = selectedTypeAmbiance;
+      if (selectedTypeTablee) filters.tableType = selectedTypeTablee;
+      if (selectedTypeBouchon) filters.bouchonType = selectedTypeBouchon;
       
       // Filtres booléens
-      const matchesVegetariens = !optionVegetariens || bouchon.optionVegetariens;
-      const matchesMachon = !optionMachon || bouchon.optionMachon;
-      const matchesDecoration = !decorationRemarquable || bouchon.decorationRemarquable;
-      const matchesCoupDeCoeurCompagnie = !coupDeCoeurCompagnie || bouchon.coupDeCoeurCompagnie;
-      const matchesCoupDeCoeurVins = !coupDeCoeurVins || bouchon.coupDeCoeurVins;
-      const matchesLabel = !labelBouchonsLyonnais || bouchon.labelBouchonsLyonnais;
-      const matchesSelection = !selectionAuthentiques || bouchon.selectionAuthentiques;
+      if (optionVegetariens) filters.vegetarianOption = 'true';
+      if (optionMachon) filters.machonOption = 'true';
+      if (decorationRemarquable) filters.remarkableDecoration = 'true';
+      if (coupDeCoeurCompagnie) filters.compagnieFavorite = 'true';
+      if (coupDeCoeurVins) filters.wineFavorite = 'true';
+      if (labelBouchonsLyonnais) filters.bouchonLyonnaisLabel = 'true';
+      if (selectionAuthentiques) filters.authenticSelection = 'true';
+      if (minNote > 0) filters.minRating = minNote.toString();
       
-      const matchesNote = bouchon.note >= minNote;
-
-      return matchesPrixMenuBase && matchesArrondissement && matchesQuartier && 
-             matchesOuvertures && matchesQuantite && matchesTypeMangeur && matchesTypeAmbiance && 
-             matchesTypeTablee && matchesTypeBouchon && matchesVegetariens && matchesMachon && 
-             matchesDecoration && matchesCoupDeCoeurCompagnie && matchesCoupDeCoeurVins && 
-             matchesLabel && matchesSelection && matchesNote;
-    });
+      // Appel à l'API avec les filtres ou tous les bouchons si pas de filtres
+      if (Object.keys(filters).length > 0) {
+        bouchons = await BouchonApiService.searchBouchons(filters);
+      } else {
+        bouchons = await BouchonApiService.getAllBouchons();
+      }
+      
+    } catch (error) {
+      console.error('Failed to search bouchons:', error);
+      apiError = error.message;
+      bouchons = [];
+    } finally {
+      isLoading = false;
+    }
     
     // Tri des résultats
     sortResults();
@@ -106,26 +121,26 @@
   function sortResults() {
     if (sortBy === 'default') return;
     
-    filteredBouchons.sort((a, b) => {
+    bouchons.sort((a, b) => {
       let compareValue = 0;
       
       switch (sortBy) {
         case 'rating':
-          compareValue = a.note - b.note;
+          compareValue = a.rating - b.rating;
           break;
         case 'prix':
-          const prixA = extractPrixNumber(a.prixMenuBase);
-          const prixB = extractPrixNumber(b.prixMenuBase);
+          const prixA = extractPrixNumber(a.baseMenuPrice);
+          const prixB = extractPrixNumber(b.baseMenuPrice);
           compareValue = prixA - prixB;
           break;
         case 'nom':
-          compareValue = a.nom.localeCompare(b.nom);
+          compareValue = a.name.localeCompare(b.name);
           break;
         case 'arrondissement':
-          compareValue = a.arrondissement.localeCompare(b.arrondissement);
+          compareValue = a.district.localeCompare(b.district);
           break;
         case 'coupDeCoeur':
-          compareValue = (a.coupDeCoeurCompagnie ? 1 : 0) - (b.coupDeCoeurCompagnie ? 1 : 0);
+          compareValue = (a.compagnieFavorite ? 1 : 0) - (b.compagnieFavorite ? 1 : 0);
           break;
       }
       
@@ -155,9 +170,28 @@
     }
   }
 
-  // Réactivité : filtrer à chaque changement
-  $: if (bouchons.length > 0) {
-    filterBouchons();
+  // Fonction pour appliquer les filtres (recherche + tri)
+  async function applyFilters() {
+    await searchBouchons();
+    sortResults();
+  }
+
+  // Réactivité : rechercher à chaque changement de critères
+  $: {
+    // Tous les critères qui doivent déclencher une nouvelle recherche
+    const searchTriggers = [
+      selectedPrixMenuBase, selectedArrondissement, selectedQuartier,
+      selectedOuvertures, selectedQuantite, selectedTypeMangeur,
+      selectedTypeAmbiance, selectedTypeTablee, selectedTypeBouchon,
+      optionVegetariens, optionMachon, decorationRemarquable,
+      coupDeCoeurCompagnie, coupDeCoeurVins, labelBouchonsLyonnais,
+      selectionAuthentiques, minNote
+    ];
+    
+    // Déclencher recherche seulement après le mount initial
+    if (typeof window !== 'undefined') {
+      searchBouchons();
+    }
   }
 
   function clearFilters() {
@@ -412,10 +446,10 @@
 
   <!-- Résultats -->
   <div class="results-header">
-    <h2>🍽️ {filteredBouchons.length} bouchon{filteredBouchons.length > 1 ? 's' : ''} trouvé{filteredBouchons.length > 1 ? 's' : ''}</h2>
+    <h2>🍽️ {bouchons.length} bouchon{bouchons.length > 1 ? 's' : ''} trouvé{bouchons.length > 1 ? 's' : ''}</h2>
     <div class="sort-control">
       <label for="sortBy">🎯 Trier par:</label>
-      <select id="sortBy" bind:value={sortBy} on:change={() => { sortOrder = getDefaultSortOrder(sortBy); filterBouchons(); }}>
+      <select id="sortBy" bind:value={sortBy} on:change={() => { sortOrder = getDefaultSortOrder(sortBy); applyFilters(); }}>
         <option value="default">✨ Défaut</option>
         <option value="rating">⭐ Note</option>
         <option value="prix">💰 Prix</option>
@@ -426,7 +460,7 @@
       {#if sortBy !== 'default'}
         <button 
           class="sort-order-btn" 
-          on:click={() => { sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'; filterBouchons(); }}
+          on:click={() => { sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'; applyFilters(); }}
           title={sortOrder === 'desc' ? 'Décroissant (clic pour croissant)' : 'Croissant (clic pour décroissant)'}
         >
           {sortOrder === 'desc' ? '⬇️' : '⬆️'}
@@ -435,17 +469,35 @@
     </div>
   </div>
 
-  <div class="results-grid">
-    {#each filteredBouchons as bouchon (bouchon.id)}
-      <BouchonCard {bouchon} />
-    {/each}
-  </div>
-
-  {#if filteredBouchons.length === 0}
-    <div class="no-results">
-      <h3>😞 Aucun bouchon trouvé</h3>
-      <p>Essayez de modifier vos critères de recherche</p>
+  <!-- Loading state -->
+  {#if isLoading}
+    <div class="loading-state">
+      <div class="loading-cochon">
+        <img src="/favicon.ico" alt="Chargement..." class="spinning-cochon">
+      </div>
+      <h3>On finit notre communard et on est avec vous...</h3>
     </div>
+  <!-- Error state -->
+  {:else if apiError}
+    <div class="error-state">
+      <h3>❌ Erreur de chargement</h3>
+      <p>Impossible de récupérer les données : {apiError}</p>
+      <p>Vérifiez que l'API est démarrée sur <code>http://localhost:8000</code></p>
+    </div>
+  <!-- Results -->
+  {:else}
+    <div class="results-grid">
+      {#each bouchons as bouchon (bouchon.id)}
+        <BouchonCard {bouchon} />
+      {/each}
+    </div>
+
+    {#if bouchons.length === 0 && !isLoading && !apiError}
+      <div class="no-results">
+        <h3>😞 Aïe, on n'a pas encore trouvé de bouchon comme celui-ci</h3>
+        <p>Mais dites-nous et on le teste !</p>
+      </div>
+    {/if}
   {/if}
 </div>
 
@@ -846,6 +898,64 @@
   .no-results h3 {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
+  }
+
+  .loading-state, .error-state {
+    text-align: center;
+    padding: 3rem;
+    background: rgba(240, 198, 218, 0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(240, 198, 218, 0.3);
+    margin: 2rem 0;
+  }
+
+  .loading-cochon {
+    margin-bottom: 1.5rem;
+  }
+
+  .spinning-cochon {
+    width: 48px;
+    height: 48px;
+    animation: spin 2s linear infinite;
+    filter: drop-shadow(0 2px 8px rgba(240, 198, 218, 0.4));
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .loading-state h3 {
+    color: #f0c6da;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-family: 'GiltonRegular', serif;
+  }
+
+  .error-state {
+    background: rgba(220, 53, 69, 0.1);
+    border-color: rgba(220, 53, 69, 0.3);
+  }
+
+  .error-state h3 {
+    color: #dc3545;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-family: 'GiltonRegular', serif;
+  }
+
+  .error-state p {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .error-state code {
+    background: rgba(220, 53, 69, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+    color: #dc3545;
   }
 
   /* Desktop large screens */
