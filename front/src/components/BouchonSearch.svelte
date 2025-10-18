@@ -26,8 +26,8 @@ let minNote = 0;
 let showFilters = false;
 
 // Variables de tri
-const sortBy = 'rating'; // rating, prix, nom, arrondissement, coupDeCoeur
-const sortOrder = 'desc'; // asc ou desc
+let sortBy = 'rating'; // rating, prix, nom, arrondissement, coupDeCoeur
+let sortOrder = 'desc'; // asc ou desc
 
 // Fonction pour définir l'ordre par défaut selon le critère
 function getDefaultSortOrder(criteria) {
