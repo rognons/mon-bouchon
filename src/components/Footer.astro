@@ -1,0 +1,127 @@
+---
+// Pas de props nécessaires pour le footer
+---
+
+<footer class="main-footer">
+	<div class="footer-content">
+		<div class="footer-section">
+			<h3>Mon Bouchon</h3>
+			<p>Votre guide des authentiques bouchons lyonnais</p>
+			<div class="footer-logo">
+				<a href="https://rognons.fr" target="_blank" rel="noopener noreferrer">
+					<img src="/logo-compagnie-nom.png" alt="La Compagnie du Rognon" class="footer-compagnie-logo">
+				</a>
+			</div>
+		</div>
+		<div class="footer-section">
+			<h4>La Compagnie du Rognon</h4>
+			<ul>
+				<li><a href="https://compagnie-du-rognon.fr" target="_blank">Site officiel</a></li>
+				<li><a href="https://www.instagram.com/compagniedurognon/" target="_blank">Instagram</a></li>
+				<li><a href="mailto:compagnie@rognons.fr">compagnie@rognons.fr</a></li>
+			</ul>
+		</div>
+		<div class="footer-section">
+			<h4>À propos</h4>
+			<p>Outil de recherche développé par les connaisseurs du bon goût lyonnais</p>
+			<p>Pour les coureurs de bouchons amateurs de ripaille et de mâchons</p>
+		</div>
+	</div>
+	<div class="footer-bottom">
+		<p>&copy; 2025 Mon-Bouchon.fr - Tous droits réservés</p>
+	</div>
+</footer>
+
+<style>
+	.main-footer {
+		background: linear-gradient(135deg, #221f20 0%, #2a2728 100%);
+		color: #fff;
+		padding: 3rem 0 0 0;
+		margin-top: 4rem;
+	}
+
+	.footer-content {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 3rem;
+		padding: 0 2rem 2rem 2rem;
+	}
+
+	.footer-section h3 {
+		font-family: 'GiltonRegular', 'Playfair Display', serif;
+		font-size: 24px;
+		font-weight: normal;
+		margin-bottom: 1rem;
+		color: #f0c6da;
+	}
+
+	.footer-section h4 {
+		font-family: 'GiltonRegular', 'Playfair Display', serif;
+		font-size: 18px;
+		font-weight: normal;
+		margin-bottom: 1rem;
+		color: #f0c6da;
+	}
+
+	.footer-section p {
+		margin-bottom: 1rem;
+		color: #ccc;
+		line-height: 1.6;
+	}
+
+	.footer-section ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.footer-section li {
+		margin-bottom: 0.5rem;
+	}
+
+	.footer-section a {
+		color: #ccc;
+		text-decoration: none;
+		transition: color 0.3s ease;
+	}
+
+	.footer-section a:hover {
+		color: #f0c6da;
+	}
+
+	.footer-logo {
+		margin-top: 1rem;
+	}
+
+	.footer-compagnie-logo {
+		height: 80px;
+		width: auto;
+		opacity: 0.9;
+		transition: opacity 0.3s ease;
+	}
+
+	.footer-compagnie-logo:hover {
+		opacity: 1;
+	}
+
+	.footer-bottom {
+		border-top: 1px solid #333;
+		text-align: center;
+		padding: 2rem;
+		color: #999;
+		font-size: 14px;
+	}
+
+	@media (max-width: 600px) {
+		.footer-content {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+			padding: 0 1rem;
+		}
+
+		.footer-bottom {
+			padding: 1.5rem 1rem;
+		}
+	}
+</style>
