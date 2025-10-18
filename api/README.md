@@ -40,8 +40,8 @@ api/
 
 ## 🔄 Migration des données
 
-Les données actuelles dans `/public-interface/src/data/bouchons.json` seront
-migrées vers la base de données lors de la mise en place de l'API.
+Les données actuelles dans `/front/src/data/bouchons.json` seront migrées vers
+la base de données lors de la mise en place de l'API.
 
 ## 🚀 Développement futur
 
