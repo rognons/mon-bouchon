@@ -74,7 +74,7 @@ jobs:
   quality-summary:
     name: ✅ Quality Summary
     runs-on: ubuntu-latest
-    needs: [lint-front, lint-api]
+    needs: [check-front, check-api]
     if: always()
     
     steps:
