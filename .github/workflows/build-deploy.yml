@@ -188,18 +188,34 @@ jobs:
             COMMITS=$(git log --pretty=format:"- %s (%h)" ${LAST_TAG}..HEAD)
           fi
           
+          # Extract and format API tags
+          API_TAGS="${{ needs.build-api.outputs.image-tag }}"
+          API_SHA_TAG=$(echo "$API_TAGS" | grep -E "sha-[a-f0-9]+" | head -1)
+          API_LATEST_TAG=$(echo "$API_TAGS" | grep ":latest" | head -1)
+          
+          # Extract and format Frontend tags  
+          FRONT_TAGS="${{ needs.build-front.outputs.image-tag }}"
+          FRONT_SHA_TAG=$(echo "$FRONT_TAGS" | grep -E "sha-[a-f0-9]+" | head -1)
+          FRONT_LATEST_TAG=$(echo "$FRONT_TAGS" | grep ":latest" | head -1)
+          
           # Create release notes
           cat > release_notes.md << EOF
           ## 🏗️ Images Docker
-          - **API**: \`${{ needs.build-api.outputs.image-tag }}\`
-          - **Front**: \`${{ needs.build-front.outputs.image-tag }}\`
           
-          ## � Changelog
+          ### 🦕 API
+          - **Version unique**: \`${API_SHA_TAG}\`
+          - **Version latest**: \`${API_LATEST_TAG}\`
+          
+          ### 🎨 Frontend  
+          - **Version unique**: \`${FRONT_SHA_TAG}\`
+          - **Version latest**: \`${FRONT_LATEST_TAG}\`
+          
+          ## 📋 Changelog
           ${COMMITS}
           EOF
 
       - name: 🎉 Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag.outputs.tag }}
           name: 🚀 Release ${{ steps.tag.outputs.tag }}
@@ -207,3 +223,5 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: false
+          make_latest: true
+          fail_on_unmatched_files: false
