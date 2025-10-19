@@ -22,7 +22,7 @@ build:
 
 # Start all services
 up:
-	docker-compose up -d --build
+	docker-compose up -d --build --remove-orphans --force-recreate
 	@echo "🚀 Services started!"
 	@echo "Front: http://localhost:4321"  
 	@echo "API: http://localhost:8000"
