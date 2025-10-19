@@ -193,20 +193,20 @@ jobs:
           API_SHA_TAG=$(echo "$API_TAGS" | grep -E "sha-[a-f0-9]+" | head -1)
           API_LATEST_TAG=$(echo "$API_TAGS" | grep ":latest" | head -1)
           
-          # Extract and format Frontend tags  
+          # Extract and format Front tags  
           FRONT_TAGS="${{ needs.build-front.outputs.image-tag }}"
           FRONT_SHA_TAG=$(echo "$FRONT_TAGS" | grep -E "sha-[a-f0-9]+" | head -1)
           FRONT_LATEST_TAG=$(echo "$FRONT_TAGS" | grep ":latest" | head -1)
           
           # Create release notes
           cat > release_notes.md << EOF
-          ## 🏗️ Images Docker
+          ## 🐳 Images Docker
           
           ### 🦕 API
           - **Version unique**: \`${API_SHA_TAG}\`
           - **Version latest**: \`${API_LATEST_TAG}\`
           
-          ### 🎨 Frontend  
+          ### 🎨 Front 
           - **Version unique**: \`${FRONT_SHA_TAG}\`
           - **Version latest**: \`${FRONT_LATEST_TAG}\`
           
