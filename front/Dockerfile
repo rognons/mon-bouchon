@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy package files first for better caching
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies including serve
+RUN npm ci --only=production && npm install -g serve
 
 # Copy source code
 COPY . .
@@ -19,5 +19,5 @@ RUN npm run build
 # Expose port
 EXPOSE 4321
 
-# Run the application
-CMD ["npm", "run", "preview"]
+# Serve the built application
+CMD ["serve", "-s", "dist", "-l", "4321"]
