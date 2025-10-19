@@ -23,10 +23,10 @@ services:
     build:
       context: ./front
       dockerfile: Dockerfile
+      args:
+        - PUBLIC_API_URL=http://localhost:8000
     ports:
       - "4321:80"
-    environment:
-      - PUBLIC_API_URL=http://localhost:8000  # Direct access for simple setup
     depends_on:
       api:
         condition: service_healthy

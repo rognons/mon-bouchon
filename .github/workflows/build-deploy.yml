@@ -114,9 +114,9 @@ jobs:
       - name: 🐳 Build and push Front image
         id: build
         uses: docker/build-push-action@v6
-        env:
-          PUBLIC_API_URL: https://mon-bouchon-api.rognons.fr
         with:
+          build-args:
+            - PUBLIC_API_URL=https://mon-bouchon-api.rognons.fr
           context: ./front
           file: ./front/Dockerfile
           push: true

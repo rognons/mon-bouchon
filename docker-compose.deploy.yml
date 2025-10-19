@@ -21,8 +21,6 @@ services:
     image: europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_front:latest
     ports:net
       - "3001:80"
-    environment:
-      - PUBLIC_API_URL=https://mon-bouchon-api.rognons.fr
     depends_on:
       api:
         condition: service_healthy
