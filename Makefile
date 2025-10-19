@@ -53,8 +53,3 @@ dev:
 	@echo "Run in separate terminals:"
 	@echo "  cd api && deno task dev"
 	@echo "  cd front && npm run dev"
-
-# Release multi-architecture images
-release:
-	@echo "🚀 Building and pushing multi-architecture images..."
-	./build-multiarch.sh
