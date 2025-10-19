@@ -21,8 +21,9 @@ make up
 ### 🔄 CI/CD Automatique
 
 - **Quality Check**: Automatique sur chaque Pull Request
-- **Build & Deploy**: Images publiées sur `europe-west1-docker.pkg.dev/rognons/docker/` à chaque push master
+- **Build & Deploy**: Images multi-architecture publiées sur `europe-west1-docker.pkg.dev/rognons/docker/` à chaque push master
 - **Registry**: Google Artifact Registry (europe-west1)
+- **Multi-platform**: Support Intel (linux/amd64) et ARM (linux/arm64) pour compatibilité maximale
 
 ## 🏗️ Architecture du projet
 
@@ -185,6 +186,29 @@ make down       # Arrêter les services
 make logs       # Voir les logs
 make clean      # Nettoyer tout
 make dev        # Infos développement local
+```
+
+### 🚀 Release et Déploiement
+```bash
+make release  # Build et push images multi-architecture vers registry
+```
+
+Cette commande :
+- ✅ Construit les images pour **linux/amd64** et **linux/arm64**
+- ✅ Tags automatiques avec **SHA du commit** + **latest**
+- ✅ Push vers **Google Artifact Registry**
+- ✅ Compatible avec tous les environnements (Intel, Apple Silicon, serveurs)
+
+**Exemple d'utilisation :**
+```bash
+# Build et push d'une nouvelle version
+make release
+
+# Les images seront disponibles :
+# - europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_api:abc1234
+# - europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_api:latest
+# - europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_front:abc1234  
+# - europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_front:latest
 ```
 
 ### 📋 Configuration Docker

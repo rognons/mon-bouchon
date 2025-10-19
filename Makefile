@@ -1,4 +1,4 @@
-.PHONY: help build up down logs clean dev
+.PHONY: help build up down logs clean dev release
 
 # Default target
 help:
@@ -11,6 +11,9 @@ help:
 	@echo "  make logs       - Show logs from all services"
 	@echo "  make clean      - Stop and remove all containers/images"
 	@echo "  make dev        - Start development environment"
+	@echo ""
+	@echo "Release commands:"
+	@echo "  make release    - Build and push multi-arch images to registry"
 	@echo ""
 	@echo "URLs:"
 	@echo "  Front: http://localhost:4321"  
@@ -50,3 +53,8 @@ dev:
 	@echo "Run in separate terminals:"
 	@echo "  cd api && deno task dev"
 	@echo "  cd front && npm run dev"
+
+# Release multi-architecture images
+release:
+	@echo "🚀 Building and pushing multi-architecture images..."
+	./build-multiarch.sh
