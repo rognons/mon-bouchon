@@ -83,6 +83,4 @@ export class BouchonApiService {
       throw error;
     }
   }
-
-
 }
