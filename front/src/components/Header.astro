@@ -1,11 +1,4 @@
 ---
-export interface Props {
-  totalBouchons: string;
-  uniqueArrondissements: number;
-  criteriaCount: number;
-}
-
-const { totalBouchons, uniqueArrondissements, criteriaCount } = Astro.props;
 ---
 
 <header class="hero-header">
@@ -15,29 +8,11 @@ const { totalBouchons, uniqueArrondissements, criteriaCount } = Astro.props;
 				<img src="/favicon.ico" alt="Logo cochon" class="logo-cochon">
 				<h1>Mon Bouchon</h1>
 			</div>
-			<div class="hero-tagline">
-				<span>L'authentique tradition lyonnaise</span>
-			</div>
 		</nav>
 		
 		<div class="hero-content">
-			<h2>Découvrez les vrais bouchons de Lyon</h2>
-			<p class="hero-subtitle">Trouvez le bouchon parfait selon vos envies, votre budget et vos critères</p>
-			
-			<div class="hero-stats">
-				<div class="stat">
-					<span class="stat-number">{totalBouchons}</span>
-					<span class="stat-label">Bouchons référencés</span>
-				</div>
-				<div class="stat">
-					<span class="stat-number">{uniqueArrondissements}</span>
-					<span class="stat-label">Arrondissements</span>
-				</div>
-				<div class="stat">
-					<span class="stat-number">{criteriaCount}</span>
-					<span class="stat-label">Critères de recherche</span>
-				</div>
-			</div>
+			<h2>Trouvez votre bouchon lyonnais idéal</h2>
+			<p class="hero-subtitle">Une sélection préparée par des experts, des résultats adaptés à vos critères.</p>
 		</div>
 	</div>
 </header>
@@ -46,7 +21,6 @@ const { totalBouchons, uniqueArrondissements, criteriaCount } = Astro.props;
 	/* Hero Header unifié */
 	.hero-header {
 		background: linear-gradient(135deg, #f0c6da 0%, rgba(240, 198, 218, 0.8) 100%);
-		min-height: 42vh;
 		display: flex;
 		align-items: flex-start;
 		color: #221f20;
@@ -103,19 +77,6 @@ const { totalBouchons, uniqueArrondissements, criteriaCount } = Astro.props;
 		font-weight: normal;
 	}
 
-	.hero-tagline {
-		text-align: right;
-	}
-
-	.hero-tagline span {
-		font-family: 'Open Sans', Arial, sans-serif;
-		font-size: 14px;
-		color: #221f20;
-		opacity: 0.8;
-		font-style: italic;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-	}
 
 	/* Contenu hero */
 	.hero-content {
@@ -142,39 +103,10 @@ const { totalBouchons, uniqueArrondissements, criteriaCount } = Astro.props;
 		margin-right: auto;
 	}
 
-	.hero-stats {
-		display: flex;
-		justify-content: center;
-		gap: 4rem;
-		margin-top: 2rem;
-	}
-
-	.stat {
-		text-align: center;
-	}
-
-	.stat-number {
-		display: block;
-		font-family: 'GiltonRegular', 'Playfair Display', serif;
-		font-size: 36px;
-		color: #221f20;
-		font-weight: normal;
-		margin-bottom: 0.5rem;
-	}
-
-	.stat-label {
-		font-family: 'Open Sans', Arial, sans-serif;
-		font-size: 12px;
-		color: #221f20;
-		opacity: 0.7;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-	}
 
 	/* Desktop large screens */
 	@media (min-width: 1200px) {
 		.hero-header {
-			min-height: 40vh;
 			padding: 1.5rem 0 1rem 0;
 		}
 
@@ -185,7 +117,6 @@ const { totalBouchons, uniqueArrondissements, criteriaCount } = Astro.props;
 
 	@media (max-width: 980px) {
 		.hero-header {
-			min-height: 50vh;
 			padding: 1.5rem 0 1rem 0;
 		}
 
@@ -200,9 +131,6 @@ const { totalBouchons, uniqueArrondissements, criteriaCount } = Astro.props;
 			text-align: center;
 		}
 
-		.hero-tagline {
-			text-align: center;
-		}
 
 		.logo h1 {
 			font-size: 32px;
@@ -223,23 +151,10 @@ const { totalBouchons, uniqueArrondissements, criteriaCount } = Astro.props;
 			margin-bottom: 2rem;
 		}
 
-		.hero-stats {
-			gap: 2rem;
-			flex-wrap: wrap;
-		}
-
-		.stat-number {
-			font-size: 30px;
-		}
-
-		.stat-label {
-			font-size: 11px;
-		}
 	}
 
 	@media (max-width: 600px) {
 		.hero-header {
-			min-height: 50vh;
 			padding: 1rem 0 0.5rem 0;
 		}
 
@@ -252,10 +167,6 @@ const { totalBouchons, uniqueArrondissements, criteriaCount } = Astro.props;
 			margin-bottom: 1.5rem;
 		}
 
-		.hero-stats {
-			flex-direction: column;
-			gap: 1.5rem;
-		}
 
 		.logo h1 {
 			font-size: 28px;

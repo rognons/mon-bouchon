@@ -6,11 +6,6 @@ import Footer from '../components/Footer.astro';
 // biome-ignore lint/correctness/noUnusedImports: Used in template below
 import Header from '../components/Header.astro';
 import '../styles/global.css';
-
-// Static stats (will be replaced by real stats once API is loaded on client)
-const totalBouchons = '35+'; // Approximate number
-const uniqueArrondissements = 9; // All Lyon arrondissements
-const criteriaCount = 17; // Number of filter criteria
 ---
 
 <html lang="fr">
@@ -36,11 +31,7 @@ const criteriaCount = 17; // Number of filter criteria
 	</head>
 	<body>
 		<main>
-			<Header 
-				totalBouchons={totalBouchons}
-				uniqueArrondissements={uniqueArrondissements}
-				criteriaCount={criteriaCount}
-			/>
+			<Header />
 			
 			<section id="recherche" class="search-section">
 				<BouchonSearch client:load />
