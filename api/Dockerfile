@@ -1,5 +1,5 @@
 # Use official Deno image
-FROM denoland/deno:2.0.6
+FROM denoland/deno:2.5.4
 
 # Install curl for health checks
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
