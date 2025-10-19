@@ -1,0 +1,12 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      run: |
+        cd api && deno lint
+        cd ../front && npm run lint
+    format:
+      run: |
+        cd api && deno fmt
+        cd ../front && npm run format
+      stage_fixed: true
