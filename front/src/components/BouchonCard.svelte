@@ -1,7 +1,10 @@
-<script>
-export let bouchon;
+<script lang="ts">
+import type { BouchonData } from '../services/bouchonApi';
 
-function callBouchon() {
+export let bouchon: BouchonData;
+
+// biome-ignore lint/correctness/noUnusedVariables: Used in template on:click
+function callBouchon(): void {
   if (bouchon.phone) {
     window.open(`tel:${bouchon.phone}`, '_self');
   }

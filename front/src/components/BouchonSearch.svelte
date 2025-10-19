@@ -1,29 +1,33 @@
-<script>
+<script lang="ts">
 import { onMount } from 'svelte';
-import { getAllBouchons, searchBouchons as apiBouchonSearch } from '../services/bouchonApi.ts';
+import {
+  getAllBouchons,
+  searchBouchons as apiBouchonSearch,
+  type BouchonData,
+} from '../services/bouchonApi.ts';
 // biome-ignore lint/correctness/noUnusedImports: Used in template below
 import BouchonCard from './BouchonCard.svelte';
 
-let bouchons = []; // Résultats de l'API (toujours filtrés)
+let bouchons: BouchonData[] = []; // Résultats de l'API (toujours filtrés)
 
 // Nouveaux filtres selon les critères de la Compagnie du Rognon
-let selectedPrixMenuBase = '';
-let selectedArrondissement = '';
-let selectedQuartier = '';
-let selectedOuvertures = '';
-let selectedQuantite = '';
-let selectedTypeMangeur = '';
-let selectedTypeAmbiance = '';
-let selectedTypeTablee = '';
-let selectedTypeBouchon = '';
-let optionVegetariens = false;
-let optionMachon = false;
-let decorationRemarquable = false;
-let coupDeCoeurCompagnie = false;
-let coupDeCoeurVins = false;
-let labelBouchonsLyonnais = false;
-let selectionAuthentiques = false;
-let minNote = 0;
+let selectedPrixMenuBase: string = '';
+let selectedArrondissement: string = '';
+let selectedQuartier: string = '';
+let selectedOuvertures: string = '';
+let selectedQuantite: string = '';
+let selectedTypeMangeur: string = '';
+let selectedTypeAmbiance: string = '';
+let selectedTypeTablee: string = '';
+let selectedTypeBouchon: string = '';
+let optionVegetariens: boolean = false;
+let optionMachon: boolean = false;
+let decorationRemarquable: boolean = false;
+let coupDeCoeurCompagnie: boolean = false;
+let coupDeCoeurVins: boolean = false;
+let labelBouchonsLyonnais: boolean = false;
+let selectionAuthentiques: boolean = false;
+let minNote: number = 0;
 let showFilters = false;
 
 // Variables de tri
@@ -34,7 +38,7 @@ let sortOrder = 'desc'; // asc ou desc
 
 // Fonction pour définir l'ordre par défaut selon le critère
 // biome-ignore lint/correctness/noUnusedVariables: Used in template event handlers
-function getDefaultSortOrder(criteria) {
+function getDefaultSortOrder(criteria: string): string {
   switch (criteria) {
     case 'rating':
     case 'coupDeCoeur':
@@ -116,8 +120,8 @@ const typeBouchonOptions = [
   'Authentique',
 ];
 
-let isLoading = true;
-let apiError = null;
+let isLoading: boolean = true;
+let apiError: string | null = null;
 
 onMount(() => {
   // Chargement initial avec critères vides (tous les bouchons)
@@ -131,7 +135,7 @@ async function searchBouchons() {
     apiError = null;
 
     // Construction des filtres à envoyer à l'API
-    const filters = {};
+    const filters: Record<string, string> = {};
 
     // Ajout des filtres uniquement s'ils sont définis
     if (selectedPrixMenuBase) filters.baseMenuPrice = selectedPrixMenuBase;
@@ -160,9 +164,9 @@ async function searchBouchons() {
     } else {
       bouchons = await getAllBouchons();
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Failed to search bouchons:', error);
-    apiError = error.message;
+    apiError = error instanceof Error ? error.message : 'Une erreur est survenue';
     bouchons = [];
   } finally {
     isLoading = false;
@@ -203,31 +207,10 @@ function sortResults() {
 }
 
 // Fonction pour extraire le prix numérique
-function extractPrixNumber(prix) {
+function extractPrixNumber(prix: string | undefined): number {
   if (!prix) return 0;
   const match = prix.match(/(\d+)/);
   return match ? parseInt(match[1], 10) : 0;
-}
-
-// Fonction pour matcher les prix
-function matchesPrixRange(prixBouchon, prixFiltre) {
-  if (!prixBouchon) return false;
-  const prix = parseInt(prixBouchon.replace('€', ''), 10);
-
-  switch (prixFiltre) {
-    case '15-20€':
-      return prix >= 15 && prix <= 20;
-    case '20-25€':
-      return prix >= 20 && prix <= 25;
-    case '25-30€':
-      return prix >= 25 && prix <= 30;
-    case '30-35€':
-      return prix >= 30 && prix <= 35;
-    case '35€+':
-      return prix >= 35;
-    default:
-      return true;
-  }
 }
 
 // Fonction pour appliquer les filtres (recherche + tri)

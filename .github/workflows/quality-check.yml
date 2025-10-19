@@ -44,6 +44,9 @@ jobs:
       - name: 🕵️ Run linter
         run: npm run lint
 
+      - name: 🔍 TypeScript check
+        run: npm run typecheck
+
       - name: 🏗️ Build check
         run: npm run build
 
