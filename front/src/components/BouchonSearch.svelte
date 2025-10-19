@@ -1,6 +1,7 @@
 <script>
 import { onMount } from 'svelte';
-import { BouchonApiService } from '../services/bouchonApi.ts';
+import { getAllBouchons, searchBouchons as apiBouchonSearch } from '../services/bouchonApi.ts';
+// biome-ignore lint/correctness/noUnusedImports: Used in template below
 import BouchonCard from './BouchonCard.svelte';
 
 let bouchons = []; // Résultats de l'API (toujours filtrés)
@@ -26,10 +27,13 @@ let minNote = 0;
 let showFilters = false;
 
 // Variables de tri
+// biome-ignore lint/style/useConst: Used in reactive bindings
 let sortBy = 'rating'; // rating, prix, nom, arrondissement, coupDeCoeur
+// biome-ignore lint/style/useConst: Modified by user interactions
 let sortOrder = 'desc'; // asc ou desc
 
 // Fonction pour définir l'ordre par défaut selon le critère
+// biome-ignore lint/correctness/noUnusedVariables: Used in template event handlers
 function getDefaultSortOrder(criteria) {
   switch (criteria) {
     case 'rating':
@@ -50,8 +54,11 @@ let showExperienceFilters = false;
 let showDistinctionsFilters = false;
 
 // Options pour les filtres
+// biome-ignore lint/correctness/noUnusedVariables: Used in template for select options
 const prixMenuBaseOptions = ['', '15-20€', '20-25€', '25-30€', '30-35€', '35€+'];
+// biome-ignore lint/correctness/noUnusedVariables: Used in template for select options
 const arrondissements = ['', '1er', '2ème', '3ème', '4ème', '5ème', '6ème', '7ème', '8ème', '9ème'];
+// biome-ignore lint/correctness/noUnusedVariables: Used in template for select options
 const quartiers = [
   '',
   'Vieux Lyon',
@@ -61,6 +68,7 @@ const quartiers = [
   'Croix-Rousse',
   'Confluence',
 ];
+// biome-ignore lint/correctness/noUnusedVariables: Used in template for select options
 const ouverturesOptions = [
   '',
   'Midi uniquement',
@@ -148,9 +156,9 @@ async function searchBouchons() {
 
     // Appel à l'API avec les filtres ou tous les bouchons si pas de filtres
     if (Object.keys(filters).length > 0) {
-      bouchons = await BouchonApiService.searchBouchons(filters);
+      bouchons = await apiBouchonSearch(filters);
     } else {
-      bouchons = await BouchonApiService.getAllBouchons();
+      bouchons = await getAllBouchons();
     }
   } catch (error) {
     console.error('Failed to search bouchons:', error);
@@ -198,13 +206,13 @@ function sortResults() {
 function extractPrixNumber(prix) {
   if (!prix) return 0;
   const match = prix.match(/(\d+)/);
-  return match ? parseInt(match[1]) : 0;
+  return match ? parseInt(match[1], 10) : 0;
 }
 
 // Fonction pour matcher les prix
 function matchesPrixRange(prixBouchon, prixFiltre) {
   if (!prixBouchon) return false;
-  const prix = parseInt(prixBouchon.replace('€', ''));
+  const prix = parseInt(prixBouchon.replace('€', ''), 10);
 
   switch (prixFiltre) {
     case '15-20€':
@@ -1053,14 +1061,6 @@ function toggleDistinctionsFilters() {
     color: #666;
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
-  }
-
-  .error-state code {
-    background: rgba(220, 53, 69, 0.1);
-    padding: 0.2rem 0.4rem;
-    border-radius: 4px;
-    font-family: monospace;
-    color: #dc3545;
   }
 
   /* Desktop large screens */

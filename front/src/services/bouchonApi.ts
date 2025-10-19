@@ -37,50 +37,48 @@ export interface ApiResponse {
   data: BouchonData[];
 }
 
-export class BouchonApiService {
-  static async getAllBouchons(): Promise<BouchonData[]> {
-    try {
-      const response = await fetch(`${API_BASE_URL}/bouchons`);
+export async function getAllBouchons(): Promise<BouchonData[]> {
+  try {
+    const response = await fetch(`${API_BASE_URL}/bouchons`);
 
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
-      }
-
-      const result: ApiResponse = await response.json();
-
-      if (!result.success) {
-        throw new Error('API returned error response');
-      }
-
-      return result.data;
-    } catch (error) {
-      console.error('Failed to fetch bouchons from API:', error);
-
-      // No fallback - we want to use API only
-      console.error('API is not available, cannot fetch bouchons data');
-      throw new Error('API is not available');
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
+
+    const result: ApiResponse = await response.json();
+
+    if (!result.success) {
+      throw new Error('API returned error response');
+    }
+
+    return result.data;
+  } catch (error) {
+    console.error('Failed to fetch bouchons from API:', error);
+
+    // No fallback - we want to use API only
+    console.error('API is not available, cannot fetch bouchons data');
+    throw new Error('API is not available');
   }
+}
 
-  static async searchBouchons(filters: Record<string, string>): Promise<BouchonData[]> {
-    try {
-      const params = new URLSearchParams(filters);
-      const response = await fetch(`${API_BASE_URL}/bouchons?${params}`);
+export async function searchBouchons(filters: Record<string, string>): Promise<BouchonData[]> {
+  try {
+    const params = new URLSearchParams(filters);
+    const response = await fetch(`${API_BASE_URL}/bouchons?${params}`);
 
-      if (!response.ok) {
-        throw new Error(`API Error: ${response.status} ${response.statusText}`);
-      }
-
-      const result: ApiResponse = await response.json();
-
-      if (!result.success) {
-        throw new Error('API returned error response');
-      }
-
-      return result.data;
-    } catch (error) {
-      console.error('Failed to search bouchons from API:', error);
-      throw error;
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
+
+    const result: ApiResponse = await response.json();
+
+    if (!result.success) {
+      throw new Error('API returned error response');
+    }
+
+    return result.data;
+  } catch (error) {
+    console.error('Failed to search bouchons from API:', error);
+    throw error;
   }
 }
