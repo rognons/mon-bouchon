@@ -186,27 +186,23 @@ make dev        # Infos développement local
 ```
 
 ### 🚀 Release et Déploiement
-```bash
-make release  # Build et push images multi-architecture vers registry
-```
 
-Cette commande :
-- ✅ Construit les images pour **linux/amd64** et **linux/arm64**
-- ✅ Tags automatiques avec **SHA du commit** + **latest**
-- ✅ Push vers **Google Artifact Registry**
+Le déploiement des images Docker se fait automatiquement via le workflow GitHub Actions (`build-deploy.yml`) :
+
+- ✅ À chaque push sur la branche `master`, les images sont construites pour **linux/amd64** et **linux/arm64**
+- ✅ Les tags sont générés automatiquement (**SHA du commit** + **latest**)
+- ✅ Les images sont poussées vers **Google Artifact Registry**
 - ✅ Compatible avec tous les environnements (Intel, Apple Silicon, serveurs)
 
-**Exemple d'utilisation :**
-```bash
-# Build et push d'une nouvelle version
-make release
 
-# Les images seront disponibles :
-# - europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_api:abc1234
-# - europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_api:latest
-# - europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_front:abc1234  
-# - europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_front:latest
-```
+**Aucune commande manuelle n'est nécessaire pour le déploiement.**
+
+
+Les images générées sont disponibles ici :
+- `europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_api:<commit|latest>`
+- `europe-west1-docker.pkg.dev/rognons/docker/mon-bouchon_front:<commit|latest>`
+
+> `<commit>` correspond au SHA (7 premiers) du commit Git prefixé par `sha-` généré automatiquement par le workflow `build-deploy.yml`.
 
 ### 📋 Configuration Docker
 - **Front**: Astro app (Node.js Alpine)
