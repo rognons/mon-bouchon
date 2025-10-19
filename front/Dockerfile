@@ -1,23 +1,15 @@
-# Use official Node.js image
-FROM node:20-alpine
-
-# Set working directory
+FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Copy package files first for better caching
 COPY package*.json ./
 
-# Install dependencies including serve
 RUN npm ci --only=production && npm install -g serve
 
-# Copy source code
 COPY . .
 
-# Build the application
 RUN npm run build
 
-# Expose port
-EXPOSE 4321
+# Production stage
+FROM httpd:2.4
 
-# Serve the built application
-CMD ["serve", "-s", "dist", "-l", "4321"]
+COPY --from=builder /app/dist /usr/local/apache2/htdocs/
