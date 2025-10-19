@@ -1,4 +1,6 @@
-FROM denoland/deno:2.5.4 AS builder
+ARG DENO_VERSION=2.0.6
+
+FROM denoland/deno:${DENO_VERSION} AS builder
 WORKDIR /app
 
 COPY . .
@@ -6,11 +8,11 @@ COPY . .
 RUN deno cache main.ts
 
 # Production stage
-FROM denoland/deno:2.5.4
+FROM denoland/deno:alpine-${DENO_VERSION}
 WORKDIR /app
 
 # Install curl for health checks
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache curl
 
 COPY --from=builder /app .
 
