@@ -1,57 +1,68 @@
-# API Backend - Mon Bouchon
 
-API REST pour la gestion des données des bouchons lyonnais.
 
-## 🚧 En développement
+# API Backend – Mon Bouchon
 
-Cette partie de l'application est prévue pour contenir :
+API REST pour la gestion et la recherche des bouchons lyonnais, basée sur **Deno**.
 
-### Endpoints prévus
+## 🚀 Démarrage rapide
 
-- `GET /api/bouchons` - Liste des bouchons
-- `GET /api/bouchons/:id` - Détails d'un bouchon
-- `POST /api/bouchons` - Création (admin)
-- `PUT /api/bouchons/:id` - Modification (admin)
-- `DELETE /api/bouchons/:id` - Suppression (admin)
-- `GET /api/search` - Recherche avec filtres
+```bash
+cd api/
+deno run --allow-net --allow-read main.ts
+# ➡️ API disponible sur http://localhost:8000
+```
 
-### Technologies envisagées
+Ou avec les tasks Deno :
+```bash
+deno task dev      # Serveur de développement avec reload
+deno task start    # Serveur de production
+```
 
-- **Backend** : Node.js + Express ou Python + FastAPI
-- **Base de données** : PostgreSQL ou MongoDB
-- **Authentification** : JWT pour les admins
-- **Validation** : Joi ou Zod pour les schémas
-- **Documentation** : Swagger/OpenAPI
-
-### Structure prévue
+## 🏗️ Structure du dossier
 
 ```
 api/
 ├── src/
-│   ├── routes/         # Routes API
-│   ├── models/         # Modèles de données
-│   ├── middleware/     # Middlewares (auth, validation)
-│   ├── controllers/    # Logique métier
-│   └── utils/          # Utilitaires
-├── tests/              # Tests unitaires et d'intégration
-├── docs/               # Documentation API
-└── scripts/            # Scripts de migration/seed
+│   ├── domain/           # Métier
+│   │   ├── entities/     # Entités (Bouchon, SearchCriteria)
+│   │   ├── ports/        # Interfaces (BouchonRepository)
+│   │   └── services/     # Services métier
+│   ├── application/      # Cas d'usage (usecases)
+│   └── infrastructure/   # Adaptateurs techniques
+│       ├── adapters/     # Contrôleurs HTTP
+│       ├── repositories/ # Implémentation repository JSON
+│       └── data/         # Données JSON (bouchons.json)
+├── main.ts               # Point d'entrée API
+├── main-hexa.ts          # Variante point d'entrée
+├── deno.json             # Config Deno
+└── Dockerfile            # Image API
 ```
 
-## 🔄 Migration des données
 
-Les données actuelles dans `/front/src/data/bouchons.json` seront migrées vers
-la base de données lors de la mise en place de l'API.
+## 📚 Endpoints disponibles
 
-## 🚀 Développement futur
+- `GET /bouchons` : liste tous les bouchons (filtres via query params)
+- `GET /health` : status de l’API
 
-1. Choisir la stack technique
-2. Configurer la base de données
-3. Migrer les données JSON
-4. Implémenter les endpoints CRUD
-5. Ajouter l'authentification admin
-6. Connecter l'interface publique à l'API
+Exemples :
+```bash
+curl http://localhost:8000/health
+curl http://localhost:8000/bouchons
+curl "http://localhost:8000/bouchons?district=1er&compagnieFavorite=true"
+```
+
+## 🛠️ Outils de développement
+
+```bash
+deno lint    # Linting
+deno fmt     # Formatage
+deno check   # Vérification du code
+```
+
+## 📦 Déploiement Docker
+
+Voir la racine du projet et [DOCKER.md](../DOCKER.md) pour le déploiement multi-architecture et la configuration Docker.
 
 ---
 
-_À développer pour La Compagnie du Rognon_
+_Développé pour La Compagnie du Rognon_

@@ -40,7 +40,7 @@ mon-bouchon/
 │   │   └── services/        # Intégration API
 │   ├── biome.json          # Configuration qualité code
 │   └── package.json        # Dépendances et scripts
-├── api/                    # 🦕 Backend (Deno + Architecture Hexagonale)
+├── api/                    # 🦕 Backend (Deno)
 │   ├── src/
 │   │   ├── domain/         # Entités métier
 │   │   ├── application/    # Cas d'usage
@@ -78,17 +78,14 @@ npm install
 npm run dev  # Démarre sur http://localhost:4321
 ```
 
-### 🔧 `/api/` - API Backend (Deno + Architecture Hexagonale)
+### 🔧 `/api/` - API Backend (Deno)
 
-API REST moderne avec **architecture hexagonale** pour une maintenabilité et testabilité optimales.
+API REST pour la gestion et la recherche des bouchons lyonnais.
 
 **🚀 Technologies :**
-- **Deno** - Runtime JavaScript/TypeScript moderne
-- **Oak** - Framework web pour Deno
-- **Architecture Hexagonale** - Domain-Driven Design
-- **TypeScript strict** - Typage fort et sécurité
+- **Deno** - Runtime JavaScript moderne
 
-**🏗️ Structure hexagonale :**
+**🏗️ Structure :**
 ```
 src/
 ├── domain/           # 🏛️ Cœur métier
@@ -270,10 +267,7 @@ deno task check    # Vérification TypeScript
 - **Services métier** : `BouchonDomainService` pour les règles de filtrage et tri
 - **Value Objects** : Types forts pour éviter les erreurs (ex: `BouchonId`, `Address`)
 
-### 🔄 Architecture Hexagonale
-- **Indépendance technologique** : Le domaine métier ne dépend d'aucun framework
-- **Testabilité** : Use cases facilement testables en isolation
-- **Évolutivité** : Facile d'ajouter de nouveaux adapters (BDD, cache, etc.)
+
 
 ### 🌍 Code Multilingue
 - **Code source** en anglais pour la lisibilité internationale

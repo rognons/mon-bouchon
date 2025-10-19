@@ -2,6 +2,7 @@
 
 Interface web pour la recherche de bouchons lyonnais développée avec Astro et Svelte.
 
+
 ## 🚀 Démarrage rapide
 
 ```bash
