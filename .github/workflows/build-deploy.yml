@@ -59,10 +59,8 @@ jobs:
         with:
           images: ${{ env.IMAGE_PREFIX }}/mon-bouchon_api
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=sha,prefix={{branch}}-
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha
+            type=raw,value=latest
 
       - name: 🏗️ Build and push API image
         id: build
@@ -110,10 +108,8 @@ jobs:
         with:
           images: ${{ env.IMAGE_PREFIX }}/mon-bouchon_front
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=sha,prefix={{branch}}-
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha
+            type=raw,value=latest
 
       - name: 🏗️ Build and push Front image
         id: build
@@ -132,7 +128,7 @@ jobs:
   deploy-summary:
     name: 📋 Deployment Summary
     runs-on: ubuntu-latest
-    needs: [check-quality-success, build-api, build-front]
+    needs: [check-quality-success, build-api, build-front, create-release]
     if: always()
     
     steps:
@@ -147,8 +143,67 @@ jobs:
           echo "### 📦 Registry:" >> $GITHUB_STEP_SUMMARY
           echo "- **Location**: \`${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 🔄 Deploy Command:" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
-          echo "# Pull and deploy latest images" >> $GITHUB_STEP_SUMMARY
-          echo "make prod-up" >> $GITHUB_STEP_SUMMARY
-          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ needs.create-release.result }}" == "success" ]]; then
+            echo "### 🏷️ Release:" >> $GITHUB_STEP_SUMMARY
+            echo "- **Status**: ✅ GitHub Release created successfully" >> $GITHUB_STEP_SUMMARY
+            echo "- **View**: [📋 See release notes](https://github.com/${{ github.repository }}/releases/latest)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### 🏷️ Release:" >> $GITHUB_STEP_SUMMARY
+            echo "- **Status**: ❌ Failed to create GitHub Release" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  create-release:
+    name: 🏷️ Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build-api, build-front]
+    if: ${{ needs.build-api.result == 'success' && needs.build-front.result == 'success' }}
+    permissions:
+      contents: write
+    
+    steps:
+      - name: 📦 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🏷️ Generate release tag
+        id: tag
+        run: |
+          # Generate tag based on date and commit SHA
+          DATE=$(date +'%Y.%m.%d')
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          TAG="v${DATE}-${SHORT_SHA}"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+
+      - name: 📝 Generate release notes
+        id: notes
+        run: |
+          # Get commit messages since last tag
+          LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            COMMITS=$(git log --pretty=format:"- %s (%h)" -10)
+          else
+            COMMITS=$(git log --pretty=format:"- %s (%h)" ${LAST_TAG}..HEAD)
+          fi
+          
+          # Create release notes
+          cat > release_notes.md << EOF
+          ## 🏗️ Images Docker
+          - **API**: \`${{ needs.build-api.outputs.image-tag }}\`
+          - **Front**: \`${{ needs.build-front.outputs.image-tag }}\`
+          
+          ## � Changelog
+          ${COMMITS}
+          EOF
+
+      - name: 🎉 Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: 🚀 Release ${{ steps.tag.outputs.tag }}
+          body_path: release_notes.md
+          draft: false
+          prerelease: false
+          generate_release_notes: false
