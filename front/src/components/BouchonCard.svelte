@@ -1,5 +1,11 @@
 <script>
 export let bouchon;
+
+function callBouchon() {
+  if (bouchon.phone) {
+    window.open(`tel:${bouchon.phone}`, '_self');
+  }
+}
 </script>
 
 <div class="bouchon-card">
