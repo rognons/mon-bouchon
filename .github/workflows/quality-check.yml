@@ -47,7 +47,7 @@ jobs:
       - name: 🔍 TypeScript check
         run: npm run typecheck
 
-      - name: 🏗️ Build check
+      - name: 🐳 Build check
         run: npm run build
 
   check-api:

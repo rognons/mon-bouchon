@@ -9,7 +9,7 @@ REGISTRY="europe-west1-docker.pkg.dev/rognons/docker"
 GIT_COMMIT=$(git rev-parse HEAD)
 TAG=${1:-$GIT_COMMIT}
 
-echo "🏗️ Building multi-architecture images with buildx..."
+echo "🐳 Building multi-architecture images with buildx..."
 echo "Registry: $REGISTRY"
 echo "Git commit: $GIT_COMMIT"
 echo "Tag: $TAG"

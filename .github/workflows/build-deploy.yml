@@ -62,7 +62,7 @@ jobs:
             type=sha
             type=raw,value=latest
 
-      - name: 🏗️ Build and push API image
+      - name: 🐳 Build and push API image
         id: build
         uses: docker/build-push-action@v6
         with:
@@ -111,7 +111,7 @@ jobs:
             type=sha
             type=raw,value=latest
 
-      - name: 🏗️ Build and push Front image
+      - name: 🐳 Build and push Front image
         id: build
         uses: docker/build-push-action@v6
         env:
@@ -136,7 +136,7 @@ jobs:
         run: |
           echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 🏗️ Built Images:" >> $GITHUB_STEP_SUMMARY
+          echo "### 🐳 Built Images:" >> $GITHUB_STEP_SUMMARY
           echo "- **API**: \`${{ needs.build-api.outputs.image-tag }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Front**: \`${{ needs.build-front.outputs.image-tag }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
