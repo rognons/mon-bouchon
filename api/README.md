@@ -1,8 +1,7 @@
-
-
 # API Backend – Mon Bouchon
 
-API REST pour la gestion et la recherche des bouchons lyonnais, basée sur **Deno**.
+API REST pour la gestion et la recherche des bouchons lyonnais, basée sur
+**Deno**.
 
 ## 🚀 Démarrage rapide
 
@@ -13,6 +12,7 @@ deno run --allow-net --allow-read main.ts
 ```
 
 Ou avec les tasks Deno :
+
 ```bash
 deno task dev      # Serveur de développement avec reload
 deno task start    # Serveur de production
@@ -38,13 +38,13 @@ api/
 └── Dockerfile            # Image API
 ```
 
-
 ## 📚 Endpoints disponibles
 
 - `GET /bouchons` : liste tous les bouchons (filtres via query params)
 - `GET /health` : status de l’API
 
 Exemples :
+
 ```bash
 curl http://localhost:8000/health
 curl http://localhost:8000/bouchons
@@ -61,7 +61,8 @@ deno check   # Vérification du code
 
 ## 📦 Déploiement Docker
 
-Voir la racine du projet et [DOCKER.md](../DOCKER.md) pour le déploiement multi-architecture et la configuration Docker.
+Voir la racine du projet et [DOCKER.md](../DOCKER.md) pour le déploiement
+multi-architecture et la configuration Docker.
 
 ---
 
