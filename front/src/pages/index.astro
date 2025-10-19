@@ -2,6 +2,7 @@
 import BouchonSearch from '../components/BouchonSearch.svelte';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import '../styles/global.css';
 
 // Static stats (will be replaced by real stats once API is loaded on client)
 const totalBouchons = '35+'; // Approximate number
@@ -82,7 +83,7 @@ const criteriaCount = 17; // Number of filter criteria
 
 			/* Section recherche */
 			.search-section {
-				padding: 3rem 2rem;
+				padding: 1.5rem 2rem 3rem 2rem;
 				background-color: #fff;
 				max-width: 1400px;
 				margin: 0 auto;
@@ -116,9 +117,15 @@ const criteriaCount = 17; // Number of filter criteria
 			:global(h5) { font-size: 16px; }
 			:global(h6) { font-size: 14px; }
 
+			@media (max-width: 768px) {
+				.search-section {
+					padding: 1rem 1.5rem 3rem 1.5rem;
+				}
+			}
+
 			@media (max-width: 600px) {
 				.search-section {
-					padding: 2rem 1rem;
+					padding: 0.5rem 1rem 2rem 1rem;
 				}
 			}
 		</style>

@@ -292,7 +292,7 @@ function toggleDistinctionsFilters() {
 
 <div class="search-container">
   <!-- Critères de base (toujours visibles, sans titre) -->
-  <div class="base-filters">
+  <div class="base-filters mobile-hidden">
     <div class="filters-grid">
           <!-- Prix du menu de base -->
           <div class="filter-group">
@@ -316,8 +316,8 @@ function toggleDistinctionsFilters() {
             </select>
           </div>
 
-          <!-- Quartier -->
-          <div class="filter-group">
+          <!-- Quartier - caché sur mobile -->
+          <div class="filter-group mobile-hidden">
             <label for="quartier">🏘️ Quartier</label>
             <select id="quartier" bind:value={selectedQuartier}>
               <option value="">Tous les quartiers</option>
@@ -327,8 +327,8 @@ function toggleDistinctionsFilters() {
             </select>
           </div>
 
-          <!-- Ouvertures -->
-          <div class="filter-group">
+          <!-- Ouvertures - caché sur mobile -->
+          <div class="filter-group mobile-hidden">
             <label for="ouvertures">🕐 Horaires d'ouverture</label>
             <select id="ouvertures" bind:value={selectedOuvertures}>
               <option value="">Tous les créneaux</option>
@@ -381,6 +381,51 @@ function toggleDistinctionsFilters() {
     <!-- Panneau de filtres avancés -->
     {#if showFilters}
       <div class="filters-panel">
+        <!-- Filtres de base pour mobile - toujours visibles dans cette section -->
+        <div class="mobile-base-filters mobile-only">
+          <div class="filters-grid">
+            <div class="filter-group">
+              <label for="prixMenuBase-mobile">💰 Prix du menu de base</label>
+              <select id="prixMenuBase-mobile" bind:value={selectedPrixMenuBase}>
+                <option value="">Tous les prix</option>
+                {#each prixMenuBaseOptions.slice(1) as prix}
+                  <option value={prix}>{prix}</option>
+                {/each}
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="arrondissement-mobile">📍 Arrondissement</label>
+              <select id="arrondissement-mobile" bind:value={selectedArrondissement}>
+                <option value="">Tous les arrondissements</option>
+                {#each arrondissements.slice(1) as arr}
+                  <option value={arr}>{arr} arrondissement</option>
+                {/each}
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="quartier-mobile">🏘️ Quartier</label>
+              <select id="quartier-mobile" bind:value={selectedQuartier}>
+                <option value="">Tous les quartiers</option>
+                {#each quartiers.slice(1) as quartier}
+                  <option value={quartier}>{quartier}</option>
+                {/each}
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="ouvertures-mobile">🕐 Horaires d'ouverture</label>
+              <select id="ouvertures-mobile" bind:value={selectedOuvertures}>
+                <option value="">Tous les créneaux</option>
+                {#each ouverturesOptions.slice(1) as ouverture}
+                  <option value={ouverture}>{ouverture}</option>
+                {/each}
+              </select>
+            </div>
+          </div>
+        </div>
+
         <!-- Bouton effacer en haut pour la visibilité -->
         <div class="filters-header">
           <button class="clear-filters" on:click={clearFilters}>
@@ -589,23 +634,23 @@ function toggleDistinctionsFilters() {
   /* Bouton pour afficher les filtres avancés */
   .advanced-filters-toggle {
     text-align: center;
-    margin: 2rem 0;
+    margin: 1.5rem 0;
   }
 
   .show-advanced-filters {
-    padding: 12px 24px;
+    padding: 8px 16px;
     background: #f0c6da;
     color: #221f20;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     font-weight: 600;
     font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 15px;
+    font-size: 13px;
     cursor: pointer;
     transition: all 0.2s;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .show-advanced-filters:hover {
@@ -754,8 +799,11 @@ function toggleDistinctionsFilters() {
   }
 
   .toggle-icon {
-    font-size: 12px;
-    color: #f0c6da;
+    font-size: 14px;
+    color: #221f20;
+    font-weight: bold;
+    opacity: 0.8;
+    transition: opacity 0.2s;
   }
 
   .options-grid, .distinctions-grid {
@@ -1082,5 +1130,39 @@ function toggleDistinctionsFilters() {
     .results-grid {
       grid-template-columns: 1fr;
     }
+
+    .results-header {
+      flex-direction: column;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .sort-control {
+      align-self: center;
+    }
+
+    /* Masquer les filtres non-essentiels sur mobile */
+    .mobile-hidden {
+      display: none;
+    }
+
+    /* Afficher les filtres mobile-only seulement sur mobile */
+    .mobile-only {
+      display: block;
+    }
+  }
+
+  /* Masquer les filtres mobile-only sur desktop */
+  @media (min-width: 769px) {
+    .mobile-only {
+      display: none;
+    }
+  }
+
+  /* Style pour la section des filtres de base mobile */
+  .mobile-base-filters {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(240, 198, 218, 0.3);
   }
 </style>

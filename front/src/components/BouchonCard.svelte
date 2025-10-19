@@ -342,6 +342,10 @@ function callBouchon() {
       padding: 0.8rem 1rem;
       min-height: 48px;
     }
+
+    .bouchon-info {
+      padding: 1rem;
+    }
     
     .bouchon-name {
       font-size: 1.2rem;
@@ -368,7 +372,8 @@ function callBouchon() {
     }
 
     .details-grid {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
     }
   }
 </style>
