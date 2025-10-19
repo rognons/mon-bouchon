@@ -8,6 +8,13 @@ on:
       - 'front/**'
       - 'api/**'
       - '.github/workflows/**'
+  push:
+    branches:
+      - master
+    paths:
+      - 'front/**'
+      - 'api/**'
+      - '.github/workflows/**'
 
 jobs:
   check-front:

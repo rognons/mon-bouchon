@@ -1,0 +1,154 @@
+name: 🚀 Build & Deploy
+
+on:
+  workflow_run:
+    workflows: ["🔍 Quality Check"]
+    types:
+      - completed
+    branches:
+      - master
+
+env:
+  REGISTRY: europe-west1-docker.pkg.dev
+  PROJECT_ID: rognons
+  REPOSITORY: docker
+  IMAGE_PREFIX: europe-west1-docker.pkg.dev/rognons/docker
+
+jobs:
+  check-quality-success:
+    name: ✅ Verify Quality Check
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: 📊 Quality Check Status
+        run: |
+          echo "🎉 Quality check passed successfully!"
+          echo "✅ Proceeding with build and deployment..."
+
+  build-api:
+    name: 🦕 Build API Image
+    runs-on: ubuntu-latest
+    needs: check-quality-success
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+    
+    steps:
+      - name: 📦 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔐 Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/517611743057/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: github@rognons.iam.gserviceaccount.com
+
+      - name: 🔧 Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔐 Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker europe-west1-docker.pkg.dev
+
+      - name: 📋 Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_PREFIX }}/mon-bouchon_api
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: 🏗️ Build and push API image
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: ./api
+          file: ./api/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  build-front:
+    name: 🎨 Build Front Image
+    runs-on: ubuntu-latest
+    needs: check-quality-success
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+    
+    steps:
+      - name: 📦 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔐 Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/517611743057/locations/global/workloadIdentityPools/github-pool/providers/github-provider
+          service_account: github@rognons.iam.gserviceaccount.com
+
+      - name: 🔧 Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔐 Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker europe-west1-docker.pkg.dev
+
+      - name: 📋 Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE_PREFIX }}/mon-bouchon_front
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: 🏗️ Build and push Front image
+        id: build
+        uses: docker/build-push-action@v6
+        env:
+          PUBLIC_API_URL: https://mon-bouchon-api.rognons.fr
+        with:
+          context: ./front
+          file: ./front/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy-summary:
+    name: 📋 Deployment Summary
+    runs-on: ubuntu-latest
+    needs: [check-quality-success, build-api, build-front]
+    if: always()
+    
+    steps:
+      - name: 📊 Show deployment info
+        run: |
+          echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🏗️ Built Images:" >> $GITHUB_STEP_SUMMARY
+          echo "- **API**: \`${{ needs.build-api.outputs.image-tag }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Front**: \`${{ needs.build-front.outputs.image-tag }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📦 Registry:" >> $GITHUB_STEP_SUMMARY
+          echo "- **Location**: \`${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔄 Deploy Command:" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`bash" >> $GITHUB_STEP_SUMMARY
+          echo "# Pull and deploy latest images" >> $GITHUB_STEP_SUMMARY
+          echo "make prod-up" >> $GITHUB_STEP_SUMMARY
+          echo "\`\`\`" >> $GITHUB_STEP_SUMMARY
