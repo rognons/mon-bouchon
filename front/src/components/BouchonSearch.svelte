@@ -27,12 +27,11 @@ let coupDeCoeurCompagnie: boolean = false;
 let coupDeCoeurVins: boolean = false;
 let labelBouchonsLyonnais: boolean = false;
 let selectionAuthentiques: boolean = false;
-let minNote: number = 0;
 let showFilters = false;
 
 // Variables de tri
 // biome-ignore lint/style/useConst: Used in reactive bindings
-let sortBy = 'rating'; // rating, prix, nom, arrondissement, coupDeCoeur
+let sortBy = 'rating'; // rating, prix
 // biome-ignore lint/style/useConst: Modified by user interactions
 let sortOrder = 'desc'; // asc ou desc
 
@@ -41,13 +40,9 @@ let sortOrder = 'desc'; // asc ou desc
 function getDefaultSortOrder(criteria: string): string {
   switch (criteria) {
     case 'rating':
-    case 'coupDeCoeur':
-      return 'desc'; // Meilleures notes et coups de cœur d'abord
+      return 'desc'; // Meilleures notes d'abord
     case 'prix':
       return 'asc'; // Prix les plus bas d'abord
-    case 'nom':
-    case 'arrondissement':
-      return 'asc'; // Ordre alphabétique
     default:
       return 'desc';
   }
@@ -156,7 +151,6 @@ async function searchBouchons() {
     if (coupDeCoeurVins) filters.wineFavorite = 'true';
     if (labelBouchonsLyonnais) filters.bouchonLyonnaisLabel = 'true';
     if (selectionAuthentiques) filters.authenticSelection = 'true';
-    if (minNote > 0) filters.minRating = minNote.toString();
 
     // Appel à l'API avec les filtres ou tous les bouchons si pas de filtres
     if (Object.keys(filters).length > 0) {
@@ -188,15 +182,6 @@ function sortResults() {
         compareValue = prixA - prixB;
         break;
       }
-      case 'nom':
-        compareValue = a.name.localeCompare(b.name);
-        break;
-      case 'arrondissement':
-        compareValue = a.district.localeCompare(b.district);
-        break;
-      case 'coupDeCoeur':
-        compareValue = (a.compagnieFavorite ? 1 : 0) - (b.compagnieFavorite ? 1 : 0);
-        break;
       default:
         compareValue = a.rating - b.rating;
         break;
@@ -239,7 +224,6 @@ $: {
     coupDeCoeurVins,
     labelBouchonsLyonnais,
     selectionAuthentiques,
-    minNote,
   ];
 
   // Déclencher recherche seulement après le mount initial
@@ -265,7 +249,6 @@ function clearFilters() {
   coupDeCoeurVins = false;
   labelBouchonsLyonnais = false;
   selectionAuthentiques = false;
-  minNote = 0;
 }
 
 function toggleFilters() {
@@ -343,13 +326,25 @@ function toggleDistinctionsFilters() {
         <div class="checkbox-group">
           <label>
             <input type="checkbox" bind:checked={optionVegetariens}>
-            🥬 Options végétariennes disponibles
+              🥬 Option végétarienne
+              <span class="tooltip-block">
+                ℹ️
+                <span class="tooltip-text">
+                  Au moins 1 entrée et 1 plat végétariens présents à la carte.
+                </span>
+              </span>
           </label>
         </div>
         <div class="checkbox-group">
           <label>
             <input type="checkbox" bind:checked={optionMachon}>
-            🍳 Service mâchon (petit-déjeuner lyonnais)
+              🍳 Mâchon
+              <span class="tooltip-block">
+                ℹ️
+                <span class="tooltip-text">
+                  Repas lyonnais matinal et copieux.
+                </span>
+              </span>
           </label>
         </div>
         <div class="checkbox-group">
@@ -510,31 +505,28 @@ function toggleDistinctionsFilters() {
               <label>
                 <input type="checkbox" bind:checked={labelBouchonsLyonnais}>
                 🏆 Label officiel "Les Bouchons Lyonnais"
+                <span class="tooltip-block">
+                  ℹ️
+                  <span class="tooltip-text">
+                    Label créé en 2012 qui vise à sauvegarder et pérenniser la tradition culinaire lyonnaise.
+                  </span>
+                </span>
               </label>
             </div>
             <div class="checkbox-group">
               <label>
                 <input type="checkbox" bind:checked={selectionAuthentiques}>
                 ⭐ Sélection "Authentiques Bouchons Lyonnais"
+                <span class="tooltip-block">
+                  ℹ️
+                  <span class="tooltip-text">
+                    Définie par “l'Association de Défense des Bouchons lyonnais”, créée en 1992.
+                  </span>
+                </span>
               </label>
             </div>
           </div>
         {/if}
-      </div>
-
-
-
-      <!-- Note minimum (compact) -->
-      <div class="note-filter-compact">
-        <label for="note">⭐ Note min: <span class="note-value">{minNote.toFixed(1)}/5</span></label>
-        <input 
-          type="range" 
-          id="note"
-          bind:value={minNote}
-          min="0" 
-          max="5" 
-          step="0.1"
-        >
       </div>
 
 
@@ -549,9 +541,6 @@ function toggleDistinctionsFilters() {
       <select id="sortBy" bind:value={sortBy} on:change={() => { sortOrder = getDefaultSortOrder(sortBy); applyFilters(); }}>
         <option value="rating">⭐ Note (Google)</option>
         <option value="prix">💰 Prix</option>
-        <option value="nom">📝 Nom</option>
-        <option value="arrondissement">📍 Arrondissement</option>
-        <option value="coupDeCoeur">❤️ Coups de cœur</option>
       </select>
       <button 
         class="sort-order-btn" 
@@ -600,6 +589,39 @@ function toggleDistinctionsFilters() {
   font-family: 'Open Sans', Arial, sans-serif;
   color: #221f20;
   font-weight: 400;
+}
+
+
+/* Tooltip pour Authentiques Bouchons Lyonnais */
+.tooltip-block {
+  position: relative;
+  cursor: help;
+  display: inline-block;
+}
+.tooltip-block .tooltip-text {
+  visibility: hidden;
+  width: 320px;
+  background: #f0c6da;
+  color: #221f20;
+  text-align: left;
+  border-radius: 8px;
+  padding: 0.8em 1em;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 4px 16px rgba(240,198,218,0.15);
+  font-size: 0.95em;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.tooltip-block:hover .tooltip-text,
+.tooltip-block:focus .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .search-container {
@@ -751,14 +773,6 @@ function toggleDistinctionsFilters() {
     box-shadow: 0 2px 6px rgba(240, 198, 218, 0.2);
   }
 
-
-
-  .note-value {
-    font-weight: 400;
-    color: #f0c6da;
-    font-size: 14px;
-  }
-
   /* Styles pour les catégories de filtres */
   .filter-category {
     margin: 1.5rem 0;
@@ -841,53 +855,6 @@ function toggleDistinctionsFilters() {
     accent-color: #f0c6da;
   }
 
-  /* Style compact pour le filtre de note */
-  .note-filter-compact {
-    margin: 1rem 0;
-    padding: 1rem;
-    background: rgba(240, 198, 218, 0.1);
-    border-radius: 8px;
-    border: 1px solid rgba(240, 198, 218, 0.3);
-  }
-
-  .note-filter-compact label {
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-weight: 500;
-    color: #221f20;
-    font-size: 14px;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .note-filter-compact input[type="range"] {
-    width: 100%;
-    height: 4px;
-    margin: 0.5rem 0 0 0;
-    background: rgba(240, 198, 218, 0.3);
-    border-radius: 2px;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
-  .note-filter-compact input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    background: #f0c6da;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(240, 198, 218, 0.4);
-    transition: all 0.2s ease;
-  }
-
-  .note-filter-compact input[type="range"]::-webkit-slider-thumb:hover {
-    transform: scale(1.1);
-    box-shadow: 0 3px 8px rgba(240, 198, 218, 0.5);
-  }
 
   .clear-filters {
     background: #221f20;

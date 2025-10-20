@@ -29,25 +29,9 @@ function callBouchon(): void {
     
     <div class="details-grid">
       <div class="detail-item">
-        <span class="label">Type:</span>
-        <span class="value type-{bouchon.bouchonType?.toLowerCase() || ''}">{bouchon.bouchonType}</span>
-      </div>
-      
-      <div class="detail-item">
         <span class="label">Prix:</span>
         <span class="value prix-menu">{bouchon.baseMenuPrice}</span>
       </div>
-      
-      <div class="detail-item">
-        <span class="label">Capacité:</span>
-        <span class="value">👥 {bouchon.capacity} places</span>
-      </div>
-      
-      <div class="detail-item">
-        <span class="label">Horaires:</span>
-        <span class="value">🕐 {bouchon.openingHours || 'Non précisé'}</span>
-      </div>
-      
       <div class="detail-item">
         <span class="label">Contact:</span>
         <button class="value phone-value" on:click={callBouchon}>
@@ -60,7 +44,7 @@ function callBouchon(): void {
       <p>{bouchon.description}</p>
     </div>
 
-    <div class="amenities">
+    <!-- <div class="amenities">
       {#if bouchon.terrace}
         <span class="amenity">🌿 Terrasse</span>
       {/if}
@@ -69,7 +53,7 @@ function callBouchon(): void {
       {:else}
         <span class="amenity no-reservation">🚫 Pas de réservation</span>
       {/if}
-    </div>
+    </div> -->
   </div>
 
   <!-- Note en bas à droite -->
@@ -139,19 +123,6 @@ function callBouchon(): void {
     opacity: 1;
   }
 
-  /* Style pour rating dans header */
-  .rating {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .note {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #221f20;
-  }
-
   .coup-de-coeur-header {
     display: flex;
     align-items: center;
@@ -183,28 +154,6 @@ function callBouchon(): void {
       box-shadow: 0 4px 15px rgba(240, 198, 218, 0.7);
       border-color: #e4b3cc;
     }
-  }
-
-  .note-value {
-    font-weight: 600;
-    color: #f0c6da;
-    background: #221f20;
-    padding: 0.2rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.9rem;
-  }
-
-  .stars {
-    font-size: 1rem;
-  }
-
-  .note {
-    font-size: 0.9rem;
-    opacity: 0.95;
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 0.25rem 0.5rem;
-    border-radius: 8px;
   }
 
   .bouchon-info {
@@ -248,30 +197,6 @@ function callBouchon(): void {
     color: #221f20;
   }
 
-  .type-traditionnel {
-    color: #e67e22;
-  }
-
-  .type-gastronomique {
-    color: #8e44ad;
-  }
-
-  .type-populaire {
-    color: #27ae60;
-  }
-
-  .prix-1 {
-    color: #27ae60;
-  }
-
-  .prix-2 {
-    color: #f39c12;
-  }
-
-  .prix-3 {
-    color: #e74c3c;
-  }
-
   .description {
     margin: 1rem 0;
     padding: 1rem;
@@ -290,7 +215,7 @@ function callBouchon(): void {
 
 
 
-  .amenities {
+  /* .amenities {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -309,7 +234,7 @@ function callBouchon(): void {
   .no-reservation {
     background: #ffe8e8;
     color: #e74c3c;
-  }
+  } */
 
 
 
@@ -361,10 +286,6 @@ function callBouchon(): void {
     
     .coeur-header {
       font-size: 14px;
-    }
-
-    .rating {
-      align-items: flex-start;
     }
 
     .details-grid {
