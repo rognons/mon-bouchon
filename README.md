@@ -13,7 +13,7 @@ cd mon-bouchon
 
 # 2. Démarrer avec Docker
 make up
-
+# ➡️ Démarre tous les services en local avec hot reloading (développement)
 # ➡️ Front: http://localhost:4321
 # ➡️ API: http://localhost:8000
 ```
@@ -178,7 +178,7 @@ make down
 ```bash
 make help       # Afficher l'aide
 make build      # Construire les images
-make up         # Démarrer tous les services
+make up         # Démarrer l'environnement local avec hot reload pour le développement
 make down       # Arrêter les services
 make logs       # Voir les logs
 make clean      # Nettoyer tout

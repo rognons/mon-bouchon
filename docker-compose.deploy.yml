@@ -11,9 +11,8 @@ services:
       - ./api/src/data:/app/src/data:ro
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      interval: 5s
+      timeout: 1s
     restart: unless-stopped
 
   # Front Interface (Astro)
