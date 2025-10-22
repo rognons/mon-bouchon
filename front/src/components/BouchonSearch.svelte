@@ -339,7 +339,6 @@ function clearFilters() {
 }
 </script>
 
-
 <div class="search-layout">
   {#if sidebarOpen}
     <div class="sidebar-overlay" on:click={() => (sidebarOpen = false)}></div>
@@ -360,9 +359,10 @@ function clearFilters() {
         on:click={() => (sidebarOpen = false)}
         aria-label="Fermer les filtres"
         style="position: absolute; top: 16px; right: 16px; z-index: 202; background: #f0c6da; color: #221f20; border: none; border-radius: 8px; padding: 10px 18px; font-size: 1.1rem; box-shadow: 0 2px 8px rgba(240,198,218,0.15);"
-      >✖️</button>
+        >✖️</button
+      >
     {/if}
-  <!-- ...existing code... -->
+    <!-- ...existing code... -->
     <div class="sidebar-header">
       <h3>Filtres avancés</h3>
     </div>
@@ -422,72 +422,75 @@ function clearFilters() {
         <div class="options-grid">
           <div class="checkbox-group">
             <label>
-              <input type="checkbox" bind:checked={coupDeCoeurCompagnie}>
+              <input type="checkbox" bind:checked={coupDeCoeurCompagnie} />
               ❤️ Coup de cœur Rognons
             </label>
           </div>
           <div class="checkbox-group">
             <label>
-              <input type="checkbox" bind:checked={optionVegetariens}>
-                🥬 Option végétarienne
-                <span class="tooltip-block">
-                  ℹ️
-                  <span class="tooltip-text">
-                    Au moins 1 entrée et 1 plat végétariens présents à la carte.
-                  </span>
-                </span>
-            </label>
-          </div>
-          <div class="checkbox-group">
-            <label>
-              <input type="checkbox" bind:checked={optionMachon}>
-                🍳 Mâchon
-                <span class="tooltip-block">
-                  ℹ️
-                  <span class="tooltip-text">
-                    Repas lyonnais matinal et copieux.
-                  </span>
-                </span>
-            </label>
-          </div>
-          <div class="checkbox-group">
-            <label>
-              <input type="checkbox" bind:checked={decorationRemarquable}>
-              🎨 Décoration authentique remarquable
-            </label>
-          </div>
-          <div class="checkbox-group">
-            <label>
-              <input type="checkbox" bind:checked={coupDeCoeurVins}>
-              🍷 Excellente carte des vins
-            </label>
-          </div>
-          <div class="checkbox-group">
-            <label>
-              <input type="checkbox" bind:checked={labelBouchonsLyonnais}>
-              🏆 Label officiel "Les Bouchons Lyonnais"
+              <input type="checkbox" bind:checked={optionVegetariens} />
+              🥬 Option végétarienne
               <span class="tooltip-block">
                 ℹ️
                 <span class="tooltip-text">
-                  Label créé en 2012 qui vise à sauvegarder et pérenniser la tradition culinaire lyonnaise.
+                  Au moins 1 entrée et 1 plat végétariens présents à la carte.
                 </span>
               </span>
             </label>
           </div>
           <div class="checkbox-group">
             <label>
-              <input type="checkbox" bind:checked={selectionAuthentiques}>
+              <input type="checkbox" bind:checked={optionMachon} />
+              🍳 Mâchon
+              <span class="tooltip-block">
+                ℹ️
+                <span class="tooltip-text">
+                  Repas lyonnais matinal et copieux.
+                </span>
+              </span>
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={decorationRemarquable} />
+              🎨 Décoration authentique remarquable
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={coupDeCoeurVins} />
+              🍷 Excellente carte des vins
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={labelBouchonsLyonnais} />
+              🏆 Label officiel "Les Bouchons Lyonnais"
+              <span class="tooltip-block">
+                ℹ️
+                <span class="tooltip-text">
+                  Label créé en 2012 qui vise à sauvegarder et pérenniser la
+                  tradition culinaire lyonnaise.
+                </span>
+              </span>
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={selectionAuthentiques} />
               ⭐ Sélection "Authentiques Bouchons Lyonnais"
               <span class="tooltip-block">
                 ℹ️
                 <span class="tooltip-text">
-                  Définie par “l'Association de Défense des Bouchons lyonnais”, créée en 1992.
+                  Définie par “l'Association de Défense des Bouchons lyonnais”,
+                  créée en 1992.
                 </span>
               </span>
             </label>
           </div>
         </div>
       </div>
+    </div>
   </aside>
 
   <!-- Contenu principal à droite -->
@@ -496,13 +499,29 @@ function clearFilters() {
       <div class="filters-header">
         <div class="floating-btns">
           {#if hasActiveFilters}
-            <button class="clear-filters" on:click={clearFilters} title="Effacer tous les filtres">
-              <span class="broom-emoji" aria-label="Effacer les filtres" title="Effacer tous les filtres">🧹</span>
+            <button
+              class="clear-filters"
+              on:click={clearFilters}
+              title="Effacer tous les filtres"
+            >
+              <span
+                class="broom-emoji"
+                aria-label="Effacer les filtres"
+                title="Effacer tous les filtres">🧹</span
+              >
             </button>
           {/if}
           {#if showScrollTop}
-            <button class="scroll-top-btn" on:click={scrollToTop} title="Remonter en haut">
-              <span class="arrow-emoji" aria-label="Remonter en haut" title="Remonter en haut">⬆️</span>
+            <button
+              class="scroll-top-btn"
+              on:click={scrollToTop}
+              title="Remonter en haut"
+            >
+              <span
+                class="arrow-emoji"
+                aria-label="Remonter en haut"
+                title="Remonter en haut">⬆️</span
+              >
             </button>
           {/if}
         </div>
@@ -552,32 +571,50 @@ function clearFilters() {
 
         <!-- Bouton pour afficher les filtres avancés -->
         {#if isMobile}
-        <div style="text-align:center; margin-top:1rem;">
-          <button
-            class="show-advanced-filters-btn"
-            on:click={() => (sidebarOpen = true)}
-            aria-label="Afficher les filtres avancés"
-          >🔍 Filtres avancés</button>
-        </div>
+          <div style="text-align:center; margin-top:1rem;">
+            <button
+              class="show-advanced-filters-btn"
+              on:click={() => (sidebarOpen = true)}
+              aria-label="Afficher les filtres avancés"
+              >🔍 Filtres avancés</button
+            >
+          </div>
         {/if}
       </div>
     </div>
 
     <!-- Résultats -->
     <div class="results-header">
-      <h2>🍽️ {bouchons.length} bouchon{bouchons.length > 1 ? 's' : ''} trouvé{bouchons.length > 1 ? 's' : ''}</h2>
+      <h2>
+        🍽️ {bouchons.length} bouchon{bouchons.length > 1 ? "s" : ""} trouvé{bouchons.length >
+        1
+          ? "s"
+          : ""}
+      </h2>
       <div class="sort-control">
         <label for="sortBy">🎯 Trier par:</label>
-        <select id="sortBy" bind:value={sortBy} on:change={() => { sortOrder = getDefaultSortOrder(sortBy); applyFilters(); }}>
+        <select
+          id="sortBy"
+          bind:value={sortBy}
+          on:change={() => {
+            sortOrder = getDefaultSortOrder(sortBy);
+            applyFilters();
+          }}
+        >
           <option value="rating">⭐ Note (Google)</option>
           <option value="prix">💰 Prix</option>
         </select>
-        <button 
-          class="sort-order-btn" 
-          on:click={() => { sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'; applyFilters(); }}
-          title={sortOrder === 'desc' ? 'Décroissant (clic pour croissant)' : 'Croissant (clic pour décroissant)'}
+        <button
+          class="sort-order-btn"
+          on:click={() => {
+            sortOrder = sortOrder === "desc" ? "asc" : "desc";
+            applyFilters();
+          }}
+          title={sortOrder === "desc"
+            ? "Décroissant (clic pour croissant)"
+            : "Croissant (clic pour décroissant)"}
         >
-          {sortOrder === 'desc' ? '⬇️' : '⬆️'}
+          {sortOrder === "desc" ? "⬇️" : "⬆️"}
         </button>
       </div>
     </div>
@@ -586,17 +623,19 @@ function clearFilters() {
     {#if isLoading}
       <div class="loading-state">
         <div class="loading-cochon">
-          <img src="/favicon.ico" alt="Chargement..." class="spinning-cochon">
+          <img src="/favicon.ico" alt="Chargement..." class="spinning-cochon" />
         </div>
         <h3>On finit notre communard et on est avec vous...</h3>
       </div>
-    <!-- Error state -->
+      <!-- Error state -->
     {:else if apiError}
       <div class="error-state">
-        <h3>😔 Nous sommes en train de tester un nouveau bouchon, patience ! 🍽️</h3>
+        <h3>
+          😔 Nous sommes en train de tester un nouveau bouchon, patience ! 🍽️
+        </h3>
         <p>Rafraîchissez la page si l'erreur persiste.</p>
       </div>
-    <!-- Results -->
+      <!-- Results -->
     {:else}
       <div class="results-grid">
         {#each bouchons as bouchon (bouchon.id)}
@@ -615,227 +654,226 @@ function clearFilters() {
 </div>
 
 <style>
+  @media (max-width: 768px) {
+    .sidebar-header {
+      margin-bottom: 0.7rem;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .sidebar-filters {
+      gap: 0.5rem;
+    }
+    .filter-group {
+      gap: 0.25rem;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #f0c6da;
+      box-shadow: 0 2px 8px rgba(240, 198, 218, 0.12);
+    }
+    .options-grid {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+    .sidebar-close-btn {
+      top: 10px;
+      right: 10px;
+      padding: 7px 12px;
+      font-size: 1.2rem;
+    }
+  }
 
-@media (max-width: 768px) {
-  .sidebar-header {
-    margin-bottom: 0.7rem;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-  .sidebar-filters {
-    gap: 0.5rem;
-  }
-  .filter-group {
-    gap: 0.25rem;
-    padding: 0.6rem;
-    border-radius: 8px;
-    border: 1px solid #f0c6da;
-    box-shadow: 0 2px 8px rgba(240, 198, 218, 0.12);
-  }
-  .options-grid {
-    grid-template-columns: 1fr;
-    gap: 0.4rem;
-    margin-top: 0.4rem;
-  }
-  .sidebar-close-btn {
-    top: 10px;
-    right: 10px;
-    padding: 7px 12px;
-    font-size: 1.2rem;
-  }
-}
-
-.sidebar-overlay {
-  display: none;
-}
-@media (max-width: 768px) {
   .sidebar-overlay {
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(34,31,32,0.35);
-    z-index: 200;
-    transition: opacity 0.2s;
+    display: none;
   }
-  .sidebar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
-    min-width: 0 !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
-    z-index: 201 !important;
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
-    box-shadow: 8px 0 32px rgba(240,198,218,0.18);
-    border-radius: 0 !important;
-    margin: 0 !important;
-    padding: 0.7rem 0.2rem 0.7rem 0.2rem !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    box-sizing: border-box !important;
+  @media (max-width: 768px) {
+    .sidebar-overlay {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(34, 31, 32, 0.35);
+      z-index: 200;
+      transition: opacity 0.2s;
+    }
+    .sidebar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      min-width: 0 !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
+      z-index: 201 !important;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 8px 0 32px rgba(240, 198, 218, 0.18);
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 0.7rem 0.2rem 0.7rem 0.2rem !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+    }
+    .sidebar.sidebar-mobile-open {
+      transform: translateX(0);
+    }
+    .sidebar-close-btn {
+      display: block;
+    }
   }
-  .sidebar.sidebar-mobile-open {
-    transform: translateX(0);
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
+      z-index: 201 !important;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 32px rgba(240, 198, 218, 0.18);
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 2rem 1rem !important;
+      overflow-y: auto !important;
+    }
+    .sidebar.sidebar-mobile-open {
+      transform: translateX(0);
+    }
   }
-  .sidebar-close-btn {
-    display: block;
-  }
-}
-@media (max-width: 768px) {
-  .sidebar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
-    z-index: 201 !important;
-  transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
-    box-shadow: 0 8px 32px rgba(240,198,218,0.18);
-    border-radius: 0 !important;
-    margin: 0 !important;
-    padding: 2rem 1rem !important;
-    overflow-y: auto !important;
-  }
-  .sidebar.sidebar-mobile-open {
-    transform: translateX(0);
-  }
-}
 
-.floating-btns {
-  position: fixed;
-  right: 2vw;
-  bottom: 2vw;
-  z-index: 101;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5vw;
-}
-
-.scroll-top-btn,
-  .clear-filters {
-  width: 55px;
-  height: 55px;
-  background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
-  border: 1px solid #e4b3cc;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition:
-    box-shadow 0.2s,
-    transform 0.2s,
-    background 0.2s,
-    border-color 0.2s;
-  overflow: hidden;
-}
-
-.arrow-emoji,
-  .broom-emoji {
-  font-size: 1.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  transition: filter 0.2s;
-  padding: 10px;
-}
-
-.scroll-top-btn:hover,
-.clear-filters:hover {
-  background: linear-gradient(135deg, #e4b3cc 60%, #f0c6da 100%);
-  transform: scale(1.12);
-}
-
-@media (max-width: 900px) {
   .floating-btns {
-    right: 4vw;
-    bottom: 4vw;
-    gap: 0.9vw;
+    position: fixed;
+    right: 2vw;
+    bottom: 2vw;
+    z-index: 101;
+    display: flex;
     flex-direction: column;
+    gap: 0.5vw;
   }
+
   .scroll-top-btn,
   .clear-filters {
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
+    border: 1px solid #e4b3cc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition:
+      box-shadow 0.2s,
+      transform 0.2s,
+      background 0.2s,
+      border-color 0.2s;
+    overflow: hidden;
   }
-}
 
-:global(body) {
-  background-color: #fff;
-  font-family: 'Open Sans', Arial, sans-serif;
-  color: #221f20;
-  font-weight: 400;
-}
+  .arrow-emoji,
+  .broom-emoji {
+    font-size: 1.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: filter 0.2s;
+    padding: 10px;
+  }
 
-/* Tooltip pour Authentiques Bouchons Lyonnais */
-.tooltip-block {
-  position: relative;
-  cursor: help;
-  display: inline-block;
-}
+  .scroll-top-btn:hover,
+  .clear-filters:hover {
+    background: linear-gradient(135deg, #e4b3cc 60%, #f0c6da 100%);
+    transform: scale(1.12);
+  }
 
-.tooltip-block .tooltip-text {
-  visibility: hidden;
-  width: 320px;
-  background: #f0c6da;
-  color: #221f20;
-  text-align: left;
-  border-radius: 8px;
-  padding: 0.8em 1em;
-  position: absolute;
-  z-index: 10;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  box-shadow: 0 4px 16px rgba(240,198,218,0.15);
-  font-size: 0.95em;
-  opacity: 0;
-  transition: opacity 0.2s;
-  pointer-events: none;
-}
-.tooltip-block:hover .tooltip-text,
-.tooltip-block:focus .tooltip-text {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
-}
-  
-.filters-panel {
-  background: #ffffff;
-  border: 1px solid #f0c6da;
-  border-radius: 12px;
-  padding: 2rem;
-  margin: 1rem 0;
-  box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
-  animation: slideDown 0.3s ease-out;
-}
+  @media (max-width: 900px) {
+    .floating-btns {
+      right: 4vw;
+      bottom: 4vw;
+      gap: 0.9vw;
+      flex-direction: column;
+    }
+    .scroll-top-btn,
+    .clear-filters {
+      width: 50px;
+      height: 50px;
+    }
+  }
 
-.filters-header {
-  display: flex;
-  justify-content: flex-end;
-  padding-bottom: 1rem;
-}
+  :global(body) {
+    background-color: #fff;
+    font-family: "Open Sans", Arial, sans-serif;
+    color: #221f20;
+    font-weight: 400;
+  }
 
-@keyframes slideDown {
-  from {
+  /* Tooltip pour Authentiques Bouchons Lyonnais */
+  .tooltip-block {
+    position: relative;
+    cursor: help;
+    display: inline-block;
+  }
+
+  .tooltip-block .tooltip-text {
+    visibility: hidden;
+    width: 320px;
+    background: #f0c6da;
+    color: #221f20;
+    text-align: left;
+    border-radius: 8px;
+    padding: 0.8em 1em;
+    position: absolute;
+    z-index: 10;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
+    font-size: 0.95em;
     opacity: 0;
-    transform: translateY(-10px);
+    transition: opacity 0.2s;
+    pointer-events: none;
   }
-  to {
+  .tooltip-block:hover .tooltip-text,
+  .tooltip-block:focus .tooltip-text {
+    visibility: visible;
     opacity: 1;
-    transform: translateY(0);
+    pointer-events: auto;
   }
-}
+
+  .filters-panel {
+    background: #ffffff;
+    border: 1px solid #f0c6da;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
+    animation: slideDown 0.3s ease-out;
+  }
+
+  .filters-header {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 1rem;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   @keyframes slideDown {
     from {
@@ -874,7 +912,7 @@ function clearFilters() {
   }
 
   .filter-group label {
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     font-weight: 600;
     color: #221f20;
     font-size: 14px;
@@ -884,8 +922,6 @@ function clearFilters() {
     gap: 0.5rem;
   }
 
-
-
   .filter-group select {
     padding: 0.75rem 1rem;
     border: 1px solid #e9ecef;
@@ -894,7 +930,7 @@ function clearFilters() {
     background: #ffffff;
     color: #221f20;
     cursor: pointer;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     font-weight: 400;
     transition: all 0.3s ease;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -926,7 +962,7 @@ function clearFilters() {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #221f20;
@@ -955,8 +991,6 @@ function clearFilters() {
     accent-color: #f0c6da;
   }
 
-
-
   .results-header {
     margin: 2rem 0 1rem 0;
     display: flex;
@@ -967,7 +1001,7 @@ function clearFilters() {
   }
 
   .results-header h2 {
-    font-family: 'GiltonRegular', 'Playfair Display', serif;
+    font-family: "GiltonRegular", "Playfair Display", serif;
     color: #221f20;
     font-size: 26px;
     font-weight: normal;
@@ -989,7 +1023,7 @@ function clearFilters() {
   .sort-control label {
     color: #221f20;
     font-weight: 500;
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", sans-serif;
   }
 
   .sort-control select {
@@ -1043,7 +1077,8 @@ function clearFilters() {
     margin-bottom: 0.5rem;
   }
 
-  .loading-state, .error-state {
+  .loading-state,
+  .error-state {
     text-align: center;
     padding: 3rem;
     background: rgba(240, 198, 218, 0.1);
@@ -1064,15 +1099,19 @@ function clearFilters() {
   }
 
   @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .loading-state h3 {
     color: #f0c6da;
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    font-family: 'GiltonRegular', serif;
+    font-family: "GiltonRegular", serif;
   }
 
   .error-state {
@@ -1084,7 +1123,7 @@ function clearFilters() {
     color: #f0c6da;
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    font-family: 'GiltonRegular', serif;
+    font-family: "GiltonRegular", serif;
   }
 
   .error-state p {
@@ -1102,7 +1141,6 @@ function clearFilters() {
     .filters-grid {
       grid-template-columns: repeat(3, 1fr);
     }
-
   }
 
   /* Desktop standard screens */
@@ -1113,7 +1151,6 @@ function clearFilters() {
     .filters-grid {
       grid-template-columns: repeat(3, 1fr);
     }
-
   }
 
   /* Tablets and medium screens */
@@ -1121,7 +1158,6 @@ function clearFilters() {
     .results-grid {
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
-
   }
 
   /* Medium screens */
@@ -1151,76 +1187,81 @@ function clearFilters() {
     }
   }
 
-.search-layout {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-
-.show-advanced-filters-btn {
-    background:#f0c6da;color:#221f20;border:none;border-radius:8px;padding:0.7em 1.3em;font-size:1.1rem;box-shadow:0 2px 8px rgba(240,198,218,0.15);cursor:pointer;
-    font-family: 'GiltonRegular', serif;
-}
-
-.sidebar {
-  min-width: 320px;
-  max-width: 360px;
-  background: #fff;
-  border: 1px solid #f0c6da;
-  border-radius: 12px;
-  padding: 2rem 1.5rem;
-  box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
-  left: 0;
-  overflow-y: auto;
-  z-index: 100;
-}
-
-.sidebar.sidebar-full {
-  top: 0 !important;
-  max-height: 100vh !important;
-}
-
-.sidebar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.5rem;
-}
-
-.sidebar-filters {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-
-.main-content {
-  flex: 1;
-  min-width: 0;
-  padding-left: 360px;
-}
-
-@media (max-width: 980px) {
-  .main-content {
-    padding-left: 0;
-  }
-}
-
-@media (max-width: 980px) {
   .search-layout {
-    flex-direction: column;
-    gap: 0;
-  }
-  .sidebar {
-    position: static;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
     width: 100%;
-    max-width: 100%;
-    margin-bottom: 2rem;
   }
-}
+
+  .show-advanced-filters-btn {
+    background: #f0c6da;
+    color: #221f20;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7em 1.3em;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(240, 198, 218, 0.15);
+    cursor: pointer;
+    font-family: "GiltonRegular", serif;
+  }
+
+  .sidebar {
+    min-width: 320px;
+    max-width: 360px;
+    background: #fff;
+    border: 1px solid #f0c6da;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
+    left: 0;
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  .sidebar.sidebar-full {
+    top: 0 !important;
+    max-height: 100vh !important;
+  }
+
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .sidebar-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .main-content {
+    flex: 1;
+    min-width: 0;
+    padding-left: 360px;
+  }
+
+  @media (max-width: 980px) {
+    .main-content {
+      padding-left: 0;
+    }
+  }
+
+  @media (max-width: 980px) {
+    .search-layout {
+      flex-direction: column;
+      gap: 0;
+    }
+    .sidebar {
+      position: static;
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 2rem;
+    }
+  }
 </style>
