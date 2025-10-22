@@ -362,11 +362,47 @@ function clearFilters() {
         >✖️</button
       >
     {/if}
-    <!-- ...existing code... -->
-    <div class="sidebar-header">
-      <h3>Filtres avancés</h3>
-    </div>
     <div class="sidebar-filters">
+      <!-- Prix du menu de base -->
+      <div class="filter-group">
+        <label for="prixMenuBase">💰 Prix du menu de base</label>
+        <select id="prixMenuBase" bind:value={selectedPrixMenuBase}>
+          <option value="">Tous les prix</option>
+          {#each prixMenuBaseOptions.slice(1) as prix}
+            <option value={prix}>{prix}</option>
+          {/each}
+        </select>
+      </div>
+      <!-- Arrondissement -->
+      <div class="filter-group">
+        <label for="arrondissement">📍 Arrondissement</label>
+        <select id="arrondissement" bind:value={selectedArrondissement}>
+          <option value="">Tous les arrondissements</option>
+          {#each arrondissements.slice(1) as arr}
+            <option value={arr}>{arr} arrondissement</option>
+          {/each}
+        </select>
+      </div>
+      <!-- Quartier -->
+      <div class="filter-group">
+        <label for="quartier">🏘️ Quartier</label>
+        <select id="quartier" bind:value={selectedQuartier}>
+          <option value="">Tous les quartiers</option>
+          {#each quartiers.slice(1) as quartier}
+            <option value={quartier}>{quartier}</option>
+          {/each}
+        </select>
+      </div>
+      <!-- Ouvertures -->
+      <div class="filter-group">
+        <label for="ouvertures">🕐 Horaires d'ouverture</label>
+        <select id="ouvertures" bind:value={selectedOuvertures}>
+          <option value="">Tous les créneaux</option>
+          {#each ouverturesOptions.slice(1) as ouverture}
+            <option value={ouverture}>{ouverture}</option>
+          {/each}
+        </select>
+      </div>
       <!-- Quantité -->
       <div class="filter-group">
         <label for="quantite">🍽️ Taille des portions</label>
@@ -493,96 +529,37 @@ function clearFilters() {
     </div>
   </aside>
 
+  <div class="floating-btns">
+    {#if hasActiveFilters}
+      <button
+        class="clear-filters"
+        on:click={clearFilters}
+        title="Effacer tous les filtres"
+      >
+        <span
+          class="broom-emoji"
+          aria-label="Effacer les filtres"
+          title="Effacer tous les filtres">🧹</span
+        >
+      </button>
+    {/if}
+    {#if showScrollTop}
+      <button
+        class="scroll-top-btn"
+        on:click={scrollToTop}
+        title="Remonter en haut"
+      >
+        <span
+          class="arrow-emoji"
+          aria-label="Remonter en haut"
+          title="Remonter en haut">⬆️</span
+        >
+      </button>
+    {/if}
+  </div>
+
   <!-- Contenu principal à droite -->
   <main class="main-content">
-    <div class="filters-panel" id="filters-panel">
-      <div class="filters-header">
-        <div class="floating-btns">
-          {#if hasActiveFilters}
-            <button
-              class="clear-filters"
-              on:click={clearFilters}
-              title="Effacer tous les filtres"
-            >
-              <span
-                class="broom-emoji"
-                aria-label="Effacer les filtres"
-                title="Effacer tous les filtres">🧹</span
-              >
-            </button>
-          {/if}
-          {#if showScrollTop}
-            <button
-              class="scroll-top-btn"
-              on:click={scrollToTop}
-              title="Remonter en haut"
-            >
-              <span
-                class="arrow-emoji"
-                aria-label="Remonter en haut"
-                title="Remonter en haut">⬆️</span
-              >
-            </button>
-          {/if}
-        </div>
-      </div>
-      <div class="filters-grid">
-        <!-- Prix du menu de base -->
-        <div class="filter-group">
-          <label for="prixMenuBase">💰 Prix du menu de base</label>
-          <select id="prixMenuBase" bind:value={selectedPrixMenuBase}>
-            <option value="">Tous les prix</option>
-            {#each prixMenuBaseOptions.slice(1) as prix}
-              <option value={prix}>{prix}</option>
-            {/each}
-          </select>
-        </div>
-        <!-- Arrondissement -->
-        <div class="filter-group">
-          <label for="arrondissement">📍 Arrondissement</label>
-          <select id="arrondissement" bind:value={selectedArrondissement}>
-            <option value="">Tous les arrondissements</option>
-            {#each arrondissements.slice(1) as arr}
-              <option value={arr}>{arr} arrondissement</option>
-            {/each}
-          </select>
-        </div>
-        <!-- Quartier -->
-        <div class="filter-group">
-          <label for="quartier">🏘️ Quartier</label>
-          <select id="quartier" bind:value={selectedQuartier}>
-            <option value="">Tous les quartiers</option>
-            {#each quartiers.slice(1) as quartier}
-              <option value={quartier}>{quartier}</option>
-            {/each}
-          </select>
-        </div>
-
-        <!-- Ouvertures -->
-        <div class="filter-group">
-          <label for="ouvertures">🕐 Horaires d'ouverture</label>
-          <select id="ouvertures" bind:value={selectedOuvertures}>
-            <option value="">Tous les créneaux</option>
-            {#each ouverturesOptions.slice(1) as ouverture}
-              <option value={ouverture}>{ouverture}</option>
-            {/each}
-          </select>
-        </div>
-
-        <!-- Bouton pour afficher les filtres avancés -->
-        {#if isMobile}
-          <div style="text-align:center; margin-top:1rem;">
-            <button
-              class="show-advanced-filters-btn"
-              on:click={() => (sidebarOpen = true)}
-              aria-label="Afficher les filtres avancés"
-              >🔍 Filtres avancés</button
-            >
-          </div>
-        {/if}
-      </div>
-    </div>
-
     <!-- Résultats -->
     <div class="results-header">
       <h2>
@@ -591,6 +568,16 @@ function clearFilters() {
           ? "s"
           : ""}
       </h2>
+
+      {#if isMobile}
+        <button
+          class="show-advanced-filters-btn"
+          on:click={() => (sidebarOpen = true)}
+          aria-label="Afficher les filtres avancés"
+          >🔍 Filtres
+        </button>
+      {/if}
+
       <div class="sort-control">
         <label for="sortBy">🎯 Trier par:</label>
         <select
@@ -655,11 +642,6 @@ function clearFilters() {
 
 <style>
   @media (max-width: 768px) {
-    .sidebar-header {
-      margin-bottom: 0.7rem;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
     .sidebar-filters {
       gap: 0.5rem;
     }
@@ -886,11 +868,18 @@ function clearFilters() {
     }
   }
 
-  .filters-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+  @media (max-width: 900px) {
+    .filter-group {
+      padding: 0.7rem;
+      font-size: 15px;
+    }
+    .filter-group label {
+      font-size: 15px;
+    }
+    .filter-group select {
+      font-size: 15px;
+      padding: 0.6rem 0.8rem;
+    }
   }
 
   .filter-group {
@@ -992,12 +981,12 @@ function clearFilters() {
   }
 
   .results-header {
-    margin: 2rem 0 1rem 0;
+    margin: 0.5rem 0 1rem 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 
   .results-header h2 {
@@ -1138,18 +1127,12 @@ function clearFilters() {
       grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
       gap: 2.5rem;
     }
-    .filters-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
   }
 
   /* Desktop standard screens */
   @media (min-width: 1200px) and (max-width: 1599px) {
     .results-grid {
       grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    }
-    .filters-grid {
-      grid-template-columns: repeat(3, 1fr);
     }
   }
 
@@ -1169,17 +1152,15 @@ function clearFilters() {
 
   /* Mobile */
   @media (max-width: 768px) {
-    .filters-grid {
-      grid-template-columns: 1fr;
-    }
     .results-grid {
       grid-template-columns: 1fr;
     }
 
     .results-header {
+      margin-top: 1.5rem;
       flex-direction: column;
       text-align: center;
-      gap: 1.5rem;
+      gap: 1rem;
     }
 
     .sort-control {
@@ -1202,7 +1183,7 @@ function clearFilters() {
     color: #221f20;
     border: none;
     border-radius: 8px;
-    padding: 0.7em 1.3em;
+    padding: 0.5em 1em;
     font-size: 1.1rem;
     box-shadow: 0 2px 8px rgba(240, 198, 218, 0.15);
     cursor: pointer;
@@ -1225,13 +1206,6 @@ function clearFilters() {
   .sidebar.sidebar-full {
     top: 0 !important;
     max-height: 100vh !important;
-  }
-
-  .sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
   }
 
   .sidebar-filters {
