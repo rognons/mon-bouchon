@@ -1282,8 +1282,8 @@ function clearFilters() {
   }
 
   .sidebar {
-    min-width: 320px;
-    max-width: 360px;
+    min-width: 260px;
+    max-width: 340px;
     background: #fff;
     border: 1px solid #f0c6da;
     border-radius: 12px;
@@ -1291,6 +1291,7 @@ function clearFilters() {
     box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
     left: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     z-index: 100;
   }
 
