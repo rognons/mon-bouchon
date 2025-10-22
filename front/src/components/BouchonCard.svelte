@@ -158,6 +158,7 @@ function callBouchon(): void {
 
   .bouchon-info {
     padding: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .location {
