@@ -363,9 +363,7 @@ function clearFilters() {
       <button
         class="sidebar-close-btn"
         on:click={() => (sidebarOpen = false)}
-        aria-label="Fermer les filtres"
-        style="position: absolute; top: 16px; right: 16px; z-index: 202; background: #f0c6da; color: #221f20; border: none; border-radius: 8px; padding: 10px 18px; font-size: 1.1rem; box-shadow: 0 2px 8px rgba(240,198,218,0.15);"
-        >✖️</button
+        aria-label="Fermer les filtres">✖️ </button
       >
     {/if}
     <div class="sidebar-filters">
@@ -731,10 +729,17 @@ function clearFilters() {
       margin-top: 0.4rem;
     }
     .sidebar-close-btn {
-      top: 10px;
-      right: 10px;
-      padding: 7px 12px;
-      font-size: 1.2rem;
+      position: absolute;
+      z-index: 202;
+      background: #f0c6da;
+      color: #221f20;
+      border: none;
+      border-radius: 50%;
+      font-size: 1rem;
+      box-shadow: 0 2px 8px rgba(240, 198, 218, 0.15);
+      top: 3px;
+      right: 6px;
+      padding: 3px 6px;
     }
     .sidebar {
       position: fixed !important;
