@@ -42,7 +42,11 @@ onMount(() => {
 
   window.addEventListener('scroll', updateSidebarPosition);
   window.addEventListener('resize', updateSidebarPosition);
-  updateSidebarPosition();
+  window.addEventListener('load', updateSidebarPosition);
+  // Correction: attendre un peu pour que le layout soit bien stable
+  setTimeout(() => {
+    updateSidebarPosition();
+  }, 200);
 
   return () => {
     window.removeEventListener('scroll', updateSidebarPosition);
@@ -349,7 +353,9 @@ function clearFilters() {
   <aside
     id="sidebar-debug"
     class="sidebar {sidebarFull ? 'sidebar-full' : ''}"
-    style="position: fixed; top: {sidebarTop}px; max-height: {maxHeight}px !important; overflow-y: auto !important; left: 0; z-index: 100;"
+    style={isMobile
+      ? "position: fixed; top: 0; left: 0; height: 100vh; max-height: 100vh; width: 100vw; z-index: 201; overflow-y: auto;"
+      : `position: fixed; top: ${sidebarTop}px; max-height: ${maxHeight}px !important; overflow-y: auto !important; left: 0; z-index: 100;`}
     class:sidebar-mobile-open={sidebarOpen}
     inert={!sidebarOpen && isMobile}
   >
@@ -662,6 +668,41 @@ function clearFilters() {
       right: 10px;
       padding: 7px 12px;
       font-size: 1.2rem;
+    }
+    .sidebar {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      min-width: 0 !important;
+      height: 100vh !important;
+      max-height: 100vh !important;
+      z-index: 201 !important;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 8px 0 32px rgba(240, 198, 218, 0.18);
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 0.7rem 0.2rem 0.7rem 0.2rem !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+      display: block !important;
+    }
+    .sidebar.sidebar-mobile-open {
+      transform: translateX(0);
+    }
+    .sidebar-overlay {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(34, 31, 32, 0.35);
+      z-index: 200;
+      transition: opacity 0.2s;
     }
   }
 
