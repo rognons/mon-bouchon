@@ -16,7 +16,11 @@ function callBouchon(): void {
     <h3 class="bouchon-name">{bouchon.name}</h3>
     {#if bouchon.compagnieFavorite}
       <div class="coup-de-coeur-header">
-        <img src="/favicon.ico" alt="Coup de cœur Rognon" class="cochon-header">
+        <img
+          src="/favicon.ico"
+          alt="Coup de cœur Rognon"
+          class="cochon-header"
+        />
         <span class="coeur-header">❤️</span>
       </div>
     {/if}
@@ -26,7 +30,7 @@ function callBouchon(): void {
     <div class="location">
       📍 {bouchon.address}
     </div>
-    
+
     <div class="details-grid">
       <div class="detail-item">
         <span class="label">Prix:</span>
@@ -60,7 +64,6 @@ function callBouchon(): void {
   <div class="bottom-rating">
     <span class="bottom-note">⭐ {bouchon.rating}/5</span>
   </div>
-
 </div>
 
 <style>
@@ -89,7 +92,7 @@ function callBouchon(): void {
   }
 
   .bouchon-name {
-    font-family: 'GiltonRegular', 'Playfair Display', serif;
+    font-family: "GiltonRegular", "Playfair Display", serif;
     font-size: 1.4rem;
     font-weight: normal;
     margin: 0;
@@ -146,11 +149,12 @@ function callBouchon(): void {
   }
 
   @keyframes coupDeCoeurGlow {
-    0%, 100% { 
+    0%,
+    100% {
       box-shadow: 0 3px 10px rgba(240, 198, 218, 0.4);
       border-color: #f0c6da;
     }
-    50% { 
+    50% {
       box-shadow: 0 4px 15px rgba(240, 198, 218, 0.7);
       border-color: #e4b3cc;
     }
@@ -162,7 +166,7 @@ function callBouchon(): void {
   }
 
   .location {
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     color: #221f20;
     opacity: 0.7;
     margin-bottom: 1rem;
@@ -183,7 +187,7 @@ function callBouchon(): void {
   }
 
   .label {
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     font-size: 0.8rem;
     font-weight: 400;
     color: #221f20;
@@ -193,7 +197,7 @@ function callBouchon(): void {
   }
 
   .value {
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     font-weight: 400;
     color: #221f20;
   }
@@ -207,14 +211,12 @@ function callBouchon(): void {
   }
 
   .description p {
-    font-family: 'Open Sans', Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     margin: 0;
     color: #221f20;
     line-height: 1.6;
     font-weight: 400;
   }
-
-
 
   /* .amenities {
     display: flex;
@@ -236,8 +238,6 @@ function callBouchon(): void {
     background: #ffe8e8;
     color: #e74c3c;
   } */
-
-
 
   .phone-value {
     background: none;
@@ -268,23 +268,23 @@ function callBouchon(): void {
     .bouchon-info {
       padding: 1rem;
     }
-    
+
     .bouchon-name {
       font-size: 1.2rem;
       padding-right: 0.5rem;
       line-height: 1.2;
     }
-    
+
     .coup-de-coeur-header {
       padding: 0.35rem 0.5rem;
       gap: 0.25rem;
     }
-    
+
     .cochon-header {
       width: 16px;
       height: 16px;
     }
-    
+
     .coeur-header {
       font-size: 14px;
     }
