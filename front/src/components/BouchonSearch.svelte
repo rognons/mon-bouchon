@@ -8,6 +8,27 @@ import {
 // biome-ignore lint/correctness/noUnusedImports: Used in template below
 import BouchonCard from './BouchonCard.svelte';
 
+let showScrollTop = false;
+
+function scrollToTop() {
+  const filters = document.getElementById('filters-panel');
+  if (filters) {
+    filters.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function handleScroll() {
+  showScrollTop = window.scrollY > 550;
+}
+
+onMount(() => {
+  window.addEventListener('scroll', handleScroll);
+  handleScroll();
+  return () => window.removeEventListener('scroll', handleScroll);
+});
+
 let bouchons: BouchonData[] = []; // Résultats de l'API (toujours filtrés)
 
 // Nouveaux filtres selon les critères de la Compagnie du Rognon
@@ -27,8 +48,28 @@ let coupDeCoeurCompagnie: boolean = false;
 let coupDeCoeurVins: boolean = false;
 let labelBouchonsLyonnais: boolean = false;
 let selectionAuthentiques: boolean = false;
-let showFilters = false;
 
+// Variable réactive pour savoir si des filtres sont actifs
+let hasActiveFilters = false;
+
+$: hasActiveFilters = Boolean(
+  selectedPrixMenuBase ||
+    selectedArrondissement ||
+    selectedQuartier ||
+    selectedOuvertures ||
+    selectedQuantite ||
+    selectedTypeMangeur ||
+    selectedTypeAmbiance ||
+    selectedTypeTablee ||
+    selectedTypeBouchon ||
+    optionVegetariens ||
+    optionMachon ||
+    decorationRemarquable ||
+    coupDeCoeurCompagnie ||
+    coupDeCoeurVins ||
+    labelBouchonsLyonnais ||
+    selectionAuthentiques
+);
 // Variables de tri
 // biome-ignore lint/style/useConst: Used in reactive bindings
 let sortBy = 'rating'; // rating, prix
@@ -47,10 +88,6 @@ function getDefaultSortOrder(criteria: string): string {
       return 'desc';
   }
 }
-
-// Variables pour les sections pliables
-let showExperienceFilters = false;
-let showDistinctionsFilters = false;
 
 // Options pour les filtres
 // biome-ignore lint/correctness/noUnusedVariables: Used in template for select options
@@ -90,6 +127,7 @@ const typeMangeurOptions = [
   'Jeunes actifs',
   'Touristes',
 ];
+
 const typeAmbianceOptions = [
   '',
   'Conviviale et familiale',
@@ -250,71 +288,127 @@ function clearFilters() {
   labelBouchonsLyonnais = false;
   selectionAuthentiques = false;
 }
-
-function toggleFilters() {
-  showFilters = !showFilters;
-}
-
-function toggleExperienceFilters() {
-  showExperienceFilters = !showExperienceFilters;
-}
-
-function toggleDistinctionsFilters() {
-  showDistinctionsFilters = !showDistinctionsFilters;
-}
 </script>
 
 <div class="search-container">
-  <!-- Critères de base (toujours visibles, sans titre) -->
-  <div class="base-filters mobile-hidden">
+  <!-- Tous les filtres affichés en permanence, même ordre desktop/mobile -->
+  <div class="filters-panel" id="filters-panel">
+    <div class="filters-header">
+      <div class="floating-btns">
+        {#if hasActiveFilters}
+          <button class="clear-filters" on:click={clearFilters} title="Effacer tous les filtres">
+            <span class="broom-emoji" aria-label="Effacer les filtres" title="Effacer tous les filtres">🧹</span>
+          </button>
+        {/if}
+        {#if showScrollTop}
+          <button class="scroll-top-btn" on:click={scrollToTop} title="Remonter en haut">
+            <span class="arrow-emoji" aria-label="Remonter en haut" title="Remonter en haut">⬆️</span>
+          </button>
+        {/if}
+      </div>
+    </div>
     <div class="filters-grid">
-          <!-- Prix du menu de base -->
-          <div class="filter-group">
-            <label for="prixMenuBase">💰 Prix du menu de base</label>
-            <select id="prixMenuBase" bind:value={selectedPrixMenuBase}>
-              <option value="">Tous les prix</option>
-              {#each prixMenuBaseOptions.slice(1) as prix}
-                <option value={prix}>{prix}</option>
-              {/each}
-            </select>
-          </div>
+      <!-- Prix du menu de base -->
+      <div class="filter-group">
+        <label for="prixMenuBase">💰 Prix du menu de base</label>
+        <select id="prixMenuBase" bind:value={selectedPrixMenuBase}>
+          <option value="">Tous les prix</option>
+          {#each prixMenuBaseOptions.slice(1) as prix}
+            <option value={prix}>{prix}</option>
+          {/each}
+        </select>
+      </div>
 
-          <!-- Arrondissement -->
-          <div class="filter-group">
-            <label for="arrondissement">📍 Arrondissement</label>
-            <select id="arrondissement" bind:value={selectedArrondissement}>
-              <option value="">Tous les arrondissements</option>
-              {#each arrondissements.slice(1) as arr}
-                <option value={arr}>{arr} arrondissement</option>
-              {/each}
-            </select>
-          </div>
+      <!-- Arrondissement -->
+      <div class="filter-group">
+        <label for="arrondissement">📍 Arrondissement</label>
+        <select id="arrondissement" bind:value={selectedArrondissement}>
+          <option value="">Tous les arrondissements</option>
+          {#each arrondissements.slice(1) as arr}
+            <option value={arr}>{arr} arrondissement</option>
+          {/each}
+        </select>
+      </div>
 
-          <!-- Quartier - caché sur mobile -->
-          <div class="filter-group mobile-hidden">
-            <label for="quartier">🏘️ Quartier</label>
-            <select id="quartier" bind:value={selectedQuartier}>
-              <option value="">Tous les quartiers</option>
-              {#each quartiers.slice(1) as quartier}
-                <option value={quartier}>{quartier}</option>
-              {/each}
-            </select>
-          </div>
+      <!-- Quartier -->
+      <div class="filter-group">
+        <label for="quartier">🏘️ Quartier</label>
+        <select id="quartier" bind:value={selectedQuartier}>
+          <option value="">Tous les quartiers</option>
+          {#each quartiers.slice(1) as quartier}
+            <option value={quartier}>{quartier}</option>
+          {/each}
+        </select>
+      </div>
 
-          <!-- Ouvertures - caché sur mobile -->
-          <div class="filter-group mobile-hidden">
-            <label for="ouvertures">🕐 Horaires d'ouverture</label>
-            <select id="ouvertures" bind:value={selectedOuvertures}>
-              <option value="">Tous les créneaux</option>
-              {#each ouverturesOptions.slice(1) as ouverture}
-                <option value={ouverture}>{ouverture}</option>
-              {/each}
-            </select>
-          </div>
+      <!-- Ouvertures -->
+      <div class="filter-group">
+        <label for="ouvertures">🕐 Horaires d'ouverture</label>
+        <select id="ouvertures" bind:value={selectedOuvertures}>
+          <option value="">Tous les créneaux</option>
+          {#each ouverturesOptions.slice(1) as ouverture}
+            <option value={ouverture}>{ouverture}</option>
+          {/each}
+        </select>
+      </div>
+
+      <!-- Quantité -->
+      <div class="filter-group">
+        <label for="quantite">🍽️ Taille des portions</label>
+        <select id="quantite" bind:value={selectedQuantite}>
+          <option value="">Toutes les portions</option>
+          {#each quantiteOptions.slice(1) as quantite}
+            <option value={quantite}>{quantite}</option>
+          {/each}
+        </select>
+      </div>
+
+      <!-- Type de mangeur -->
+      <div class="filter-group">
+        <label for="typeMangeur">� Type de clientèle</label>
+        <select id="typeMangeur" bind:value={selectedTypeMangeur}>
+          <option value="">Toute clientèle</option>
+          {#each typeMangeurOptions.slice(1) as type}
+            <option value={type}>{type}</option>
+          {/each}
+        </select>
+      </div>
+
+      <!-- Type d'ambiance -->
+      <div class="filter-group">
+        <label for="typeAmbiance">🎭 Ambiance & confort</label>
+        <select id="typeAmbiance" bind:value={selectedTypeAmbiance}>
+          <option value="">Toutes les ambiances</option>
+          {#each typeAmbianceOptions.slice(1) as type}
+            <option value={type}>{type}</option>
+          {/each}
+        </select>
+      </div>
+
+      <!-- Type de tablée -->
+      <div class="filter-group">
+        <label for="typeTablee">🪑 Configuration des tables</label>
+        <select id="typeTablee" bind:value={selectedTypeTablee}>
+          <option value="">Toutes les configurations</option>
+          {#each typeTableeOptions.slice(1) as type}
+            <option value={type}>{type}</option>
+          {/each}
+        </select>
+      </div>
+
+      <!-- Type de bouchons -->
+      <div class="filter-group">
+        <label for="typeBouchon">🏪 Style de bouchon</label>
+        <select id="typeBouchon" bind:value={selectedTypeBouchon}>
+          <option value="">Tous les styles</option>
+          {#each typeBouchonOptions.slice(1) as type}
+            <option value={type}>{type}</option>
+          {/each}
+        </select>
       </div>
     </div>
 
-    <!-- Options (toujours visibles) -->
+    <!-- Options toujours visibles -->
     <div class="options-section">
       <div class="options-grid">
         <div class="checkbox-group">
@@ -353,185 +447,39 @@ function toggleDistinctionsFilters() {
             🎨 Décoration authentique remarquable
           </label>
         </div>
-      </div>
-    </div>
-
-    <!-- Bouton pour afficher les filtres avancés -->
-    <div class="advanced-filters-toggle">
-      <button class="show-advanced-filters" on:click={toggleFilters}>
-        🎯 Filtres avancés
-        <span class="toggle-icon">{showFilters ? '▲' : '▼'}</span>
-      </button>
-    </div>
-
-    <!-- Panneau de filtres avancés -->
-    {#if showFilters}
-      <div class="filters-panel">
-        <!-- Filtres de base pour mobile - toujours visibles dans cette section -->
-        <div class="mobile-base-filters mobile-only">
-          <div class="filters-grid">
-            <div class="filter-group">
-              <label for="prixMenuBase-mobile">💰 Prix du menu de base</label>
-              <select id="prixMenuBase-mobile" bind:value={selectedPrixMenuBase}>
-                <option value="">Tous les prix</option>
-                {#each prixMenuBaseOptions.slice(1) as prix}
-                  <option value={prix}>{prix}</option>
-                {/each}
-              </select>
-            </div>
-
-            <div class="filter-group">
-              <label for="arrondissement-mobile">📍 Arrondissement</label>
-              <select id="arrondissement-mobile" bind:value={selectedArrondissement}>
-                <option value="">Tous les arrondissements</option>
-                {#each arrondissements.slice(1) as arr}
-                  <option value={arr}>{arr} arrondissement</option>
-                {/each}
-              </select>
-            </div>
-
-            <div class="filter-group">
-              <label for="quartier-mobile">🏘️ Quartier</label>
-              <select id="quartier-mobile" bind:value={selectedQuartier}>
-                <option value="">Tous les quartiers</option>
-                {#each quartiers.slice(1) as quartier}
-                  <option value={quartier}>{quartier}</option>
-                {/each}
-              </select>
-            </div>
-
-            <div class="filter-group">
-              <label for="ouvertures-mobile">🕐 Horaires d'ouverture</label>
-              <select id="ouvertures-mobile" bind:value={selectedOuvertures}>
-                <option value="">Tous les créneaux</option>
-                {#each ouverturesOptions.slice(1) as ouverture}
-                  <option value={ouverture}>{ouverture}</option>
-                {/each}
-              </select>
-            </div>
-          </div>
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" bind:checked={coupDeCoeurVins}>
+            🍷 Excellente carte des vins
+          </label>
         </div>
-
-        <!-- Bouton effacer en haut pour la visibilité -->
-        <div class="filters-header">
-          <button class="clear-filters" on:click={clearFilters}>
-            🧹 Effacer tous les filtres
-          </button>
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" bind:checked={labelBouchonsLyonnais}>
+            🏆 Label officiel "Les Bouchons Lyonnais"
+            <span class="tooltip-block">
+              ℹ️
+              <span class="tooltip-text">
+                Label créé en 2012 qui vise à sauvegarder et pérenniser la tradition culinaire lyonnaise.
+              </span>
+            </span>
+          </label>
         </div>
-
-        <!-- Critères d'expérience (pliables) -->
-        <div class="filter-category">
-        <button class="category-toggle" on:click={toggleExperienceFilters}>
-          <span>🎭 Critères d'expérience</span>
-          <span class="toggle-icon">{showExperienceFilters ? '▲' : '▼'}</span>
-        </button>
-        {#if showExperienceFilters}
-          <div class="filters-grid">
-            <!-- Quantité -->
-            <div class="filter-group">
-              <label for="quantite">🍽️ Taille des portions</label>
-              <select id="quantite" bind:value={selectedQuantite}>
-                <option value="">Toutes les portions</option>
-                {#each quantiteOptions.slice(1) as quantite}
-                  <option value={quantite}>{quantite}</option>
-                {/each}
-              </select>
-            </div>
-
-            <!-- Type de mangeur -->
-            <div class="filter-group">
-              <label for="typeMangeur">👥 Type de clientèle</label>
-              <select id="typeMangeur" bind:value={selectedTypeMangeur}>
-                <option value="">Toute clientèle</option>
-                {#each typeMangeurOptions.slice(1) as type}
-                  <option value={type}>{type}</option>
-                {/each}
-              </select>
-            </div>
-
-            <!-- Type d'ambiance -->
-            <div class="filter-group">
-              <label for="typeAmbiance">🎭 Ambiance & confort</label>
-              <select id="typeAmbiance" bind:value={selectedTypeAmbiance}>
-                <option value="">Toutes les ambiances</option>
-                {#each typeAmbianceOptions.slice(1) as type}
-                  <option value={type}>{type}</option>
-                {/each}
-              </select>
-            </div>
-
-            <!-- Type de tablée -->
-            <div class="filter-group">
-              <label for="typeTablee">🪑 Configuration des tables</label>
-              <select id="typeTablee" bind:value={selectedTypeTablee}>
-                <option value="">Toutes les configurations</option>
-                {#each typeTableeOptions.slice(1) as type}
-                  <option value={type}>{type}</option>
-                {/each}
-              </select>
-            </div>
-
-            <!-- Type de bouchons -->
-            <div class="filter-group">
-              <label for="typeBouchon">🏪 Style de bouchon</label>
-              <select id="typeBouchon" bind:value={selectedTypeBouchon}>
-                <option value="">Tous les styles</option>
-                {#each typeBouchonOptions.slice(1) as type}
-                  <option value={type}>{type}</option>
-                {/each}
-              </select>
-            </div>
-          </div>
-        {/if}
+        <div class="checkbox-group">
+          <label>
+            <input type="checkbox" bind:checked={selectionAuthentiques}>
+            ⭐ Sélection "Authentiques Bouchons Lyonnais"
+            <span class="tooltip-block">
+              ℹ️
+              <span class="tooltip-text">
+                Définie par “l'Association de Défense des Bouchons lyonnais”, créée en 1992.
+              </span>
+            </span>
+          </label>
+        </div>
       </div>
-
-
-
-      <!-- Distinctions (pliables) -->
-      <div class="filter-category">
-        <button class="category-toggle" on:click={toggleDistinctionsFilters}>
-          <span>🏆 Distinctions</span>
-          <span class="toggle-icon">{showDistinctionsFilters ? '▲' : '▼'}</span>
-        </button>
-        {#if showDistinctionsFilters}
-          <div class="distinctions-grid">
-            <div class="checkbox-group">
-              <label>
-                <input type="checkbox" bind:checked={coupDeCoeurVins}>
-                🍷 Excellente carte des vins
-              </label>
-            </div>
-            <div class="checkbox-group">
-              <label>
-                <input type="checkbox" bind:checked={labelBouchonsLyonnais}>
-                🏆 Label officiel "Les Bouchons Lyonnais"
-                <span class="tooltip-block">
-                  ℹ️
-                  <span class="tooltip-text">
-                    Label créé en 2012 qui vise à sauvegarder et pérenniser la tradition culinaire lyonnaise.
-                  </span>
-                </span>
-              </label>
-            </div>
-            <div class="checkbox-group">
-              <label>
-                <input type="checkbox" bind:checked={selectionAuthentiques}>
-                ⭐ Sélection "Authentiques Bouchons Lyonnais"
-                <span class="tooltip-block">
-                  ℹ️
-                  <span class="tooltip-text">
-                    Définie par “l'Association de Défense des Bouchons lyonnais”, créée en 1992.
-                  </span>
-                </span>
-              </label>
-            </div>
-          </div>
-        {/if}
-      </div>
-
-
     </div>
-  {/if}
+  </div>
 
   <!-- Résultats -->
   <div class="results-header">
@@ -584,6 +532,67 @@ function toggleDistinctionsFilters() {
 </div>
 
 <style>
+
+.floating-btns {
+  position: fixed;
+  right: 2vw;
+  bottom: 2vw;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5vw;
+}
+
+.scroll-top-btn,
+  .clear-filters {
+  width: 55px;
+  height: 55px;
+  background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
+  border: 1px solid #e4b3cc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s,
+    background 0.2s,
+    border-color 0.2s;
+  overflow: hidden;
+}
+
+.arrow-emoji,
+  .broom-emoji {
+  font-size: 1.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  transition: filter 0.2s;
+  padding: 10px;
+}
+
+.scroll-top-btn:hover,
+.clear-filters:hover {
+  background: linear-gradient(135deg, #e4b3cc 60%, #f0c6da 100%);
+  transform: scale(1.12);
+}
+
+@media (max-width: 900px) {
+  .floating-btns {
+    right: 4vw;
+    bottom: 4vw;
+    gap: 0.9vw;
+    flex-direction: column;
+  }
+  .scroll-top-btn,
+  .clear-filters {
+    width: 50px;
+    height: 50px;
+  }
+}
+
 :global(body) {
   background-color: #fff;
   font-family: 'Open Sans', Arial, sans-serif;
@@ -591,13 +600,13 @@ function toggleDistinctionsFilters() {
   font-weight: 400;
 }
 
-
 /* Tooltip pour Authentiques Bouchons Lyonnais */
 .tooltip-block {
   position: relative;
   cursor: help;
   display: inline-block;
 }
+
 .tooltip-block .tooltip-text {
   visibility: hidden;
   width: 320px;
@@ -631,46 +640,8 @@ function toggleDistinctionsFilters() {
   margin: 0 auto;
   width: 100%;
 }
-
-  /* Styles pour les critères de base */
-  .base-filters {
-    margin-bottom: 1.5rem;
-  }
-
-
-
-  /* Options toujours visibles */
-  .options-section {
-    margin-bottom: 1.5rem;
-  }
-
-  /* Bouton pour afficher les filtres avancés */
-  .advanced-filters-toggle {
-    text-align: center;
-    margin: 1.5rem 0;
-  }
-
-  .show-advanced-filters {
-    padding: 8px 16px;
-    background: #f0c6da;
-    color: #221f20;
-    border: none;
-    border-radius: 6px;
-    font-weight: 600;
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    transition: all 0.2s;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .show-advanced-filters:hover {
-    background: #e4b3cc;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(240, 198, 218, 0.3);
-  }.filters-panel {
+  
+.filters-panel {
   background: #ffffff;
   border: 1px solid #f0c6da;
   border-radius: 12px;
@@ -683,9 +654,7 @@ function toggleDistinctionsFilters() {
 .filters-header {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(240, 198, 218, 0.3);
 }
 
 @keyframes slideDown {
@@ -773,45 +742,7 @@ function toggleDistinctionsFilters() {
     box-shadow: 0 2px 6px rgba(240, 198, 218, 0.2);
   }
 
-  /* Styles pour les catégories de filtres */
-  .filter-category {
-    margin: 1.5rem 0;
-  }
-
-
-
-  .category-toggle {
-    width: 100%;
-    background: rgba(240, 198, 218, 0.1);
-    border: 1px solid rgba(240, 198, 218, 0.3);
-    border-radius: 8px;
-    padding: 1rem;
-    cursor: pointer;
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #221f20;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s ease;
-    margin-bottom: 1rem;
-  }
-
-  .category-toggle:hover {
-    background: rgba(240, 198, 218, 0.2);
-    border-color: rgba(240, 198, 218, 0.5);
-  }
-
-  .toggle-icon {
-    font-size: 14px;
-    color: #221f20;
-    font-weight: bold;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-  }
-
-  .options-grid, .distinctions-grid {
+  .options-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1rem;
@@ -856,25 +787,6 @@ function toggleDistinctionsFilters() {
   }
 
 
-  .clear-filters {
-    background: #221f20;
-    color: #ffffff;
-    border: 1px solid #221f20;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: 'Open Sans', Arial, sans-serif;
-    transition: all 0.3s ease;
-    box-shadow: 0 1px 3px rgba(34, 31, 32, 0.2);
-  }
-
-  .clear-filters:hover {
-    background: rgba(34, 31, 32, 0.9);
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(34, 31, 32, 0.3);
-  }
 
   .results-header {
     margin: 2rem 0 1rem 0;
@@ -905,7 +817,6 @@ function toggleDistinctionsFilters() {
     border: 1px solid #f0c6da;
     box-shadow: 0 2px 4px rgba(240, 198, 218, 0.1);
   }
-
   .sort-control label {
     color: #221f20;
     font-weight: 500;
@@ -1024,7 +935,7 @@ function toggleDistinctionsFilters() {
       gap: 2.5rem;
     }
     .filters-grid {
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
     }
 
   }
@@ -1038,7 +949,7 @@ function toggleDistinctionsFilters() {
       grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     }
     .filters-grid {
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
     }
 
   }
@@ -1090,29 +1001,5 @@ function toggleDistinctionsFilters() {
     .sort-control {
       align-self: center;
     }
-
-    /* Masquer les filtres non-essentiels sur mobile */
-    .mobile-hidden {
-      display: none;
-    }
-
-    /* Afficher les filtres mobile-only seulement sur mobile */
-    .mobile-only {
-      display: block;
-    }
-  }
-
-  /* Masquer les filtres mobile-only sur desktop */
-  @media (min-width: 769px) {
-    .mobile-only {
-      display: none;
-    }
-  }
-
-  /* Style pour la section des filtres de base mobile */
-  .mobile-base-filters {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(240, 198, 218, 0.3);
   }
 </style>
