@@ -371,93 +371,160 @@ function clearFilters() {
     <div class="sidebar-filters">
       <!-- Prix du menu de base -->
       <div class="filter-group">
-        <label for="prixMenuBase">💰 Prix du menu de base</label>
-        <select id="prixMenuBase" bind:value={selectedPrixMenuBase}>
-          <option value="">Tous les prix</option>
-          {#each prixMenuBaseOptions.slice(1) as prix}
-            <option value={prix}>{prix}</option>
-          {/each}
-        </select>
+        <div class="emoji-select-row">
+          <span aria-label="Prix du menu de base" title="Prix du menu de base"
+            >💰</span
+          >
+          <select
+            id="prixMenuBase"
+            bind:value={selectedPrixMenuBase}
+            aria-label="Prix du menu de base"
+          >
+            <option value="">Tous les prix</option>
+            {#each prixMenuBaseOptions.slice(1) as prix}
+              <option value={prix}>{prix}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <!-- Arrondissement -->
       <div class="filter-group">
-        <label for="arrondissement">📍 Arrondissement</label>
-        <select id="arrondissement" bind:value={selectedArrondissement}>
-          <option value="">Tous les arrondissements</option>
-          {#each arrondissements.slice(1) as arr}
-            <option value={arr}>{arr} arrondissement</option>
-          {/each}
-        </select>
+        <div class="emoji-select-row">
+          <span aria-label="Arrondissement" title="Arrondissement">📍</span>
+          <select
+            id="arrondissement"
+            bind:value={selectedArrondissement}
+            aria-label="Arrondissement"
+          >
+            <option value="">Tous les arrondissements</option>
+            {#each arrondissements.slice(1) as arr}
+              <option value={arr}>{arr} arrondissement</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <!-- Quartier -->
       <div class="filter-group">
-        <label for="quartier">🏘️ Quartier</label>
-        <select id="quartier" bind:value={selectedQuartier}>
-          <option value="">Tous les quartiers</option>
-          {#each quartiers.slice(1) as quartier}
-            <option value={quartier}>{quartier}</option>
-          {/each}
-        </select>
+        <div class="emoji-select-row">
+          <span aria-label="Quartier" title="Quartier">🏘️</span>
+          <select
+            id="quartier"
+            bind:value={selectedQuartier}
+            aria-label="Quartier"
+          >
+            <option value="">Tous les quartiers</option>
+            {#each quartiers.slice(1) as quartier}
+              <option value={quartier}>{quartier}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <!-- Ouvertures -->
       <div class="filter-group">
-        <label for="ouvertures">🕐 Horaires d'ouverture</label>
-        <select id="ouvertures" bind:value={selectedOuvertures}>
-          <option value="">Tous les créneaux</option>
-          {#each ouverturesOptions.slice(1) as ouverture}
-            <option value={ouverture}>{ouverture}</option>
-          {/each}
-        </select>
+        <div class="emoji-select-row">
+          <span aria-label="Horaires d'ouverture" title="Horaires d'ouverture"
+            >🕐</span
+          >
+          <select
+            id="ouvertures"
+            bind:value={selectedOuvertures}
+            aria-label="Horaires d'ouverture"
+          >
+            <option value="">Tous les créneaux</option>
+            {#each ouverturesOptions.slice(1) as ouverture}
+              <option value={ouverture}>{ouverture}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <!-- Quantité -->
       <div class="filter-group">
-        <label for="quantite">🍽️ Taille des portions</label>
-        <select id="quantite" bind:value={selectedQuantite}>
-          <option value="">Toutes les portions</option>
-          {#each quantiteOptions.slice(1) as quantite}
-            <option value={quantite}>{quantite}</option>
-          {/each}
-        </select>
+        <div class="emoji-select-row">
+          <span aria-label="Taille des portions" title="Taille des portions"
+            >🍽️</span
+          >
+          <select
+            id="quantite"
+            bind:value={selectedQuantite}
+            aria-label="Taille des portions"
+          >
+            <option value="">Toutes les portions</option>
+            {#each quantiteOptions.slice(1) as quantite}
+              <option value={quantite}>{quantite}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <!-- Type de mangeur -->
       <div class="filter-group">
-        <label for="typeMangeur">👥 Type de clientèle</label>
-        <select id="typeMangeur" bind:value={selectedTypeMangeur}>
-          <option value="">Toute clientèle</option>
-          {#each typeMangeurOptions.slice(1) as type}
-            <option value={type}>{type}</option>
-          {/each}
-        </select>
+        <div class="emoji-select-row">
+          <span aria-label="Type de clientèle" title="Type de clientèle"
+            >👥</span
+          >
+          <select
+            id="typeMangeur"
+            bind:value={selectedTypeMangeur}
+            aria-label="Type de clientèle"
+          >
+            <option value="">Toute clientèle</option>
+            {#each typeMangeurOptions.slice(1) as type}
+              <option value={type}>{type}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <!-- Type d'ambiance -->
       <div class="filter-group">
-        <label for="typeAmbiance">🎭 Ambiance & confort</label>
-        <select id="typeAmbiance" bind:value={selectedTypeAmbiance}>
-          <option value="">Toutes les ambiances</option>
-          {#each typeAmbianceOptions.slice(1) as type}
-            <option value={type}>{type}</option>
-          {/each}
-        </select>
+        <div class="emoji-select-row">
+          <span aria-label="Ambiance & confort" title="Ambiance & confort"
+            >🎭</span
+          >
+          <select
+            id="typeAmbiance"
+            bind:value={selectedTypeAmbiance}
+            aria-label="Ambiance & confort"
+          >
+            <option value="">Toutes les ambiances</option>
+            {#each typeAmbianceOptions.slice(1) as type}
+              <option value={type}>{type}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <!-- Type de tablée -->
       <div class="filter-group">
-        <label for="typeTablee">🪑 Configuration des tables</label>
-        <select id="typeTablee" bind:value={selectedTypeTablee}>
-          <option value="">Toutes les configurations</option>
-          {#each typeTableeOptions.slice(1) as type}
-            <option value={type}>{type}</option>
-          {/each}
-        </select>
+        <div class="emoji-select-row">
+          <span
+            aria-label="Configuration des tables"
+            title="Configuration des tables">🪑</span
+          >
+          <select
+            id="typeTablee"
+            bind:value={selectedTypeTablee}
+            aria-label="Configuration des tables"
+          >
+            <option value="">Toutes les configurations</option>
+            {#each typeTableeOptions.slice(1) as type}
+              <option value={type}>{type}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <!-- Type de bouchons -->
       <div class="filter-group">
-        <label for="typeBouchon">🏪 Style de bouchon</label>
-        <select id="typeBouchon" bind:value={selectedTypeBouchon}>
-          <option value="">Tous les styles</option>
-          {#each typeBouchonOptions.slice(1) as type}
-            <option value={type}>{type}</option>
-          {/each}
-        </select>
+        <div class="emoji-select-row">
+          <span aria-label="Style de bouchon" title="Style de bouchon">🏪</span>
+          <select
+            id="typeBouchon"
+            bind:value={selectedTypeBouchon}
+            aria-label="Style de bouchon"
+          >
+            <option value="">Tous les styles</option>
+            {#each typeBouchonOptions.slice(1) as type}
+              <option value={type}>{type}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <!-- Options -->
       <div class="options-section">
@@ -871,22 +938,6 @@ function clearFilters() {
     pointer-events: auto;
   }
 
-  .filters-panel {
-    background: #ffffff;
-    border: 1px solid #f0c6da;
-    border-radius: 12px;
-    padding: 2rem;
-    margin: 1rem 0;
-    box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
-    animation: slideDown 0.3s ease-out;
-  }
-
-  .filters-header {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 1rem;
-  }
-
   @keyframes slideDown {
     from {
       opacity: 0;
@@ -914,9 +965,6 @@ function clearFilters() {
       padding: 0.7rem;
       font-size: 15px;
     }
-    .filter-group label {
-      font-size: 15px;
-    }
     .filter-group select {
       font-size: 15px;
       padding: 0.6rem 0.8rem;
@@ -927,29 +975,31 @@ function clearFilters() {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    background: #ffffff;
-    padding: 1.25rem;
-    border-radius: 10px;
-    border: 2px solid #f0c6da;
-    box-shadow: 0 4px 12px rgba(240, 198, 218, 0.2);
-    transition: all 0.3s ease;
+    background: none;
+    padding-left: 0.75rem;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    transition: none;
+  }
+  .emoji-select-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.7rem;
+    width: 100%;
+  }
+  .emoji-select-row select {
+    flex: 1 1 0;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
   }
 
   .filter-group:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(240, 198, 218, 0.3);
     border-color: #e8b5d1;
-  }
-
-  .filter-group label {
-    font-family: "Open Sans", Arial, sans-serif;
-    font-weight: 600;
-    color: #221f20;
-    font-size: 14px;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
   }
 
   .filter-group select {
