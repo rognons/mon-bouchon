@@ -1,5 +1,54 @@
 <script lang="ts">
 import { onMount } from 'svelte';
+let isMobile = false;
+
+onMount(() => {
+  isMobile = window.innerWidth <= 768;
+  window.addEventListener('resize', () => {
+    isMobile = window.innerWidth <= 768;
+  });
+});
+
+let sidebarOpen = false;
+
+let sidebarFull = false;
+let sidebarTop = 0;
+let maxHeight = 0;
+
+onMount(() => {
+  const header = document.querySelector('.hero-header');
+  const footer = document.querySelector('.main-footer');
+  if (!header || !footer) return;
+
+  function updateSidebarPosition() {
+    // @ts-ignore
+    const headerRect = header.getBoundingClientRect();
+    sidebarTop = headerRect.bottom > 0 ? headerRect.bottom : 0;
+    sidebarFull = headerRect.bottom <= 0;
+
+    // @ts-ignore
+    const footerRect = footer.getBoundingClientRect();
+    const margin = 60;
+    let available: number;
+    // Si le footer est visible dans le viewport
+    if (footerRect.top < window.innerHeight) {
+      available = footerRect.top - sidebarTop - margin;
+    } else {
+      available = window.innerHeight - sidebarTop - margin;
+    }
+    // Appliquer strictement la hauteur max calculée
+    maxHeight = Math.max(available, 0);
+  }
+
+  window.addEventListener('scroll', updateSidebarPosition);
+  window.addEventListener('resize', updateSidebarPosition);
+  updateSidebarPosition();
+
+  return () => {
+    window.removeEventListener('scroll', updateSidebarPosition);
+    window.removeEventListener('resize', updateSidebarPosition);
+  };
+});
 import {
   getAllBouchons,
   searchBouchons as apiBouchonSearch,
@@ -290,68 +339,34 @@ function clearFilters() {
 }
 </script>
 
-<div class="search-container">
-  <!-- Tous les filtres affichés en permanence, même ordre desktop/mobile -->
-  <div class="filters-panel" id="filters-panel">
-    <div class="filters-header">
-      <div class="floating-btns">
-        {#if hasActiveFilters}
-          <button class="clear-filters" on:click={clearFilters} title="Effacer tous les filtres">
-            <span class="broom-emoji" aria-label="Effacer les filtres" title="Effacer tous les filtres">🧹</span>
-          </button>
-        {/if}
-        {#if showScrollTop}
-          <button class="scroll-top-btn" on:click={scrollToTop} title="Remonter en haut">
-            <span class="arrow-emoji" aria-label="Remonter en haut" title="Remonter en haut">⬆️</span>
-          </button>
-        {/if}
-      </div>
+
+<div class="search-layout">
+  {#if sidebarOpen}
+    <div class="sidebar-overlay" on:click={() => (sidebarOpen = false)}></div>
+  {/if}
+  <!-- ...existing code... -->
+  <!-- Sidebar à gauche -->
+  <!-- Removed isolated script for isMobile -->
+  <aside
+    id="sidebar-debug"
+    class="sidebar {sidebarFull ? 'sidebar-full' : ''}"
+    style="position: fixed; top: {sidebarTop}px; max-height: {maxHeight}px !important; overflow-y: auto !important; left: 0; z-index: 100;"
+    class:sidebar-mobile-open={sidebarOpen}
+    inert={!sidebarOpen && isMobile}
+  >
+    {#if isMobile}
+      <button
+        class="sidebar-close-btn"
+        on:click={() => (sidebarOpen = false)}
+        aria-label="Fermer les filtres"
+        style="position: absolute; top: 16px; right: 16px; z-index: 202; background: #f0c6da; color: #221f20; border: none; border-radius: 8px; padding: 10px 18px; font-size: 1.1rem; box-shadow: 0 2px 8px rgba(240,198,218,0.15);"
+      >✖️</button>
+    {/if}
+  <!-- ...existing code... -->
+    <div class="sidebar-header">
+      <h3>Filtres avancés</h3>
     </div>
-    <div class="filters-grid">
-      <!-- Prix du menu de base -->
-      <div class="filter-group">
-        <label for="prixMenuBase">💰 Prix du menu de base</label>
-        <select id="prixMenuBase" bind:value={selectedPrixMenuBase}>
-          <option value="">Tous les prix</option>
-          {#each prixMenuBaseOptions.slice(1) as prix}
-            <option value={prix}>{prix}</option>
-          {/each}
-        </select>
-      </div>
-
-      <!-- Arrondissement -->
-      <div class="filter-group">
-        <label for="arrondissement">📍 Arrondissement</label>
-        <select id="arrondissement" bind:value={selectedArrondissement}>
-          <option value="">Tous les arrondissements</option>
-          {#each arrondissements.slice(1) as arr}
-            <option value={arr}>{arr} arrondissement</option>
-          {/each}
-        </select>
-      </div>
-
-      <!-- Quartier -->
-      <div class="filter-group">
-        <label for="quartier">🏘️ Quartier</label>
-        <select id="quartier" bind:value={selectedQuartier}>
-          <option value="">Tous les quartiers</option>
-          {#each quartiers.slice(1) as quartier}
-            <option value={quartier}>{quartier}</option>
-          {/each}
-        </select>
-      </div>
-
-      <!-- Ouvertures -->
-      <div class="filter-group">
-        <label for="ouvertures">🕐 Horaires d'ouverture</label>
-        <select id="ouvertures" bind:value={selectedOuvertures}>
-          <option value="">Tous les créneaux</option>
-          {#each ouverturesOptions.slice(1) as ouverture}
-            <option value={ouverture}>{ouverture}</option>
-          {/each}
-        </select>
-      </div>
-
+    <div class="sidebar-filters">
       <!-- Quantité -->
       <div class="filter-group">
         <label for="quantite">🍽️ Taille des portions</label>
@@ -362,10 +377,9 @@ function clearFilters() {
           {/each}
         </select>
       </div>
-
       <!-- Type de mangeur -->
       <div class="filter-group">
-        <label for="typeMangeur">� Type de clientèle</label>
+        <label for="typeMangeur">👥 Type de clientèle</label>
         <select id="typeMangeur" bind:value={selectedTypeMangeur}>
           <option value="">Toute clientèle</option>
           {#each typeMangeurOptions.slice(1) as type}
@@ -373,7 +387,6 @@ function clearFilters() {
           {/each}
         </select>
       </div>
-
       <!-- Type d'ambiance -->
       <div class="filter-group">
         <label for="typeAmbiance">🎭 Ambiance & confort</label>
@@ -384,7 +397,6 @@ function clearFilters() {
           {/each}
         </select>
       </div>
-
       <!-- Type de tablée -->
       <div class="filter-group">
         <label for="typeTablee">🪑 Configuration des tables</label>
@@ -395,7 +407,6 @@ function clearFilters() {
           {/each}
         </select>
       </div>
-
       <!-- Type de bouchons -->
       <div class="filter-group">
         <label for="typeBouchon">🏪 Style de bouchon</label>
@@ -406,132 +417,298 @@ function clearFilters() {
           {/each}
         </select>
       </div>
-    </div>
-
-    <!-- Options toujours visibles -->
-    <div class="options-section">
-      <div class="options-grid">
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" bind:checked={coupDeCoeurCompagnie}>
-            ❤️ Coup de cœur Rognons
-          </label>
-        </div>
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" bind:checked={optionVegetariens}>
-              🥬 Option végétarienne
+      <!-- Options -->
+      <div class="options-section">
+        <div class="options-grid">
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={coupDeCoeurCompagnie}>
+              ❤️ Coup de cœur Rognons
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={optionVegetariens}>
+                🥬 Option végétarienne
+                <span class="tooltip-block">
+                  ℹ️
+                  <span class="tooltip-text">
+                    Au moins 1 entrée et 1 plat végétariens présents à la carte.
+                  </span>
+                </span>
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={optionMachon}>
+                🍳 Mâchon
+                <span class="tooltip-block">
+                  ℹ️
+                  <span class="tooltip-text">
+                    Repas lyonnais matinal et copieux.
+                  </span>
+                </span>
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={decorationRemarquable}>
+              🎨 Décoration authentique remarquable
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={coupDeCoeurVins}>
+              🍷 Excellente carte des vins
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={labelBouchonsLyonnais}>
+              🏆 Label officiel "Les Bouchons Lyonnais"
               <span class="tooltip-block">
                 ℹ️
                 <span class="tooltip-text">
-                  Au moins 1 entrée et 1 plat végétariens présents à la carte.
+                  Label créé en 2012 qui vise à sauvegarder et pérenniser la tradition culinaire lyonnaise.
                 </span>
               </span>
-          </label>
-        </div>
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" bind:checked={optionMachon}>
-              🍳 Mâchon
+            </label>
+          </div>
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" bind:checked={selectionAuthentiques}>
+              ⭐ Sélection "Authentiques Bouchons Lyonnais"
               <span class="tooltip-block">
                 ℹ️
                 <span class="tooltip-text">
-                  Repas lyonnais matinal et copieux.
+                  Définie par “l'Association de Défense des Bouchons lyonnais”, créée en 1992.
                 </span>
               </span>
-          </label>
-        </div>
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" bind:checked={decorationRemarquable}>
-            🎨 Décoration authentique remarquable
-          </label>
-        </div>
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" bind:checked={coupDeCoeurVins}>
-            🍷 Excellente carte des vins
-          </label>
-        </div>
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" bind:checked={labelBouchonsLyonnais}>
-            🏆 Label officiel "Les Bouchons Lyonnais"
-            <span class="tooltip-block">
-              ℹ️
-              <span class="tooltip-text">
-                Label créé en 2012 qui vise à sauvegarder et pérenniser la tradition culinaire lyonnaise.
-              </span>
-            </span>
-          </label>
-        </div>
-        <div class="checkbox-group">
-          <label>
-            <input type="checkbox" bind:checked={selectionAuthentiques}>
-            ⭐ Sélection "Authentiques Bouchons Lyonnais"
-            <span class="tooltip-block">
-              ℹ️
-              <span class="tooltip-text">
-                Définie par “l'Association de Défense des Bouchons lyonnais”, créée en 1992.
-              </span>
-            </span>
-          </label>
+            </label>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+  </aside>
 
-  <!-- Résultats -->
-  <div class="results-header">
-    <h2>🍽️ {bouchons.length} bouchon{bouchons.length > 1 ? 's' : ''} trouvé{bouchons.length > 1 ? 's' : ''}</h2>
-    <div class="sort-control">
-      <label for="sortBy">🎯 Trier par:</label>
-      <select id="sortBy" bind:value={sortBy} on:change={() => { sortOrder = getDefaultSortOrder(sortBy); applyFilters(); }}>
-        <option value="rating">⭐ Note (Google)</option>
-        <option value="prix">💰 Prix</option>
-      </select>
-      <button 
-        class="sort-order-btn" 
-        on:click={() => { sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'; applyFilters(); }}
-        title={sortOrder === 'desc' ? 'Décroissant (clic pour croissant)' : 'Croissant (clic pour décroissant)'}
-      >
-        {sortOrder === 'desc' ? '⬇️' : '⬆️'}
-      </button>
-    </div>
-  </div>
-
-  <!-- Loading state -->
-  {#if isLoading}
-    <div class="loading-state">
-      <div class="loading-cochon">
-        <img src="/favicon.ico" alt="Chargement..." class="spinning-cochon">
+  <!-- Contenu principal à droite -->
+  <main class="main-content">
+    <div class="filters-panel" id="filters-panel">
+      <div class="filters-header">
+        <div class="floating-btns">
+          {#if hasActiveFilters}
+            <button class="clear-filters" on:click={clearFilters} title="Effacer tous les filtres">
+              <span class="broom-emoji" aria-label="Effacer les filtres" title="Effacer tous les filtres">🧹</span>
+            </button>
+          {/if}
+          {#if showScrollTop}
+            <button class="scroll-top-btn" on:click={scrollToTop} title="Remonter en haut">
+              <span class="arrow-emoji" aria-label="Remonter en haut" title="Remonter en haut">⬆️</span>
+            </button>
+          {/if}
+        </div>
       </div>
-      <h3>On finit notre communard et on est avec vous...</h3>
-    </div>
-  <!-- Error state -->
-  {:else if apiError}
-    <div class="error-state">
-      <h3>😔 Nous sommes en train de tester un nouveau bouchon, patience ! 🍽️</h3>
-      <p>Rafraîchissez la page si l'erreur persiste.</p>
-    </div>
-  <!-- Results -->
-  {:else}
-    <div class="results-grid">
-      {#each bouchons as bouchon (bouchon.id)}
-        <BouchonCard {bouchon} />
-      {/each}
+      <div class="filters-grid">
+        <!-- Prix du menu de base -->
+        <div class="filter-group">
+          <label for="prixMenuBase">💰 Prix du menu de base</label>
+          <select id="prixMenuBase" bind:value={selectedPrixMenuBase}>
+            <option value="">Tous les prix</option>
+            {#each prixMenuBaseOptions.slice(1) as prix}
+              <option value={prix}>{prix}</option>
+            {/each}
+          </select>
+        </div>
+        <!-- Arrondissement -->
+        <div class="filter-group">
+          <label for="arrondissement">📍 Arrondissement</label>
+          <select id="arrondissement" bind:value={selectedArrondissement}>
+            <option value="">Tous les arrondissements</option>
+            {#each arrondissements.slice(1) as arr}
+              <option value={arr}>{arr} arrondissement</option>
+            {/each}
+          </select>
+        </div>
+        <!-- Quartier -->
+        <div class="filter-group">
+          <label for="quartier">🏘️ Quartier</label>
+          <select id="quartier" bind:value={selectedQuartier}>
+            <option value="">Tous les quartiers</option>
+            {#each quartiers.slice(1) as quartier}
+              <option value={quartier}>{quartier}</option>
+            {/each}
+          </select>
+        </div>
+
+        <!-- Ouvertures -->
+        <div class="filter-group">
+          <label for="ouvertures">🕐 Horaires d'ouverture</label>
+          <select id="ouvertures" bind:value={selectedOuvertures}>
+            <option value="">Tous les créneaux</option>
+            {#each ouverturesOptions.slice(1) as ouverture}
+              <option value={ouverture}>{ouverture}</option>
+            {/each}
+          </select>
+        </div>
+
+        <!-- Bouton pour afficher les filtres avancés -->
+        {#if isMobile}
+        <div style="text-align:center; margin-top:1rem;">
+          <button
+            class="show-advanced-filters-btn"
+            on:click={() => (sidebarOpen = true)}
+            aria-label="Afficher les filtres avancés"
+          >🔍 Filtres avancés</button>
+        </div>
+        {/if}
+      </div>
     </div>
 
-    {#if bouchons.length === 0 && !isLoading && !apiError}
-      <div class="no-results">
-        <h3>😞 Aïe, on n'a pas encore trouvé de bouchon comme celui-ci</h3>
-        <p>Mais dites-nous et on le teste !</p>
+    <!-- Résultats -->
+    <div class="results-header">
+      <h2>🍽️ {bouchons.length} bouchon{bouchons.length > 1 ? 's' : ''} trouvé{bouchons.length > 1 ? 's' : ''}</h2>
+      <div class="sort-control">
+        <label for="sortBy">🎯 Trier par:</label>
+        <select id="sortBy" bind:value={sortBy} on:change={() => { sortOrder = getDefaultSortOrder(sortBy); applyFilters(); }}>
+          <option value="rating">⭐ Note (Google)</option>
+          <option value="prix">💰 Prix</option>
+        </select>
+        <button 
+          class="sort-order-btn" 
+          on:click={() => { sortOrder = sortOrder === 'desc' ? 'asc' : 'desc'; applyFilters(); }}
+          title={sortOrder === 'desc' ? 'Décroissant (clic pour croissant)' : 'Croissant (clic pour décroissant)'}
+        >
+          {sortOrder === 'desc' ? '⬇️' : '⬆️'}
+        </button>
       </div>
+    </div>
+
+    <!-- Loading state -->
+    {#if isLoading}
+      <div class="loading-state">
+        <div class="loading-cochon">
+          <img src="/favicon.ico" alt="Chargement..." class="spinning-cochon">
+        </div>
+        <h3>On finit notre communard et on est avec vous...</h3>
+      </div>
+    <!-- Error state -->
+    {:else if apiError}
+      <div class="error-state">
+        <h3>😔 Nous sommes en train de tester un nouveau bouchon, patience ! 🍽️</h3>
+        <p>Rafraîchissez la page si l'erreur persiste.</p>
+      </div>
+    <!-- Results -->
+    {:else}
+      <div class="results-grid">
+        {#each bouchons as bouchon (bouchon.id)}
+          <BouchonCard {bouchon} />
+        {/each}
+      </div>
+
+      {#if bouchons.length === 0 && !isLoading && !apiError}
+        <div class="no-results">
+          <h3>😞 Aïe, on n'a pas encore trouvé de bouchon comme celui-ci</h3>
+          <p>Mais dites-nous et on le teste !</p>
+        </div>
+      {/if}
     {/if}
-  {/if}
+  </main>
 </div>
 
 <style>
+
+@media (max-width: 768px) {
+  .sidebar-header {
+    margin-bottom: 0.7rem;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .sidebar-filters {
+    gap: 0.5rem;
+  }
+  .filter-group {
+    gap: 0.25rem;
+    padding: 0.6rem;
+    border-radius: 8px;
+    border: 1px solid #f0c6da;
+    box-shadow: 0 2px 8px rgba(240, 198, 218, 0.12);
+  }
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+  }
+  .sidebar-close-btn {
+    top: 10px;
+    right: 10px;
+    padding: 7px 12px;
+    font-size: 1.2rem;
+  }
+}
+
+.sidebar-overlay {
+  display: none;
+}
+@media (max-width: 768px) {
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(34,31,32,0.35);
+    z-index: 200;
+    transition: opacity 0.2s;
+  }
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    z-index: 201 !important;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+    box-shadow: 8px 0 32px rgba(240,198,218,0.18);
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 0.7rem 0.2rem 0.7rem 0.2rem !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+  .sidebar.sidebar-mobile-open {
+    transform: translateX(0);
+  }
+  .sidebar-close-btn {
+    display: block;
+  }
+}
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    z-index: 201 !important;
+  transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+    box-shadow: 0 8px 32px rgba(240,198,218,0.18);
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 2rem 1rem !important;
+    overflow-y: auto !important;
+  }
+  .sidebar.sidebar-mobile-open {
+    transform: translateX(0);
+  }
+}
 
 .floating-btns {
   position: fixed;
@@ -631,13 +808,6 @@ function clearFilters() {
   visibility: visible;
   opacity: 1;
   pointer-events: auto;
-}
-
-.search-container {
-  background-color: #fff;
-  max-width: 1080px;
-  margin: 0 auto;
-  width: 100%;
 }
   
 .filters-panel {
@@ -925,9 +1095,6 @@ function clearFilters() {
 
   /* Desktop large screens */
   @media (min-width: 1600px) {
-    .search-container {
-      max-width: 1600px;
-    }
     .results-grid {
       grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
       gap: 2.5rem;
@@ -940,9 +1107,6 @@ function clearFilters() {
 
   /* Desktop standard screens */
   @media (min-width: 1200px) and (max-width: 1599px) {
-    .search-container {
-      max-width: 1400px;
-    }
     .results-grid {
       grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     }
@@ -954,9 +1118,6 @@ function clearFilters() {
 
   /* Tablets and medium screens */
   @media (max-width: 1199px) and (min-width: 981px) {
-    .search-container {
-      max-width: 900px;
-    }
     .results-grid {
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
@@ -965,9 +1126,6 @@ function clearFilters() {
 
   /* Medium screens */
   @media (max-width: 980px) and (min-width: 769px) {
-    .search-container {
-      max-width: 900px;
-    }
     .results-grid {
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     }
@@ -975,11 +1133,6 @@ function clearFilters() {
 
   /* Mobile */
   @media (max-width: 768px) {
-    .search-container {
-      max-width: 100%;
-      margin: 0;
-    }
-
     .filters-grid {
       grid-template-columns: 1fr;
     }
@@ -997,4 +1150,77 @@ function clearFilters() {
       align-self: center;
     }
   }
+
+.search-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+
+.show-advanced-filters-btn {
+    background:#f0c6da;color:#221f20;border:none;border-radius:8px;padding:0.7em 1.3em;font-size:1.1rem;box-shadow:0 2px 8px rgba(240,198,218,0.15);cursor:pointer;
+    font-family: 'GiltonRegular', serif;
+}
+
+.sidebar {
+  min-width: 320px;
+  max-width: 360px;
+  background: #fff;
+  border: 1px solid #f0c6da;
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
+  left: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar.sidebar-full {
+  top: 0 !important;
+  max-height: 100vh !important;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  padding-left: 360px;
+}
+
+@media (max-width: 980px) {
+  .main-content {
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 980px) {
+  .search-layout {
+    flex-direction: column;
+    gap: 0;
+  }
+  .sidebar {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 2rem;
+  }
+}
 </style>
