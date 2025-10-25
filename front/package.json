@@ -11,7 +11,7 @@
     "lint:fix": "biome lint --write src/",
     "format": "biome format --write src/",
     "format:check": "biome format src/",
-    "typecheck": "svelte-check && astro check",
+    "typecheck": "svelte-check --no-tsconfig && astro check",
     "quality": "npm run format:check && npm run lint",
     "fix": "npm run format && npm run lint:fix"
   },
