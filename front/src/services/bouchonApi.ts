@@ -1,5 +1,5 @@
 // API service for fetching bouchons data
-const API_BASE_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env?.PUBLIC_API_URL || 'http://localhost:8000';
 
 export interface BouchonData {
   id: number;
