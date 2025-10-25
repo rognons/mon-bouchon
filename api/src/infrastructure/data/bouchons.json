@@ -18,7 +18,63 @@
     "atmosphereType": "Conviviale et familiale",
     "tableType": "Petites tables intimes",
     "description": "Authentique bouchon lyonnais dans le Vieux Lyon, ambiance conviviale et cuisine traditionnelle.",
-    "openingHours": "Lun-Sam midi et soir",
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2130"
+      }
+    ],
     "portionSize": "Portions généreuses",
     "vegetarianOption": false,
     "machonOption": true,
@@ -35,7 +91,11 @@
     ],
     "capacity": 40,
     "terrace": false,
-    "reservation": true
+    "reservation": true,
+    "exceptionalOpeningHours": null,
+    "priceLevel": 2,
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=3142483984209240723"
   },
   {
     "id": 2,
@@ -45,7 +105,7 @@
     "neighborhood": "Vieux Lyon",
     "phone": "04 78 30 40 44",
     "baseMenuPrice": "35€",
-    "rating": 4.7,
+    "rating": 4.6,
     "specialties": [
       "Coq au vin",
       "Andouillette",
@@ -56,7 +116,43 @@
     "atmosphereType": "Raffinée et moderne",
     "tableType": "Tables spacieuses",
     "description": "Bouchon tenu par des femmes, cuisine raffinée dans le respect de la tradition lyonnaise.",
-    "openingHours": "Mar-Sam midi et soir",
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 0,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
     "portionSize": "Portions équilibrées",
     "vegetarianOption": true,
     "machonOption": false,
@@ -73,7 +169,11 @@
     ],
     "capacity": 30,
     "terrace": true,
-    "reservation": true
+    "reservation": true,
+    "exceptionalOpeningHours": null,
+    "priceLevel": 2,
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=14019120405395751031"
   },
   {
     "id": 3,
@@ -83,7 +183,7 @@
     "neighborhood": "Bellecour",
     "phone": "04 78 37 46 18",
     "baseMenuPrice": "22€",
-    "rating": 4.3,
+    "rating": 4.5,
     "specialties": [
       "Pot-au-feu",
       "Boudin noir",
@@ -94,7 +194,68 @@
     "atmosphereType": "Rustique et authentique",
     "tableType": "Bar et comptoir",
     "description": "Plus ancien bouchon de Lyon (1928), décor authentique et cuisine familiale.",
-    "openingHours": "Toute la journée",
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1430"
+      },
+      {
+        "day": 0,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2230"
+      }
+    ],
     "portionSize": "Portions copieuses",
     "vegetarianOption": false,
     "machonOption": true,
@@ -111,7 +272,11 @@
     ],
     "capacity": 50,
     "terrace": false,
-    "reservation": false
+    "reservation": false,
+    "exceptionalOpeningHours": null,
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=2003137518403648091"
   },
   {
     "id": 4,
@@ -121,7 +286,7 @@
     "neighborhood": "Presqu'île",
     "phone": "04 78 37 65 60",
     "baseMenuPrice": "38€",
-    "rating": 4.6,
+    "rating": 4.5,
     "specialties": [
       "Rosette de Lyon",
       "Poularde demi-deuil",
@@ -132,7 +297,48 @@
     "atmosphereType": "Raffinée et moderne",
     "tableType": "Tables spacieuses",
     "description": "Bouchon élégant proposant une cuisine lyonnaise revisitée avec des produits d'exception.",
-    "openingHours": "Mar-Sam midi et soir",
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2200"
+      }
+    ],
     "portionSize": "Portions équilibrées",
     "vegetarianOption": true,
     "machonOption": false,
@@ -149,7 +355,11 @@
     ],
     "capacity": 35,
     "terrace": true,
-    "reservation": true
+    "reservation": true,
+    "exceptionalOpeningHours": null,
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=1291154870447033542"
   },
   {
     "id": 5,
@@ -157,9 +367,9 @@
     "address": "8 Rue Palais Grillet, 69002 Lyon",
     "district": "2ème",
     "neighborhood": "Presqu'île",
-    "phone": "04 78 37 79 00",
+    "phone": "04 72 04 04 00",
     "baseMenuPrice": "18€",
-    "rating": 4.1,
+    "rating": 4.5,
     "specialties": [
       "Grattons",
       "Saucisson pistaché",
@@ -170,7 +380,63 @@
     "atmosphereType": "Conviviale et familiale",
     "tableType": "Bar et comptoir",
     "description": "Petit bouchon authentique, parfait pour le machon matinal ou l'apéro entre amis.",
-    "openingHours": "Toute la journée",
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1800",
+        "close": "2130"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1800",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1800",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1800",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1800",
+        "close": "2130"
+      }
+    ],
     "portionSize": "Portions généreuses",
     "vegetarianOption": false,
     "machonOption": true,
@@ -187,7 +453,11 @@
     ],
     "capacity": 25,
     "terrace": false,
-    "reservation": false
+    "reservation": false,
+    "exceptionalOpeningHours": null,
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=9207028094963914103"
   },
   {
     "id": 6,
@@ -197,7 +467,7 @@
     "neighborhood": "Vieux Lyon",
     "phone": "04 78 42 24 62",
     "baseMenuPrice": "28€",
-    "rating": 4.4,
+    "rating": 4.3,
     "specialties": [
       "Gras double",
       "Rognons de veau",
@@ -208,7 +478,48 @@
     "atmosphereType": "Conviviale et familiale",
     "tableType": "Petites tables intimes",
     "description": "Bouchon familial dans le Vieux Lyon, cuisine généreuse et ambiance chaleureuse.",
-    "openingHours": "Jeu-Lun midi et soir",
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
     "portionSize": "Portions généreuses",
     "vegetarianOption": false,
     "machonOption": false,
@@ -225,6 +536,10 @@
     ],
     "capacity": 45,
     "terrace": true,
-    "reservation": true
+    "reservation": true,
+    "exceptionalOpeningHours": null,
+    "priceLevel": 2,
+    "postalCode": "69005",
+    "mapsUrl": "https://maps.google.com/?cid=7241440676186644405"
   }
 ]

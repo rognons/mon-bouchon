@@ -54,12 +54,12 @@ app.use(router.allowedMethods());
 
 // Start server
 const port = 8000;
+
 console.log(
-  "🚀 API Mon Bouchon (Architecture Hexagonale) démarrée sur http://localhost:" +
-    port,
+  `🚀 Mon Bouchon API started at http://localhost:${port}`,
 );
-console.log("📍 Route disponible:");
-console.log("   GET /bouchons - Tous les bouchons avec filtres optionnels");
-console.log("   GET /health - Statut de l'API");
+console.log("📍 Available routes:");
+console.log("   GET /bouchons - All bouchons with optional filters");
+console.log("   GET /health - API status");
 
 await app.listen({ port });

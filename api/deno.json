@@ -11,7 +11,8 @@
     "fmt:check": "deno fmt --check",
     "check": "deno check src/**/*.ts main.ts",
     "quality": "deno task lint && deno task fmt:check",
-    "fix": "deno task fmt && deno task lint"
+    "fix": "deno task fmt && deno task lint",
+    "update-bouchons-google": "deno run --allow-net --allow-read --allow-write --allow-env src/scripts/update_bouchons_google.ts"
   },
   "imports": {
     "@oak/oak": "jsr:@oak/oak@^17.1.0",
