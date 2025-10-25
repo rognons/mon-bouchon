@@ -6,11 +6,11 @@
     "dev": "deno run --allow-net --allow-read --watch-hmr main.ts",
     "start": "deno run --allow-net --allow-read main.ts",
     "test": "deno test --allow-net --allow-read",
-    "lint": "deno lint",
+    "lint": "deno lint && deno task check",
     "fmt": "deno fmt",
     "fmt:check": "deno fmt --check",
     "check": "deno check src/**/*.ts main.ts",
-    "quality": "deno task lint && deno task fmt:check && deno task check",
+    "quality": "deno task lint && deno task fmt:check",
     "fix": "deno task fmt && deno task lint"
   },
   "imports": {

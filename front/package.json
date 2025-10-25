@@ -7,14 +7,12 @@
     "build": "astro build",
     "preview": "astro preview --host 0.0.0.0",
     "astro": "astro",
-    "lint": "biome lint src/",
+    "lint": "biome lint src/ && npm run typecheck",
     "lint:fix": "biome lint --write src/",
     "format": "biome format --write src/",
     "format:check": "biome format src/",
-    "check": "biome check src/",
-    "check:fix": "biome check --write src/",
-    "typecheck": "astro check",
-    "quality": "npm run format:check && npm run lint && npm run typecheck",
+    "typecheck": "svelte-check && astro check",
+    "quality": "npm run format:check && npm run lint",
     "fix": "npm run format && npm run lint:fix"
   },
   "dependencies": {
@@ -27,6 +25,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.6",
+    "svelte-check": "^4.3.3",
     "typescript": "^5.9.3"
   }
 }
