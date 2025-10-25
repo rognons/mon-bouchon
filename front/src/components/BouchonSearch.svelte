@@ -475,4 +475,59 @@ function clearFilters() {
     transition: opacity 0.2s;
     cursor: pointer;
   }
+
+  .arrow-emoji,
+  .broom-emoji {
+    font-size: 1.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: filter 0.2s;
+    padding: 10px;
+  }
+
+
+  .floating-btns {
+    position: fixed;
+    right: 2vw;
+    bottom: 2vw;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vw;
+  }
+
+  .scroll-top-btn,
+  .clear-filters {
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
+    border: 1px solid #e4b3cc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition:
+      box-shadow 0.2s,
+      transform 0.2s,
+      background 0.2s,
+      border-color 0.2s;
+    overflow: hidden;
+  }
+
+  @media (max-width: 900px) {
+    .floating-btns {
+      right: 4vw;
+      bottom: 4vw;
+      gap: 0.9vw;
+      flex-direction: column;
+    }
+    .scroll-top-btn,
+    .clear-filters {
+      width: 50px;
+      height: 50px;
+    }
+  }
 </style>

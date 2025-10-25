@@ -201,6 +201,7 @@ const dispatch = createEventDispatcher();
         top: 3px;
         right: 6px;
         padding: 3px 6px;
+        display: block;
     }
     @media (max-width: 980px) {
         .sidebar {
@@ -237,9 +238,6 @@ const dispatch = createEventDispatcher();
         }
         .sidebar.sidebar-mobile-open {
             transform: translateX(0);
-        }
-        .sidebar-close-btn {
-            display: block;
         }
     }
 </style>
