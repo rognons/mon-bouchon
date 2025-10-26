@@ -39,8 +39,8 @@ export class BouchonDomainService {
           break;
         }
         case "price": {
-          const priceA = this.extractPriceNumber(a.menuInfo.baseMenuPrice);
-          const priceB = this.extractPriceNumber(b.menuInfo.baseMenuPrice);
+          const priceA = a.menuInfo.priceLevel ?? 0;
+          const priceB = b.menuInfo.priceLevel ?? 0;
           compareValue = priceA - priceB;
           break;
         }
@@ -69,13 +69,11 @@ export class BouchonDomainService {
     bouchon: Bouchon,
     criteria: SearchCriteria,
   ): boolean {
-    // Price
+    // PriceLevel
     if (
-      criteria.baseMenuPrice &&
-      !this.matchesPriceRange(
-        bouchon.menuInfo.baseMenuPrice,
-        criteria.baseMenuPrice,
-      )
+      typeof criteria.priceLevel === "number" &&
+      typeof bouchon.menuInfo.priceLevel === "number" &&
+      bouchon.menuInfo.priceLevel !== criteria.priceLevel
     ) {
       return false;
     }
@@ -162,35 +160,5 @@ export class BouchonDomainService {
     }
 
     return true;
-  }
-
-  private static matchesPriceRange(
-    bouchonPrice: string | undefined,
-    priceFilter: string,
-  ): boolean {
-    if (!bouchonPrice || !priceFilter) return true;
-
-    const price = Number.parseInt(bouchonPrice.replace("€", ""), 10);
-
-    switch (priceFilter) {
-      case "15-20€":
-        return price >= 15 && price <= 20;
-      case "20-25€":
-        return price >= 20 && price <= 25;
-      case "25-30€":
-        return price >= 25 && price <= 30;
-      case "30-35€":
-        return price >= 30 && price <= 35;
-      case "35€+":
-        return price >= 35;
-      default:
-        return true;
-    }
-  }
-
-  private static extractPriceNumber(price: string | undefined): number {
-    if (!price) return 0;
-    const match = price.match(/(\d+)/);
-    return match ? Number.parseInt(match[1], 10) : 0;
   }
 }

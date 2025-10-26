@@ -12,9 +12,6 @@ export class SearchBouchonsUseCase {
 
   async execute(criteria: SearchCriteria): Promise<Bouchon[]> {
     // Criteria validation
-    if (!criteria.isValidPriceRange()) {
-      throw new InvalidSearchCriteriaError("Invalid price range");
-    }
 
     if (!criteria.isValidDistrict()) {
       throw new InvalidSearchCriteriaError("Invalid district");

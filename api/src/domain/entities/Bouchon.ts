@@ -30,15 +30,8 @@ export class Bouchon {
   }
 
   isPriceInRange(min: number, max: number): boolean {
-    if (!this.menuInfo.baseMenuPrice) return false;
-    const price = this.extractPrice();
-    return price >= min && price <= max;
-  }
-
-  private extractPrice(): number {
-    if (!this.menuInfo.baseMenuPrice) return 0;
-    const match = this.menuInfo.baseMenuPrice.match(/(\d+)/);
-    return match ? Number.parseInt(match[1], 10) : 0;
+    if (typeof this.menuInfo.priceLevel !== "number") return false;
+    return this.menuInfo.priceLevel >= min && this.menuInfo.priceLevel <= max;
   }
 }
 
@@ -56,6 +49,8 @@ export class Address {
     public readonly street: string,
     public readonly district: string,
     public readonly neighborhood: string,
+    public readonly postalCode?: string,
+    public readonly mapsUrl?: string,
   ) {}
 }
 
@@ -77,9 +72,9 @@ export class Rating {
 
 export class MenuInfo {
   constructor(
-    public readonly baseMenuPrice?: string,
     public readonly portionSize?: string,
     public readonly specialties?: string[],
+    public readonly priceLevel?: number,
   ) {}
 }
 

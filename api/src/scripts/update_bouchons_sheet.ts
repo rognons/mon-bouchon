@@ -22,7 +22,7 @@ function mapRowToBouchon(
   row: string[],
   _keys: string[],
 ): Record<string, unknown> {
-  // Now first column is name, then skip baseMenuPrice, openingHours, district, mapsUrl is removed
+  // Now first column is name, then skip openingHours, district, mapsUrl is removed
   return {
     name: row[0],
     neighborhood: row[3],

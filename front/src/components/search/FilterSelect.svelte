@@ -1,6 +1,7 @@
+
 <script lang="ts">
 export let label: string;
-export let options: string[];
+export let options: any[];
 export let value: string;
 export let emoji: string;
 export let ariaLabel: string;
@@ -12,7 +13,11 @@ export let ariaLabel: string;
         <select bind:value aria-label={ariaLabel}>
             <option value="">{label}</option>
             {#each options as option, i}
-                {#if i > 0}
+                {#if i === 0}
+                    <!-- skip, label already rendered above -->
+                {:else if typeof option === 'object' && option !== null}
+                    <option value={option.value}>{option.label}</option>
+                {:else}
                     <option value={option}>{option}</option>
                 {/if}
             {/each}

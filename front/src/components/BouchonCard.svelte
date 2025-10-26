@@ -9,6 +9,13 @@ function callBouchon(): void {
     window.open(`tel:${bouchon.phone}`, '_self');
   }
 }
+
+function getPriceLevel(priceLevel: number | null | undefined): string {
+  if (priceLevel === null || priceLevel === undefined) {
+    return 'N/A';
+  }
+  return '€'.repeat(priceLevel);
+}
 </script>
 
 <div class="bouchon-card">
@@ -28,13 +35,17 @@ function callBouchon(): void {
 
   <div class="bouchon-info">
     <div class="location">
-      📍 {bouchon.address}
+      📍 {#if bouchon.mapsUrl}
+        <a href={bouchon.mapsUrl} target="_blank" rel="noopener noreferrer" class="address-link">{bouchon.address}</a>
+      {:else}
+        {bouchon.address}
+      {/if}
     </div>
 
     <div class="details-grid">
       <div class="detail-item">
         <span class="label">Prix:</span>
-        <span class="value prix-menu">{bouchon.baseMenuPrice}</span>
+  <span class="value prix-menu">{getPriceLevel(bouchon.priceLevel)}</span>
       </div>
       <div class="detail-item">
         <span class="label">Contact:</span>
@@ -171,6 +182,16 @@ function callBouchon(): void {
     opacity: 0.7;
     margin-bottom: 1rem;
     font-weight: 400;
+  }
+
+  .address-link {
+    color: inherit;
+    text-decoration: none;
+    font-weight: normal;
+    transition: text-decoration 0.2s;
+  }
+  .address-link:hover {
+    text-decoration: underline;
   }
 
   .details-grid {

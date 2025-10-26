@@ -1,5 +1,6 @@
 <script lang="ts">
 import FilterSelect from './FilterSelect.svelte';
+import FilterTime from './FilterTime.svelte';
 import FilterCheckbox from './FilterCheckbox.svelte';
 import { createEventDispatcher, onMount } from 'svelte';
 
@@ -9,24 +10,20 @@ export let sidebarFull: boolean;
 export let sidebarTop: number;
 export let maxHeight: number;
 
-export let prixMenuBaseOptions: string[];
+export let prixMenuBaseOptions: { value: string; label: string }[];
 export let arrondissements: string[];
 export let quartiers: string[];
-export let ouverturesOptions: string[];
 export let quantiteOptions: string[];
 export let typeMangeurOptions: string[];
 export let typeAmbianceOptions: string[];
-export let typeTableeOptions: string[];
 export let typeBouchonOptions: string[];
 
 export let selectedPrixMenuBase: string;
 export let selectedArrondissement: string;
 export let selectedQuartier: string;
-export let selectedOuvertures: string;
 export let selectedQuantite: string;
 export let selectedTypeMangeur: string;
 export let selectedTypeAmbiance: string;
-export let selectedTypeTablee: string;
 export let selectedTypeBouchon: string;
 
 export let optionVegetariens: boolean;
@@ -37,6 +34,8 @@ export let coupDeCoeurVins: boolean;
 export let labelBouchonsLyonnais: boolean;
 export let selectionAuthentiques: boolean;
 
+export let selectedDay: string;
+export let selectedTime: string;
 const dispatch = createEventDispatcher();
 </script>
 
@@ -79,11 +78,25 @@ const dispatch = createEventDispatcher();
             ariaLabel="Quartier"
         />
         <FilterSelect
-            label="Tous les créneaux"
-            options={ouverturesOptions}
-            bind:value={selectedOuvertures}
-            emoji="🕐"
-            ariaLabel="Horaires d'ouverture"
+            label="Jour"
+            options={[
+                { value: '', label: 'Tous les jours' },
+                { value: '1', label: 'Lundi' },
+                { value: '2', label: 'Mardi' },
+                { value: '3', label: 'Mercredi' },
+                { value: '4', label: 'Jeudi' },
+                { value: '5', label: 'Vendredi' },
+                { value: '6', label: 'Samedi' },
+                { value: '0', label: 'Dimanche' },
+            ]}
+            bind:value={selectedDay}
+            emoji="📅"
+            ariaLabel="Jour"
+        />
+        <FilterTime
+            bind:value={selectedTime}
+            emoji="⏰"
+            ariaLabel="Heure"
         />
         <FilterSelect
             label="Toutes les portions"
@@ -105,13 +118,6 @@ const dispatch = createEventDispatcher();
             bind:value={selectedTypeAmbiance}
             emoji="🎭"
             ariaLabel="Ambiance & confort"
-        />
-        <FilterSelect
-            label="Toutes les configurations"
-            options={typeTableeOptions}
-            bind:value={selectedTypeTablee}
-            emoji="🪑"
-            ariaLabel="Configuration des tables"
         />
         <FilterSelect
             label="Tous les styles"

@@ -2,14 +2,12 @@
 const API_BASE_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:8000';
 
 export interface BouchonData {
-  id: number;
   name: string;
   address: string;
-  district: string;
   neighborhood: string;
-  phone: string;
-  rating: number;
-  baseMenuPrice?: string;
+  postalCode?: string;
+  phone?: string;
+  rating?: number;
   openingHours?: string;
   portionSize?: string;
   specialties?: string[];
@@ -20,6 +18,7 @@ export interface BouchonData {
   vegetarianOption?: boolean;
   machonOption?: boolean;
   remarkableDecoration?: boolean;
+  remarkableTeam?: boolean;
   compagnieFavorite?: boolean;
   wineFavorite?: boolean;
   bouchonLyonnaisLabel?: boolean;
@@ -29,6 +28,10 @@ export interface BouchonData {
   reservation?: boolean;
   terrace?: boolean;
   capacity?: number;
+  dateFriendly?: boolean;
+  businessMeal?: boolean;
+  priceLevel?: number;
+  mapsUrl?: string;
 }
 
 export interface ApiResponse {

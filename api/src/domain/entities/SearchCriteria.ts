@@ -1,7 +1,7 @@
 // Search criteria as Value Object
 export class SearchCriteria {
   constructor(
-    public readonly baseMenuPrice?: string,
+    public readonly priceLevel?: number,
     public readonly district?: string,
     public readonly neighborhood?: string,
     public readonly openingHours?: string,
@@ -21,13 +21,6 @@ export class SearchCriteria {
     public readonly sortBy?: SortBy,
     public readonly sortOrder?: SortOrder,
   ) {}
-
-  // Business validation methods
-  isValidPriceRange(): boolean {
-    if (!this.baseMenuPrice) return true;
-    const validRanges = ["15-20€", "20-25€", "25-30€", "30-35€", "35€+"];
-    return validRanges.includes(this.baseMenuPrice);
-  }
 
   isValidDistrict(): boolean {
     if (!this.district) return true;
@@ -66,7 +59,7 @@ export type SortOrder = "asc" | "desc";
 export class SearchCriteriaFactory {
   static fromUrlParams(params: Record<string, string>): SearchCriteria {
     return new SearchCriteria(
-      params.baseMenuPrice || params.prixMenuBase, // Support both English and French param names
+      params.priceLevel ? Number(params.priceLevel) : undefined,
       params.district || params.arrondissement,
       params.neighborhood || params.quartier,
       params.openingHours || params.ouvertures,

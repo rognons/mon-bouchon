@@ -83,9 +83,10 @@ export class BouchonController {
       address: bouchon.address.street,
       district: bouchon.address.district,
       neighborhood: bouchon.address.neighborhood,
+      postalCode: bouchon.address.postalCode,
       phone: bouchon.contact.phone,
       rating: bouchon.rating.score,
-      baseMenuPrice: bouchon.menuInfo.baseMenuPrice,
+      priceLevel: bouchon.menuInfo.priceLevel,
       openingHours: bouchon.services.openingHours,
       portionSize: bouchon.menuInfo.portionSize,
       specialties: bouchon.menuInfo.specialties,
@@ -105,6 +106,7 @@ export class BouchonController {
       reservation: bouchon.services.reservation,
       terrace: bouchon.services.terrace,
       capacity: bouchon.services.capacity,
+      mapsUrl: bouchon.address.mapsUrl,
     };
   }
 }

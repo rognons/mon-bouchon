@@ -13,14 +13,14 @@ import {
 
 // DTO for JSON -> Domain mapping
 interface BouchonJson {
-  id: number;
+  id?: number;
   name: string;
   address: string;
-  district: string;
   neighborhood: string;
-  phone: string;
-  rating: number;
-  baseMenuPrice?: string;
+  postalCode?: string;
+  mapsUrl?: string;
+  phone?: string;
+  rating?: number;
   openingHours?: string;
   portionSize?: string;
   specialties?: string[];
@@ -31,6 +31,7 @@ interface BouchonJson {
   vegetarianOption?: boolean;
   machonOption?: boolean;
   remarkableDecoration?: boolean;
+  remarkableTeam?: boolean;
   compagnieFavorite?: boolean;
   wineFavorite?: boolean;
   bouchonLyonnaisLabel?: boolean;
@@ -40,6 +41,9 @@ interface BouchonJson {
   reservation?: boolean;
   terrace?: boolean;
   capacity?: number;
+  dateFriendly?: boolean;
+  businessMeal?: boolean;
+  priceLevel?: number;
 }
 
 // Implémentation du repository avec fichier JSON
@@ -67,13 +71,21 @@ export class JsonBouchonRepository implements BouchonRepository {
   }
 
   private mapJsonToDomain(json: BouchonJson): Bouchon {
+    // Generate a numeric ID if missing (e.g., by hash or index in array, not shown here)
+    const id = json.id ?? Math.floor(Math.random() * 1000000);
     return new Bouchon(
-      new BouchonId(json.id),
+      new BouchonId(id),
       json.name,
-      new Address(json.address, json.district, json.neighborhood),
-      new Contact(json.phone),
-      new Rating(json.rating),
-      new MenuInfo(json.baseMenuPrice, json.portionSize, json.specialties),
+      new Address(
+        json.address,
+        "",
+        json.neighborhood,
+        json.postalCode,
+        json.mapsUrl,
+      ),
+      new Contact(json.phone ?? ""),
+      new Rating(json.rating ?? 0),
+      new MenuInfo(json.portionSize, json.specialties, json.priceLevel),
       new Characteristics(
         json.bouchonType,
         json.eaterType,
