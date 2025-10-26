@@ -1,5 +1,3 @@
-import { load } from "https://deno.land/std@0.203.0/dotenv/mod.ts";
-
 // Minimal JWT and fetch for Google Sheets API
 async function getAccessToken(
   serviceAccount: Record<string, string>,
