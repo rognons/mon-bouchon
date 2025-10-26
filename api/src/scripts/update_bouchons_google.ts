@@ -31,18 +31,30 @@ async function enrichBouchonWithGoogle(
   bouchon: Bouchon,
   googleService: GooglePlacesService,
 ): Promise<void> {
-  const query = bouchon.name + ", " + bouchon.address;
-  const details: GooglePlaceDetails | null = await googleService
-    .getPlaceDetailsByName(query);
+  let details: GooglePlaceDetails | null = null;
+  // Prefer name + neighborhood + Lyon, then name + Lyon, then mapsUrl as last resort
+  if (bouchon.name && bouchon.neighborhood) {
+    const query = `${bouchon.name}, ${bouchon.neighborhood}, Lyon`;
+    details = await googleService.getPlaceDetailsByName(query);
+  }
+  if (!details && bouchon.name) {
+    const query = `${bouchon.name}, Lyon`;
+    details = await googleService.getPlaceDetailsByName(query);
+  }
+  if (
+    !details && bouchon.mapsUrl && typeof bouchon.mapsUrl === "string" &&
+    bouchon.mapsUrl.trim() !== ""
+  ) {
+    details = await googleService.getPlaceDetailsByName(bouchon.mapsUrl);
+  }
 
-  console.log(
-    `\n[${bouchon.name}] Google API response:`,
-    JSON.stringify(details, null, 2),
-  );
+  // console.log(
+  //   `\n[${bouchon.name}] Google API response:`,
+  //   JSON.stringify(details, null, 2),
+  // );
 
-  if (!details) {
-    console.error(`No Places API Details found for bouchon: ${bouchon.name}`);
-    return;
+  if (!details?.opening_hours) {
+    throw new Error(`No Places API Details found for bouchon: ${bouchon.name}`);
   }
 
   bouchon.openingHours = null;
@@ -113,6 +125,9 @@ async function enrichBouchonWithGoogle(
   bouchon.priceLevel = details.price_level ?? null;
   bouchon.postalCode = postalCode;
   bouchon.mapsUrl = details.url || null;
+  bouchon.address = typeof details.formatted_address === "string"
+    ? details.formatted_address
+    : "";
 }
 
 async function main() {

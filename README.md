@@ -1,3 +1,33 @@
+## 🔄 Mettre à jour les données bouchons.json
+
+Pour mettre à jour la base de données `bouchons.json` (source de vérité pour l'API et le front) :
+
+1. **Mettre à jour depuis Google Sheets**
+   
+   Depuis le dossier `api/` :
+   ```bash
+   deno task update-bouchons-sheet
+   # (ou)
+   deno run --allow-net --allow-read --allow-write src/scripts/update_bouchons_sheet.ts
+   ```
+
+2. **Enrichir avec les données Google Places**
+   
+   Toujours depuis `api/` :
+   ```bash
+   deno task update-bouchons-google
+   # (ou)
+   deno run --allow-net --allow-read --allow-write src/scripts/update_bouchons_google.ts
+   ```
+
+3. **Vérifier et committer les changements**
+
+**Résumé :**
+
+> Toujours exécuter d'abord le script Sheet, puis le script Google, puis pousser sur master.
+
+Cela garantit que toutes les données sont à jour et cohérentes pour l'API et le front.
+
 # 🍽️ Mon Bouchon - Recherche de Bouchons Lyonnais
 
 Application complète pour découvrir les authentiques bouchons lyonnais de La Compagnie du Rognon.
@@ -220,7 +250,7 @@ Voir [DOCKER.md](DOCKER.md) pour plus de détails.
 GET /bouchons?district=1er
 
 # Par prix
-GET /bouchons?baseMenuPrice=25-30€
+GET /bouchons?priceLevel=2
 
 # Coups de cœur seulement
 GET /bouchons?compagnieFavorite=true

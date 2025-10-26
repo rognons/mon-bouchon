@@ -1,136 +1,33 @@
 [
   {
-    "id": 1,
-    "name": "Chez Paul",
-    "address": "11 Rue du Major Martin, 69001 Lyon",
-    "district": "1er",
-    "neighborhood": "Vieux Lyon",
-    "phone": "04 78 28 35 83",
-    "baseMenuPrice": "25€",
-    "rating": 4.5,
-    "specialties": [
-      "Quenelles de brochet",
-      "Saucisson chaud",
-      "Tablier de sapeur"
-    ],
-    "bouchonType": "Traditionnel",
-    "eaterType": "Amateur de tradition",
-    "atmosphereType": "Conviviale et familiale",
-    "tableType": "Petites tables intimes",
-    "description": "Authentique bouchon lyonnais dans le Vieux Lyon, ambiance conviviale et cuisine traditionnelle.",
-    "openingHours": [
-      {
-        "day": 0,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 1,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 1,
-        "open": "1930",
-        "close": "2130"
-      },
-      {
-        "day": 2,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 2,
-        "open": "1930",
-        "close": "2130"
-      },
-      {
-        "day": 3,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 3,
-        "open": "1930",
-        "close": "2130"
-      },
-      {
-        "day": 4,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 4,
-        "open": "1930",
-        "close": "2130"
-      },
-      {
-        "day": 5,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 5,
-        "open": "1930",
-        "close": "2130"
-      }
-    ],
-    "portionSize": "Portions généreuses",
-    "vegetarianOption": false,
-    "machonOption": true,
-    "remarkableDecoration": true,
+    "name": "Le Vivarais",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
+    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "vegetarianOption": true,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": true,
+    "dateFriendly": true,
+    "businessMeal": true,
     "compagnieFavorite": true,
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "menuItems": [
-      "Quenelles",
-      "Saucisson",
-      "Tablier de sapeur",
-      "Andouillette"
-    ],
-    "capacity": 40,
-    "terrace": false,
-    "reservation": true,
-    "exceptionalOpeningHours": null,
-    "priceLevel": 2,
-    "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=3142483984209240723"
-  },
-  {
-    "id": 2,
-    "name": "Le Bouchon des Filles",
-    "address": "20 Rue Sergent Blandan, 69001 Lyon",
-    "district": "1er",
-    "neighborhood": "Vieux Lyon",
-    "phone": "04 78 30 40 44",
-    "baseMenuPrice": "35€",
-    "rating": 4.6,
     "specialties": [
-      "Coq au vin",
-      "Andouillette",
-      "Cervelle de canut"
+      "Quenelle de brochet",
+      "Tarte aux pralines",
+      "Pâté-croûte"
     ],
-    "bouchonType": "Gastronomique",
-    "eaterType": "Gourmets exigeants",
-    "atmosphereType": "Raffinée et moderne",
-    "tableType": "Tables spacieuses",
-    "description": "Bouchon tenu par des femmes, cuisine raffinée dans le respect de la tradition lyonnaise.",
     "openingHours": [
       {
-        "day": 0,
+        "day": 2,
         "open": "1200",
-        "close": "1330"
-      },
-      {
-        "day": 0,
-        "open": "1900",
-        "close": "2200"
-      },
-      {
-        "day": 1,
-        "open": "1900",
-        "close": "2200"
+        "close": "1400"
       },
       {
         "day": 2,
@@ -139,8 +36,18 @@
       },
       {
         "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
         "open": "1900",
         "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
       },
       {
         "day": 4,
@@ -149,51 +56,57 @@
       },
       {
         "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
         "open": "1900",
         "close": "2200"
       }
     ],
-    "portionSize": "Portions équilibrées",
-    "vegetarianOption": true,
-    "machonOption": false,
-    "remarkableDecoration": true,
-    "compagnieFavorite": true,
-    "wineFavorite": true,
-    "bouchonLyonnaisLabel": true,
-    "authenticSelection": false,
-    "menuItems": [
-      "Coq au vin",
-      "Andouillette",
-      "Cervelle de canut",
-      "Salade lyonnaise"
-    ],
-    "capacity": 30,
-    "terrace": true,
-    "reservation": true,
     "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 37 85 15",
     "priceLevel": 2,
-    "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=14019120405395751031"
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=4561032330948174573",
+    "address": "1 Pl. Gailleton, 69002 Lyon"
   },
   {
-    "id": 3,
-    "name": "Café Comptoir Abel",
-    "address": "25 Rue Guynemer, 69002 Lyon",
-    "district": "2ème",
-    "neighborhood": "Bellecour",
-    "phone": "04 78 37 46 18",
-    "baseMenuPrice": "22€",
-    "rating": 4.5,
+    "name": "Comptoir Abel",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": true,
+    "remarkableTeam": false,
+    "reservation": true,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
     "specialties": [
-      "Pot-au-feu",
-      "Boudin noir",
-      "Salade lyonnaise"
+      "Pâté-croûte",
+      "Tarte aux pralines",
+      "Quenelle de brochet"
     ],
-    "bouchonType": "Traditionnel",
-    "eaterType": "Amateur de tradition",
-    "atmosphereType": "Rustique et authentique",
-    "tableType": "Bar et comptoir",
-    "description": "Plus ancien bouchon de Lyon (1928), décor authentique et cuisine familiale.",
     "openingHours": [
       {
         "day": 0,
@@ -254,49 +167,130 @@
         "day": 5,
         "open": "1930",
         "close": "2230"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1430"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2230"
       }
     ],
-    "portionSize": "Portions copieuses",
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 37 46 18",
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=2003137518403648091",
+    "address": "25 Rue Guynemer, 69002 Lyon"
+  },
+  {
+    "name": "Café du Jura",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
+    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
     "vegetarianOption": false,
+    "terrace": false,
     "machonOption": true,
     "remarkableDecoration": true,
+    "remarkableTeam": false,
+    "reservation": true,
+    "dateFriendly": false,
+    "businessMeal": false,
     "compagnieFavorite": false,
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "menuItems": [
-      "Pot-au-feu",
-      "Boudin noir",
-      "Salade lyonnaise",
-      "Saucisson"
+    "specialties": [
+      "Pâté-croûte",
+      "Quenelle de brochet",
+      "Tarte aux pralines"
     ],
-    "capacity": 50,
-    "terrace": false,
-    "reservation": false,
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2130"
+      }
+    ],
     "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 78 42 20 57",
     "priceLevel": 2,
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=2003137518403648091"
+    "mapsUrl": "https://maps.google.com/?cid=14017874763696467999",
+    "address": "25 Rue Tupin, 69002 Lyon"
   },
   {
-    "id": 4,
-    "name": "Le Poêlon d'Or",
-    "address": "29 Rue des Remparts d'Ainay, 69002 Lyon",
-    "district": "2ème",
-    "neighborhood": "Presqu'île",
-    "phone": "04 78 37 65 60",
-    "baseMenuPrice": "38€",
-    "rating": 4.5,
-    "specialties": [
-      "Rosette de Lyon",
-      "Poularde demi-deuil",
-      "Bugnes"
-    ],
-    "bouchonType": "Gastronomique",
-    "eaterType": "Gourmets exigeants",
-    "atmosphereType": "Raffinée et moderne",
-    "tableType": "Tables spacieuses",
-    "description": "Bouchon élégant proposant une cuisine lyonnaise revisitée avec des produits d'exception.",
+    "name": "Le Poelon d'Or",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
+    "vegetarianOption": true,
+    "terrace": false,
+    "machonOption": true,
+    "remarkableDecoration": true,
+    "remarkableTeam": false,
+    "reservation": true,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
     "openingHours": [
       {
         "day": 2,
@@ -337,49 +331,2076 @@
         "day": 5,
         "open": "1930",
         "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2200"
       }
     ],
-    "portionSize": "Portions équilibrées",
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 37 65 60",
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=1291154870447033542",
+    "address": "29 Rue des Remparts d'Ainay, 69002 Lyon"
+  },
+  {
+    "name": "Daniel & Denise Créqui",
+    "neighborhood": "",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
+    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
     "vegetarianOption": true,
+    "terrace": false,
+    "machonOption": true,
+    "remarkableDecoration": true,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 60 66 53",
+    "priceLevel": 2,
+    "postalCode": "69003",
+    "mapsUrl": "https://maps.google.com/?cid=10773864657831970635",
+    "address": "156 Rue de Créqui, 69003 Lyon"
+  },
+  {
+    "name": "Les Culottes Longues",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷🐷 Portions gargantuesques",
+    "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
     "machonOption": false,
     "remarkableDecoration": true,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": true,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 78 37 13 00",
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=12971004636650303258",
+    "address": "42 Rue Sala, 69002 Lyon"
+  },
+  {
+    "name": "Le Garet",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": true,
+    "remarkableDecoration": true,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": true,
+    "wineFavorite": true,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 1,
+        "open": "1930",
+        "close": "2300"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2300"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2300"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2300"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2300"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 78 28 16 94",
+    "priceLevel": 2,
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=10289824594298614701",
+    "address": "7 Rue du Garet, 69001 Lyon"
+  },
+  {
+    "name": "Café du Peintre",
+    "neighborhood": "",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon moderne",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": true,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "0830",
+        "close": "1000"
+      },
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1415"
+      },
+      {
+        "day": 1,
+        "open": "1830",
+        "close": "2130"
+      },
+      {
+        "day": 2,
+        "open": "0830",
+        "close": "1000"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1415"
+      },
+      {
+        "day": 3,
+        "open": "0830",
+        "close": "1000"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1415"
+      },
+      {
+        "day": 4,
+        "open": "0830",
+        "close": "1000"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1415"
+      },
+      {
+        "day": 4,
+        "open": "1830",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "0830",
+        "close": "1000"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1415"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 52 52 61",
+    "priceLevel": 2,
+    "postalCode": "69006",
+    "mapsUrl": "https://maps.google.com/?cid=15058688879389128918",
+    "address": "50 Bd des Brotteaux, 69006 Lyon"
+  },
+  {
+    "name": "Brunet",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": true,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 0,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2230"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 37 44 31",
+    "priceLevel": null,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=5226387440350553",
+    "address": "23 Rue Claudia, 69002 Lyon"
+  },
+  {
+    "name": "Meunière",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷🐷 Portions gargantuesques",
+    "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": true,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
     "compagnieFavorite": true,
     "wineFavorite": true,
     "bouchonLyonnaisLabel": true,
-    "authenticSelection": false,
-    "menuItems": [
-      "Rosette de Lyon",
-      "Poularde demi-deuil",
-      "Bugnes",
-      "Quenelles"
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2130"
+      }
     ],
-    "capacity": 35,
-    "terrace": true,
-    "reservation": true,
     "exceptionalOpeningHours": null,
+    "rating": 4.3,
+    "phone": "04 78 28 62 91",
     "priceLevel": 2,
-    "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=1291154870447033542"
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=14977060949854123959",
+    "address": "11 Rue Neuve, 69001 Lyon"
   },
   {
-    "id": 5,
-    "name": "Le Machon d'Henri",
-    "address": "8 Rue Palais Grillet, 69002 Lyon",
-    "district": "2ème",
-    "neighborhood": "Presqu'île",
-    "phone": "04 72 04 04 00",
-    "baseMenuPrice": "18€",
-    "rating": 4.5,
-    "specialties": [
-      "Grattons",
-      "Saucisson pistaché",
-      "Côtes du Rhône"
+    "name": "L'Antr'O'Potes",
+    "neighborhood": "",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon moderne",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": true,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2330"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2330"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2330"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1500"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2330"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2130"
+      }
     ],
-    "bouchonType": "Populaire",
-    "eaterType": "Amateur de tradition",
-    "atmosphereType": "Conviviale et familiale",
-    "tableType": "Bar et comptoir",
-    "description": "Petit bouchon authentique, parfait pour le machon matinal ou l'apéro entre amis.",
+    "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 81 65 29 78",
+    "priceLevel": null,
+    "postalCode": "69006",
+    "mapsUrl": "https://maps.google.com/?cid=1354094808059038932",
+    "address": "118 Rue Bossuet, 69006 Lyon"
+  },
+  {
+    "name": "Le Bouchon Sully",
+    "neighborhood": "",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
+    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": true,
+    "wineFavorite": true,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2130"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 89 07 09",
+    "priceLevel": 2,
+    "postalCode": "69006",
+    "mapsUrl": "https://maps.google.com/?cid=18101247420748676491",
+    "address": "20 Rue Sully, 69006 Lyon"
+  },
+  {
+    "name": "Les Fines Gueules",
+    "neighborhood": "Vieux-Lyon",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1145",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1145",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1145",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1145",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.4,
+    "phone": "04 28 29 57 14",
+    "priceLevel": 2,
+    "postalCode": "69005",
+    "mapsUrl": "https://maps.google.com/?cid=10176462396555469872",
+    "address": "16 Rue Lainerie, 69005 Lyon"
+  },
+  {
+    "name": "Le Bouchon des Cordeliers",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon moderne",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": true,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.7,
+    "phone": "04 78 03 33 53",
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=4931754708560418635",
+    "address": "15 Rue Claudia, 69002 Lyon"
+  },
+  {
+    "name": "La Mère Léa",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
+    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": true,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": false,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2130"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.4,
+    "phone": "04 78 42 01 33",
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=9929859665021898269",
+    "address": "11 Quai des Célestins, 69002 Lyon"
+  },
+  {
+    "name": "Le Casse Museau",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.7,
+    "phone": "04 78 32 64 42",
+    "priceLevel": 2,
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=14239609059914616718",
+    "address": "2 Rue Chavanne, 69001 Lyon"
+  },
+  {
+    "name": "Le Bât d'Argent",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
+    "bouchonType": "Bouchon moderne",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2130"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 72 27 18 66",
+    "priceLevel": 2,
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=12684377946801495254",
+    "address": "23 Rue du Bât d'Argent, 69001 Lyon"
+  },
+  {
+    "name": "Daniel & Denise Croix-Rousse",
+    "neighborhood": "Croix-Rousse",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "vegetarianOption": true,
+    "terrace": false,
+    "machonOption": true,
+    "remarkableDecoration": true,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.3,
+    "phone": "04 78 28 27 44",
+    "priceLevel": 3,
+    "postalCode": "69004",
+    "mapsUrl": "https://maps.google.com/?cid=5188309686511737541",
+    "address": "8 Rue de Cuire, 69004 Lyon"
+  },
+  {
+    "name": "Le Comptoir de Léa",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2130"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 78 42 03 13",
+    "priceLevel": null,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=15178301033031220000",
+    "address": "11 Pl. Antonin Gourju, 69002 Lyon"
+  },
+  {
+    "name": "Le Val d'Isère",
+    "neighborhood": "",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
+    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": true,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.4,
+    "phone": "04 78 71 09 39",
+    "priceLevel": 2,
+    "postalCode": "69003",
+    "mapsUrl": "https://maps.google.com/?cid=338603021536063819",
+    "address": "64 Rue de Bonnel, 69003 Lyon"
+  },
+  {
+    "name": "La Tête de Lard",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2130"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.4,
+    "phone": "04 78 27 96 80",
+    "priceLevel": 2,
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=3210286685419655523",
+    "address": "13 Rue Désirée, 69001 Lyon"
+  },
+  {
+    "name": "Bistrot Abel",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
+    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": true,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": true,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 37 57 92 51",
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=1194894430273701093",
+    "address": "49 Rue de la Bourse 47, 69002 Lyon"
+  },
+  {
+    "name": "Le Bouchon des Artistes",
+    "neighborhood": "",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon moderne",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": true,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2145"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2145"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2145"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2145"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2145"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.7,
+    "phone": "04 78 03 37 40",
+    "priceLevel": 2,
+    "postalCode": "69003",
+    "mapsUrl": "https://maps.google.com/?cid=17666064860310757262",
+    "address": "98 Rue Mazenod, 69003 Lyon"
+  },
+  {
+    "name": "Daniel & Denise Saint-Jean",
+    "neighborhood": "Vieux-Lyon",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
+    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": true,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.3,
+    "phone": "04 78 42 24 62",
+    "priceLevel": 2,
+    "postalCode": "69005",
+    "mapsUrl": "https://maps.google.com/?cid=7241440676186644405",
+    "address": "36 Rue Tramassac, 69005 Lyon"
+  },
+  {
+    "name": "L'Auberge des Canuts",
+    "neighborhood": "Vieux-Lyon",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon moderne",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": true,
+    "remarkableDecoration": true,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": true,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": false,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "0900",
+        "close": "2200"
+      },
+      {
+        "day": 1,
+        "open": "0900",
+        "close": "2200"
+      },
+      {
+        "day": 2,
+        "open": "0900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "0900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "0900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "0900",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "0900",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.4,
+    "phone": "09 86 50 36 26",
+    "priceLevel": 2,
+    "postalCode": "69005",
+    "mapsUrl": "https://maps.google.com/?cid=9195159938639110312",
+    "address": "8 Pl. Saint-Jean, 69005 Lyon"
+  },
+  {
+    "name": "Notre Maison",
+    "neighborhood": "Vieux-Lyon",
+    "portionSize": "🐷🐷🐷 Portions gargantuesques",
+    "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": true,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2300"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.7,
+    "phone": "04 72 41 78 48",
+    "priceLevel": 2,
+    "postalCode": "69005",
+    "mapsUrl": "https://maps.google.com/?cid=9756348451744919745",
+    "address": "2 Rue de Gadagne, 69005 Lyon"
+  },
+  {
+    "name": "Chez Nénette",
+    "neighborhood": "",
+    "portionSize": "🐷🐷🐷 Portions gargantuesques",
+    "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": false,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "0800",
+        "close": "1530"
+      },
+      {
+        "day": 2,
+        "open": "0800",
+        "close": "1530"
+      },
+      {
+        "day": 3,
+        "open": "0800",
+        "close": "1530"
+      },
+      {
+        "day": 4,
+        "open": "0800",
+        "close": "1530"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "0000"
+      },
+      {
+        "day": 5,
+        "open": "0800",
+        "close": "1530"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "0000"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.7,
+    "phone": "04 72 17 52 88",
+    "priceLevel": 2,
+    "postalCode": "69380",
+    "mapsUrl": "https://maps.google.com/?cid=8204241739239392012",
+    "address": "10 Pl. de l'Église, 69380 Les Chères"
+  },
+  {
+    "name": "Le Café des Fédérations",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": true,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 0,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2200"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 28 26 00",
+    "priceLevel": 2,
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=13052971109937824297",
+    "address": "10 Rue Major Martin 8-9, 69001 Lyon"
+  },
+  {
+    "name": "A Ma Vigne",
+    "neighborhood": "",
+    "portionSize": "🐷🐷🐷 Portions gargantuesques",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": true,
+    "wineFavorite": true,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.8,
+    "phone": "04 78 60 46 31",
+    "priceLevel": 2,
+    "postalCode": "69003",
+    "mapsUrl": "https://maps.google.com/?cid=7704444543303026770",
+    "address": "23 Rue Jean Larrivé, 69003 Lyon"
+  },
+  {
+    "name": "Les 4G",
+    "neighborhood": "",
+    "portionSize": "🐷🐷🐷 Portions gargantuesques",
+    "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": true,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": true,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "0700",
+        "close": "1500"
+      },
+      {
+        "day": 2,
+        "open": "0700",
+        "close": "1500"
+      },
+      {
+        "day": 3,
+        "open": "0700",
+        "close": "1500"
+      },
+      {
+        "day": 4,
+        "open": "0700",
+        "close": "1500"
+      },
+      {
+        "day": 5,
+        "open": "0700",
+        "close": "1500"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 37 46 56 42",
+    "priceLevel": 2,
+    "postalCode": "69009",
+    "mapsUrl": "https://maps.google.com/?cid=17784112239542590431",
+    "address": "27 Rue Gorge de Loup, 69009 Lyon"
+  },
+  {
+    "name": "Bouchon Palais Grillet",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon moderne",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": true,
+    "authenticSelection": true,
+    "specialties": [],
     "openingHours": [
       {
         "day": 0,
@@ -435,54 +2456,301 @@
         "day": 5,
         "open": "1800",
         "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1430"
+      },
+      {
+        "day": 6,
+        "open": "1800",
+        "close": "2200"
       }
     ],
-    "portionSize": "Portions généreuses",
-    "vegetarianOption": false,
-    "machonOption": true,
-    "remarkableDecoration": false,
-    "compagnieFavorite": false,
-    "wineFavorite": false,
-    "bouchonLyonnaisLabel": true,
-    "authenticSelection": true,
-    "menuItems": [
-      "Grattons",
-      "Saucisson pistaché",
-      "Cervelas",
-      "Beaujolais"
-    ],
-    "capacity": 25,
-    "terrace": false,
-    "reservation": false,
     "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 72 04 04 00",
     "priceLevel": 2,
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=9207028094963914103"
+    "mapsUrl": "https://maps.google.com/?cid=9207028094963914103",
+    "address": "8 Rue Palais Grillet, 69002 Lyon"
   },
   {
-    "id": 6,
-    "name": "Bouchon Daniel et Denise",
-    "address": "36 Rue Tramassac, 69005 Lyon",
-    "district": "5ème",
-    "neighborhood": "Vieux Lyon",
-    "phone": "04 78 42 24 62",
-    "baseMenuPrice": "28€",
-    "rating": 4.3,
-    "specialties": [
-      "Gras double",
-      "Rognons de veau",
-      "Tarte à la praline"
-    ],
-    "bouchonType": "Traditionnel",
-    "eaterType": "Familles",
-    "atmosphereType": "Conviviale et familiale",
-    "tableType": "Petites tables intimes",
-    "description": "Bouchon familial dans le Vieux Lyon, cuisine généreuse et ambiance chaleureuse.",
+    "name": "Le Mercière",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon moderne",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": true,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
     "openingHours": [
       {
+        "day": 0,
+        "open": "1145",
+        "close": "1530"
+      },
+      {
+        "day": 0,
+        "open": "1845",
+        "close": "2230"
+      },
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1430"
+      },
+      {
+        "day": 1,
+        "open": "1845",
+        "close": "2230"
+      },
+      {
         "day": 2,
         "open": "1200",
-        "close": "1400"
+        "close": "1430"
+      },
+      {
+        "day": 2,
+        "open": "1845",
+        "close": "2230"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1430"
+      },
+      {
+        "day": 3,
+        "open": "1845",
+        "close": "2230"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1430"
+      },
+      {
+        "day": 4,
+        "open": "1845",
+        "close": "2230"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1430"
+      },
+      {
+        "day": 5,
+        "open": "1845",
+        "close": "2300"
+      },
+      {
+        "day": 6,
+        "open": "1145",
+        "close": "1530"
+      },
+      {
+        "day": 6,
+        "open": "1845",
+        "close": "2300"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 37 67 35",
+    "priceLevel": 2,
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=334717386464374466",
+    "address": "Restaurant Le Mercière, 56 Rue Mercière, 69002 Lyon"
+  },
+  {
+    "name": "Au Petit Bouchon Chez Georges",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷 Portions raisonnables",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": true,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": true,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "0900",
+        "close": "1330"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2145"
+      },
+      {
+        "day": 2,
+        "open": "0900",
+        "close": "1330"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2145"
+      },
+      {
+        "day": 3,
+        "open": "0900",
+        "close": "1330"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2145"
+      },
+      {
+        "day": 4,
+        "open": "0900",
+        "close": "1330"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2145"
+      },
+      {
+        "day": 5,
+        "open": "0900",
+        "close": "1330"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2145"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 28 30 46",
+    "priceLevel": 2,
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=17571092174809772741",
+    "address": "8 Rue du Garet, 69001 Lyon"
+  },
+  {
+    "name": "Le Musée",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷🐷 Portions gargantuesques",
+    "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": true,
+    "remarkableDecoration": true,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1000",
+        "close": "1800"
+      },
+      {
+        "day": 1,
+        "open": "1000",
+        "close": "1800"
+      },
+      {
+        "day": 3,
+        "open": "1000",
+        "close": "1800"
+      },
+      {
+        "day": 4,
+        "open": "1000",
+        "close": "1800"
+      },
+      {
+        "day": 5,
+        "open": "1030",
+        "close": "1800"
+      },
+      {
+        "day": 6,
+        "open": "1000",
+        "close": "1800"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 72 10 17 40",
+    "priceLevel": null,
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=1694171015029161583",
+    "address": "20 Pl. des Terreaux, 69001 Lyon"
+  },
+  {
+    "name": "Le Bouchon des Filles",
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon moderne",
+    "vegetarianOption": true,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "specialties": [],
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 0,
+        "open": "1900",
+        "close": "2200"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2200"
       },
       {
         "day": 2,
@@ -491,18 +2759,8 @@
       },
       {
         "day": 3,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 3,
         "open": "1900",
         "close": "2200"
-      },
-      {
-        "day": 4,
-        "open": "1200",
-        "close": "1400"
       },
       {
         "day": 4,
@@ -511,35 +2769,26 @@
       },
       {
         "day": 5,
-        "open": "1200",
-        "close": "1400"
+        "open": "1900",
+        "close": "2200"
       },
       {
-        "day": 5,
+        "day": 6,
+        "open": "1200",
+        "close": "1330"
+      },
+      {
+        "day": 6,
         "open": "1900",
         "close": "2200"
       }
     ],
-    "portionSize": "Portions généreuses",
-    "vegetarianOption": false,
-    "machonOption": false,
-    "remarkableDecoration": true,
-    "compagnieFavorite": true,
-    "wineFavorite": false,
-    "bouchonLyonnaisLabel": true,
-    "authenticSelection": true,
-    "menuItems": [
-      "Gras double",
-      "Rognons de veau",
-      "Tarte à la praline",
-      "Quenelles"
-    ],
-    "capacity": 45,
-    "terrace": true,
-    "reservation": true,
     "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 78 30 40 44",
     "priceLevel": 2,
-    "postalCode": "69005",
-    "mapsUrl": "https://maps.google.com/?cid=7241440676186644405"
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=14019120405395751031",
+    "address": "20 Rue Sergent Blandan, 69001 Lyon"
   }
 ]

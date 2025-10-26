@@ -56,7 +56,7 @@ export class GooglePlacesService {
 
     // 2. Obtener detalles del lugar
     const detailsUrl =
-      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=opening_hours,rating,formatted_phone_number,price_level,address_components,url&key=${this.apiKey}`;
+      `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=opening_hours,rating,formatted_phone_number,price_level,address_components,url,formatted_address&key=${this.apiKey}`;
     const detailsResp = await fetch(detailsUrl);
     const detailsData = await detailsResp.json();
 
@@ -72,6 +72,10 @@ export class GooglePlacesService {
       price_level: detailsData.result.price_level,
       address_components: detailsData.result.address_components,
       url: detailsData.result.url,
+      formatted_address: detailsData.result.formatted_address.replace(
+        /, France$/,
+        "",
+      ),
     };
   }
 }
