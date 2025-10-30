@@ -107,6 +107,7 @@ export class BouchonController {
       terrace: bouchon.services.terrace,
       capacity: bouchon.services.capacity,
       mapsUrl: bouchon.address.mapsUrl,
+      articleUrl: bouchon.articleUrl,
     };
   }
 }

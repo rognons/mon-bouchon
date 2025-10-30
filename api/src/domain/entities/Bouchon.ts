@@ -12,6 +12,7 @@ export class Bouchon {
     public readonly labels: Labels,
     public readonly description?: string,
     public readonly imageUrl?: string,
+    public readonly articleUrl?: string,
   ) {}
 
   // Business methods

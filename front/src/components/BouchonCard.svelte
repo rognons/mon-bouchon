@@ -71,9 +71,17 @@ function getPriceLevel(priceLevel: number | null | undefined): string {
     </div> -->
   </div>
 
-  <!-- Note en bas à droite -->
-  <div class="bottom-rating">
-    <span class="bottom-note">⭐ {bouchon.rating}/5</span>
+  <div class="bottom-row">
+    {#if bouchon.articleUrl}
+      <div class="review-link">
+        <a href={bouchon.articleUrl} target="_blank" rel="noopener noreferrer" class="review-link-btn">
+          <span>Voir article</span>
+        </a>
+      </div>
+    {/if}
+    <div class="bottom-rating">
+      <span class="bottom-note">⭐ {bouchon.rating}/5</span>
+    </div>
   </div>
 </div>
 
@@ -173,7 +181,7 @@ function getPriceLevel(priceLevel: number | null | undefined): string {
 
   .bouchon-info {
     padding: 1.5rem;
-    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
   }
 
   .location {
@@ -224,7 +232,6 @@ function getPriceLevel(priceLevel: number | null | undefined): string {
   }
 
   .description {
-    margin: 1rem 0;
     padding: 1rem;
     background-color: #f9f9f9;
     border-radius: 4px;
@@ -315,4 +322,49 @@ function getPriceLevel(priceLevel: number | null | undefined): string {
       gap: 0.5rem;
     }
   }
-</style>
+  /* Bouton Notre Review discret et charte */
+  .review-link {
+    margin-top: 0.3rem;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .review-link-btn {
+    display: inline-block;
+    background: #f0c6da;
+    color: #221f20;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem;
+    padding: 0.13rem 0.65rem;
+    border-radius: 13px;
+    border: 1px solid #e4b3cc;
+    box-shadow: none;
+    text-decoration: none;
+    transition: background 0.14s, color 0.14s, border-color 0.14s;
+    margin-top: 0.08rem;
+    margin-bottom: 0.08rem;
+    letter-spacing: 0.01em;
+  }
+
+  .review-link-btn:hover {
+    background: #e4b3cc;
+    color: #221f20;
+    border-color: #f0c6da;
+    text-decoration: underline;
+  }
+  .bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.7rem;
+    padding: 0 1.5rem 1rem 1.5rem;
+  }
+
+  .bottom-rating {
+    position: static;
+    margin-left: auto;
+    bottom: unset;
+    right: unset;
+  }
+ </style>

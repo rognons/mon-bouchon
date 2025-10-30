@@ -45,8 +45,8 @@ function mapRowToBouchon(
     valueForMoney: parseBoolean(row[21]),
     specialties: parseSpecialties(row[22]),
     description: row[23],
-    articleURL: row[24],
-    menuURL: row[25],
+    articleUrl: row[24],
+    menuUrl: row[25],
     // Add more fields as needed
   };
 }
