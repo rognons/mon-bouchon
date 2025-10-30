@@ -5,7 +5,7 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
-    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "bouchonType": "Bouchon bourgeois : gastronomique, hommage aux bouchons.",
     "vegetarianOption": true,
     "terrace": true,
     "machonOption": false,
@@ -18,11 +18,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
+    "valueForMoney": false,
     "specialties": [
       "Quenelle de brochet",
       "Tarte aux pralines",
       "Pâté-croûte"
     ],
+    "description": "Derrière sa façade bourgeoise, le Vivarais garde le cœur d’un vrai bouchon lyonnais. Williams et Audrey Jacquier y servent une cuisine sincère et savoureuse, entre héritage des Mères lyonnaises et esprit de famille.",
+    "articleURL": "https://compagnie-du-rognon.fr/vivarais-lyon/",
     "openingHours": [
       {
         "day": 2,
@@ -89,7 +92,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
@@ -102,11 +105,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
+    "valueForMoney": false,
     "specialties": [
       "Pâté-croûte",
       "Tarte aux pralines",
       "Quenelle de brochet"
     ],
+    "description": "Institution lyonnaise depuis 1928, le Café Comptoir Abel perpétue l’âme du bouchon authentique. Dans son décor d’époque, on savoure quenelle, poulet aux morilles et convivialité à l’ancienne.",
+    "articleURL": "https://compagnie-du-rognon.fr/cafe-comptoir-abel-le-plus-vieux-bouchon-lyonnais/",
     "openingHours": [
       {
         "day": 0,
@@ -193,7 +199,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
-    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
@@ -206,11 +212,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
+    "valueForMoney": false,
     "specialties": [
       "Pâté-croûte",
       "Quenelle de brochet",
       "Tarte aux pralines"
     ],
+    "description": "Le Café du Jura perpétue l’âme lyonnaise avec sa cuisine franche, ses plats canailles et son accueil sincère. Un bouchon hors du temps, où tradition et authenticité se savourent sans détour.",
+    "articleURL": "https://compagnie-du-rognon.fr/cafe-jura-bouchon-lyonnais/",
     "openingHours": [
       {
         "day": 2,
@@ -277,7 +286,7 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
@@ -290,7 +299,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Œufs meurette",
+      "Quenelle de brochet",
+      "Tarte aux pralines"
+    ],
+    "description": "Le Poêlon d’Or marie tradition et raffinement. Dans ce décor Art Déco, Murielle et Yann Lalle perpétuent l’esprit bouchon avec une cuisine lyonnaise fine et généreuse.",
+    "articleURL": "https://compagnie-du-rognon.fr/poelon-or-bouchon-lyonnais/",
     "openingHours": [
       {
         "day": 2,
@@ -357,7 +373,7 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
-    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "bouchonType": "Bouchon bourgeois : gastronomique, hommage aux bouchons.",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
@@ -370,7 +386,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Pâté-croûte",
+      "Œufs meurette",
+      "Quenelle de brochet"
+    ],
+    "description": "Entre tradition et gastronomie, Daniel & Denise Créqui sublime l’esprit bouchon. Joseph Viola, MOF, y signe une cuisine lyonnaise raffinée et sincère, servie dans une ambiance chaleureuse et intemporelle.",
+    "articleURL": "https://compagnie-du-rognon.fr/daniel-denise-crequi-bouchon-lyonnais/",
     "openingHours": [
       {
         "day": 1,
@@ -437,7 +460,7 @@
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
@@ -450,7 +473,13 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Pâté-croûte",
+      "Quenelle de brochet"
+    ],
+    "description": "Aux Culottes Longues de Lyon, David Cano célèbre la bombance avec cœur et audace. Cuisine généreuse, plats canailles et ambiance conviviale : un bouchon qui pousse le plaisir jusqu’au bout de l’assiette.",
+    "articleURL": "https://compagnie-du-rognon.fr/culottes-longues-lyon/",
     "openingHours": [
       {
         "day": 2,
@@ -517,7 +546,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
@@ -530,7 +559,13 @@
     "wineFavorite": true,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Tablier de sapeur",
+      "Quenelle de brochet"
+    ],
+    "description": "Entre tradition et audace, Le Garet incarne l’esprit bouchon dans toute sa splendeur. Décor d’époque, plats canailles et clins d’œil insolites : un lieu historique où la bombance résiste encore et toujours.",
+    "articleURL": "https://compagnie-du-rognon.fr/le-garet-lyon-bouchon/",
     "openingHours": [
       {
         "day": 1,
@@ -597,7 +632,7 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon moderne",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": true,
@@ -610,7 +645,12 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Quenelle de brochet"
+    ],
+    "description": "Au Café du Peintre, l’esprit des Mères lyonnaises perdure dans une cuisine sincère et soignée. Entre tradition et créativité, chaque plat esquisse le portrait d’un bouchon vivant et généreux des Brotteaux.",
+    "articleURL": "https://compagnie-du-rognon.fr/cafe-du-peintre-bouchon-lyonnais/",
     "openingHours": [
       {
         "day": 1,
@@ -687,7 +727,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
@@ -700,7 +740,15 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Œufs meurette",
+      "Tablier de sapeur",
+      "Quenelle de brochet",
+      "Tarte aux pralines"
+    ],
+    "description": "Au Comptoir Brunet, Benjamin Baldassini perpétue l’héritage familial avec passion. Dans ce bouchon emblématique, tradition, générosité et respect du produit s’unissent pour célébrer Lyon dans toute sa gourmandise.",
+    "articleURL": "https://compagnie-du-rognon.fr/bouchon-comptoir-brunet/",
     "openingHours": [
       {
         "day": 0,
@@ -767,7 +815,7 @@
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
@@ -780,7 +828,15 @@
     "wineFavorite": true,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Pâté-croûte",
+      "Quenelle de brochet",
+      "Tablier de sapeur",
+      "Œufs meurette"
+    ],
+    "description": "Institution lyonnaise, La Meunière incarne l’esprit bouchon dans toute sa splendeur. Sous la houlette d’Olivier Canal, plats canailles, audace et convivialité s’unissent pour célébrer Lyon comme il se doit.",
+    "articleURL": "https://compagnie-du-rognon.fr/la-meuniere-lyon/",
     "openingHours": [
       {
         "day": 2,
@@ -847,8 +903,8 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon moderne",
-    "vegetarianOption": false,
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
+    "vegetarianOption": true,
     "terrace": true,
     "machonOption": true,
     "remarkableDecoration": false,
@@ -860,7 +916,10 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
+    "valueForMoney": false,
     "specialties": [],
+    "description": "À L’Antr’O Potes, Julien Le Guillou célèbre l’esprit bouchon avec convivialité et générosité. Terrasse cachée, plats canailles et rires partagés : ici, la cuisine lyonnaise se savoure entre vrais copains.",
+    "articleURL": "https://compagnie-du-rognon.fr/antropotes-lyon-bouchon/",
     "openingHours": [
       {
         "day": 2,
@@ -922,10 +981,10 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
-    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
-    "vegetarianOption": false,
+    "bouchonType": "Bouchon bourgeois : gastronomique, hommage aux bouchons.",
+    "vegetarianOption": true,
     "terrace": true,
-    "machonOption": false,
+    "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": false,
     "reservation": false,
@@ -935,7 +994,14 @@
     "wineFavorite": true,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Pâté-croûte",
+      "Quenelle de brochet",
+      "Tarte aux pralines"
+    ],
+    "description": "Entre tradition et modernité, le Bouchon Sully ravive l’esprit lyonnais avec élégance. Julien Gautier et Emmanuel Tachon-Foley y signent une cuisine généreuse et soignée, dans un cadre chaleureux et contemporain.",
+    "articleURL": "https://compagnie-du-rognon.fr/bouchon-sully/",
     "openingHours": [
       {
         "day": 1,
@@ -1002,7 +1068,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
@@ -1015,7 +1081,13 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Œufs meurette",
+      "Tarte aux pralines"
+    ],
+    "description": "Au cœur du Vieux Lyon, Les Fines Gueules réconcilie tradition et exigence. Joël Salzi y sert une cuisine lyonnaise sincère et savoureuse, dans un cadre chaleureux où l’esprit bouchon reste roi.",
+    "articleURL": "https://compagnie-du-rognon.fr/les-fines-gueules-lyon/",
     "openingHours": [
       {
         "day": 2,
@@ -1082,7 +1154,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon moderne",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
@@ -1095,7 +1167,16 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Œufs meurette",
+      "Tablier de sapeur",
+      "Quenelle de brochet",
+      "Tarte aux pralines",
+      "Pâté-croûte"
+    ],
+    "description": "Au Bouchon des Cordeliers, Cédric Garin perpétue l’esprit lyonnais avec brio. Cuisine généreuse, vins choisis et ambiance gouailleuse : un bouchon moderne où la tradition garde toute sa saveur.",
+    "articleURL": "https://compagnie-du-rognon.fr/le-bouchon-des-cordeliers/",
     "openingHours": [
       {
         "day": 2,
@@ -1162,8 +1243,8 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
-    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
-    "vegetarianOption": false,
+    "bouchonType": "Bouchon bourgeois : gastronomique, hommage aux bouchons.",
+    "vegetarianOption": true,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": false,
@@ -1175,7 +1256,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": false,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Pâté-croûte",
+      "Œufs meurette",
+      "Quenelle de brochet"
+    ],
+    "description": "À La Mère Léa, Christian Têtedoie et son équipe rendent un hommage élégant et gourmand aux bouchons lyonnais. Entre héritage des Mères et exigence de MOF, tradition et finesse se marient sans fausse note.",
+    "articleURL": "https://compagnie-du-rognon.fr/la-mere-lea/",
     "openingHours": [
       {
         "day": 2,
@@ -1242,10 +1330,10 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": false,
-    "machonOption": false,
+    "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": true,
     "reservation": false,
@@ -1255,7 +1343,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Œufs meurette",
+      "Quenelle de brochet",
+      "Tarte aux pralines"
+    ],
+    "description": "Entre héritage des Mères lyonnaises et esprit canaille, Le Casse Museau ravive la tradition avec brio. Accueil chaleureux, plats classiques et ambiance feutrée : un bouchon qui allie histoire et bonne humeur.",
+    "articleURL": "https://compagnie-du-rognon.fr/le-casse-museau/",
     "openingHours": [
       {
         "day": 2,
@@ -1322,7 +1417,7 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
-    "bouchonType": "Bouchon moderne",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
@@ -1335,7 +1430,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Pâté-croûte",
+      "Œufs meurette",
+      "Quenelle de brochet"
+    ],
+    "description": "Au Bât d’Argent, Loïc Garcia réinvente le bouchon lyonnais avec audace. Entre tradition et modernité, ce néo-bouchon marie héritage gourmand et créativité contemporaine, sans jamais renier la convivialité.",
+    "articleURL": "https://compagnie-du-rognon.fr/bouchon-bat-argent/",
     "openingHours": [
       {
         "day": 2,
@@ -1402,7 +1504,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "bouchonType": "Bouchon bourgeois : gastronomique, hommage aux bouchons.",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
@@ -1415,7 +1517,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Pâté-croûte",
+      "Quenelle de brochet",
+      "Œufs meurette"
+    ],
+    "description": "À Daniel et Denise Croix-Rousse, Joseph Viola signe une ode à la gourmandise. Dans un cadre élégant et chaleureux, la cuisine canaille se fait raffinée, généreuse et toujours fidèle à l’esprit bouchon lyonnais.",
+    "articleURL": "https://compagnie-du-rognon.fr/daniel-denise-croix-rousse/",
     "openingHours": [
       {
         "day": 2,
@@ -1482,7 +1591,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
@@ -1495,7 +1604,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Œufs meurette",
+      "Quenelle de brochet",
+      "Tablier de sapeur"
+    ],
+    "description": "Voisin de La Mère Léa, Le Comptoir de Léa célèbre l’esprit bouchon dans toute sa franchise. Cuisine canaille, portions généreuses et ambiance gouailleuse : un hommage vivant aux Mères lyonnaises et à",
+    "articleURL": "https://compagnie-du-rognon.fr/comptoir-de-lea/",
     "openingHours": [
       {
         "day": 2,
@@ -1562,20 +1678,28 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
-    "bouchonType": "Bouchon classique : une table moderne, qui perpétue la tradition.",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
+    "reservation": true,
     "dateFriendly": false,
     "businessMeal": true,
     "compagnieFavorite": false,
     "wineFavorite": true,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Tablier de sapeur",
+      "Quenelle de brochet",
+      "Œufs meurette",
+      "Tarte aux pralines"
+    ],
+    "description": "Face aux Halles Bocuse, Le Val d’Isère perpétue les codes du bouchon lyonnais avec sérieux. Sous la houlette d’Édouard Baudin, on y retrouve une cuisine classique et bien exécutée.",
+    "articleURL": "https://compagnie-du-rognon.fr/val-isere-bouchon-lyonnais/",
     "openingHours": [
       {
         "day": 1,
@@ -1642,7 +1766,7 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
@@ -1655,7 +1779,12 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Quenelle de brochet"
+    ],
+    "description": "À la Tête de Lard, Yoann Blanc revisite la tradition lyonnaise sans trahir son esprit. Cuisine franche, ambiance joyeuse et décor sans chichis : un bouchon qui assume son nom et son caractère.",
+    "articleURL": "https://compagnie-du-rognon.fr/tete-de-lard/",
     "openingHours": [
       {
         "day": 3,
@@ -1712,10 +1841,10 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
-    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "bouchonType": "Bouchon bourgeois : gastronomique, hommage aux bouchons.",
     "vegetarianOption": false,
     "terrace": true,
-    "machonOption": false,
+    "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": false,
     "reservation": false,
@@ -1725,7 +1854,13 @@
     "wineFavorite": true,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Pâté-croûte",
+      "Quenelle de brochet"
+    ],
+    "description": "Petit frère du mythique Café Comptoir Abel, le Bistrot Abel marie tradition lyonnaise et esprit contemporain. Dans un décor feutré, l’équipe en cuisine revisite les classiques avec justesse et une belle touche de modernité.",
+    "articleURL": "https://compagnie-du-rognon.fr/bistrot-abel-bistrot-lyonnais-gastronomique/",
     "openingHours": [
       {
         "day": 2,
@@ -1792,7 +1927,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon moderne",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
@@ -1805,7 +1940,13 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Quenelle de brochet",
+      "Tarte aux pralines"
+    ],
+    "description": "Au Bouchon des Artistes, Michael Romano et son équipe signent une cuisine lyonnaise élégante et maîtrisée. Entre tradition et créativité, chaque plat trouve le juste ton dans ce décor chaleureux et sans fausse note.",
+    "articleURL": "https://compagnie-du-rognon.fr/bouchon-artistes/",
     "openingHours": [
       {
         "day": 1,
@@ -1872,7 +2013,7 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Calme & spacieux : un cadre tranquille et des tables espacées",
-    "bouchonType": "Bouchon bourgeois : une table gastronomique en hommage à la cuisine lyonnaise.",
+    "bouchonType": "Bouchon bourgeois : gastronomique, hommage aux bouchons.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
@@ -1885,7 +2026,10 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
+    "valueForMoney": false,
     "specialties": [],
+    "description": "Dans le Vieux-Lyon, Daniel et Denise Saint-Jean perpétue l’esprit de Joseph Viola avec justesse. Sous la houlette du chef Cyril Renaud, la cuisine canaille gagne en finesse, sans perdre l’âme conviviale du bouchon.",
+    "articleURL": "https://compagnie-du-rognon.fr/daniel-denise-saint-jean/",
     "openingHours": [
       {
         "day": 2,
@@ -1952,7 +2096,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon moderne",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": true,
@@ -1965,7 +2109,14 @@
     "wineFavorite": true,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": false,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Quenelle de brochet",
+      "Tablier de sapeur",
+      "Œufs meurette"
+    ],
+    "description": "Face à la cathédrale Saint-Jean, l’Auberge des Canuts surprend par sa sincérité. Romain Véricel y signe une cuisine lyonnaise soignée et généreuse, servie dans un cadre chaleureux où l’accueil fait toute la différence.",
+    "articleURL": "https://compagnie-du-rognon.fr/auberge-canuts/",
     "openingHours": [
       {
         "day": 0,
@@ -2017,20 +2168,25 @@
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": true,
     "remarkableTeam": true,
-    "reservation": false,
+    "reservation": true,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Quenelle de brochet"
+    ],
+    "description": "Dans le Vieux-Lyon, Notre Maison porte bien son nom. Cadre foisonnant, cuisine maison et convivialité sincère : ce bouchon sans fioritures mise sur la générosité et l’esprit d’auberge lyonnaise d’autrefois.",
+    "articleURL": "https://compagnie-du-rognon.fr/notre-maison-lyon/",
     "openingHours": [
       {
         "day": 0,
@@ -2087,10 +2243,10 @@
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": false,
-    "machonOption": false,
+    "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": false,
     "reservation": false,
@@ -2100,7 +2256,15 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": false,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Œufs meurette",
+      "Tablier de sapeur",
+      "Quenelle de brochet",
+      "Tarte aux pralines"
+    ],
+    "description": "À deux pas de Lyon, le Bistrot du Marché – Chez Nénette cultive l’esprit bouchon en pleine campagne. Didier Largemain y sert une cuisine franche et gourmande, entre convivialité beaujolaise et tradition lyonnaise.",
+    "articleURL": "https://compagnie-du-rognon.fr/chez-nenette/",
     "openingHours": [
       {
         "day": 1,
@@ -2152,10 +2316,10 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": false,
-    "machonOption": false,
+    "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": true,
     "reservation": false,
@@ -2165,7 +2329,15 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Tablier de sapeur",
+      "Quenelle de brochet",
+      "Tarte aux pralines",
+      "Œufs meurette"
+    ],
+    "description": "Institution parmi les institutions, le Café des Fédérations reste fidèle à son mythe. Jean-Luc Plasse-Molette perpétue l’esprit bouchon : cuisine franche, ambiance vivante et scrupuleux des traditions lyonnaises.",
+    "articleURL": "https://compagnie-du-rognon.fr/le-cafe-des-federations/",
     "openingHours": [
       {
         "day": 0,
@@ -2252,7 +2424,7 @@
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
@@ -2265,7 +2437,13 @@
     "wineFavorite": true,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Tarte aux pralines",
+      "Quenelle de brochet"
+    ],
+    "description": "À ma Vigne reste fidèle à l’esprit des Giraud tout en s’ouvrant à son époque. Entre steak frites mythique, gratin d’andouillettes et accueil chaleureux, ce bouchon du 7ᵉ prouve qu’on peut raviver la tradition sans la trahir.",
+    "articleURL": "https://compagnie-du-rognon.fr/a-ma-vigne-2/",
     "openingHours": [
       {
         "day": 1,
@@ -2332,8 +2510,8 @@
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
-    "vegetarianOption": false,
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
+    "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": false,
@@ -2345,7 +2523,14 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Tablier de sapeur",
+      "Quenelle de brochet",
+      "Pâté-croûte"
+    ],
+    "description": "Les 4G prouve qu’un vrai bouchon peut s’épanouir loin de la Presqu’île. Tripaille soignée, ambiance gouailleuse et accueil généreux : Philippe, Chloé et leur équipe signent une table sans manières, fidèle à l’esprit lyonnais.",
+    "articleURL": "https://compagnie-du-rognon.fr/les-4g-lyon/",
     "openingHours": [
       {
         "day": 1,
@@ -2387,7 +2572,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon moderne",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
@@ -2400,7 +2585,13 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Œufs meurette",
+      "Quenelle de brochet",
+      "Tarte aux pralines"
+    ],
+    "description": "À venir",
     "openingHours": [
       {
         "day": 0,
@@ -2482,7 +2673,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon moderne",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
@@ -2495,7 +2686,13 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Œufs meurette",
+      "Quenelle de brochet"
+    ],
+    "description": "Le Mercière réussit le pari de plaire à tout Lyon. Touristes, habitués et becs fins s’y côtoient dans une joyeuse promiscuité. Classicisme lyonnais se frotte sans complexe à une touche contemporaine bien dosée.",
+    "articleURL": "https://compagnie-du-rognon.fr/le-merciere/",
     "openingHours": [
       {
         "day": 0,
@@ -2582,20 +2779,26 @@
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
+    "reservation": true,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
     "wineFavorite": true,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Tablier de sapeur",
+      "Quenelle de brochet",
+      "Tarte aux pralines"
+    ],
+    "description": "À venir",
     "openingHours": [
       {
         "day": 1,
@@ -2662,8 +2865,8 @@
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
     "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
-    "bouchonType": "Bouchon traditionnel : un bouchon resté dans son jus, 100% authentique.",
-    "vegetarianOption": false,
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
+    "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": true,
@@ -2675,7 +2878,12 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "specialties": [],
+    "valueForMoney": false,
+    "specialties": [
+      "Quenelle de brochet",
+      "Tablier de sapeur"
+    ],
+    "description": "À venir",
     "openingHours": [
       {
         "day": 0,
@@ -2722,7 +2930,7 @@
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
-    "bouchonType": "Bouchon moderne",
+    "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": false,
@@ -2735,7 +2943,9 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
+    "valueForMoney": false,
     "specialties": [],
+    "description": "À venir",
     "openingHours": [
       {
         "day": 0,
