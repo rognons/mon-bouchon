@@ -108,8 +108,8 @@ let allBouchons: BouchonData[] = []; // Toutes les données, pour options de fil
 
 // Nouveaux filtres selon les critères de la Compagnie du Rognon
 let selectedPrixMenuBase: string = '';
-let selectedArrondissement: string = '';
-let selectedQuartier: string = '';
+let selectedArrondissements: string[] = [];
+let selectedQuartiers: string[] = [];
 let selectedOuvertures: string = '';
 let selectedQuantite: string = '';
 let selectedTypeMangeur: string = '';
@@ -129,8 +129,8 @@ let hasActiveFilters = false;
 
 $: hasActiveFilters = Boolean(
   selectedPrixMenuBase ||
-    selectedArrondissement ||
-    selectedQuartier ||
+    selectedArrondissements.length > 0 ||
+    selectedQuartiers.length > 0 ||
     selectedOuvertures ||
     selectedQuantite ||
     selectedTypeMangeur ||
@@ -219,8 +219,8 @@ async function searchBouchons() {
 
     // Ajout des filtres uniquement s'ils sont définis
     if (selectedPrixMenuBase) filters.priceLevel = String(Number(selectedPrixMenuBase));
-    if (selectedArrondissement) filters.postalCode = selectedArrondissement;
-    if (selectedQuartier) filters.neighborhood = selectedQuartier;
+    if (selectedArrondissements.length > 0) filters.postalCode = selectedArrondissements.join(',');
+    if (selectedQuartiers.length > 0) filters.neighborhood = selectedQuartiers.join(',');
     if (selectedOuvertures) filters.openingHours = selectedOuvertures;
     if (selectedQuantite) filters.portionSize = selectedQuantite;
     if (selectedTypeMangeur) filters.eaterType = selectedTypeMangeur;
@@ -306,8 +306,8 @@ async function applyFilters() {
 $: {
   const searchTriggers = [
     selectedPrixMenuBase,
-    selectedArrondissement,
-    selectedQuartier,
+    selectedArrondissements,
+    selectedQuartiers,
     selectedOuvertures,
     selectedQuantite,
     selectedTypeMangeur,
@@ -331,8 +331,8 @@ $: {
 
 function clearFilters() {
   selectedPrixMenuBase = '';
-  selectedArrondissement = '';
-  selectedQuartier = '';
+  selectedArrondissements = [];
+  selectedQuartiers = [];
   selectedOuvertures = '';
   selectedQuantite = '';
   selectedTypeMangeur = '';
@@ -380,8 +380,8 @@ function clearFilters() {
     {typeAmbianceOptions}
     {typeBouchonOptions}
   bind:selectedPrixMenuBase
-  bind:selectedArrondissement
-  bind:selectedQuartier
+  bind:selectedArrondissements
+  bind:selectedQuartiers
   bind:selectedQuantite
   bind:selectedTypeMangeur
   bind:selectedTypeAmbiance

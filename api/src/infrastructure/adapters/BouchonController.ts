@@ -81,7 +81,6 @@ export class BouchonController {
       id: bouchon.id.value,
       name: bouchon.name,
       address: bouchon.address.street,
-      district: bouchon.address.district,
       neighborhood: bouchon.address.neighborhood,
       postalCode: bouchon.address.postalCode,
       phone: bouchon.contact.phone,

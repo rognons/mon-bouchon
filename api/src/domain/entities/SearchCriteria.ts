@@ -2,8 +2,8 @@
 export class SearchCriteria {
   constructor(
     public readonly priceLevel?: number,
-    public readonly district?: string,
-    public readonly neighborhood?: string,
+    public readonly postalCode?: string | string[],
+    public readonly neighborhood?: string | string[],
     public readonly openingHours?: string,
     public readonly portionSize?: string,
     public readonly eaterType?: string,
@@ -22,20 +22,23 @@ export class SearchCriteria {
     public readonly sortOrder?: SortOrder,
   ) {}
 
-  isValidDistrict(): boolean {
-    if (!this.district) return true;
-    const validDistricts = [
-      "1er",
-      "2ème",
-      "3ème",
-      "4ème",
-      "5ème",
-      "6ème",
-      "7ème",
-      "8ème",
-      "9ème",
+  isValidPostalCode(): boolean {
+    if (!this.postalCode) return true;
+    const validPostalCodes = [
+      "69001",
+      "69002",
+      "69003",
+      "69004",
+      "69005",
+      "69006",
+      "69007",
+      "69008",
+      "69009",
     ];
-    return validDistricts.includes(this.district);
+    const postalCodes = Array.isArray(this.postalCode)
+      ? this.postalCode
+      : [this.postalCode];
+    return postalCodes.every((d) => validPostalCodes.includes(d));
   }
 
   hasAnyCriteria(): boolean {
@@ -49,19 +52,23 @@ export class SearchCriteria {
 export type SortBy =
   | "default"
   | "rating"
-  | "price"
-  | "name"
-  | "district"
-  | "favorite";
+  | "price";
 export type SortOrder = "asc" | "desc";
 
 // Factory to create SearchCriteria from HTTP parameters
 export class SearchCriteriaFactory {
   static fromUrlParams(params: Record<string, string>): SearchCriteria {
+    const parseMultiValue = (value?: string): string | string[] | undefined => {
+      if (!value) return undefined;
+      const values = value.split(",").map((v) => v.trim()).filter((v) => v);
+
+      return values.length === 1 ? values[0] : values;
+    };
+
     return new SearchCriteria(
       params.priceLevel ? Number(params.priceLevel) : undefined,
-      params.district || params.arrondissement,
-      params.neighborhood || params.quartier,
+      parseMultiValue(params.postalCode),
+      parseMultiValue(params.neighborhood),
       params.openingHours || params.ouvertures,
       params.portionSize || params.quantite,
       params.eaterType || params.typeMangeur,

@@ -13,8 +13,8 @@ export class SearchBouchonsUseCase {
   async execute(criteria: SearchCriteria): Promise<Bouchon[]> {
     // Criteria validation
 
-    if (!criteria.isValidDistrict()) {
-      throw new InvalidSearchCriteriaError("Invalid district");
+    if (!criteria.isValidPostalCode()) {
+      throw new InvalidSearchCriteriaError("Invalid postal code");
     }
 
     // If no criteria, return all bouchons

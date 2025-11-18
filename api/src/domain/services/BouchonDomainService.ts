@@ -44,19 +44,6 @@ export class BouchonDomainService {
           compareValue = priceA - priceB;
           break;
         }
-        case "name": {
-          compareValue = a.name.localeCompare(b.name);
-          break;
-        }
-        case "district": {
-          compareValue = a.address.district.localeCompare(b.address.district);
-          break;
-        }
-        case "favorite": {
-          compareValue = (a.isCoupDeCoeur() ? 1 : 0) -
-            (b.isCoupDeCoeur() ? 1 : 0);
-          break;
-        }
         default:
           return 0;
       }
@@ -79,14 +66,24 @@ export class BouchonDomainService {
     }
 
     // Location
-    if (criteria.district && bouchon.address.district !== criteria.district) {
-      return false;
+    if (criteria.postalCode) {
+      const postalCodes = Array.isArray(criteria.postalCode)
+        ? criteria.postalCode
+        : [criteria.postalCode];
+      if (
+        bouchon.address.postalCode &&
+        !postalCodes.includes(bouchon.address.postalCode)
+      ) {
+        return false;
+      }
     }
-    if (
-      criteria.neighborhood &&
-      bouchon.address.neighborhood !== criteria.neighborhood
-    ) {
-      return false;
+    if (criteria.neighborhood) {
+      const neighborhoods = Array.isArray(criteria.neighborhood)
+        ? criteria.neighborhood
+        : [criteria.neighborhood];
+      if (!neighborhoods.includes(bouchon.address.neighborhood)) {
+        return false;
+      }
     }
 
     // Services

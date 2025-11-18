@@ -79,7 +79,6 @@ export class JsonBouchonRepository implements BouchonRepository {
       json.name,
       new Address(
         json.address,
-        "",
         json.neighborhood,
         json.postalCode,
         json.mapsUrl,

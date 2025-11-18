@@ -1,5 +1,6 @@
 <script lang="ts">
 import FilterSelect from './FilterSelect.svelte';
+import FilterMultiSelect from './FilterMultiSelect.svelte';
 import FilterTime from './FilterTime.svelte';
 import FilterCheckbox from './FilterCheckbox.svelte';
 import { createEventDispatcher, onMount } from 'svelte';
@@ -19,8 +20,8 @@ export let typeAmbianceOptions: string[];
 export let typeBouchonOptions: string[];
 
 export let selectedPrixMenuBase: string;
-export let selectedArrondissement: string;
-export let selectedQuartier: string;
+export let selectedArrondissements: string[];
+export let selectedQuartiers: string[];
 export let selectedQuantite: string;
 export let selectedTypeMangeur: string;
 export let selectedTypeAmbiance: string;
@@ -63,17 +64,17 @@ const dispatch = createEventDispatcher();
             emoji="💰"
             ariaLabel="Prix du menu de base"
         />
-        <FilterSelect
+        <FilterMultiSelect
             label="Tous les arrondissements"
             options={arrondissements}
-            bind:value={selectedArrondissement}
+            bind:selectedValues={selectedArrondissements}
             emoji="📍"
             ariaLabel="Arrondissement"
         />
-        <FilterSelect
+        <FilterMultiSelect
             label="Tous les quartiers"
             options={quartiers}
-            bind:value={selectedQuartier}
+            bind:selectedValues={selectedQuartiers}
             emoji="🏘️"
             ariaLabel="Quartier"
         />

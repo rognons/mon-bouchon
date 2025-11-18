@@ -48,7 +48,6 @@ export class BouchonId {
 export class Address {
   constructor(
     public readonly street: string,
-    public readonly district: string,
     public readonly neighborhood: string,
     public readonly postalCode?: string,
     public readonly mapsUrl?: string,
