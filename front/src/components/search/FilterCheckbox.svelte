@@ -37,6 +37,7 @@ export let emoji: string;
         background: #ffffff;
         transition: all 0.2s ease;
         border: 1px solid transparent;
+        position: relative;
     }
     .checkbox-group label:hover {
         background: rgba(240, 198, 218, 0.1);
@@ -51,25 +52,32 @@ export let emoji: string;
         position: relative;
         cursor: help;
         display: inline-block;
+        margin-left: auto;
     }
     .tooltip-block .tooltip-text {
         visibility: hidden;
-        width: 320px;
+        width: 280px;
         background: #f0c6da;
         color: #221f20;
         text-align: left;
         border-radius: 8px;
         padding: 0.8em 1em;
         position: absolute;
-        z-index: 10;
+        z-index: 1000;
         bottom: 125%;
-        left: 50%;
-        transform: translateX(-50%);
+        right: 0;
         box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
         font-size: 0.95em;
         opacity: 0;
         transition: opacity 0.2s;
         pointer-events: none;
+        white-space: normal;
+    }
+    @media (max-width: 768px) {
+        .tooltip-block .tooltip-text {
+            width: min(280px, calc(100vw - 2rem));
+            right: 0;
+        }
     }
     .tooltip-block:hover .tooltip-text,
     .tooltip-block:focus .tooltip-text {
