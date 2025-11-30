@@ -1,6 +1,7 @@
 [
   {
     "name": "Le Vivarais",
+    "menuPrice": "31,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -26,6 +27,8 @@
     ],
     "description": "Derrière sa façade bourgeoise, le Vivarais garde le cœur d’un vrai bouchon lyonnais. Williams et Audrey Jacquier y servent une cuisine sincère et savoureuse, entre héritage des Mères lyonnaises et esprit de famille.",
     "articleUrl": "https://compagnie-du-rognon.fr/vivarais-lyon/",
+    "menuUrl": "https://www.restaurant-levivarais.fr/menus-carte/",
+    "bookingUrl": "https://www.restaurant-levivarais.fr/",
     "openingHours": [
       {
         "day": 2,
@@ -88,6 +91,7 @@
   },
   {
     "name": "Comptoir Abel",
+    "menuPrice": "44,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -113,6 +117,8 @@
     ],
     "description": "Institution lyonnaise depuis 1928, le Café Comptoir Abel perpétue l’âme du bouchon authentique. Dans son décor d’époque, on savoure quenelle, poulet aux morilles et convivialité à l’ancienne.",
     "articleUrl": "https://compagnie-du-rognon.fr/cafe-comptoir-abel-le-plus-vieux-bouchon-lyonnais/",
+    "menuUrl": "https://www.maisonabel.fr/wp-content/uploads/2023/11/CARTE-HIVER-2023-2024-FR-ENG.pdf",
+    "bookingUrl": "https://bookings.zenchef.com/results?rid=357745&fullscreen=1",
     "openingHours": [
       {
         "day": 0,
@@ -195,6 +201,7 @@
   },
   {
     "name": "Café du Jura",
+    "menuPrice": "37,50 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -220,6 +227,8 @@
     ],
     "description": "Le Café du Jura perpétue l’âme lyonnaise avec sa cuisine franche, ses plats canailles et son accueil sincère. Un bouchon hors du temps, où tradition et authenticité se savourent sans détour.",
     "articleUrl": "https://compagnie-du-rognon.fr/cafe-jura-bouchon-lyonnais/",
+    "menuUrl": "https://cafedujura.fr/la-carte/",
+    "bookingUrl": "https://cafedujura.fr/reservations/",
     "openingHours": [
       {
         "day": 2,
@@ -282,6 +291,7 @@
   },
   {
     "name": "Le Poelon d'Or",
+    "menuPrice": "34,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -307,6 +317,8 @@
     ],
     "description": "Le Poêlon d’Or marie tradition et raffinement. Dans ce décor Art Déco, Murielle et Yann Lalle perpétuent l’esprit bouchon avec une cuisine lyonnaise fine et généreuse.",
     "articleUrl": "https://compagnie-du-rognon.fr/poelon-or-bouchon-lyonnais/",
+    "menuUrl": "https://www.lepoelondor-restaurant.fr",
+    "bookingUrl": "https://www.lepoelondor-restaurant.fr/reservation",
     "openingHours": [
       {
         "day": 2,
@@ -369,6 +381,7 @@
   },
   {
     "name": "Daniel & Denise Créqui",
+    "menuPrice": "45,00 €",
     "neighborhood": "",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -394,6 +407,8 @@
     ],
     "description": "Entre tradition et gastronomie, Daniel & Denise Créqui sublime l’esprit bouchon. Joseph Viola, MOF, y signe une cuisine lyonnaise raffinée et sincère, servie dans une ambiance chaleureuse et intemporelle.",
     "articleUrl": "https://compagnie-du-rognon.fr/daniel-denise-crequi-bouchon-lyonnais/",
+    "menuUrl": "https://danieletdenise.fr/wp-content/uploads/2025/07/Carte-crequi-NEW-2025-49.pdf",
+    "bookingUrl": "https://bookings.zenchef.com/results?rid=353715&pid=1001",
     "openingHours": [
       {
         "day": 1,
@@ -456,6 +471,7 @@
   },
   {
     "name": "Les Culottes Longues",
+    "menuPrice": "-",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
@@ -480,6 +496,8 @@
     ],
     "description": "Aux Culottes Longues de Lyon, David Cano célèbre la bombance avec cœur et audace. Cuisine généreuse, plats canailles et ambiance conviviale : un bouchon qui pousse le plaisir jusqu’au bout de l’assiette.",
     "articleUrl": "https://compagnie-du-rognon.fr/culottes-longues-lyon/",
+    "menuUrl": "",
+    "bookingUrl": "https://les-culottes-longues.com/fr/booking",
     "openingHours": [
       {
         "day": 2,
@@ -542,6 +560,7 @@
   },
   {
     "name": "Le Garet",
+    "menuPrice": "32,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
@@ -566,6 +585,8 @@
     ],
     "description": "Entre tradition et audace, Le Garet incarne l’esprit bouchon dans toute sa splendeur. Décor d’époque, plats canailles et clins d’œil insolites : un lieu historique où la bombance résiste encore et toujours.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-garet-lyon-bouchon/",
+    "menuUrl": "",
+    "bookingUrl": "",
     "openingHours": [
       {
         "day": 1,
@@ -628,6 +649,7 @@
   },
   {
     "name": "Café du Peintre",
+    "menuPrice": "25,00 €",
     "neighborhood": "",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -651,6 +673,8 @@
     ],
     "description": "Au Café du Peintre, l’esprit des Mères lyonnaises perdure dans une cuisine sincère et soignée. Entre tradition et créativité, chaque plat esquisse le portrait d’un bouchon vivant et généreux des Brotteaux.",
     "articleUrl": "https://compagnie-du-rognon.fr/cafe-du-peintre-bouchon-lyonnais/",
+    "menuUrl": "https://lecafedupeintre.com/menu-bouchon-lyonnais/",
+    "bookingUrl": "",
     "openingHours": [
       {
         "day": 1,
@@ -723,6 +747,7 @@
   },
   {
     "name": "Brunet",
+    "menuPrice": "32,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
@@ -749,6 +774,8 @@
     ],
     "description": "Au Comptoir Brunet, Benjamin Baldassini perpétue l’héritage familial avec passion. Dans ce bouchon emblématique, tradition, générosité et respect du produit s’unissent pour célébrer Lyon dans toute sa gourmandise.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchon-comptoir-brunet/",
+    "menuUrl": "https://bouchonlyonnaisbrunet.com/fr/services",
+    "bookingUrl": "https://bouchonlyonnaisbrunet.com/fr/booking",
     "openingHours": [
       {
         "day": 0,
@@ -811,6 +838,7 @@
   },
   {
     "name": "Meunière",
+    "menuPrice": "35,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
@@ -837,6 +865,8 @@
     ],
     "description": "Institution lyonnaise, La Meunière incarne l’esprit bouchon dans toute sa splendeur. Sous la houlette d’Olivier Canal, plats canailles, audace et convivialité s’unissent pour célébrer Lyon comme il se doit.",
     "articleUrl": "https://compagnie-du-rognon.fr/la-meuniere-lyon/",
+    "menuUrl": "https://www.lameuniere.fr/wp-content/uploads/2024/10/Affiche-menu-ext%C3%A9rieur.pdf",
+    "bookingUrl": "https://www.lameuniere.fr/#reservation",
     "openingHours": [
       {
         "day": 2,
@@ -899,6 +929,7 @@
   },
   {
     "name": "L'Antr'O'Potes",
+    "menuPrice": "34,00 €",
     "neighborhood": "",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -920,6 +951,8 @@
     "specialties": [],
     "description": "À L’Antr’O Potes, Julien Le Guillou célèbre l’esprit bouchon avec convivialité et générosité. Terrasse cachée, plats canailles et rires partagés : ici, la cuisine lyonnaise se savoure entre vrais copains.",
     "articleUrl": "https://compagnie-du-rognon.fr/antropotes-lyon-bouchon/",
+    "menuUrl": "https://lantropotes-lyon.fr/fr/services",
+    "bookingUrl": "https://lantropotes-lyon.fr/fr/booking",
     "openingHours": [
       {
         "day": 2,
@@ -977,6 +1010,7 @@
   },
   {
     "name": "Le Bouchon Sully",
+    "menuPrice": "27,00 €",
     "neighborhood": "",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -1002,6 +1036,8 @@
     ],
     "description": "Entre tradition et modernité, le Bouchon Sully ravive l’esprit lyonnais avec élégance. Julien Gautier et Emmanuel Tachon-Foley y signent une cuisine généreuse et soignée, dans un cadre chaleureux et contemporain.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchon-sully/",
+    "menuUrl": "https://www.lesullylyon.fr/le-restaurant-6-w1",
+    "bookingUrl": "https://bookings.zenchef.com/results?rid=353194&pid=1001",
     "openingHours": [
       {
         "day": 1,
@@ -1064,6 +1100,7 @@
   },
   {
     "name": "Les Fines Gueules",
+    "menuPrice": "36,00 €",
     "neighborhood": "Vieux-Lyon",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
@@ -1088,6 +1125,8 @@
     ],
     "description": "Au cœur du Vieux Lyon, Les Fines Gueules réconcilie tradition et exigence. Joël Salzi y sert une cuisine lyonnaise sincère et savoureuse, dans un cadre chaleureux où l’esprit bouchon reste roi.",
     "articleUrl": "https://compagnie-du-rognon.fr/les-fines-gueules-lyon/",
+    "menuUrl": "https://les-fines-gueules-lyon.com/fr/services",
+    "bookingUrl": "https://les-fines-gueules-lyon.com/fr/booking",
     "openingHours": [
       {
         "day": 2,
@@ -1150,6 +1189,7 @@
   },
   {
     "name": "Le Bouchon des Cordeliers",
+    "menuPrice": "32,50 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -1177,6 +1217,8 @@
     ],
     "description": "Au Bouchon des Cordeliers, Cédric Garin perpétue l’esprit lyonnais avec brio. Cuisine généreuse, vins choisis et ambiance gouailleuse : un bouchon moderne où la tradition garde toute sa saveur.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-bouchon-des-cordeliers/",
+    "menuUrl": "https://www.bouchondescordeliers.com/",
+    "bookingUrl": "https://www.bouchondescordeliers.com/",
     "openingHours": [
       {
         "day": 2,
@@ -1238,7 +1280,8 @@
     "address": "15 Rue Claudia, 69002 Lyon"
   },
   {
-    "name": "La Mère Léa",
+    "name": "La Mère Léa (Maison Léa)",
+    "menuPrice": "43,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -1264,6 +1307,8 @@
     ],
     "description": "À La Mère Léa, Christian Têtedoie et son équipe rendent un hommage élégant et gourmand aux bouchons lyonnais. Entre héritage des Mères et exigence de MOF, tradition et finesse se marient sans fausse note.",
     "articleUrl": "https://compagnie-du-rognon.fr/la-mere-lea/",
+    "menuUrl": "https://lamaisonlea.fr/lamaisonlea/",
+    "bookingUrl": "https://widget.thefork.com/fr/d3a75e31-3381-47d2-9620-0a473f9f51be?utm_source=lamaisonlea.fr",
     "openingHours": [
       {
         "day": 2,
@@ -1326,6 +1371,7 @@
   },
   {
     "name": "Le Casse Museau",
+    "menuPrice": "35,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -1351,6 +1397,8 @@
     ],
     "description": "Entre héritage des Mères lyonnaises et esprit canaille, Le Casse Museau ravive la tradition avec brio. Accueil chaleureux, plats classiques et ambiance feutrée : un bouchon qui allie histoire et bonne humeur.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-casse-museau/",
+    "menuUrl": "https://lecassemuseau.com/",
+    "bookingUrl": "https://lecassemuseau.com/reserver",
     "openingHours": [
       {
         "day": 2,
@@ -1413,6 +1461,7 @@
   },
   {
     "name": "Le Bât d'Argent",
+    "menuPrice": "32,50 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -1438,6 +1487,8 @@
     ],
     "description": "Au Bât d’Argent, Loïc Garcia réinvente le bouchon lyonnais avec audace. Entre tradition et modernité, ce néo-bouchon marie héritage gourmand et créativité contemporaine, sans jamais renier la convivialité.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchon-bat-argent/",
+    "menuUrl": "https://www.bouchonbatdargent.com/",
+    "bookingUrl": "https://www.bouchonbatdargent.com/",
     "openingHours": [
       {
         "day": 2,
@@ -1500,6 +1551,7 @@
   },
   {
     "name": "Daniel & Denise Croix-Rousse",
+    "menuPrice": "37,00 €",
     "neighborhood": "Croix-Rousse",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -1525,6 +1577,8 @@
     ],
     "description": "À Daniel et Denise Croix-Rousse, Joseph Viola signe une ode à la gourmandise. Dans un cadre élégant et chaleureux, la cuisine canaille se fait raffinée, généreuse et toujours fidèle à l’esprit bouchon lyonnais.",
     "articleUrl": "https://compagnie-du-rognon.fr/daniel-denise-croix-rousse/",
+    "menuUrl": "https://danieletdenise.fr/wp-content/uploads/2025/10/Carte-croix-rousse-NEW-2025-7.pdf",
+    "bookingUrl": "https://bookings.zenchef.com/results?rid=353716&pid=1001",
     "openingHours": [
       {
         "day": 2,
@@ -1586,7 +1640,8 @@
     "address": "8 Rue de Cuire, 69004 Lyon"
   },
   {
-    "name": "Le Comptoir de Léa",
+    "name": "Le Comptoir de Léa (Bouchon Léa)",
+    "menuPrice": "37,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -1612,6 +1667,8 @@
     ],
     "description": "Voisin de La Mère Léa, Le Comptoir de Léa célèbre l’esprit bouchon dans toute sa franchise. Cuisine canaille, portions généreuses et ambiance gouailleuse : un hommage vivant aux Mères lyonnaises et à",
     "articleUrl": "https://compagnie-du-rognon.fr/comptoir-de-lea/",
+    "menuUrl": "https://lamaisonlea.fr/bouchon-lea/",
+    "bookingUrl": "",
     "openingHours": [
       {
         "day": 2,
@@ -1674,6 +1731,7 @@
   },
   {
     "name": "Le Val d'Isère",
+    "menuPrice": "32,00 €",
     "neighborhood": "",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -1700,6 +1758,8 @@
     ],
     "description": "Face aux Halles Bocuse, Le Val d’Isère perpétue les codes du bouchon lyonnais avec sérieux. Sous la houlette d’Édouard Baudin, on y retrouve une cuisine classique et bien exécutée.",
     "articleUrl": "https://compagnie-du-rognon.fr/val-isere-bouchon-lyonnais/",
+    "menuUrl": "https://www.levaldisere.fr/la-carte-et-les-vins/",
+    "bookingUrl": "",
     "openingHours": [
       {
         "day": 1,
@@ -1762,6 +1822,7 @@
   },
   {
     "name": "La Tête de Lard",
+    "menuPrice": "33,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -1785,6 +1846,8 @@
     ],
     "description": "À la Tête de Lard, Yoann Blanc revisite la tradition lyonnaise sans trahir son esprit. Cuisine franche, ambiance joyeuse et décor sans chichis : un bouchon qui assume son nom et son caractère.",
     "articleUrl": "https://compagnie-du-rognon.fr/tete-de-lard/",
+    "menuUrl": "https://www.bouchon-latetedelard.fr/notre-carte/",
+    "bookingUrl": "https://www.thefork.fr/restaurant/la-tete-de-lard-r12531#booking=",
     "openingHours": [
       {
         "day": 3,
@@ -1837,6 +1900,7 @@
   },
   {
     "name": "Bistrot Abel",
+    "menuPrice": "36,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -1861,6 +1925,8 @@
     ],
     "description": "Petit frère du mythique Café Comptoir Abel, le Bistrot Abel marie tradition lyonnaise et esprit contemporain. Dans un décor feutré, l’équipe en cuisine revisite les classiques avec justesse et une belle touche de modernité.",
     "articleUrl": "https://compagnie-du-rognon.fr/bistrot-abel-bistrot-lyonnais-gastronomique/",
+    "menuUrl": "https://www.maisonabel.fr/wp-content/uploads/2023/11/Nos-incontournables.pdf",
+    "bookingUrl": "https://bookings.zenchef.com/results?rid=357746&fullscreen=1",
     "openingHours": [
       {
         "day": 2,
@@ -1923,6 +1989,7 @@
   },
   {
     "name": "Le Bouchon des Artistes",
+    "menuPrice": "28,00 €",
     "neighborhood": "",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -1947,6 +2014,8 @@
     ],
     "description": "Au Bouchon des Artistes, Michael Romano et son équipe signent une cuisine lyonnaise élégante et maîtrisée. Entre tradition et créativité, chaque plat trouve le juste ton dans ce décor chaleureux et sans fausse note.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchon-artistes/",
+    "menuUrl": "https://www.le-bouchon-des-artistes.fr/_files/ugd/12be68_46e15bbe14984d189dd14825cfd8de2c.pdf",
+    "bookingUrl": "https://www.le-bouchon-des-artistes.fr/",
     "openingHours": [
       {
         "day": 1,
@@ -2009,6 +2078,7 @@
   },
   {
     "name": "Daniel & Denise Saint-Jean",
+    "menuPrice": "45,00 €",
     "neighborhood": "Vieux-Lyon",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -2030,6 +2100,8 @@
     "specialties": [],
     "description": "Dans le Vieux-Lyon, Daniel et Denise Saint-Jean perpétue l’esprit de Joseph Viola avec justesse. Sous la houlette du chef Cyril Renaud, la cuisine canaille gagne en finesse, sans perdre l’âme conviviale du bouchon.",
     "articleUrl": "https://compagnie-du-rognon.fr/daniel-denise-saint-jean/",
+    "menuUrl": "https://danieletdenise.fr/wp-content/uploads/2025/07/Carte-STJ-NEW-2025-49.pdf",
+    "bookingUrl": "https://bookings.zenchef.com/results?rid=353717&pid=1001",
     "openingHours": [
       {
         "day": 2,
@@ -2092,6 +2164,7 @@
   },
   {
     "name": "L'Auberge des Canuts",
+    "menuPrice": "34,00 €",
     "neighborhood": "Vieux-Lyon",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -2117,6 +2190,8 @@
     ],
     "description": "Face à la cathédrale Saint-Jean, l’Auberge des Canuts surprend par sa sincérité. Romain Véricel y signe une cuisine lyonnaise soignée et généreuse, servie dans un cadre chaleureux où l’accueil fait toute la différence.",
     "articleUrl": "https://compagnie-du-rognon.fr/auberge-canuts/",
+    "menuUrl": "https://auberge-des-canuts.com/menus-carte-bouchon-lyonnais/",
+    "bookingUrl": "https://auberge-des-canuts.com/reserver-restaurant-bouchon-lyonnais-vieux-lyon/",
     "openingHours": [
       {
         "day": 0,
@@ -2164,6 +2239,7 @@
   },
   {
     "name": "Notre Maison",
+    "menuPrice": "35,00 €",
     "neighborhood": "Vieux-Lyon",
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
@@ -2187,6 +2263,8 @@
     ],
     "description": "Dans le Vieux-Lyon, Notre Maison porte bien son nom. Cadre foisonnant, cuisine maison et convivialité sincère : ce bouchon sans fioritures mise sur la générosité et l’esprit d’auberge lyonnaise d’autrefois.",
     "articleUrl": "https://compagnie-du-rognon.fr/notre-maison-lyon/",
+    "menuUrl": "https://bouchonnotremaison.com/fr/menu/4774524306744934507",
+    "bookingUrl": "",
     "openingHours": [
       {
         "day": 0,
@@ -2239,6 +2317,7 @@
   },
   {
     "name": "Chez Nénette",
+    "menuPrice": "-",
     "neighborhood": "",
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
@@ -2265,6 +2344,8 @@
     ],
     "description": "À deux pas de Lyon, le Bistrot du Marché – Chez Nénette cultive l’esprit bouchon en pleine campagne. Didier Largemain y sert une cuisine franche et gourmande, entre convivialité beaujolaise et tradition lyonnaise.",
     "articleUrl": "https://compagnie-du-rognon.fr/chez-nenette/",
+    "menuUrl": "",
+    "bookingUrl": "",
     "openingHours": [
       {
         "day": 1,
@@ -2312,6 +2393,7 @@
   },
   {
     "name": "Le Café des Fédérations",
+    "menuPrice": "34,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -2338,6 +2420,8 @@
     ],
     "description": "Institution parmi les institutions, le Café des Fédérations reste fidèle à son mythe. Jean-Luc Plasse-Molette perpétue l’esprit bouchon : cuisine franche, ambiance vivante et scrupuleux des traditions lyonnaises.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-cafe-des-federations/",
+    "menuUrl": "https://www.restaurant-cafedesfederations-lyon.fr/wp-content/uploads/menus/carte-soir.pdf",
+    "bookingUrl": "https://app.resa.ninja/booking-new/web/30dcc43f-8e20-4a6d-a9cf-d6b5720fdb9d",
     "openingHours": [
       {
         "day": 0,
@@ -2420,6 +2504,7 @@
   },
   {
     "name": "A Ma Vigne",
+    "menuPrice": "35,00 €",
     "neighborhood": "",
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -2444,6 +2529,8 @@
     ],
     "description": "À ma Vigne reste fidèle à l’esprit des Giraud tout en s’ouvrant à son époque. Entre steak frites mythique, gratin d’andouillettes et accueil chaleureux, ce bouchon du 7ᵉ prouve qu’on peut raviver la tradition sans la trahir.",
     "articleUrl": "https://compagnie-du-rognon.fr/a-ma-vigne-2/",
+    "menuUrl": "https://www.restaurant-cafedesfederations-lyon.fr/la-carte-du-bouchon-lyonnais-plats-menus-et-boissons/",
+    "bookingUrl": "https://www.google.com/maps/reserve/v/dine/c/Qs7NEJ46uJY?source=pa&opi=79508299&hl=fr-FR&gei=rgwbabr9Ad6ikdUP2tCkwAk&sourceurl=https://www.google.fr/maps/preview/place?authuser%3D0%26hl%3Dfr%26gl%3Dfr%26pb%3D!1m20!1s0x47f4ea5a4f2d92f7:0x6aebaf7e03460852!3m12!1m3!1d2547.6715508847856!2d4.829849775818244!3d45.76655041321525!2m3!1f0!2f0!3f0!3m2!1i1536!2i703!4f13.1!4m2!3d45.7573389!4d4.8413078!5e0!9e0!11s/g/1tg6pgbt!12m4!2m3!1i360!2i120!4i8!13m57!2m2!1i203!2i100!3m2!2i4!5b1!6m6!1m2!1i86!2i86!1m2!1i408!2i240!7m33!1m3!1e1!2b0!3e3!1m3!1e2!2b1!3e2!1m3!1e2!2b0!3e3!1m3!1e8!2b0!3e3!1m3!1e10!2b0!3e3!1m3!1e10!2b1!3e2!1m3!1e10!2b0!3e4!1m3!1e9!2b1!3e2!2b1!9b0!15m8!1m7!1m2!1m1!1e2!2m2!1i195!2i195!3i20!14m6!1sOfUaafjDA9CokdUPwabX0Qg:2938!2s1i:0,t:6986,p:OfUaafjDA9CokdUPwabX0Qg:2938!7e81!12e15!17sOfUaafjDA9CokdUPwabX0Qg:2941!18e3!15m110!1m31!13m9!2b1!3b1!4b1!6i1!8b1!9b1!14b1!20b1!25b1!18m20!3b1!4b1!5b1!6b1!9b1!13b1!14b1!17b1!20b1!21b1!22b1!27m1!1b0!28b0!30b1!32b1!33m1!1b1!34b1!36e2!10m1!8e3!11m1!3e1!14m1!3b0!17b1!20m2!1e3!1e6!24b1!25b1!26b1!27b1!29b1!30m1!2b1!36b1!37b1!39m3!2m2!2i1!3i1!43b1!52b1!54m1!1b1!55b1!56m1!1b1!61m2!1m1!1e1!65m5!3m4!1m3!1m2!1i224!2i298!72m22!1m8!2b1!5b1!7b1!12m4!1b1!2b1!4m1!1e1!4b1!8m10!1m6!4m1!1e1!4m1!1e3!4m1!1e4!3sother_user_google_review_posts__and__hotel_and_vr_partner_review_posts!6m1!1e1!9b1!89b1!98m3!1b1!2b1!3b1!103b1!113b1!114m3!1b1!2m1!1b1!117b1!122m1!1b1!126b1!127b1!21m28!1m6!1m2!1i0!2i0!2m2!1i530!2i703!1m6!1m2!1i1486!2i0!2m2!1i1536!2i703!1m6!1m2!1i0!2i0!2m2!1i1536!2i20!1m6!1m2!1i0!2i683!2m2!1i1536!2i703!22m1!1e81!29m0!30m6!3b1!6m1!2b1!7m1!2b1!9b1!34m5!7b1!10b1!14b1!15m1!1b0!37i758!39sA%2BMa%2BVigne,%2BRue%2BJean%2BLarriv%25C3%25A9,%2BLyon%26q%3DA%2BMa%2BVigne,%2BRue%2BJean%2BLarriv%25C3%25A9,%2BLyon",
     "openingHours": [
       {
         "day": 1,
@@ -2506,6 +2593,7 @@
   },
   {
     "name": "Les 4G",
+    "menuPrice": "-",
     "neighborhood": "",
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.\"",
@@ -2531,6 +2619,8 @@
     ],
     "description": "Les 4G prouve qu’un vrai bouchon peut s’épanouir loin de la Presqu’île. Tripaille soignée, ambiance gouailleuse et accueil généreux : Philippe, Chloé et leur équipe signent une table sans manières, fidèle à l’esprit lyonnais.",
     "articleUrl": "https://compagnie-du-rognon.fr/les-4g-lyon/",
+    "menuUrl": "",
+    "bookingUrl": "",
     "openingHours": [
       {
         "day": 1,
@@ -2568,6 +2658,7 @@
   },
   {
     "name": "Bouchon Palais Grillet",
+    "menuPrice": "34,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -2592,6 +2683,9 @@
       "Tarte aux pralines"
     ],
     "description": "À venir",
+    "articleUrl": "",
+    "menuUrl": "https://www.bouchonpalaisgrillet.com/#la-carte",
+    "bookingUrl": "",
     "openingHours": [
       {
         "day": 0,
@@ -2669,6 +2763,7 @@
   },
   {
     "name": "Le Mercière",
+    "menuPrice": "33,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -2693,6 +2788,8 @@
     ],
     "description": "Le Mercière réussit le pari de plaire à tout Lyon. Touristes, habitués et becs fins s’y côtoient dans une joyeuse promiscuité. Classicisme lyonnais se frotte sans complexe à une touche contemporaine bien dosée.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-merciere/",
+    "menuUrl": "https://lemerciere.com/la-carte/",
+    "bookingUrl": "https://lemerciere.com/",
     "openingHours": [
       {
         "day": 0,
@@ -2775,6 +2872,7 @@
   },
   {
     "name": "Au Petit Bouchon Chez Georges",
+    "menuPrice": "35,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -2799,6 +2897,9 @@
       "Tarte aux pralines"
     ],
     "description": "À venir",
+    "articleUrl": "https://compagnie-du-rognon.fr/au-petit-bouchon-chez-georges/",
+    "menuUrl": "https://bouchonchezgeorges.fr/cuisine-lyonnaise-la-carte-du-bouchon/",
+    "bookingUrl": "https://bookings.zenchef.com/results?rid=368886&pid=1001",
     "openingHours": [
       {
         "day": 1,
@@ -2861,6 +2962,7 @@
   },
   {
     "name": "Le Musée",
+    "menuPrice": "24,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "\"Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)\"",
@@ -2884,6 +2986,9 @@
       "Tablier de sapeur"
     ],
     "description": "À venir",
+    "articleUrl": "",
+    "menuUrl": "https://www.bouchonlemusee.fr/#menu",
+    "bookingUrl": "https://bookings.zenchef.com/results?rid=377171&pid=1001",
     "openingHours": [
       {
         "day": 0,
@@ -2926,6 +3031,7 @@
   },
   {
     "name": "Le Bouchon des Filles",
+    "menuPrice": "32,00 €",
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
@@ -2946,6 +3052,9 @@
     "valueForMoney": false,
     "specialties": [],
     "description": "À venir",
+    "articleUrl": "",
+    "menuUrl": "https://lebouchondesfilles.fr/",
+    "bookingUrl": "https://app.resa.ninja/booking-new/web/5q1cwmlPnTTJP1kagqOIEL4LqRt2",
     "openingHours": [
       {
         "day": 0,
