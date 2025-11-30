@@ -75,7 +75,7 @@ function getPriceLevel(priceLevel: number | null | undefined): string {
     {#if bouchon.articleUrl}
       <div class="review-link">
         <a href={bouchon.articleUrl} target="_blank" rel="noopener noreferrer" class="review-link-btn">
-          <span>Voir article</span>
+          <span>Lire notre test</span>
         </a>
       </div>
     {/if}
