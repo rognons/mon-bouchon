@@ -45,6 +45,7 @@ interface BouchonJson {
   businessMeal?: boolean;
   priceLevel?: number;
   articleUrl?: string;
+  menuUrl?: string;
 }
 
 // Implémentation du repository avec fichier JSON
@@ -110,6 +111,7 @@ export class JsonBouchonRepository implements BouchonRepository {
       json.description,
       json.imageUrl,
       json.articleUrl,
+      json.menuUrl,
     );
   }
 }

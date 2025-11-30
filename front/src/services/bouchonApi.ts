@@ -33,6 +33,7 @@ export interface BouchonData {
   priceLevel?: number;
   mapsUrl?: string;
   articleUrl?: string;
+  menuUrl?: string;
 }
 
 export interface ApiResponse {

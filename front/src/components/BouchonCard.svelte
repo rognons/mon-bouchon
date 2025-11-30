@@ -72,13 +72,22 @@ function getPriceLevel(priceLevel: number | null | undefined): string {
   </div>
 
   <div class="bottom-row">
-    {#if bouchon.articleUrl}
-      <div class="review-link">
-        <a href={bouchon.articleUrl} target="_blank" rel="noopener noreferrer" class="review-link-btn">
-          <span>Lire notre test</span>
-        </a>
-      </div>
-    {/if}
+    <div class="button-group">
+      {#if bouchon.articleUrl}
+        <div class="review-link">
+          <a href={bouchon.articleUrl} target="_blank" rel="noopener noreferrer" class="review-link-btn">
+            <span>Lire notre test</span>
+          </a>
+        </div>
+      {/if}
+      {#if bouchon.menuUrl}
+        <div class="review-link">
+          <a href={bouchon.menuUrl} target="_blank" rel="noopener noreferrer" class="review-link-btn">
+            <span>Voir menu</span>
+          </a>
+        </div>
+      {/if}
+    </div>
     <div class="bottom-rating">
       <span class="bottom-note">⭐ {bouchon.rating}/5</span>
     </div>
@@ -359,6 +368,12 @@ function getPriceLevel(priceLevel: number | null | undefined): string {
     justify-content: space-between;
     gap: 0.7rem;
     padding: 0 1.5rem 1rem 1.5rem;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
   .bottom-rating {
