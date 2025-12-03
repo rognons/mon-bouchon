@@ -7,6 +7,7 @@ import {
   Contact,
   Labels,
   MenuInfo,
+  type OpeningHoursSlot,
   Rating,
   Services,
 } from "../../domain/entities/Bouchon.ts";
@@ -21,7 +22,7 @@ interface BouchonJson {
   mapsUrl?: string;
   phone?: string;
   rating?: number;
-  openingHours?: string;
+  openingHours?: OpeningHoursSlot[];
   portionSize?: string;
   specialties?: string[];
   eaterType?: string;

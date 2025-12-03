@@ -1,12 +1,5 @@
 // Business entity representing a Lyon bouchon restaurant
 
-// Type for opening hours slot
-export interface OpeningHoursSlot {
-  day: number;
-  open: string;
-  close: string;
-}
-
 export class Bouchon {
   constructor(
     public readonly id: BouchonId,
@@ -130,4 +123,10 @@ export class Labels {
     public readonly bouchonLyonnaisLabel?: boolean,
     public readonly authenticSelection?: boolean,
   ) {}
+}
+
+export interface OpeningHoursSlot {
+  day: number;
+  open: string;
+  close: string;
 }
