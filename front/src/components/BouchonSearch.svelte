@@ -8,22 +8,6 @@ import {
 import Sidebar from './search/Sidebar.svelte';
 import Results from './search/Results.svelte';
 
-// Helper: check if bouchon is open at given day/time
-function isOpenAt(bouchon: any, day: string, time: string) {
-  if (!day) return true; // No day filter
-  if (!bouchon.openingHours || !Array.isArray(bouchon.openingHours)) return false;
-  const d = parseInt(day, 10);
-  if (!time) {
-    // Only day selected: any slot for that day
-    return bouchon.openingHours.some((slot: any) => slot.day === d);
-  }
-  // Both day and time selected
-  const t = time.replace(':', '');
-  return bouchon.openingHours.some((slot: any) => {
-    return slot.day === d && slot.open <= t && t < slot.close;
-  });
-}
-
 // Add day/time filter state
 let selectedDay: string = '';
 let selectedTime: string = '';
@@ -110,7 +94,6 @@ let allBouchons: BouchonData[] = []; // Toutes les données, pour options de fil
 let selectedPrixMenuBase: string = '';
 let selectedArrondissements: string[] = [];
 let selectedQuartiers: string[] = [];
-let selectedOuvertures: string = '';
 let selectedQuantite: string = '';
 let selectedTypeMangeur: string = '';
 let selectedTypeAmbiance: string = '';
@@ -131,7 +114,6 @@ $: hasActiveFilters = Boolean(
   selectedPrixMenuBase ||
     selectedArrondissements.length > 0 ||
     selectedQuartiers.length > 0 ||
-    selectedOuvertures ||
     selectedQuantite ||
     selectedTypeMangeur ||
     selectedTypeAmbiance ||
@@ -221,7 +203,6 @@ async function searchBouchons() {
     if (selectedPrixMenuBase) filters.priceLevel = String(Number(selectedPrixMenuBase));
     if (selectedArrondissements.length > 0) filters.postalCode = selectedArrondissements.join(',');
     if (selectedQuartiers.length > 0) filters.neighborhood = selectedQuartiers.join(',');
-    if (selectedOuvertures) filters.openingHours = selectedOuvertures;
     if (selectedQuantite) filters.portionSize = selectedQuantite;
     if (selectedTypeMangeur) filters.eaterType = selectedTypeMangeur;
     if (selectedTypeAmbiance) filters.atmosphereType = selectedTypeAmbiance;
@@ -237,6 +218,10 @@ async function searchBouchons() {
     if (labelBouchonsLyonnais) filters.bouchonLyonnaisLabel = 'true';
     if (selectionAuthentiques) filters.authenticSelection = 'true';
 
+    // Filtres jour/heure
+    if (selectedDay) filters.day = selectedDay;
+    if (selectedTime) filters.time = selectedTime;
+
     // Appel à l'API avec les filtres ou tous les bouchons si pas de filtres
     if (Object.keys(filters).length > 0) {
       bouchons = await apiBouchonSearch(filters);
@@ -246,10 +231,6 @@ async function searchBouchons() {
     // Exclure les bouchons sans priceLevel si un filtre prix est actif
     if (selectedPrixMenuBase) {
       bouchons = bouchons.filter((b) => b.priceLevel !== null && b.priceLevel !== undefined);
-    }
-    // Filter by day/time if day is set
-    if (selectedDay) {
-      bouchons = bouchons.filter((b) => isOpenAt(b, selectedDay, selectedTime));
     }
   } catch (error: unknown) {
     console.error('Failed to search bouchons:', error);
@@ -308,7 +289,6 @@ $: {
     selectedPrixMenuBase,
     selectedArrondissements,
     selectedQuartiers,
-    selectedOuvertures,
     selectedQuantite,
     selectedTypeMangeur,
     selectedTypeAmbiance,
@@ -333,7 +313,6 @@ function clearFilters() {
   selectedPrixMenuBase = '';
   selectedArrondissements = [];
   selectedQuartiers = [];
-  selectedOuvertures = '';
   selectedQuantite = '';
   selectedTypeMangeur = '';
   selectedTypeAmbiance = '';

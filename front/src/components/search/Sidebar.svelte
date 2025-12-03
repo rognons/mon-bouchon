@@ -94,11 +94,13 @@ const dispatch = createEventDispatcher();
             emoji="📅"
             ariaLabel="Jour"
         />
-        <FilterTime
-            bind:value={selectedTime}
-            emoji="⏰"
-            ariaLabel="Heure"
-        />
+        {#if selectedDay}
+            <FilterTime
+                bind:value={selectedTime}
+                emoji="⏰"
+                ariaLabel="Heure"
+            />
+        {/if}
         <FilterSelect
             label="Toutes les portions"
             options={quantiteOptions}

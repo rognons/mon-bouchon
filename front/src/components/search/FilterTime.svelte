@@ -2,12 +2,25 @@
 export let value = '';
 export let emoji = '';
 export let ariaLabel = '';
+
+// Generate time options in 30-minute intervals
+const timeOptions = [];
+for (let hour = 8; hour <= 23; hour++) {
+  const h = hour.toString().padStart(2, '0');
+  timeOptions.push(`${h}:00`);
+  timeOptions.push(`${h}:30`);
+}
 </script>
 
 <div class="filter-group">
   <div class="emoji-select-row">
     <span aria-label={ariaLabel} title={ariaLabel}>{emoji}</span>
-    <input type="time" bind:value aria-label={ariaLabel} class="filter-time-input" />
+    <select bind:value aria-label={ariaLabel} class="filter-time-input">
+      <option value="">--:--</option>
+      {#each timeOptions as time}
+        <option value={time}>{time}</option>
+      {/each}
+    </select>
   </div>
 </div>
 

@@ -87,7 +87,10 @@ export class BouchonDomainService {
     }
 
     // Services
-    if (criteria.openingHours && !bouchon.isOpenOn(criteria.openingHours)) {
+    if (
+      criteria.day !== undefined &&
+      !bouchon.isOpenAt(criteria.day, criteria.time)
+    ) {
       return false;
     }
     if (

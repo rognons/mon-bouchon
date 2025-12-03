@@ -1,4 +1,12 @@
 // Business entity representing a Lyon bouchon restaurant
+
+// Type for opening hours slot
+export interface OpeningHoursSlot {
+  day: number;
+  open: string;
+  close: string;
+}
+
 export class Bouchon {
   constructor(
     public readonly id: BouchonId,
@@ -17,10 +25,25 @@ export class Bouchon {
   ) {}
 
   // Business methods
-  isOpenOn(day: string): boolean {
-    return this.services.openingHours?.toLowerCase().includes(
-      day.toLowerCase(),
-    ) || false;
+  isOpenAt(day: number, time?: string): boolean {
+    if (
+      !this.services.openingHours || !Array.isArray(this.services.openingHours)
+    ) {
+      return false;
+    }
+
+    if (!time) {
+      // Only day selected: any slot for that day
+      return this.services.openingHours.some((slot: OpeningHoursSlot) =>
+        slot.day === day
+      );
+    }
+
+    // Both day and time selected
+    const t = time.replace(":", "");
+    return this.services.openingHours.some((slot: OpeningHoursSlot) => {
+      return slot.day === day && slot.open <= t && t < slot.close;
+    });
   }
 
   acceptsVegetarians(): boolean {
@@ -91,7 +114,7 @@ export class Characteristics {
 
 export class Services {
   constructor(
-    public readonly openingHours?: string,
+    public readonly openingHours?: OpeningHoursSlot[],
     public readonly vegetarianOption?: boolean,
     public readonly machonOption?: boolean,
     public readonly reservation?: boolean,

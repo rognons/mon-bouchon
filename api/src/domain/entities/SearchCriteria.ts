@@ -4,7 +4,6 @@ export class SearchCriteria {
     public readonly priceLevel?: number,
     public readonly postalCode?: string | string[],
     public readonly neighborhood?: string | string[],
-    public readonly openingHours?: string,
     public readonly portionSize?: string,
     public readonly eaterType?: string,
     public readonly atmosphereType?: string,
@@ -20,6 +19,8 @@ export class SearchCriteria {
     public readonly minRating?: number,
     public readonly sortBy?: SortBy,
     public readonly sortOrder?: SortOrder,
+    public readonly day?: number,
+    public readonly time?: string,
   ) {}
 
   isValidPostalCode(): boolean {
@@ -69,7 +70,6 @@ export class SearchCriteriaFactory {
       params.priceLevel ? Number(params.priceLevel) : undefined,
       parseMultiValue(params.postalCode),
       parseMultiValue(params.neighborhood),
-      params.openingHours || params.ouvertures,
       params.portionSize || params.quantite,
       params.eaterType || params.typeMangeur,
       params.atmosphereType || params.typeAmbiance,
@@ -87,6 +87,8 @@ export class SearchCriteriaFactory {
         : undefined,
       params.sortBy as SortBy,
       params.sortOrder as SortOrder,
+      params.day ? Number(params.day) : undefined,
+      params.time || undefined,
     );
   }
 }
