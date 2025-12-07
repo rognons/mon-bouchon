@@ -103,6 +103,9 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     overflow: hidden;
     transition: all 0.4s ease-in-out;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
   }
 
   .bouchon-card:hover {
@@ -191,6 +194,9 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
   .bouchon-info {
     padding: 1.5rem;
     padding-bottom: 0.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .location {
@@ -366,6 +372,7 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     justify-content: space-between;
     gap: 0.7rem;
     padding: 0 1.5rem 1rem 1.5rem;
+    margin-top: auto;
   }
 
   .button-group {
