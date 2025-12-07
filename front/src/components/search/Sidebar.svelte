@@ -38,6 +38,37 @@ export let selectedTime: string;
 export let hasActiveFilters: boolean;
 const dispatch = createEventDispatcher();
 
+// Options pour les accordéons multi-sélection
+const distinctionsOptions = [
+  '❤️ Coup de cœur Compagnie du Rognon',
+  '🍷 Sélection Vins',
+  '🏅 Label "Les Bouchons Lyonnais"',
+  '⭐ Sélection "Authentiques Bouchons Lyonnais"',
+];
+
+const optionsOptions = [
+  '🥬 Option végétarienne',
+  '🍳 Mâchon possible',
+  '🎨 Décoration remarquable',
+];
+
+let selectedDistinctions: string[] = [];
+let selectedOptions: string[] = [];
+
+// Synchroniser les multi-sélections avec les booléens
+$: {
+  coupDeCoeurCompagnie = selectedDistinctions.includes('❤️ Coup de cœur Compagnie du Rognon');
+  coupDeCoeurVins = selectedDistinctions.includes('🍷 Sélection Vins');
+  labelBouchonsLyonnais = selectedDistinctions.includes('🏅 Label "Les Bouchons Lyonnais"');
+  selectionAuthentiques = selectedDistinctions.includes(
+    '⭐ Sélection "Authentiques Bouchons Lyonnais"'
+  );
+
+  optionVegetariens = selectedOptions.includes('🥬 Option végétarienne');
+  optionMachon = selectedOptions.includes('🍳 Mâchon possible');
+  decorationRemarquable = selectedOptions.includes('🎨 Décoration remarquable');
+}
+
 // Calculer le nombre de filtres actifs
 let activeFiltersCount = 0;
 $: {
@@ -103,6 +134,20 @@ function resetFilters() {
         </div>
     </div>
     <div class="sidebar-filters">
+        <FilterMultiSelect
+            label="Distinctions"
+            options={distinctionsOptions}
+            bind:selectedValues={selectedDistinctions}
+            emoji="🏆"
+            ariaLabel="Distinctions"
+        />
+        <FilterMultiSelect
+            label="Options"
+            options={optionsOptions}
+            bind:selectedValues={selectedOptions}
+            emoji="✨"
+            ariaLabel="Options"
+        />
         <FilterSelect
             label="Tous les prix"
             options={prixMenuBaseOptions}
@@ -175,49 +220,6 @@ function resetFilters() {
             emoji="🏪"
             ariaLabel="Style de bouchon"
         />
-        <div class="options-section">
-            <div class="options-grid">
-                <FilterCheckbox
-                    bind:checked={coupDeCoeurCompagnie}
-                    emoji="❤️"
-                    label="Coup de cœur Rognons"
-                />
-                <FilterCheckbox
-                    bind:checked={optionVegetariens}
-                    emoji="🥬"
-                    label="Option végétarienne"
-                    tooltip="Au moins 1 entrée et 1 plat végétariens présents à la carte."
-                />
-                <FilterCheckbox
-                    bind:checked={optionMachon}
-                    emoji="🍳"
-                    label="Mâchon"
-                    tooltip="Repas lyonnais matinal et copieux."
-                />
-                <FilterCheckbox
-                    bind:checked={decorationRemarquable}
-                    emoji="🎨"
-                    label="Décoration authentique remarquable"
-                />
-                <FilterCheckbox
-                    bind:checked={coupDeCoeurVins}
-                    emoji="🍷"
-                    label="Excellente carte des vins"
-                />
-                <FilterCheckbox
-                    bind:checked={labelBouchonsLyonnais}
-                    emoji="🏆"
-                    label="Label officiel 'Les Bouchons Lyonnais'"
-                    tooltip="Label créé en 2012 qui vise à sauvegarder et pérenniser la tradition culinaire lyonnaise."
-                />
-                <FilterCheckbox
-                    bind:checked={selectionAuthentiques}
-                    emoji="⭐"
-                    label="Sélection 'Authentiques Bouchons Lyonnais'"
-                    tooltip="Définie par “l'Association de Défense des Bouchons lyonnais”, créée en 1992."
-                />
-            </div>
-        </div>
     </div>
 </aside>
 
