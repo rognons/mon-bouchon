@@ -7,9 +7,6 @@ import { createEventDispatcher, onMount } from 'svelte';
 
 export let isMobile: boolean;
 export let sidebarOpen: boolean;
-export let sidebarFull: boolean;
-export let sidebarTop: number;
-export let maxHeight: number;
 export let isLoading: boolean = false;
 
 export let prixMenuBaseOptions: { value: string; label: string }[];
@@ -69,10 +66,7 @@ function resetFilters() {
 </script>
 
 <aside
-    class="sidebar {sidebarFull ? 'sidebar-full' : ''}"
-    style={isMobile
-        ? "position: fixed; top: 0; left: 0; height: 100vh; max-height: 100vh; width: 100vw; z-index: 201;"
-        : `position: fixed; top: ${sidebarTop}px; max-height: ${maxHeight}px !important; left: 0; z-index: 100;`}
+    class="sidebar"
     class:sidebar-mobile-open={sidebarOpen}
     inert={!sidebarOpen && isMobile}
 >
@@ -237,14 +231,8 @@ function resetFilters() {
         padding: 1rem 1.5rem;
         padding-top: 0;
         box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
-        left: 0;
-        z-index: 100;
         overflow-y: auto;
         overflow-x: visible;
-    }
-    .sidebar.sidebar-full {
-        top: 0 !important;
-        max-height: 100vh !important;
     }
     .sidebar-filters {
         display: flex;

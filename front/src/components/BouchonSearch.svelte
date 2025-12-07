@@ -23,49 +23,6 @@ onMount(() => {
 
 let sidebarOpen = false;
 
-let sidebarFull = false;
-let sidebarTop = 0;
-let maxHeight = 0;
-
-onMount(() => {
-  const header = document.querySelector('.hero-header');
-  const footer = document.querySelector('.main-footer');
-  if (!header || !footer) return;
-
-  function updateSidebarPosition() {
-    // @ts-ignore
-    const headerRect = header.getBoundingClientRect();
-    sidebarTop = headerRect.bottom > 0 ? headerRect.bottom : 0;
-    sidebarFull = headerRect.bottom <= 0;
-
-    // @ts-ignore
-    const footerRect = footer.getBoundingClientRect();
-    const margin = 60;
-    let available: number;
-    // Si le footer est visible dans le viewport
-    if (footerRect.top < window.innerHeight) {
-      available = footerRect.top - sidebarTop - margin;
-    } else {
-      available = window.innerHeight - sidebarTop - margin;
-    }
-    // Appliquer strictement la hauteur max calculée
-    maxHeight = Math.max(available, 0);
-  }
-
-  window.addEventListener('scroll', updateSidebarPosition);
-  window.addEventListener('resize', updateSidebarPosition);
-  window.addEventListener('load', updateSidebarPosition);
-  // Correction: attendre un peu pour que le layout soit bien stable
-  setTimeout(() => {
-    updateSidebarPosition();
-  }, 200);
-
-  return () => {
-    window.removeEventListener('scroll', updateSidebarPosition);
-    window.removeEventListener('resize', updateSidebarPosition);
-  };
-});
-
 let showScrollTop = false;
 
 function scrollToTop() {
@@ -355,13 +312,11 @@ function clearFilters() {
       tabindex="0"
     ></button>
   {/if}
-  <Sidebar
-    {isMobile}
-    {sidebarOpen}
-    {sidebarFull}
-    {sidebarTop}
-    {maxHeight}
-    {prixMenuBaseOptions}
+  <div class="sidebar-wrapper">
+    <Sidebar
+      {isMobile}
+      {sidebarOpen}
+      {prixMenuBaseOptions}
     {arrondissements}
     {quartiers}
     {quantiteOptions}
@@ -388,7 +343,8 @@ function clearFilters() {
   bind:selectedTime
     on:close={() => (sidebarOpen = false)}
     on:reset={clearFilters}
-  />
+    />
+  </div>
 
   <div class="floating-btns">
     {#if showScrollTop}
@@ -430,13 +386,20 @@ function clearFilters() {
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
+    position: relative;
+  }
+  .sidebar-wrapper {
+    flex-shrink: 0;
+    width: 340px;
   }
   .main-content {
     flex: 1;
     min-width: 0;
-    padding-left: 360px;
   }
   @media (max-width: 980px) {
+    .sidebar-wrapper {
+      width: 100%;
+    }
     .main-content {
       padding-left: 0;
     }
