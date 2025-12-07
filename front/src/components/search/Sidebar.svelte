@@ -40,6 +40,28 @@ export let selectedTime: string;
 export let hasActiveFilters: boolean;
 const dispatch = createEventDispatcher();
 
+// Calculer le nombre de filtres actifs
+let activeFiltersCount = 0;
+$: {
+  activeFiltersCount = 0;
+  activeFiltersCount += selectedArrondissements.length;
+  activeFiltersCount += selectedQuartiers.length;
+  if (selectedPrixMenuBase) activeFiltersCount++;
+  if (selectedQuantite) activeFiltersCount++;
+  if (selectedTypeMangeur) activeFiltersCount++;
+  if (selectedTypeAmbiance) activeFiltersCount++;
+  if (selectedTypeBouchon) activeFiltersCount++;
+  if (optionVegetariens) activeFiltersCount++;
+  if (optionMachon) activeFiltersCount++;
+  if (decorationRemarquable) activeFiltersCount++;
+  if (coupDeCoeurCompagnie) activeFiltersCount++;
+  if (coupDeCoeurVins) activeFiltersCount++;
+  if (labelBouchonsLyonnais) activeFiltersCount++;
+  if (selectionAuthentiques) activeFiltersCount++;
+  if (selectedDay) activeFiltersCount++;
+  if (selectedTime) activeFiltersCount++;
+}
+
 function resetFilters() {
   dispatch('reset');
 }
@@ -54,24 +76,31 @@ function resetFilters() {
     inert={!sidebarOpen && isMobile}
 >
     <div class="sidebar-header">
-        {#if hasActiveFilters}
-            <button
-                class="reset-filters-btn"
-                on:click={resetFilters}
-                aria-label="Réinitialiser les filtres"
-                title="Réinitialiser tous les filtres"
-            >
-                Réinitialiser
-            </button>
+        {#if activeFiltersCount > 0}
+            <div class="active-filters-count">
+                {activeFiltersCount} filtre{activeFiltersCount > 1 ? 's' : ''}
+            </div>
         {/if}
-        {#if isMobile}
-            <button
-                class="sidebar-close-btn"
-                on:click={() => dispatch("close")}
-                aria-label="Fermer les filtres"
-                >✖️
-            </button>
-        {/if}
+        <div class="sidebar-header-right">
+            {#if hasActiveFilters}
+                <button
+                    class="reset-filters-btn"
+                    on:click={resetFilters}
+                    aria-label="Réinitialiser les filtres"
+                    title="Réinitialiser tous les filtres"
+                >
+                    Réinitialiser
+                </button>
+            {/if}
+            {#if isMobile}
+                <button
+                    class="sidebar-close-btn"
+                    on:click={() => dispatch("close")}
+                    aria-label="Fermer les filtres"
+                    >✖️
+                </button>
+            {/if}
+        </div>
     </div>
     <div class="sidebar-filters">
         <FilterSelect
@@ -217,10 +246,24 @@ function resetFilters() {
     }
     .sidebar-header {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
         gap: 0.5rem;
         margin-bottom: 1rem;
+    }
+    .sidebar-header-right {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: auto;
+    }
+    .active-filters-count {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #221f20;
+        padding: 0.4rem 0.8rem;
+        background: #f0f0f0;
+        border-radius: 8px;
     }
     .sidebar-close-btn {
         background: #f0c6da;
