@@ -36,7 +36,12 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
   <div class="bouchon-info">
     <div class="location">
       📍 {#if bouchon.mapsUrl}
-        <a href={bouchon.mapsUrl} target="_blank" rel="noopener noreferrer" class="address-link">{bouchon.address}</a>
+        <a
+          href={bouchon.mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="address-link">{bouchon.address}</a
+        >
       {:else}
         {bouchon.address}
       {/if}
@@ -45,7 +50,8 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     <div class="details-grid">
       <div class="detail-item">
         <span class="label">Prix menu base</span>
-  <span class="value prix-menu">{formatMenuPrice(bouchon.menuPrice)}</span>
+        <span class="value prix-menu">{formatMenuPrice(bouchon.menuPrice)}</span
+        >
       </div>
       <div class="detail-item">
         <span class="label">Contact</span>
@@ -69,27 +75,37 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
         <span class="amenity no-reservation">🚫 Pas de réservation</span>
       {/if}
     </div> -->
-  </div>
 
-  <div class="bottom-row">
-    <div class="button-group">
-      {#if bouchon.articleUrl}
-        <div class="review-link">
-          <a href={bouchon.articleUrl} target="_blank" rel="noopener noreferrer" class="review-link-btn">
-            <span>Lire notre test</span>
-          </a>
-        </div>
-      {/if}
-      {#if bouchon.menuUrl}
-        <div class="review-link">
-          <a href={bouchon.menuUrl} target="_blank" rel="noopener noreferrer" class="review-link-btn">
-            <span>Voir menu</span>
-          </a>
-        </div>
-      {/if}
-    </div>
-    <div class="bottom-rating">
-      <span class="bottom-note">⭐ {bouchon.rating}/5</span>
+    <div class="bottom-row">
+      <div class="button-group">
+        {#if bouchon.articleUrl}
+          <div class="review-link">
+            <a
+              href={bouchon.articleUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="review-link-btn"
+            >
+              <span>Lire notre test</span>
+            </a>
+          </div>
+        {/if}
+        {#if bouchon.menuUrl}
+          <div class="review-link">
+            <a
+              href={bouchon.menuUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="review-link-btn"
+            >
+              <span>Voir menu</span>
+            </a>
+          </div>
+        {/if}
+      </div>
+      <div class="bottom-rating">
+        <span class="bottom-note">⭐ {bouchon.rating}/5</span>
+      </div>
     </div>
   </div>
 </div>
@@ -350,13 +366,16 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     color: #221f20;
     font-family: "Open Sans", Arial, sans-serif;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     padding: 0.13rem 0.65rem;
     border-radius: 13px;
     border: 1px solid #f0c6da;
     box-shadow: none;
     text-decoration: none;
-    transition: background 0.14s, color 0.14s, border-color 0.14s;
+    transition:
+      background 0.14s,
+      color 0.14s,
+      border-color 0.14s;
     margin-top: 0.08rem;
     margin-bottom: 0.08rem;
     letter-spacing: 0.01em;
@@ -371,8 +390,15 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     align-items: center;
     justify-content: space-between;
     gap: 0.7rem;
-    padding: 0 1.5rem 1rem 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     margin-top: auto;
+  }
+
+  @media (max-width: 768px) {
+    .bottom-row {
+      padding-bottom: 0rem;
+    }
   }
 
   .button-group {
@@ -387,4 +413,4 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     bottom: unset;
     right: unset;
   }
- </style>
+</style>
