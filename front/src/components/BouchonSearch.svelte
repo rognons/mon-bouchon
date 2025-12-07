@@ -196,6 +196,9 @@ async function searchBouchons() {
     isLoading = true;
     apiError = null;
 
+    // Démarrer le chronomètre pour le délai minimum
+    const startTime = Date.now();
+
     // Construction des filtres à envoyer à l'API
     const filters: Record<string, string> = {};
 
@@ -231,6 +234,13 @@ async function searchBouchons() {
     // Exclure les bouchons sans menuPrice si un filtre prix est actif
     if (selectedPrixMenuBase) {
       bouchons = bouchons.filter((b) => b.menuPrice !== null && b.menuPrice !== undefined);
+    }
+
+    // Assurer un délai minimum de 400ms pour que le loader soit visible
+    const elapsedTime = Date.now() - startTime;
+    const minLoadingTime = 400;
+    if (elapsedTime < minLoadingTime) {
+      await new Promise((resolve) => setTimeout(resolve, minLoadingTime - elapsedTime));
     }
   } catch (error: unknown) {
     console.error('Failed to search bouchons:', error);
@@ -359,6 +369,7 @@ function clearFilters() {
     {typeAmbianceOptions}
     {typeBouchonOptions}
     {hasActiveFilters}
+    {isLoading}
   bind:selectedPrixMenuBase
   bind:selectedArrondissements
   bind:selectedQuartiers

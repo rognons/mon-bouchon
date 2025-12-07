@@ -10,6 +10,7 @@ export let sidebarOpen: boolean;
 export let sidebarFull: boolean;
 export let sidebarTop: number;
 export let maxHeight: number;
+export let isLoading: boolean = false;
 
 export let prixMenuBaseOptions: { value: string; label: string }[];
 export let arrondissements: string[];
@@ -70,8 +71,8 @@ function resetFilters() {
 <aside
     class="sidebar {sidebarFull ? 'sidebar-full' : ''}"
     style={isMobile
-        ? "position: fixed; top: 0; left: 0; height: 100vh; max-height: 100vh; width: 100vw; z-index: 201; overflow-y: auto;"
-        : `position: fixed; top: ${sidebarTop}px; max-height: ${maxHeight}px !important; overflow-y: auto !important; left: 0; z-index: 100;`}
+        ? "position: fixed; top: 0; left: 0; height: 100vh; max-height: 100vh; width: 100vw; z-index: 201;"
+        : `position: fixed; top: ${sidebarTop}px; max-height: ${maxHeight}px !important; left: 0; z-index: 100;`}
     class:sidebar-mobile-open={sidebarOpen}
     inert={!sidebarOpen && isMobile}
 >
@@ -79,6 +80,11 @@ function resetFilters() {
         {#if activeFiltersCount > 0}
             <div class="active-filters-count">
                 {activeFiltersCount} filtre{activeFiltersCount > 1 ? 's' : ''}
+            </div>
+        {/if}
+        {#if isLoading && isMobile}
+            <div class="filter-loader" title="Application des filtres...">
+                <span class="loader-spinner"></span>
             </div>
         {/if}
         <div class="sidebar-header-right">
@@ -229,11 +235,12 @@ function resetFilters() {
         border: 1px solid #f0c6da;
         border-radius: 12px;
         padding: 1rem 1.5rem;
+        padding-top: 0;
         box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
         left: 0;
-        overflow-y: auto;
-        overflow-x: hidden;
         z-index: 100;
+        overflow-y: auto;
+        overflow-x: visible;
     }
     .sidebar.sidebar-full {
         top: 0 !important;
@@ -245,11 +252,17 @@ function resetFilters() {
         gap: 1.2rem;
     }
     .sidebar-header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: #fff;
         display: flex;
         justify-content: space-between;
         align-items: center;
         gap: 0.5rem;
-        margin-bottom: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #f0f0f0;
     }
     .sidebar-header-right {
         display: flex;
@@ -264,6 +277,23 @@ function resetFilters() {
         padding: 0.4rem 0.8rem;
         background: #f0f0f0;
         border-radius: 8px;
+    }
+    .filter-loader {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.2rem 0.5rem;
+    }
+    .loader-spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid #f0c6da;
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
     }
     .sidebar-close-btn {
         background: #f0c6da;
@@ -323,7 +353,6 @@ function resetFilters() {
             box-shadow: 8px 0 32px rgba(240, 198, 218, 0.18);
             border-radius: 0 !important;
             margin: 0 !important;
-            padding: 0.7rem 0.2rem 0.7rem 0.2rem !important;
             overflow-y: auto !important;
             overflow-x: hidden !important;
             box-sizing: border-box !important;
