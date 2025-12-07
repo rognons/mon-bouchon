@@ -52,6 +52,18 @@ const optionsOptions = [
   '🎨 Décoration remarquable',
 ];
 
+const distinctionsTooltips: Record<string, string> = {
+  '🏅 Label "Les Bouchons Lyonnais"':
+    'Label créé en 2012 qui vise à sauvegarder et pérenniser la tradition culinaire lyonnaise.',
+  '⭐ Sélection "Authentiques Bouchons Lyonnais"':
+    'Définie par "l\'Association de Défense des Bouchons lyonnais", créée en 1992.',
+};
+
+const optionsTooltips: Record<string, string> = {
+  '🥬 Option végétarienne': 'Au moins 1 entrée et 1 plat végétariens présents à la carte.',
+  '🍳 Mâchon possible': 'Repas lyonnais matinal et copieux.',
+};
+
 let selectedDistinctions: string[] = [];
 let selectedOptions: string[] = [];
 
@@ -134,20 +146,6 @@ function resetFilters() {
         </div>
     </div>
     <div class="sidebar-filters">
-        <FilterMultiSelect
-            label="Distinctions"
-            options={distinctionsOptions}
-            bind:selectedValues={selectedDistinctions}
-            emoji="🏆"
-            ariaLabel="Distinctions"
-        />
-        <FilterMultiSelect
-            label="Options"
-            options={optionsOptions}
-            bind:selectedValues={selectedOptions}
-            emoji="✨"
-            ariaLabel="Options"
-        />
         <FilterSelect
             label="Tous les prix"
             options={prixMenuBaseOptions}
@@ -207,18 +205,34 @@ function resetFilters() {
             ariaLabel="Type de clientèle"
         />
         <FilterSelect
+            label="Tous les types de bouchons"
+            options={typeBouchonOptions}
+            bind:value={selectedTypeBouchon}
+            emoji="🏪"
+            ariaLabel="Style de bouchon"
+        />
+        <FilterSelect
             label="Toutes les ambiances"
             options={typeAmbianceOptions}
             bind:value={selectedTypeAmbiance}
             emoji="🎭"
             ariaLabel="Ambiance & confort"
         />
-        <FilterSelect
-            label="Tous les styles"
-            options={typeBouchonOptions}
-            bind:value={selectedTypeBouchon}
-            emoji="🏪"
-            ariaLabel="Style de bouchon"
+        <FilterMultiSelect
+            label="Distinctions"
+            options={distinctionsOptions}
+            bind:selectedValues={selectedDistinctions}
+            emoji="🏆"
+            ariaLabel="Distinctions"
+            tooltips={distinctionsTooltips}
+        />
+        <FilterMultiSelect
+            label="Options"
+            options={optionsOptions}
+            bind:selectedValues={selectedOptions}
+            emoji="✨"
+            ariaLabel="Options"
+            tooltips={optionsTooltips}
         />
     </div>
 </aside>
