@@ -20,38 +20,40 @@ const dispatch = createEventDispatcher();
                 ? "s"
                 : ""}
         </h2>
-        {#if isMobile}
-            <button
-                class="show-advanced-filters-btn"
-                on:click={() => dispatch("openSidebar")}
-                aria-label="Afficher les filtres avancés">🔍 Filtres</button
-            >
-        {/if}
-        <div class="sort-control">
-            <label for="sortBy">🎯 Trier par:</label>
-            <select
-                id="sortBy"
-                bind:value={sortBy}
-                on:change={() => {
-                    sortOrder = getDefaultSortOrder(sortBy);
-                    applyFilters();
-                }}
-            >
-                <option value="rating">⭐ Note (Google)</option>
-                <option value="prix">💰 Prix</option>
-            </select>
-            <button
-                class="sort-order-btn"
-                on:click={() => {
-                    sortOrder = sortOrder === "desc" ? "asc" : "desc";
-                    applyFilters();
-                }}
-                title={sortOrder === "desc"
-                    ? "Décroissant (clic pour croissant)"
-                    : "Croissant (clic pour décroissant)"}
-            >
-                {sortOrder === "desc" ? "⬇️" : "⬆️"}
-            </button>
+        <div class="controls-row">
+            {#if isMobile}
+                <button
+                    class="show-advanced-filters-btn"
+                    on:click={() => dispatch("openSidebar")}
+                    aria-label="Afficher les filtres avancés">🔍 Filtres</button
+                >
+            {/if}
+            <div class="sort-control">
+                <label for="sortBy">🎯 Trier par :</label>
+                <select
+                    id="sortBy"
+                    bind:value={sortBy}
+                    on:change={() => {
+                        sortOrder = getDefaultSortOrder(sortBy);
+                        applyFilters();
+                    }}
+                >
+                    <option value="rating">⭐ Note (Google)</option>
+                    <option value="prix">💰 Prix</option>
+                </select>
+                <button
+                    class="sort-order-btn"
+                    on:click={() => {
+                        sortOrder = sortOrder === "desc" ? "asc" : "desc";
+                        applyFilters();
+                    }}
+                    title={sortOrder === "desc"
+                        ? "Décroissant (clic pour croissant)"
+                        : "Croissant (clic pour décroissant)"}
+                >
+                    {sortOrder === "desc" ? "⬇️" : "⬆️"}
+                </button>
+            </div>
         </div>
     </div>
     {#if isLoading}
@@ -99,6 +101,11 @@ const dispatch = createEventDispatcher();
         flex-wrap: wrap;
         gap: 0.5rem;
     }
+    .controls-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
     .results-header h2 {
         font-family: "GiltonRegular", "Playfair Display", serif;
         color: #221f20;
@@ -110,7 +117,7 @@ const dispatch = createEventDispatcher();
     .sort-control {
         display: flex;
         align-items: center;
-        gap: 0.8rem;
+        gap: 0.5rem;
         font-size: 14px;
         background: white;
         padding: 0.6rem 1rem;
@@ -239,8 +246,34 @@ const dispatch = createEventDispatcher();
             text-align: center;
             gap: 1rem;
         }
+        .controls-row {
+            width: 100%;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        .show-advanced-filters-btn {
+            flex: 0 0 auto;
+            font-size: 0.95rem;
+            padding: 0.5rem 0.8rem;
+            white-space: nowrap;
+        }
         .sort-control {
-            align-self: center;
+            flex: 1;
+            padding: 0.5rem 0.7rem;
+            gap: 0.3rem;
+            min-width: 0;
+        }
+        .sort-control label {
+            font-size: 13px;
+        }
+        .sort-control select {
+            font-size: 13px;
+            padding: 0.3rem 0.5rem;
+            min-width: 100px;
+        }
+        .sort-order-btn {
+            width: 26px;
+            height: 26px;
         }
     }
     .show-advanced-filters-btn {
