@@ -83,11 +83,12 @@ const dispatch = createEventDispatcher();
 <style>
     .results-header {
         margin: 0.5rem 0 1rem 0;
+        margin-top: 0rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: 0.1rem;
     }
     .controls-row {
         display: flex;
@@ -97,10 +98,10 @@ const dispatch = createEventDispatcher();
     .results-header h2 {
         font-family: "GiltonRegular", "Playfair Display", serif;
         color: #221f20;
-        font-size: 26px;
         font-weight: normal;
         margin: 0;
         line-height: 1em;
+        padding-bottom: 0;
     }
     .sort-control {
         display: flex;
@@ -108,7 +109,6 @@ const dispatch = createEventDispatcher();
         gap: 0.5rem;
         font-size: 14px;
         background: white;
-        padding: 0.6rem 1rem;
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(240, 198, 218, 0.1);
     }
@@ -212,7 +212,7 @@ const dispatch = createEventDispatcher();
             grid-template-columns: 1fr;
         }
         .results-header {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             flex-direction: column;
             text-align: center;
             gap: 1rem;
@@ -228,8 +228,6 @@ const dispatch = createEventDispatcher();
         }
         .sort-control {
             flex: 0 1 auto;
-            padding: 0.5rem 0.7rem;
-            gap: 0.3rem;
             min-width: 0;
             box-sizing: border-box;
         }
