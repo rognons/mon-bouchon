@@ -15,9 +15,13 @@ let selectedTime: string = '';
 let isMobile = false;
 
 onMount(() => {
-  isMobile = window.innerWidth <= 768;
+  isMobile =
+    window.innerWidth <= 980 ||
+    (window.innerHeight <= 500 && window.matchMedia('(orientation: landscape)').matches);
   window.addEventListener('resize', () => {
-    isMobile = window.innerWidth <= 768;
+    isMobile =
+      window.innerWidth <= 980 ||
+      (window.innerHeight <= 500 && window.matchMedia('(orientation: landscape)').matches);
   });
 });
 
@@ -403,6 +407,19 @@ function clearFilters() {
     min-width: 0;
   }
   @media (max-width: 980px) {
+    .sidebar-wrapper {
+      width: 100%;
+    }
+    .main-content {
+      padding-left: 0;
+    }
+    .search-layout {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  @media (max-height: 500px) and (orientation: landscape) {
     .sidebar-wrapper {
       width: 100%;
     }

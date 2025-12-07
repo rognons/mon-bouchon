@@ -252,7 +252,6 @@ function resetFilters() {
         gap: 0.5rem;
         padding-top: 1rem;
         padding-bottom: 1rem;
-        border-bottom: 1px solid #f0f0f0;
     }
     .sidebar-header-right {
         display: flex;
@@ -301,11 +300,11 @@ function resetFilters() {
     }
     .reset-filters-btn {
         background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
-        color: #221f20;
+        color: black;
         border: 1px solid #e4b3cc;
         border-radius: 8px;
         font-size: 0.9rem;
-        font-weight: 500;
+        font-weight: 600;
         padding: 0.4rem 0.8rem;
         cursor: pointer;
         transition: all 0.2s;
@@ -318,35 +317,53 @@ function resetFilters() {
     }
     @media (max-width: 980px) {
         .sidebar {
-            position: static;
-            width: 100%;
-            max-width: 100%;
-            margin-bottom: 2rem;
-        }
-    }
-    @media (max-width: 768px) {
-        .sidebar-filters {
-            gap: 0.5rem;
-        }
-        .sidebar {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            width: 100vw !important;
-            max-width: 100vw !important;
-            min-width: 0 !important;
-            height: 100vh !important;
-            max-height: 100vh !important;
-            z-index: 201 !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            max-width: 100vw;
+            min-width: 0;
+            height: 100vh;
+            max-height: 100vh;
+            z-index: 201;
             transform: translateX(-100%);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 8px 0 32px rgba(240, 198, 218, 0.18);
-            border-radius: 0 !important;
-            margin: 0 !important;
-            overflow-y: auto !important;
-            overflow-x: hidden !important;
-            box-sizing: border-box !important;
-            display: block !important;
+            border-radius: 0;
+            margin: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-sizing: border-box;
+            display: block;
+        }
+        .sidebar.sidebar-mobile-open {
+            transform: translateX(0);
+        }
+        .sidebar-filters {
+            gap: 0.5rem;
+        }
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            max-width: 100vw;
+            min-width: 0;
+            height: 100vh;
+            max-height: 100vh;
+            z-index: 201;
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 8px 0 32px rgba(240, 198, 218, 0.18);
+            border-radius: 0;
+            margin: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-sizing: border-box;
+            display: block;
         }
         .sidebar.sidebar-mobile-open {
             transform: translateX(0);
