@@ -358,6 +358,7 @@ function clearFilters() {
     {typeMangeurOptions}
     {typeAmbianceOptions}
     {typeBouchonOptions}
+    {hasActiveFilters}
   bind:selectedPrixMenuBase
   bind:selectedArrondissements
   bind:selectedQuartiers
@@ -375,22 +376,10 @@ function clearFilters() {
   bind:selectedDay
   bind:selectedTime
     on:close={() => (sidebarOpen = false)}
+    on:reset={clearFilters}
   />
 
   <div class="floating-btns">
-    {#if hasActiveFilters}
-      <button
-        class="clear-filters"
-        on:click={clearFilters}
-        title="Effacer tous les filtres"
-      >
-        <span
-          class="broom-emoji"
-          aria-label="Effacer les filtres"
-          title="Effacer tous les filtres">🧹</span
-        >
-      </button>
-    {/if}
     {#if showScrollTop}
       <button
         class="scroll-top-btn"
@@ -460,8 +449,7 @@ function clearFilters() {
     cursor: pointer;
   }
 
-  .arrow-emoji,
-  .broom-emoji {
+  .arrow-emoji {
     font-size: 1.7rem;
     display: flex;
     align-items: center;
@@ -470,7 +458,6 @@ function clearFilters() {
     transition: filter 0.2s;
     padding: 10px;
   }
-
 
   .floating-btns {
     position: fixed;
@@ -482,8 +469,7 @@ function clearFilters() {
     gap: 0.5vw;
   }
 
-  .scroll-top-btn,
-  .clear-filters {
+  .scroll-top-btn {
     width: 55px;
     height: 55px;
     background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
@@ -508,8 +494,7 @@ function clearFilters() {
       gap: 0.9vw;
       flex-direction: column;
     }
-    .scroll-top-btn,
-    .clear-filters {
+    .scroll-top-btn {
       width: 50px;
       height: 50px;
     }

@@ -37,7 +37,12 @@ export let selectionAuthentiques: boolean;
 
 export let selectedDay: string;
 export let selectedTime: string;
+export let hasActiveFilters: boolean;
 const dispatch = createEventDispatcher();
+
+function resetFilters() {
+  dispatch('reset');
+}
 </script>
 
 <aside
@@ -48,14 +53,26 @@ const dispatch = createEventDispatcher();
     class:sidebar-mobile-open={sidebarOpen}
     inert={!sidebarOpen && isMobile}
 >
-    {#if isMobile}
-        <button
-            class="sidebar-close-btn"
-            on:click={() => dispatch("close")}
-            aria-label="Fermer les filtres"
-            >✖️
-        </button>
-    {/if}
+    <div class="sidebar-header">
+        {#if hasActiveFilters}
+            <button
+                class="reset-filters-btn"
+                on:click={resetFilters}
+                aria-label="Réinitialiser les filtres"
+                title="Réinitialiser tous les filtres"
+            >
+                Réinitialiser
+            </button>
+        {/if}
+        {#if isMobile}
+            <button
+                class="sidebar-close-btn"
+                on:click={() => dispatch("close")}
+                aria-label="Fermer les filtres"
+                >✖️
+            </button>
+        {/if}
+    </div>
     <div class="sidebar-filters">
         <FilterSelect
             label="Tous les prix"
@@ -182,7 +199,7 @@ const dispatch = createEventDispatcher();
         background: #fff;
         border: 1px solid #f0c6da;
         border-radius: 12px;
-        padding: 2rem 1.5rem;
+        padding: 1rem 1.5rem;
         box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
         left: 0;
         overflow-y: auto;
@@ -198,19 +215,43 @@ const dispatch = createEventDispatcher();
         flex-direction: column;
         gap: 1.2rem;
     }
+    .sidebar-header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
     .sidebar-close-btn {
-        position: absolute;
-        z-index: 202;
         background: #f0c6da;
         color: #221f20;
         border: none;
         border-radius: 50%;
         font-size: 1rem;
         box-shadow: 0 2px 8px rgba(240, 198, 218, 0.15);
-        top: 3px;
-        right: 6px;
         padding: 3px 6px;
-        display: block;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+    .sidebar-close-btn:hover {
+        background: #e4b3cc;
+    }
+    .reset-filters-btn {
+        background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
+        color: #221f20;
+        border: 1px solid #e4b3cc;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        padding: 0.4rem 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 8px rgba(240, 198, 218, 0.15);
+    }
+    .reset-filters-btn:hover {
+        background: linear-gradient(135deg, #e4b3cc 60%, #d8a3bc 100%);
+        box-shadow: 0 4px 12px rgba(240, 198, 218, 0.25);
+        transform: translateY(-1px);
     }
     @media (max-width: 980px) {
         .sidebar {
