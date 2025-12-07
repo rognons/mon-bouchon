@@ -39,8 +39,8 @@ export class BouchonDomainService {
           break;
         }
         case "price": {
-          const priceA = a.menuInfo.priceLevel ?? 0;
-          const priceB = b.menuInfo.priceLevel ?? 0;
+          const priceA = a.menuInfo.menuPrice ?? 0;
+          const priceB = b.menuInfo.menuPrice ?? 0;
           compareValue = priceA - priceB;
           break;
         }
@@ -56,13 +56,14 @@ export class BouchonDomainService {
     bouchon: Bouchon,
     criteria: SearchCriteria,
   ): boolean {
-    // PriceLevel
+    // PriceLevel - now uses menuPrice-based calculation
     if (
-      typeof criteria.priceLevel === "number" &&
-      typeof bouchon.menuInfo.priceLevel === "number" &&
-      bouchon.menuInfo.priceLevel !== criteria.priceLevel
+      typeof criteria.priceLevel === "number"
     ) {
-      return false;
+      const bouchonPriceLevel = bouchon.getPriceLevel();
+      if (bouchonPriceLevel !== criteria.priceLevel) {
+        return false;
+      }
     }
 
     // Location

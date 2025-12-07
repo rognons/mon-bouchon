@@ -10,11 +10,11 @@ function callBouchon(): void {
   }
 }
 
-function getPriceLevel(priceLevel: number | null | undefined): string {
-  if (priceLevel === null || priceLevel === undefined) {
-    return 'N/A';
+function formatMenuPrice(menuPrice: number | null | undefined): string {
+  if (menuPrice) {
+    return `${menuPrice.toFixed(2)} €`;
   }
-  return '€'.repeat(priceLevel);
+  return 'N/A';
 }
 </script>
 
@@ -44,11 +44,11 @@ function getPriceLevel(priceLevel: number | null | undefined): string {
 
     <div class="details-grid">
       <div class="detail-item">
-        <span class="label">Prix:</span>
-  <span class="value prix-menu">{getPriceLevel(bouchon.priceLevel)}</span>
+        <span class="label">Prix menu base</span>
+  <span class="value prix-menu">{formatMenuPrice(bouchon.menuPrice)}</span>
       </div>
       <div class="detail-item">
-        <span class="label">Contact:</span>
+        <span class="label">Contact</span>
         <button class="value phone-value" on:click={callBouchon}>
           📞 {bouchon.phone}
         </button>

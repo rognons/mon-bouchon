@@ -85,7 +85,7 @@ export class BouchonController {
       postalCode: bouchon.address.postalCode,
       phone: bouchon.contact.phone,
       rating: bouchon.rating.score,
-      priceLevel: bouchon.menuInfo.priceLevel,
+      menuPrice: bouchon.menuInfo.menuPrice,
       openingHours: bouchon.services.openingHours,
       portionSize: bouchon.menuInfo.portionSize,
       specialties: bouchon.menuInfo.specialties,

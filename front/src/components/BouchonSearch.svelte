@@ -155,11 +155,11 @@ function uniqueOptions(arr: (string | undefined)[]): string[] {
 
 // Génère des options { value: number, label: string } pour le select prix
 function getPriceLevelOptions(bouchons: BouchonData[]): { value: string; label: string }[] {
-  const levels = Array.from(new Set(bouchons.map((b) => b.priceLevel).filter(Boolean)));
-  levels.sort((a, b) => (a as number) - (b as number));
   return [
     { value: '', label: 'Tous les prix' },
-    ...levels.map((l) => ({ value: String(l), label: '€'.repeat(Number(l)) })),
+    { value: '1', label: '€ (≤ 32 €)' },
+    { value: '2', label: '€€ (32–38 €)' },
+    { value: '3', label: '€€€ (> 38 €)' },
   ];
 }
 
@@ -228,9 +228,9 @@ async function searchBouchons() {
     } else {
       bouchons = await getAllBouchons();
     }
-    // Exclure les bouchons sans priceLevel si un filtre prix est actif
+    // Exclure les bouchons sans menuPrice si un filtre prix est actif
     if (selectedPrixMenuBase) {
-      bouchons = bouchons.filter((b) => b.priceLevel !== null && b.priceLevel !== undefined);
+      bouchons = bouchons.filter((b) => b.menuPrice !== null && b.menuPrice !== undefined);
     }
   } catch (error: unknown) {
     console.error('Failed to search bouchons:', error);
@@ -251,9 +251,9 @@ function sortResults() {
 
     switch (sortBy) {
       case 'prix': {
-        // Use priceLevel (number) for sorting by price
-        const prixA = a.priceLevel ?? 0;
-        const prixB = b.priceLevel ?? 0;
+        // Use menuPrice for sorting by price
+        const prixA = a.menuPrice ?? 0;
+        const prixB = b.menuPrice ?? 0;
         compareValue = prixA - prixB;
         break;
       }

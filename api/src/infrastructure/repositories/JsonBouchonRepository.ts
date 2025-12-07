@@ -44,7 +44,7 @@ interface BouchonJson {
   capacity?: number;
   dateFriendly?: boolean;
   businessMeal?: boolean;
-  priceLevel?: number;
+  menuPrice?: number;
   articleUrl?: string;
   menuUrl?: string;
 }
@@ -87,7 +87,7 @@ export class JsonBouchonRepository implements BouchonRepository {
       ),
       new Contact(json.phone ?? ""),
       new Rating(json.rating ?? 0),
-      new MenuInfo(json.portionSize, json.specialties, json.priceLevel),
+      new MenuInfo(json.portionSize, json.specialties, json.menuPrice),
       new Characteristics(
         json.bouchonType,
         json.eaterType,

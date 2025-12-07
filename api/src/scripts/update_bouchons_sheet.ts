@@ -18,6 +18,16 @@ function parseSpecialties(val: string): string[] {
   return val ? val.split(",").map((s) => s.trim()).filter(Boolean) : [];
 }
 
+function parseMenuPrice(val: string): number | undefined {
+  if (!val || val.trim() === "" || val.trim() === "-") {
+    return undefined;
+  }
+  // Remove currency symbols and spaces, replace comma with dot
+  const cleaned = val.replace(/[€\s]/g, "").replace(",", ".");
+  const price = parseFloat(cleaned);
+  return isNaN(price) ? undefined : price;
+}
+
 function mapRowToBouchon(
   row: string[],
   _keys: string[],
@@ -25,7 +35,7 @@ function mapRowToBouchon(
   // Now first column is name, then skip openingHours, district, mapsUrl is removed
   return {
     name: row[0],
-    menuPrice: row[1],
+    menuPrice: parseMenuPrice(row[1]),
     neighborhood: row[3],
     portionSize: row[4],
     eaterType: row[5],

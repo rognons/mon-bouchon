@@ -30,7 +30,7 @@ export interface BouchonData {
   capacity?: number;
   dateFriendly?: boolean;
   businessMeal?: boolean;
-  priceLevel?: number;
+  menuPrice?: number;
   mapsUrl?: string;
   articleUrl?: string;
   menuUrl?: string;

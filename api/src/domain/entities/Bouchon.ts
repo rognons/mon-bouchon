@@ -47,9 +47,11 @@ export class Bouchon {
     return this.labels.compagnieFavorite || false;
   }
 
-  isPriceInRange(min: number, max: number): boolean {
-    if (typeof this.menuInfo.priceLevel !== "number") return false;
-    return this.menuInfo.priceLevel >= min && this.menuInfo.priceLevel <= max;
+  getPriceLevel(): number | undefined {
+    if (typeof this.menuInfo.menuPrice !== "number") return undefined;
+    if (this.menuInfo.menuPrice <= 32) return 1;
+    if (this.menuInfo.menuPrice <= 38) return 2;
+    return 3;
   }
 }
 
@@ -91,7 +93,7 @@ export class MenuInfo {
   constructor(
     public readonly portionSize?: string,
     public readonly specialties?: string[],
-    public readonly priceLevel?: number,
+    public readonly menuPrice?: number,
   ) {}
 }
 

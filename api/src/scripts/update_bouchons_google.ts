@@ -122,7 +122,6 @@ async function enrichBouchonWithGoogle(
 
   bouchon.rating = details.rating || null;
   bouchon.phone = details.formatted_phone_number || null;
-  bouchon.priceLevel = details.price_level ?? null;
   bouchon.postalCode = postalCode;
   bouchon.mapsUrl = details.url || null;
   bouchon.address = typeof details.formatted_address === "string"
