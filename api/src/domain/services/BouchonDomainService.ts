@@ -140,6 +140,12 @@ export class BouchonDomainService {
     ) {
       return false;
     }
+    if (criteria.terrace && !bouchon.services.terrace) {
+      return false;
+    }
+    if (criteria.remarkableTeam && !bouchon.characteristics.remarkableTeam) {
+      return false;
+    }
 
     // Labels
     if (criteria.compagnieFavorite && !bouchon.labels.compagnieFavorite) {

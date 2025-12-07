@@ -94,6 +94,7 @@ export class JsonBouchonRepository implements BouchonRepository {
         json.atmosphereType,
         json.tableType,
         json.remarkableDecoration,
+        json.remarkableTeam,
       ),
       new Services(
         json.openingHours,

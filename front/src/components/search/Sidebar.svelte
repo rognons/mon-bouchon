@@ -28,6 +28,8 @@ export let selectedTypeBouchon: string;
 export let optionVegetariens: boolean;
 export let optionMachon: boolean;
 export let decorationRemarquable: boolean;
+export let terrace: boolean;
+export let remarkableTeam: boolean;
 export let coupDeCoeurCompagnie: boolean;
 export let coupDeCoeurVins: boolean;
 export let labelBouchonsLyonnais: boolean;
@@ -50,6 +52,8 @@ const optionsOptions = [
   '🥬 Option végétarienne',
   '🍳 Mâchon possible',
   '🎨 Décoration remarquable',
+  '☀️ Terrace',
+  '👥 Personnel remarquable',
 ];
 
 const distinctionsTooltips: Record<string, string> = {
@@ -79,6 +83,8 @@ $: {
   optionVegetariens = selectedOptions.includes('🥬 Option végétarienne');
   optionMachon = selectedOptions.includes('🍳 Mâchon possible');
   decorationRemarquable = selectedOptions.includes('🎨 Décoration remarquable');
+  terrace = selectedOptions.includes('☀️ Terrace');
+  remarkableTeam = selectedOptions.includes('👥 Personnel remarquable');
 }
 
 // Calculer le nombre de filtres actifs
@@ -95,6 +101,8 @@ $: {
   if (optionVegetariens) activeFiltersCount++;
   if (optionMachon) activeFiltersCount++;
   if (decorationRemarquable) activeFiltersCount++;
+  if (terrace) activeFiltersCount++;
+  if (remarkableTeam) activeFiltersCount++;
   if (coupDeCoeurCompagnie) activeFiltersCount++;
   if (coupDeCoeurVins) activeFiltersCount++;
   if (labelBouchonsLyonnais) activeFiltersCount++;

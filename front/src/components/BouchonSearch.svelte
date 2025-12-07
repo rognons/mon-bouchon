@@ -63,6 +63,8 @@ let selectedTypeBouchon: string = '';
 let optionVegetariens: boolean = false;
 let optionMachon: boolean = false;
 let decorationRemarquable: boolean = false;
+let terrace: boolean = false;
+let remarkableTeam: boolean = false;
 let coupDeCoeurCompagnie: boolean = false;
 let coupDeCoeurVins: boolean = false;
 let labelBouchonsLyonnais: boolean = false;
@@ -83,6 +85,8 @@ $: hasActiveFilters = Boolean(
     optionVegetariens ||
     optionMachon ||
     decorationRemarquable ||
+    terrace ||
+    remarkableTeam ||
     coupDeCoeurCompagnie ||
     coupDeCoeurVins ||
     labelBouchonsLyonnais ||
@@ -177,6 +181,8 @@ async function searchBouchons() {
     if (optionVegetariens) filters.vegetarianOption = 'true';
     if (optionMachon) filters.machonOption = 'true';
     if (decorationRemarquable) filters.remarkableDecoration = 'true';
+    if (terrace) filters.terrace = 'true';
+    if (remarkableTeam) filters.remarkableTeam = 'true';
     if (coupDeCoeurCompagnie) filters.compagnieFavorite = 'true';
     if (coupDeCoeurVins) filters.wineFavorite = 'true';
     if (labelBouchonsLyonnais) filters.bouchonLyonnaisLabel = 'true';
@@ -274,6 +280,8 @@ $: {
     optionVegetariens,
     optionMachon,
     decorationRemarquable,
+    terrace,
+    remarkableTeam,
     coupDeCoeurCompagnie,
     coupDeCoeurVins,
     labelBouchonsLyonnais,
@@ -298,6 +306,8 @@ function clearFilters() {
   optionVegetariens = false;
   optionMachon = false;
   decorationRemarquable = false;
+  terrace = false;
+  remarkableTeam = false;
   coupDeCoeurCompagnie = false;
   coupDeCoeurVins = false;
   labelBouchonsLyonnais = false;
@@ -345,6 +355,8 @@ function clearFilters() {
   bind:optionVegetariens
   bind:optionMachon
   bind:decorationRemarquable
+  bind:terrace
+  bind:remarkableTeam
   bind:coupDeCoeurCompagnie
   bind:coupDeCoeurVins
   bind:labelBouchonsLyonnais

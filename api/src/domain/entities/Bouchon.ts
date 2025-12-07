@@ -104,6 +104,7 @@ export class Characteristics {
     public readonly atmosphereType?: string,
     public readonly tableType?: string,
     public readonly remarkableDecoration?: boolean,
+    public readonly remarkableTeam?: boolean,
   ) {}
 }
 
