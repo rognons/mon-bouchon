@@ -41,18 +41,6 @@ const dispatch = createEventDispatcher();
                     <option value="rating">⭐ Note (Google)</option>
                     <option value="prix">💰 Prix</option>
                 </select>
-                <button
-                    class="sort-order-btn"
-                    on:click={() => {
-                        sortOrder = sortOrder === "desc" ? "asc" : "desc";
-                        applyFilters();
-                    }}
-                    title={sortOrder === "desc"
-                        ? "Décroissant (clic pour croissant)"
-                        : "Croissant (clic pour décroissant)"}
-                >
-                    {sortOrder === "desc" ? "⬇️" : "⬆️"}
-                </button>
             </div>
         </div>
     </div>
@@ -122,7 +110,6 @@ const dispatch = createEventDispatcher();
         background: white;
         padding: 0.6rem 1rem;
         border-radius: 8px;
-        border: 1px solid #f0c6da;
         box-shadow: 0 2px 4px rgba(240, 198, 218, 0.1);
     }
     .sort-control label {
@@ -143,22 +130,6 @@ const dispatch = createEventDispatcher();
     .sort-control select:focus {
         outline: none;
         border-color: #f0c6da;
-    }
-    .sort-order-btn {
-        background: #f0c6da;
-        border: none;
-        width: 28px;
-        height: 28px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: background-color 0.2s ease;
-    }
-    .sort-order-btn:hover {
-        background: #e4b3cc;
     }
     .results-grid {
         display: grid;
@@ -253,15 +224,14 @@ const dispatch = createEventDispatcher();
         }
         .show-advanced-filters-btn {
             flex: 0 0 auto;
-            font-size: 0.95rem;
-            padding: 0.5rem 0.8rem;
             white-space: nowrap;
         }
         .sort-control {
-            flex: 1;
+            flex: 0 1 auto;
             padding: 0.5rem 0.7rem;
             gap: 0.3rem;
             min-width: 0;
+            box-sizing: border-box;
         }
         .sort-control label {
             font-size: 13px;
@@ -271,19 +241,14 @@ const dispatch = createEventDispatcher();
             padding: 0.3rem 0.5rem;
             min-width: 100px;
         }
-        .sort-order-btn {
-            width: 26px;
-            height: 26px;
-        }
     }
     .show-advanced-filters-btn {
-        background: #f0c6da;
+        background: white;
         color: #221f20;
-        border: none;
+        border: 1px solid #f0c6da;
         border-radius: 8px;
-        padding: 0.5em 1em;
-        font-size: 1.1rem;
-        box-shadow: 0 2px 8px rgba(240, 198, 218, 0.15);
+        padding: 0.3rem 0.9rem;
+        font-size: 1rem;
         cursor: pointer;
         font-family: "GiltonRegular", serif;
     }

@@ -97,9 +97,9 @@ let sortOrder = 'desc'; // asc ou desc
 function getDefaultSortOrder(criteria: string): string {
   switch (criteria) {
     case 'rating':
-      return 'desc'; // Meilleures notes d'abord
+      return 'desc'; // Best ratings first (high to low)
     case 'prix':
-      return 'asc'; // Prix les plus bas d'abord
+      return 'asc'; // Lowest prices first (low to high)
     default:
       return 'desc';
   }
@@ -219,8 +219,14 @@ function sortResults() {
     switch (sortBy) {
       case 'prix': {
         // Use menuPrice for sorting by price
-        const prixA = a.menuPrice ?? 0;
-        const prixB = b.menuPrice ?? 0;
+        const prixA = a.menuPrice;
+        const prixB = b.menuPrice;
+
+        // Place items with unknown prices at the end
+        if (prixA == null && prixB == null) return 0;
+        if (prixA == null) return 1; // a goes to the end
+        if (prixB == null) return -1; // b goes to the end
+
         compareValue = prixA - prixB;
         break;
       }
