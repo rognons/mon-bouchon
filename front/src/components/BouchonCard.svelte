@@ -340,14 +340,14 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
 
   .review-link-btn {
     display: inline-block;
-    background: #f0c6da;
+    background: white;
     color: #221f20;
     font-family: "Open Sans", Arial, sans-serif;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 0.85rem;
     padding: 0.13rem 0.65rem;
     border-radius: 13px;
-    border: 1px solid #e4b3cc;
+    border: 1px solid #f0c6da;
     box-shadow: none;
     text-decoration: none;
     transition: background 0.14s, color 0.14s, border-color 0.14s;
@@ -357,10 +357,8 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
   }
 
   .review-link-btn:hover {
-    background: #e4b3cc;
-    color: #221f20;
-    border-color: #f0c6da;
-    text-decoration: underline;
+    background: #f0c6da;
+    color: black;
   }
   .bottom-row {
     display: flex;
