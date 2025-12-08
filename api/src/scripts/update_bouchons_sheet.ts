@@ -14,6 +14,10 @@ function parseBoolean(val: string): boolean {
   return val?.toLowerCase() === "true";
 }
 
+function cleanString(val: string): string {
+  return val?.replace(/^["']|["']$/g, "").trim() || val;
+}
+
 function parseSpecialties(val: string): string[] {
   return val ? val.split(",").map((s) => s.trim()).filter(Boolean) : [];
 }
@@ -38,7 +42,7 @@ function mapRowToBouchon(
     menuPrice: parseMenuPrice(row[1]),
     neighborhood: row[3],
     portionSize: row[4],
-    eaterType: row[5],
+    eaterType: cleanString(row[5]),
     atmosphereType: row[6],
     bouchonType: row[7],
     vegetarianOption: parseBoolean(row[8]),
