@@ -24,11 +24,10 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     {#if bouchon.compagnieFavorite}
       <div class="coup-de-coeur-header">
         <img
-          src="/favicon.ico"
+          src="/coup-coeur-rognons.png"
           alt="Coup de cœur Rognon"
           class="cochon-header"
         />
-        <span class="coeur-header">❤️</span>
       </div>
     {/if}
   </div>
@@ -86,7 +85,7 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
               rel="noopener noreferrer"
               class="review-link-btn"
             >
-              <span>Lire notre test</span>
+              <span>Voir notre article</span>
             </a>
           </div>
         {/if}
@@ -98,13 +97,13 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
               rel="noopener noreferrer"
               class="review-link-btn"
             >
-              <span>Voir menu</span>
+              <span>Voir le menu</span>
             </a>
           </div>
         {/if}
       </div>
       <div class="bottom-rating">
-        <span class="bottom-note">⭐ {bouchon.rating}/5</span>
+        <span class="bottom-note">⭐ Google : {bouchon.rating}/5</span>
       </div>
     </div>
   </div>
@@ -161,10 +160,6 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     font-size: 0.8rem;
     font-weight: 600;
     color: #555;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 0.3rem 0.6rem;
-    border-radius: 12px;
-    border: 1px solid #ddd;
     opacity: 0.8;
     transition: opacity 0.2s ease;
   }
@@ -176,23 +171,14 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
   .coup-de-coeur-header {
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-    flex-shrink: 0;
     background: rgba(255, 255, 255, 0.9);
     padding: 0.4rem 0.6rem;
     border-radius: 20px;
     box-shadow: 0 3px 10px rgba(240, 198, 218, 0.4);
-    border: 2px solid #f0c6da;
-    animation: coupDeCoeurGlow 3s infinite;
   }
 
   .cochon-header {
-    width: 18px;
-    height: 18px;
-  }
-
-  .coeur-header {
-    font-size: 16px;
+    width: 25px;
   }
 
   @keyframes coupDeCoeurGlow {

@@ -83,7 +83,7 @@ $: {
   optionVegetariens = selectedOptions.includes('🥬 Option végétarienne');
   optionMachon = selectedOptions.includes('🍳 Mâchon possible');
   decorationRemarquable = selectedOptions.includes('🎨 Décoration remarquable');
-  terrace = selectedOptions.includes('☀️ Terrace');
+  terrace = selectedOptions.includes('☀️ Terrasse');
   remarkableTeam = selectedOptions.includes('👥 Personnel remarquable');
 }
 
