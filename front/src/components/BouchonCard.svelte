@@ -326,12 +326,7 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     }
 
     .cochon-header {
-      width: 16px;
-      height: 16px;
-    }
-
-    .coeur-header {
-      font-size: 14px;
+      width: 20px;
     }
 
     .details-grid {
