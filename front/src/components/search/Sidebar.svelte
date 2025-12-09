@@ -103,7 +103,11 @@ function resetFilters() {
         {#if hasActiveFilters}
             <div class="results-count" class:loading={isLoading}>
                 {#if isLoading}
-                    <span class="loader-spinner"></span>
+                    <img
+                        src="/favicon.ico"
+                        alt="Chargement..."
+                        class="spinning-cochon-sidebar"
+                    />
                 {:else}
                     {resultsCount} résultat{resultsCount > 1 ? 's' : ''}
                 {/if}
@@ -262,7 +266,7 @@ function resetFilters() {
         font-size: 0.9rem;
         font-weight: 600;
         color: #221f20;
-        padding: 0.4rem 0.8rem;
+        padding: 0.2rem 0.8rem;
         background: #f0f0f0;
         border-radius: 8px;
         display: flex;
@@ -270,19 +274,27 @@ function resetFilters() {
         gap: 0.5rem;
     }
     .results-count.loading {
-        background: transparent;
-        padding: 0.4rem 0;
-    }
-    .loader-spinner {
-        width: 16px;
-        height: 16px;
-        border: 2px solid #f0c6da;
-        border-top-color: white;
+        background: rgba(240, 198, 218, 0.15);
+        padding: 0.3rem;
+        border: 0.5px solid rgba(240, 198, 218, 0.3);
         border-radius: 50%;
-        animation: spin 0.6s linear infinite;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1;
+    }
+    .spinning-cochon-sidebar {
+        width: 20px;
+        animation: spin 1.5s linear infinite;
+        filter: drop-shadow(0 2px 6px rgba(240, 198, 218, 0.6));
     }
     @keyframes spin {
-        to { transform: rotate(360deg); }
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
     }
     .sidebar-close-btn {
         background: #f0c6da;

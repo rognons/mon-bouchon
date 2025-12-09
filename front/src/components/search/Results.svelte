@@ -29,7 +29,9 @@ const dispatch = createEventDispatcher();
                 >
             {/if}
             <div class="sort-control">
-                <label for="sortBy">🎯 Trier par :</label>
+                <label for="sortBy">
+                  <span class="sort-label">🎯 Trier par :</span>
+                </label>
                 <select
                     id="sortBy"
                     bind:value={sortBy}
@@ -116,6 +118,11 @@ const dispatch = createEventDispatcher();
         color: #221f20;
         font-weight: 500;
         font-family: "Open Sans", sans-serif;
+    }
+    @media (max-width: 360px) {
+        .sort-label {
+            display: none;
+        }
     }
     .sort-control select {
         padding: 0.4rem 0.8rem;

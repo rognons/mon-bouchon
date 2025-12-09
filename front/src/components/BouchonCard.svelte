@@ -103,7 +103,10 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
         {/if}
       </div>
       <div class="bottom-rating">
-        <span class="bottom-note">⭐ Google : {bouchon.rating}/5</span>
+        <span class="bottom-note">
+          <span class="rating-full">⭐ Google : {bouchon.rating}/5</span>
+          <span class="rating-compact">{bouchon.rating}/5 ⭐</span>
+        </span>
       </div>
     </div>
   </div>
@@ -161,6 +164,19 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     color: #555;
     opacity: 0.8;
     transition: opacity 0.2s ease;
+  }
+
+  .rating-compact {
+    display: none;
+  }
+
+  @media (max-width: 360px) {
+    .rating-full {
+      display: none;
+    }
+    .rating-compact {
+      display: inline;
+    }
   }
 
   .bouchon-card:hover .bottom-note {
