@@ -342,8 +342,8 @@ function resetFilters() {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            max-width: 100vw;
+            width: 85vw;
+            max-width: 85vw;
             min-width: 0;
             height: 100vh;
             max-height: 100vh;
@@ -371,8 +371,8 @@ function resetFilters() {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
-            max-width: 100vw;
+            width: 85vw;
+            max-width: 85vw;
             min-width: 0;
             height: 100vh;
             max-height: 100vh;
