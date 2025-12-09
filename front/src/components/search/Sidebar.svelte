@@ -262,32 +262,6 @@ function resetFilters() {
         gap: 0.5rem;
         margin-left: auto;
     }
-    .results-count {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #221f20;
-        padding: 0.2rem 0.8rem;
-        background: #f0f0f0;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    .results-count.loading {
-        background: rgba(240, 198, 218, 0.15);
-        padding: 0.3rem;
-        border: 0.5px solid rgba(240, 198, 218, 0.3);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        aspect-ratio: 1;
-    }
-    .spinning-cochon-sidebar {
-        width: 20px;
-        animation: spin 1.5s linear infinite;
-        filter: drop-shadow(0 2px 6px rgba(240, 198, 218, 0.6));
-    }
     @keyframes spin {
         from {
             transform: rotate(0deg);
@@ -327,6 +301,9 @@ function resetFilters() {
         box-shadow: 0 4px 12px rgba(240, 198, 218, 0.25);
         transform: translateY(-1px);
     }
+    .results-count {
+        display: none;
+    }
     @media (max-width: 980px) {
         .sidebar {
             position: fixed;
@@ -353,6 +330,32 @@ function resetFilters() {
         }
         .sidebar-filters {
             gap: 0.5rem;
+        }
+        .results-count {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #221f20;
+            padding: 0.2rem 0.8rem;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .results-count.loading {
+            background: rgba(240, 198, 218, 0.15);
+            padding: 0.3rem;
+            border: 0.5px solid rgba(240, 198, 218, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+        }
+        .spinning-cochon-sidebar {
+            width: 20px;
+            animation: spin 1.5s linear infinite;
+            filter: drop-shadow(0 2px 6px rgba(240, 198, 218, 0.6));
         }
     }
 
