@@ -87,29 +87,7 @@ $: {
   remarkableTeam = selectedOptions.includes('👥 Personnel remarquable');
 }
 
-// Calculer le nombre de filtres actifs
-let activeFiltersCount = 0;
-$: {
-  activeFiltersCount = 0;
-  activeFiltersCount += selectedArrondissements.length;
-  activeFiltersCount += selectedQuartiers.length;
-  if (selectedPrixMenuBase) activeFiltersCount++;
-  if (selectedQuantite) activeFiltersCount++;
-  if (selectedTypeMangeur) activeFiltersCount++;
-  if (selectedTypeAmbiance) activeFiltersCount++;
-  if (selectedTypeBouchon) activeFiltersCount++;
-  if (optionVegetariens) activeFiltersCount++;
-  if (optionMachon) activeFiltersCount++;
-  if (decorationRemarquable) activeFiltersCount++;
-  if (terrace) activeFiltersCount++;
-  if (remarkableTeam) activeFiltersCount++;
-  if (coupDeCoeurCompagnie) activeFiltersCount++;
-  if (coupDeCoeurVins) activeFiltersCount++;
-  if (labelBouchonsLyonnais) activeFiltersCount++;
-  if (selectionAuthentiques) activeFiltersCount++;
-  if (selectedDay) activeFiltersCount++;
-  if (selectedTime) activeFiltersCount++;
-}
+export let resultsCount: number = 0;
 
 function resetFilters() {
   dispatch('reset');
@@ -122,14 +100,13 @@ function resetFilters() {
     inert={!sidebarOpen && isMobile}
 >
     <div class="sidebar-header">
-        {#if activeFiltersCount > 0}
-            <div class="active-filters-count">
-                {activeFiltersCount} filtre{activeFiltersCount > 1 ? 's' : ''}
-            </div>
-        {/if}
-        {#if isLoading && isMobile}
-            <div class="filter-loader" title="Application des filtres...">
-                <span class="loader-spinner"></span>
+        {#if hasActiveFilters}
+            <div class="results-count" class:loading={isLoading}>
+                {#if isLoading}
+                    <span class="loader-spinner"></span>
+                {:else}
+                    {resultsCount} résultat{resultsCount > 1 ? 's' : ''}
+                {/if}
             </div>
         {/if}
         <div class="sidebar-header-right">
@@ -281,19 +258,20 @@ function resetFilters() {
         gap: 0.5rem;
         margin-left: auto;
     }
-    .active-filters-count {
+    .results-count {
         font-size: 0.9rem;
         font-weight: 600;
         color: #221f20;
         padding: 0.4rem 0.8rem;
         background: #f0f0f0;
         border-radius: 8px;
-    }
-    .filter-loader {
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.2rem 0.5rem;
+    }
+    .results-count.loading {
+        background: transparent;
+        padding: 0.4rem 0;
     }
     .loader-spinner {
         width: 16px;

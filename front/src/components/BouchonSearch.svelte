@@ -345,6 +345,7 @@ function clearFilters() {
     {typeBouchonOptions}
     {hasActiveFilters}
     {isLoading}
+    resultsCount={bouchons.length}
   bind:selectedPrixMenuBase
   bind:selectedArrondissements
   bind:selectedQuartiers
