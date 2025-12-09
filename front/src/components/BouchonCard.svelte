@@ -120,7 +120,6 @@ function formatMenuPrice(menuPrice: number | null | undefined): string {
     position: relative;
     display: flex;
     flex-direction: column;
-    min-height: 100%;
   }
 
   .bouchon-card:hover {
