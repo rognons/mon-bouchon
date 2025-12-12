@@ -15,7 +15,7 @@
     "reservation": true,
     "dateFriendly": true,
     "businessMeal": true,
-    "compagnieFavorite": true,
+    "compagnieFavorite": false,
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
@@ -479,7 +479,7 @@
     "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
-    "compagnieFavorite": true,
+    "compagnieFavorite": false,
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
@@ -737,7 +737,7 @@
     "address": "50 Bd des Brotteaux, 69006 Lyon"
   },
   {
-    "name": "Brunet",
+    "name": "Café Comptoir Brunet",
     "menuPrice": 32,
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
@@ -765,7 +765,7 @@
     ],
     "description": "Au Comptoir Brunet, Benjamin Baldassini perpétue l’héritage familial avec passion. Dans ce bouchon emblématique, tradition, générosité et respect du produit s’unissent pour célébrer Lyon dans toute sa gourmandise.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchon-comptoir-brunet/",
-    "menuUrl": "https://bouchonlyonnaisbrunet.com/fr/services",
+    "menuUrl": "https://bouchonlyonnaisbrunet.com/fr/",
     "bookingUrl": "https://bouchonlyonnaisbrunet.com/fr/booking",
     "openingHours": [
       {
@@ -1189,7 +1189,7 @@
     "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
-    "compagnieFavorite": true,
+    "compagnieFavorite": false,
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
@@ -1265,7 +1265,7 @@
     "address": "15 Rue Claudia, 69002 Lyon"
   },
   {
-    "name": "La Mère Léa (Maison Léa)",
+    "name": "Maison Léa",
     "menuPrice": 43,
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
@@ -1280,7 +1280,7 @@
     "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
-    "compagnieFavorite": true,
+    "compagnieFavorite": false,
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": false,
@@ -1381,7 +1381,7 @@
     ],
     "description": "Entre héritage des Mères lyonnaises et esprit canaille, Le Casse Museau ravive la tradition avec brio. Accueil chaleureux, plats classiques et ambiance feutrée : un bouchon qui allie histoire et bonne humeur.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-casse-museau/",
-    "menuUrl": "https://lecassemuseau.com/",
+    "menuUrl": "https://static1.squarespace.com/static/60d38f3f2c0d5d4c1a7976c8/t/69137b72bc092c3aca8ccc7d/1762884466439/CARTE+-+OCTOBRE+2025.pdf",
     "bookingUrl": "https://lecassemuseau.com/reserver",
     "openingHours": [
       {
@@ -1621,7 +1621,7 @@
     "address": "8 Rue de Cuire, 69004 Lyon"
   },
   {
-    "name": "Le Comptoir de Léa (Bouchon Léa)",
+    "name": "Bouchon Léa",
     "menuPrice": 37,
     "neighborhood": "Presqu'Île",
     "portionSize": "🐷🐷 Portions généreuses",
@@ -2153,7 +2153,7 @@
     "reservation": false,
     "dateFriendly": true,
     "businessMeal": false,
-    "compagnieFavorite": false,
+    "compagnieFavorite": true,
     "wineFavorite": true,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": false,
@@ -2289,7 +2289,7 @@
     "address": "2 Rue de Gadagne, 69005 Lyon"
   },
   {
-    "name": "Chez Nénette",
+    "name": "Bistrot du Marché - Chez Nénette",
     "neighborhood": "",
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
     "eaterType": "Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.",
@@ -2303,7 +2303,7 @@
     "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
-    "compagnieFavorite": false,
+    "compagnieFavorite": true,
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": false,
@@ -2473,7 +2473,7 @@
     "address": "10 Rue Major Martin 8-9, 69001 Lyon"
   },
   {
-    "name": "A Ma Vigne",
+    "name": "À Ma Vigne",
     "menuPrice": 35,
     "neighborhood": "",
     "portionSize": "🐷🐷🐷 Portions gargantuesques",
@@ -2861,7 +2861,7 @@
       "Quenelle de brochet",
       "Tarte aux pralines"
     ],
-    "description": "À venir",
+    "description": "Chez Georges, on savoure un bouchon resté dans son jus : une petite salle, une grande âme lyonnaise, et une cuisine sincère, qui mêle tradition et gourmandise.",
     "articleUrl": "https://compagnie-du-rognon.fr/au-petit-bouchon-chez-georges/",
     "menuUrl": "https://bouchonchezgeorges.fr/cuisine-lyonnaise-la-carte-du-bouchon/",
     "bookingUrl": "https://bookings.zenchef.com/results?rid=368886&pid=1001",
@@ -2944,7 +2944,7 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "valueForMoney": false,
+    "valueForMoney": true,
     "specialties": [
       "Quenelle de brochet",
       "Tablier de sapeur"
@@ -2996,7 +2996,7 @@
     "name": "Le Bouchon des Filles",
     "menuPrice": 32,
     "neighborhood": "Presqu'Île",
-    "portionSize": "🐷🐷 Portions généreuses",
+    "portionSize": "🐷 Portions raisonnables",
     "eaterType": "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
     "bouchonType": "Bouchon moderne : perpétue la tradition, tout en la renouvelant.",
@@ -3014,8 +3014,8 @@
     "authenticSelection": true,
     "valueForMoney": false,
     "specialties": [],
-    "description": "À venir",
-    "articleUrl": "",
+    "description": "Au Bouchon des Filles, tradition et légèreté font bon ménage : une cuisine maligne et moderne, servie avec malice par une équipe qui revisite le bouchon sans en trahir l’âme.",
+    "articleUrl": "https://compagnie-du-rognon.fr/le-bouchon-des-filles/",
     "menuUrl": "https://lebouchondesfilles.fr/",
     "bookingUrl": "https://app.resa.ninja/booking-new/web/5q1cwmlPnTTJP1kagqOIEL4LqRt2",
     "openingHours": [
@@ -3071,5 +3071,246 @@
     "postalCode": "69001",
     "mapsUrl": "https://maps.google.com/?cid=14019120405395751031",
     "address": "20 Rue Sergent Blandan, 69001 Lyon"
+  },
+  {
+    "name": "Chez Mounier",
+    "menuPrice": 19,
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷🐷 Portions gargantuesques",
+    "eaterType": "Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": false,
+    "businessMeal": false,
+    "compagnieFavorite": false,
+    "wineFavorite": true,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "valueForMoney": true,
+    "specialties": [
+      "Œufs meurette",
+      "Quenelle de brochet",
+      "Tablier de sapeur",
+      "Tarte aux pralines"
+    ],
+    "description": "À venir",
+    "articleUrl": "",
+    "menuUrl": "",
+    "bookingUrl": "",
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1415"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2215"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1415"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2215"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1415"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2215"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1415"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2215"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1415"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2215"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 37 79 26",
+    "postalCode": "69002",
+    "mapsUrl": "https://maps.google.com/?cid=14172405795022734505",
+    "address": "3 Rue des Marronniers, 69002 Lyon"
+  },
+  {
+    "name": "Café Lobut",
+    "neighborhood": "",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.",
+    "atmosphereType": "Chaleureux & animé : les uns sur les autres, dans le bruit et les rires",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "reservation": true,
+    "dateFriendly": false,
+    "businessMeal": true,
+    "compagnieFavorite": true,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "valueForMoney": true,
+    "specialties": [
+      "Tablier de sapeur",
+      "Œufs meurette"
+    ],
+    "description": "À venir",
+    "articleUrl": "",
+    "menuUrl": "https://www.cafe-lobut.fr/la-carte/",
+    "bookingUrl": "",
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "0730",
+        "close": "2000"
+      },
+      {
+        "day": 2,
+        "open": "0730",
+        "close": "2000"
+      },
+      {
+        "day": 3,
+        "open": "0730",
+        "close": "2000"
+      },
+      {
+        "day": 4,
+        "open": "0730",
+        "close": "2000"
+      },
+      {
+        "day": 5,
+        "open": "0730",
+        "close": "2000"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "phone": "04 78 84 91 66",
+    "postalCode": "69100",
+    "mapsUrl": "https://maps.google.com/?cid=2062264627983239156",
+    "address": "50 Cr Tolstoï, 69100 Villeurbanne"
+  },
+  {
+    "name": "Chez Hugon",
+    "menuPrice": 30,
+    "neighborhood": "Presqu'Île",
+    "portionSize": "🐷🐷 Portions généreuses",
+    "eaterType": "Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)",
+    "atmosphereType": "Convivial & vivant : un peu d'animation et une proximité agréable",
+    "bouchonType": "Bouchon traditionnel : resté dans son jus, 100% authentique.",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": true,
+    "reservation": false,
+    "dateFriendly": true,
+    "businessMeal": true,
+    "compagnieFavorite": true,
+    "wineFavorite": true,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "valueForMoney": true,
+    "specialties": [
+      "Tarte aux pralines",
+      "Quenelle de brochet",
+      "Œufs meurette"
+    ],
+    "description": "À venir",
+    "articleUrl": "",
+    "menuUrl": "",
+    "bookingUrl": "",
+    "openingHours": [
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1300"
+      },
+      {
+        "day": 1,
+        "open": "1930",
+        "close": "2100"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1300"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2100"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1300"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2100"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1300"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2100"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1300"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2100"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.6,
+    "phone": "04 78 28 10 94",
+    "postalCode": "69001",
+    "mapsUrl": "https://maps.google.com/?cid=1034666749526570260",
+    "address": "12 Rue Pizay, 69001 Lyon"
   }
 ]

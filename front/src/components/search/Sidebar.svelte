@@ -42,7 +42,7 @@ const dispatch = createEventDispatcher();
 
 // Options pour les accordéons multi-sélection
 const distinctionsOptions = [
-  '❤️ Coup de cœur Compagnie du Rognon',
+  '❤️ Top 10 Compagnie du Rognon',
   '🍷 Sélection Vins',
   '🏅 Label "Les Bouchons Lyonnais"',
   '⭐ Sélection "Authentiques Bouchons Lyonnais"',
@@ -52,7 +52,7 @@ const optionsOptions = [
   '🥬 Option végétarienne',
   '🍳 Mâchon possible',
   '🎨 Décoration remarquable',
-  '☀️ Terrace',
+  '☀️ Terrasse',
   '👥 Personnel remarquable',
 ];
 
@@ -73,7 +73,7 @@ let selectedOptions: string[] = [];
 
 // Synchroniser les multi-sélections avec les booléens
 $: {
-  coupDeCoeurCompagnie = selectedDistinctions.includes('❤️ Coup de cœur Compagnie du Rognon');
+  coupDeCoeurCompagnie = selectedDistinctions.includes('❤️ Top 10 Compagnie du Rognon');
   coupDeCoeurVins = selectedDistinctions.includes('🍷 Sélection Vins');
   labelBouchonsLyonnais = selectedDistinctions.includes('🏅 Label "Les Bouchons Lyonnais"');
   selectionAuthentiques = selectedDistinctions.includes(
