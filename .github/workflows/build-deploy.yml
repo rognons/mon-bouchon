@@ -116,7 +116,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           build-args: |
-            PUBLIC_API_URL=https://mon-bouchon-api.rognons.fr
+            PUBLIC_API_URL=https://api.mon-bouchon.fr
           context: ./front
           file: ./front/Dockerfile
           push: true
