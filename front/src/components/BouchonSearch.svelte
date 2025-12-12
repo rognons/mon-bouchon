@@ -1,9 +1,10 @@
 <script lang="ts">
 import { onMount } from 'svelte';
 import {
-  getAllBouchons,
+  getFilterOptions,
   searchBouchons as apiBouchonSearch,
   type BouchonData,
+  type FilterOptions,
 } from '../services/bouchonApi.ts';
 import Sidebar from './search/Sidebar.svelte';
 import Results from './search/Results.svelte';
@@ -49,7 +50,12 @@ onMount(() => {
 });
 
 let bouchons: BouchonData[] = []; // Résultats de l'API (toujours filtrés)
-let allBouchons: BouchonData[] = []; // Toutes les données, pour options de filtres
+let filterOptions: FilterOptions | null = null; // Options de filtres depuis l'API
+
+// Pagination state
+let currentPage = 1;
+let totalPages = 1;
+let totalItems = 0;
 
 // Nouveaux filtres selon les critères de la Compagnie du Rognon
 let selectedPrixMenuBase: string = '';
@@ -113,13 +119,8 @@ function getDefaultSortOrder(criteria: string): string {
   }
 }
 
-// Options dynamiques pour les filtres, générées à partir de toutes les données (allBouchons)
-function uniqueOptions(arr: (string | undefined)[]): string[] {
-  return ['', ...Array.from(new Set(arr.filter(Boolean) as string[]))];
-}
-
 // Génère des options { value: number, label: string } pour le select prix
-function getPriceLevelOptions(bouchons: BouchonData[]): { value: string; label: string }[] {
+function getPriceLevelOptions(): { value: string; label: string }[] {
   return [
     { value: '', label: 'Tous les prix' },
     { value: '1', label: '€ (≤ 32 €)' },
@@ -128,30 +129,23 @@ function getPriceLevelOptions(bouchons: BouchonData[]): { value: string; label: 
   ];
 }
 
-$: prixMenuBaseOptions = getPriceLevelOptions(allBouchons);
-$: arrondissements = [
-  '',
-  '69001',
-  '69002',
-  '69003',
-  '69004',
-  '69005',
-  '69006',
-  '69007',
-  '69008',
-  '69009',
-];
-$: quartiers = uniqueOptions(allBouchons.map((b) => b.neighborhood));
-$: quantiteOptions = uniqueOptions(allBouchons.map((b) => b.portionSize));
-$: typeMangeurOptions = uniqueOptions(allBouchons.map((b) => b.eaterType));
-$: typeAmbianceOptions = uniqueOptions(allBouchons.map((b) => b.atmosphereType));
-$: typeBouchonOptions = uniqueOptions(allBouchons.map((b) => b.bouchonType));
+$: prixMenuBaseOptions = getPriceLevelOptions();
+$: arrondissements = filterOptions ? ['', ...filterOptions.arrondissements] : [''];
+$: quartiers = filterOptions ? ['', ...filterOptions.neighborhoods] : [''];
+$: quantiteOptions = filterOptions ? ['', ...filterOptions.portionSizes] : [''];
+$: typeMangeurOptions = filterOptions ? ['', ...filterOptions.eaterTypes] : [''];
+$: typeAmbianceOptions = filterOptions ? ['', ...filterOptions.atmosphereTypes] : [''];
+$: typeBouchonOptions = filterOptions ? ['', ...filterOptions.bouchonTypes] : [''];
 
 let isLoading: boolean = true;
 let apiError: string | null = null;
 
 onMount(async () => {
-  allBouchons = await getAllBouchons();
+  try {
+    filterOptions = await getFilterOptions();
+  } catch (error) {
+    console.error('Failed to load filter options:', error);
+  }
   await searchBouchons();
 });
 
@@ -192,12 +186,16 @@ async function searchBouchons() {
     if (selectedDay) filters.day = selectedDay;
     if (selectedTime) filters.time = selectedTime;
 
-    // Appel à l'API avec les filtres ou tous les bouchons si pas de filtres
-    if (Object.keys(filters).length > 0) {
-      bouchons = await apiBouchonSearch(filters);
-    } else {
-      bouchons = await getAllBouchons();
-    }
+    // Sorting parameters
+    const apiSortBy = sortBy === 'prix' ? 'price' : sortBy;
+    filters.sortBy = apiSortBy;
+    filters.sortOrder = sortOrder;
+
+    const result = await apiBouchonSearch(filters, currentPage);
+    bouchons = result.data;
+    totalPages = result.pagination.totalPages;
+    totalItems = result.pagination.totalItems;
+
     // Exclure les bouchons sans menuPrice si un filtre prix est actif
     if (selectedPrixMenuBase) {
       bouchons = bouchons.filter((b) => b.menuPrice !== null && b.menuPrice !== undefined);
@@ -213,60 +211,19 @@ async function searchBouchons() {
     console.error('Failed to search bouchons:', error);
     apiError = error instanceof Error ? error.message : 'Une erreur est survenue';
     bouchons = [];
+    totalPages = 1;
+    totalItems = 0;
   } finally {
     isLoading = false;
   }
-
-  // Tri des résultats
-  sortResults();
 }
 
-// Fonction de tri
-function sortResults() {
-  bouchons.sort((a, b) => {
-    let compareValue = 0;
-
-    switch (sortBy) {
-      case 'prix': {
-        // Use menuPrice for sorting by price
-        const prixA = a.menuPrice;
-        const prixB = b.menuPrice;
-
-        // Place items with unknown prices at the end
-        if (prixA == null && prixB == null) return 0;
-        if (prixA == null) return 1; // a goes to the end
-        if (prixB == null) return -1; // b goes to the end
-
-        compareValue = prixA - prixB;
-        break;
-      }
-      default: {
-        // Handle undefined/null ratings gracefully
-        const ratingA = typeof a.rating === 'number' ? a.rating : 0;
-        const ratingB = typeof b.rating === 'number' ? b.rating : 0;
-        compareValue = ratingA - ratingB;
-        break;
-      }
-    }
-
-    return sortOrder === 'desc' ? -compareValue : compareValue;
-  });
-}
-
-// Fonction pour extraire le prix numérique
-function extractPrixNumber(prix: string | undefined): number {
-  if (!prix) return 0;
-  const match = prix.match(/(\d+)/);
-  return match ? parseInt(match[1], 10) : 0;
-}
-
-// Fonction pour appliquer les filtres (recherche + tri)
+// Fonction pour appliquer les filtres (recherche seulement, le tri est fait par l'API)
 async function applyFilters() {
   await searchBouchons();
-  sortResults();
 }
 
-// Réactivité : rechercher à chaque changement de critères, y compris jour/heure
+// Réactivité : rechercher à chaque changement de critères, y compris jour/heure et tri
 $: {
   const searchTriggers = [
     selectedPrixMenuBase,
@@ -283,6 +240,8 @@ $: {
     terrace,
     remarkableTeam,
     coupDeCoeurCompagnie,
+    sortBy,
+    sortOrder,
     coupDeCoeurVins,
     labelBouchonsLyonnais,
     selectionAuthentiques,
@@ -290,11 +249,19 @@ $: {
     selectedTime,
   ];
   if (typeof window !== 'undefined') {
+    currentPage = 1; // Reset to first page when filters change
     searchBouchons();
   }
 }
 
+function handlePageChange(event: CustomEvent<number>) {
+  currentPage = event.detail;
+  searchBouchons();
+  scrollToTop();
+}
+
 function clearFilters() {
+  currentPage = 1;
   selectedPrixMenuBase = '';
   selectedArrondissements = [];
   selectedQuartiers = [];
@@ -346,6 +313,7 @@ function clearFilters() {
     {hasActiveFilters}
     {isLoading}
     resultsCount={bouchons.length}
+    totalResults={totalItems}
   bind:selectedPrixMenuBase
   bind:selectedArrondissements
   bind:selectedQuartiers
@@ -395,7 +363,11 @@ function clearFilters() {
       bind:sortOrder
       {getDefaultSortOrder}
       {applyFilters}
+      {currentPage}
+      {totalPages}
+      {totalItems}
       on:openSidebar={() => (sidebarOpen = true)}
+      on:pageChange={handlePageChange}
     />
   </main>
 </div>

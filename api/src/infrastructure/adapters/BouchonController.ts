@@ -1,4 +1,5 @@
 import type { SearchBouchonsUseCase } from "../../application/usecases/SearchBouchonsUseCase.ts";
+import type { GetFilterOptionsUseCase } from "../../application/usecases/GetFilterOptionsUseCase.ts";
 import { SearchCriteriaFactory } from "../../domain/entities/SearchCriteria.ts";
 import { InvalidSearchCriteriaError } from "../../domain/services/BouchonDomainService.ts";
 import type { Bouchon } from "../../domain/entities/Bouchon.ts";
@@ -18,6 +19,7 @@ interface Context {
 export class BouchonController {
   constructor(
     private readonly searchBouchonsUseCase: SearchBouchonsUseCase,
+    private readonly getFilterOptionsUseCase: GetFilterOptionsUseCase,
   ) {}
 
   // GET /bouchons (avec critères optionnels)
@@ -32,16 +34,47 @@ export class BouchonController {
         params[key] = value;
       }
 
+      // Extract pagination parameter (pageSize is always 6)
+      const page = parseInt(params.page || "1", 10);
+
+      // Validate pagination parameter
+      if (page < 1) {
+        context.response.status = 400;
+        context.response.body = {
+          success: false,
+          error: "Invalid page parameter",
+        };
+        return;
+      }
+
       const criteria = SearchCriteriaFactory.fromUrlParams(params);
-      const results = await this.searchBouchonsUseCase.execute(criteria);
+      const result = await this.searchBouchonsUseCase.execute(
+        criteria,
+        page,
+      );
 
       // Sérialisation pour la réponse HTTP
-      const responseData = results.map(this.serializeBouchon);
+      const responseData = result.data.map(this.serializeBouchon);
 
       context.response.body = {
         success: true,
-        count: results.length,
+        count: result.data.length,
         data: responseData,
+        pagination: result.pagination,
+      };
+    } catch (error) {
+      this.handleError(context, error as Error);
+    }
+  }
+
+  // GET /filters
+  async getFilterOptions(context: Context): Promise<void> {
+    try {
+      const options = await this.getFilterOptionsUseCase.execute();
+
+      context.response.body = {
+        success: true,
+        data: options,
       };
     } catch (error) {
       this.handleError(context, error as Error);

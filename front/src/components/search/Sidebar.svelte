@@ -88,6 +88,7 @@ $: {
 }
 
 export let resultsCount: number = 0;
+export let totalResults: number = 0;
 
 function resetFilters() {
   dispatch('reset');
@@ -109,7 +110,7 @@ function resetFilters() {
                         class="spinning-cochon-sidebar"
                     />
                 {:else}
-                    {resultsCount} résultat{resultsCount > 1 ? 's' : ''}
+                    {totalResults > 0 ? totalResults : resultsCount} résultat{(totalResults > 0 ? totalResults : resultsCount) > 1 ? 's' : ''}
                 {/if}
             </div>
         {/if}

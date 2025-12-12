@@ -7,19 +7,25 @@ import { BouchonController } from "./src/infrastructure/adapters/BouchonControll
 
 // Application
 import { SearchBouchonsUseCase } from "./src/application/usecases/SearchBouchonsUseCase.ts";
+import { GetFilterOptionsUseCase } from "./src/application/usecases/GetFilterOptionsUseCase.ts";
 
 // Dependency Injection
 const bouchonRepository = new JsonBouchonRepository(
   "./src/infrastructure/data/bouchons.json",
 );
 const searchBouchonsUseCase = new SearchBouchonsUseCase(bouchonRepository);
-const bouchonController = new BouchonController(searchBouchonsUseCase);
+const getFilterOptionsUseCase = new GetFilterOptionsUseCase(bouchonRepository);
+const bouchonController = new BouchonController(
+  searchBouchonsUseCase,
+  getFilterOptionsUseCase,
+);
 
 // Router setup
 const router = new Router();
 
-// Single endpoint: GET /bouchons (with optional filters)
+// Endpoints
 router.get("/bouchons", (ctx) => bouchonController.getBouchons(ctx));
+router.get("/filters", (ctx) => bouchonController.getFilterOptions(ctx));
 
 // Health check
 router.get("/health", (ctx) => {
@@ -59,7 +65,10 @@ console.log(
   `🚀 Mon Bouchon API started at http://localhost:${port}`,
 );
 console.log("📍 Available routes:");
-console.log("   GET /bouchons - All bouchons with optional filters");
+console.log(
+  "   GET /bouchons - Search bouchons with optional filters (paginated, 6 per page)",
+);
+console.log("   GET /filters - Get all available filter options");
 console.log("   GET /health - API status");
 
 await app.listen({ port });

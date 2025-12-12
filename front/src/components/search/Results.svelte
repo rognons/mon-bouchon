@@ -9,13 +9,71 @@ export let sortBy = 'rating';
 export let sortOrder = 'desc';
 export let getDefaultSortOrder: (criteria: string) => string;
 export let applyFilters: () => void;
+export let currentPage = 1;
+export let totalPages = 1;
+export let totalItems = 0;
 const dispatch = createEventDispatcher();
+
+function goToPage(page: number) {
+  if (page >= 1 && page <= totalPages) {
+    dispatch('pageChange', page);
+  }
+}
+
+function nextPage() {
+  if (currentPage < totalPages) {
+    goToPage(currentPage + 1);
+  }
+}
+
+function prevPage() {
+  if (currentPage > 1) {
+    goToPage(currentPage - 1);
+  }
+}
+
+// Generate page numbers to display - reactive statement
+$: pageNumbers = (() => {
+  const pages: number[] = [];
+  const maxVisible = 7; // Maximum number of page buttons to show
+
+  if (totalPages <= maxVisible) {
+    // Show all pages
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+  } else {
+    // Show pages with ellipsis logic
+    if (currentPage <= 3) {
+      // Near the start
+      for (let i = 1; i <= 5; i++) pages.push(i);
+      pages.push(-1); // Ellipsis
+      pages.push(totalPages);
+    } else if (currentPage >= totalPages - 2) {
+      // Near the end
+      pages.push(1);
+      pages.push(-1); // Ellipsis
+      for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
+    } else {
+      // In the middle
+      pages.push(1);
+      pages.push(-1); // Ellipsis
+      pages.push(currentPage - 1);
+      pages.push(currentPage);
+      pages.push(currentPage + 1);
+      pages.push(-2); // Ellipsis
+      pages.push(totalPages);
+    }
+  }
+
+  return pages;
+})();
 </script>
 
 <div class="results-root">
     <div class="results-header">
         <h2>
-            🍽️ {bouchons.length} bouchon{bouchons.length > 1 ? "s" : ""} trouvé{bouchons.length >
+            🍽️ {totalItems} bouchon{totalItems > 1 ? "s" : ""} trouvé{bouchons.length >
             1
                 ? "s"
                 : ""}
@@ -77,6 +135,47 @@ const dispatch = createEventDispatcher();
                     😞 Aïe, on n'a pas encore trouvé de bouchon comme celui-ci
                 </h3>
                 <p>Mais dites-nous et on le teste !</p>
+            </div>
+        {:else if totalPages > 1}
+            <div class="pagination">
+                <button
+                    class="pagination-btn pagination-arrow"
+                    on:click={prevPage}
+                    disabled={currentPage === 1}
+                    aria-label="Page précédente"
+                >
+                    ←
+                </button>
+                
+                <div class="pagination-numbers">
+                    {#each pageNumbers as page}
+                        {#if page === -1 || page === -2}
+                            <span class="pagination-ellipsis">...</span>
+                        {:else}
+                            <button
+                                class="pagination-page-btn"
+                                class:active={page === currentPage}
+                                on:click={() => goToPage(page)}
+                                aria-label="Page {page}"
+                                aria-current={page === currentPage ? 'page' : undefined}
+                            >
+                                {page}
+                            </button>
+                        {/if}
+                    {/each}
+                </div>
+                
+                <button
+                    class="pagination-btn pagination-arrow"
+                    on:click={nextPage}
+                    disabled={currentPage === totalPages}
+                    aria-label="Page suivante"
+                >
+                    →
+                </button>
+            </div>
+            <div class="pagination-info-bottom">
+                {totalItems} résultat{totalItems > 1 ? 's' : ''}
             </div>
         {/if}
     {/if}
@@ -256,5 +355,114 @@ const dispatch = createEventDispatcher();
         font-size: 1rem;
         cursor: pointer;
         font-family: "GiltonRegular", serif;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 3rem;
+        padding: 1rem 0;
+    }
+    .pagination-numbers {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    .pagination-btn {
+        background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
+        color: #221f20;
+        border: 1px solid #e4b3cc;
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 8px rgba(240, 198, 218, 0.15);
+        font-family: "Open Sans", sans-serif;
+        min-width: 40px;
+    }
+    .pagination-arrow {
+        padding: 0.5rem 1rem;
+    }
+    .pagination-page-btn {
+        background: white;
+        color: #221f20;
+        border: 1px solid #e4b3cc;
+        border-radius: 6px;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-family: "Open Sans", sans-serif;
+        min-width: 36px;
+    }
+    .pagination-page-btn:hover {
+        background: #f0c6da;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(240, 198, 218, 0.2);
+    }
+    .pagination-page-btn.active {
+        background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
+        font-weight: 700;
+        border-color: #d8a3bc;
+        box-shadow: 0 2px 8px rgba(240, 198, 218, 0.3);
+    }
+    .pagination-ellipsis {
+        color: #666;
+        padding: 0 0.25rem;
+        font-size: 0.9rem;
+    }
+    .pagination-btn:hover:not(:disabled) {
+        background: linear-gradient(135deg, #e4b3cc 60%, #d8a3bc 100%);
+        box-shadow: 0 4px 12px rgba(240, 198, 218, 0.25);
+        transform: translateY(-1px);
+    }
+    .pagination-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        background: #f0f0f0;
+        border-color: #ddd;
+        color: #999;
+    }
+    .pagination-info-bottom {
+        text-align: center;
+        font-size: 0.875rem;
+        color: #666;
+        margin-top: 0.5rem;
+        font-family: "Open Sans", sans-serif;
+    }
+    @media (max-width: 768px) {
+        .pagination {
+            gap: 0.4rem;
+            margin-top: 2rem;
+            padding: 0.75rem 0;
+        }
+        .pagination-numbers {
+            gap: 0.2rem;
+        }
+        .pagination-btn {
+            padding: 0.4rem 0.6rem;
+            font-size: 0.9rem;
+            min-width: 34px;
+        }
+        .pagination-arrow {
+            padding: 0.4rem 0.75rem;
+        }
+        .pagination-page-btn {
+            padding: 0.3rem 0.5rem;
+            font-size: 0.8rem;
+            min-width: 30px;
+        }
+        .pagination-ellipsis {
+            font-size: 0.8rem;
+            padding: 0 0.15rem;
+        }
+        .pagination-info-bottom {
+            font-size: 0.75rem;
+            margin-top: 0.4rem;
+        }
     }
 </style>

@@ -26,29 +26,39 @@ export class BouchonDomainService {
     bouchons: Bouchon[],
     criteria: SearchCriteria,
   ): Bouchon[] {
-    if (!criteria.sortBy || criteria.sortBy === "default") {
-      return bouchons;
-    }
+    // Default sorting: by rating, descending (best first)
+    const sortBy = criteria.sortBy || "rating";
+    const sortOrder = criteria.sortOrder ||
+      (sortBy === "rating" ? "desc" : "asc");
 
     return [...bouchons].sort((a, b) => {
       let compareValue = 0;
 
-      switch (criteria.sortBy) {
+      switch (sortBy) {
         case "rating": {
           compareValue = a.rating.score - b.rating.score;
           break;
         }
         case "price": {
-          const priceA = a.menuInfo.menuPrice ?? 0;
-          const priceB = b.menuInfo.menuPrice ?? 0;
+          const priceA = a.menuInfo.menuPrice;
+          const priceB = b.menuInfo.menuPrice;
+
+          // Bouchons without price go to the end
+          if (priceA == null && priceB == null) return 0;
+          if (priceA == null) return 1; // a goes to the end
+          if (priceB == null) return -1; // b goes to the end
+
           compareValue = priceA - priceB;
           break;
         }
-        default:
-          return 0;
+        default: {
+          // Default case: sort by rating
+          compareValue = a.rating.score - b.rating.score;
+          break;
+        }
       }
 
-      return criteria.sortOrder === "desc" ? -compareValue : compareValue;
+      return sortOrder === "desc" ? -compareValue : compareValue;
     });
   }
 

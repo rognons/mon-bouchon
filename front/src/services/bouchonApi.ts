@@ -36,21 +36,43 @@ export interface BouchonData {
   menuUrl?: string;
 }
 
+export interface PaginationInfo {
+  page: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
+}
+
 export interface ApiResponse {
   success: boolean;
   count: number;
   data: BouchonData[];
+  pagination?: PaginationInfo;
 }
 
-export async function getAllBouchons(): Promise<BouchonData[]> {
+export interface PaginatedResponse {
+  data: BouchonData[];
+  pagination: PaginationInfo;
+}
+
+export interface FilterOptions {
+  arrondissements: string[];
+  neighborhoods: string[];
+  portionSizes: string[];
+  eaterTypes: string[];
+  atmosphereTypes: string[];
+  bouchonTypes: string[];
+}
+
+export async function getFilterOptions(): Promise<FilterOptions> {
   try {
-    const response = await fetch(`${API_BASE_URL}/bouchons`);
+    const response = await fetch(`${API_BASE_URL}/filters`);
 
     if (!response.ok) {
       throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
 
-    const result: ApiResponse = await response.json();
+    const result: { success: boolean; data: FilterOptions } = await response.json();
 
     if (!result.success) {
       throw new Error('API returned error response');
@@ -58,17 +80,20 @@ export async function getAllBouchons(): Promise<BouchonData[]> {
 
     return result.data;
   } catch (error) {
-    console.error('Failed to fetch bouchons from API:', error);
-
-    // No fallback - we want to use API only
-    console.error('API is not available, cannot fetch bouchons data');
+    console.error('Failed to fetch filter options from API:', error);
     throw new Error('API is not available');
   }
 }
 
-export async function searchBouchons(filters: Record<string, string>): Promise<BouchonData[]> {
+export async function searchBouchons(
+  filters: Record<string, string>,
+  page: number = 1
+): Promise<PaginatedResponse> {
   try {
-    const params = new URLSearchParams(filters);
+    const params = new URLSearchParams({
+      ...filters,
+      page: String(page),
+    });
     const response = await fetch(`${API_BASE_URL}/bouchons?${params}`);
 
     if (!response.ok) {
@@ -81,7 +106,15 @@ export async function searchBouchons(filters: Record<string, string>): Promise<B
       throw new Error('API returned error response');
     }
 
-    return result.data;
+    return {
+      data: result.data,
+      pagination: result.pagination || {
+        page: 1,
+        pageSize: result.data.length,
+        totalItems: result.data.length,
+        totalPages: 1,
+      },
+    };
   } catch (error) {
     console.error('Failed to search bouchons from API:', error);
     throw error;
