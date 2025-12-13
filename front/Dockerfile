@@ -13,6 +13,8 @@ COPY . .
 RUN npm run build
 
 # Production stage
-FROM httpd:2.4
+FROM httpd:2.4-alpine
+
+RUN apk add --no-cache curl
 
 COPY --from=builder /app/dist /usr/local/apache2/htdocs/

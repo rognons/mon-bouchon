@@ -27,6 +27,14 @@ services:
       - "4321:4321"
     volumes:
       - ./front/src:/app/src
+    healthcheck:
+      test:
+        - CMD
+        - curl
+        - '-f'
+        - 'http://localhost:4321'
+      interval: 5s
+      timeout: 1s
     depends_on:
       api:
         condition: service_healthy
