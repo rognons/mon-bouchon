@@ -64,7 +64,7 @@ jobs:
 
       - name: 🐳 Build and push API image
         id: build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: ./api
           file: ./api/Dockerfile
@@ -113,7 +113,7 @@ jobs:
 
       - name: 🐳 Build and push Front image
         id: build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           build-args: |
             PUBLIC_API_URL=https://api.mon-bouchon.fr
