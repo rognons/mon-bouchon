@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
-    "svelte-check": "^4.3.3",
+    "svelte-check": "^4.7.6",
     "typescript": "^5.9.3"
   }
 }
