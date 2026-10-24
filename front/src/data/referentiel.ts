@@ -9,6 +9,8 @@ export interface Valeur<Code extends string> {
   code: Code;
   texteSheet: string;
   libelle: string;
+  // Forme courte, pour la phrase de recherche (« un puriste canaille »…)
+  court?: string;
 }
 
 export type ProfilMangeur = 'decouvreur' | 'amateur' | 'puriste';
@@ -18,6 +20,7 @@ export const PROFILS_MANGEUR: Valeur<ProfilMangeur>[] = [
     code: 'decouvreur',
     texteSheet: "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
     libelle: "Découvreur curieux : je veux m'initier en douceur aux classiques lyonnais.",
+    court: 'un découvreur curieux',
   },
   {
     code: 'amateur',
@@ -25,11 +28,13 @@ export const PROFILS_MANGEUR: Valeur<ProfilMangeur>[] = [
       "Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)",
     libelle:
       "Amateur averti : j'aime les bouchons, mais pas les plats trop rustiques (abats, etc.)",
+    court: 'un amateur averti',
   },
   {
     code: 'puriste',
     texteSheet: "Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.",
     libelle: "Puriste canaille : j'adore les lyonnaiseries en tout genre, sans aucun interdit.",
+    court: 'un puriste canaille',
   },
 ];
 
@@ -40,16 +45,19 @@ export const PORTIONS: Valeur<Portions>[] = [
     code: 'raisonnables',
     texteSheet: '🐷 Portions raisonnables',
     libelle: '🐷 Portions raisonnables',
+    court: 'raisonnables',
   },
   {
     code: 'genereuses',
     texteSheet: '🐷🐷 Portions généreuses',
     libelle: '🐷🐷 Portions généreuses',
+    court: 'généreuses',
   },
   {
     code: 'gargantuesques',
     texteSheet: '🐷🐷🐷 Portions gargantuesques',
     libelle: '🐷🐷🐷 Portions gargantuesques',
+    court: 'gargantuesques',
   },
 ];
 

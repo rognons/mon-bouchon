@@ -2,12 +2,20 @@
 import BouchonCard from '../BouchonCard.svelte';
 import { createEventDispatcher } from 'svelte';
 import type { BouchonComplet } from '../../data/bouchons';
-import type { Tri } from '../../recherche/regles';
+import { decrireManque } from '../../recherche/phrase';
+import {
+  afficherAUnCriterePres,
+  type ResultatsDeRecherche,
+  type Tri,
+} from '../../recherche/regles';
 
-export let bouchons: BouchonComplet[] = [];
+export let resultats: ResultatsDeRecherche<BouchonComplet> = { exacts: [], aUnCriterePres: [] };
 export let isMobile = false;
 export let tri: Tri = 'defaut';
 const dispatch = createEventDispatcher();
+
+$: bouchons = resultats.exacts;
+$: proches = afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres : [];
 </script>
 
 <div class="results-root">
@@ -43,13 +51,30 @@ const dispatch = createEventDispatcher();
             <BouchonCard {bouchon} />
         {/each}
     </div>
-    {#if bouchons.length === 0}
+    {#if bouchons.length === 0 && proches.length === 0}
         <div class="no-results">
             <h3>
                 😞 Aïe, on n'a pas encore trouvé de bouchon comme celui-ci
             </h3>
             <p>Mais dites-nous et on le teste !</p>
         </div>
+    {/if}
+    {#if proches.length > 0}
+        <section class="a-un-critere-pres" aria-labelledby="titre-a-un-critere-pres">
+            <h2 id="titre-a-un-critere-pres">À un critère près</h2>
+            <p class="chapeau-proches">
+                {bouchons.length === 0 ? "Aucun bouchon ne remplit tous vos critères" : "Peu de bouchons remplissent tous vos critères"},
+                mais ceux-ci n'en manquent qu'un.
+            </p>
+            <div class="results-grid">
+                {#each proches as proche (proche.bouchon.id)}
+                    <div class="proche">
+                        <p class="manque">{decrireManque(proche.critereManquant, proche.raison)}</p>
+                        <BouchonCard bouchon={proche.bouchon} />
+                    </div>
+                {/each}
+            </div>
+        </section>
     {/if}
 </div>
 
@@ -186,5 +211,38 @@ const dispatch = createEventDispatcher();
         font-size: 1rem;
         cursor: pointer;
         font-family: "GiltonRegular", serif;
+    }
+    .a-un-critere-pres {
+        margin-top: 64px;
+        padding-top: 32px;
+        border-top: 1px solid #e6e2dc;
+    }
+    .a-un-critere-pres h2 {
+        font-family: "GiltonRegular", "Playfair Display", serif;
+        font-weight: normal;
+        color: #221f20;
+        margin: 0 0 8px 0;
+    }
+    .chapeau-proches {
+        margin: 0 0 24px 0;
+        color: #221f20;
+        font-size: 17px;
+        line-height: 1.6;
+    }
+    .proche {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .manque {
+        margin: 0;
+        align-self: flex-start;
+        padding: 4px 12px;
+        background: #221f20;
+        color: #ffffff;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.4;
     }
 </style>

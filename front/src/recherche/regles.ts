@@ -238,6 +238,14 @@ export interface ResultatsDeRecherche<B extends Bouchon = Bouchon> {
   aUnCriterePres: AUnCriterePres<B>[];
 }
 
+// « À un critère près » ne s'affiche que s'il y a moins de résultats exacts
+// que ce seuil.
+export const SEUIL_A_UN_CRITERE_PRES = 3;
+
+export function afficherAUnCriterePres(resultats: ResultatsDeRecherche): boolean {
+  return resultats.exacts.length < SEUIL_A_UN_CRITERE_PRES && resultats.aUnCriterePres.length > 0;
+}
+
 export class PhraseInvalideError extends Error {}
 
 export function verifierPhrase(phrase: PhraseDeRecherche): void {

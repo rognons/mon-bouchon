@@ -12,6 +12,7 @@ import {
   type Critere,
   type PhraseDeRecherche,
   PhraseInvalideError,
+  afficherAUnCriterePres,
   evaluer,
   rechercher,
 } from './regles';
@@ -113,6 +114,30 @@ describe('Phrase de recherche', () => {
     expect(() =>
       rechercher([], phrase(moinsDe32, { type: 'prix', palier: 'moins-de-38' }))
     ).toThrow(PhraseInvalideError);
+  });
+});
+
+describe('Affichage de « À un critère près »', () => {
+  const proche = (id: string) => ({
+    bouchon: unBouchon(id),
+    critereManquant: dansLe2e,
+    raison: 'non' as const,
+  });
+
+  it("s'affiche quand il y a moins de 3 résultats exacts", () => {
+    expect(afficherAUnCriterePres({ exacts: [], aUnCriterePres: [proche('a')] })).toBe(true);
+    expect(
+      afficherAUnCriterePres({
+        exacts: [unBouchon('1'), unBouchon('2')],
+        aUnCriterePres: [proche('a')],
+      })
+    ).toBe(true);
+  });
+
+  it("ne s'affiche pas à partir de 3 résultats exacts, ni quand il n'y a aucun bouchon proche", () => {
+    const trois = [unBouchon('1'), unBouchon('2'), unBouchon('3')];
+    expect(afficherAUnCriterePres({ exacts: trois, aUnCriterePres: [proche('a')] })).toBe(false);
+    expect(afficherAUnCriterePres({ exacts: [], aUnCriterePres: [] })).toBe(false);
   });
 });
 

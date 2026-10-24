@@ -8,24 +8,13 @@ type Option = { value: string; label: string };
 export let isMobile: boolean;
 export let sidebarOpen: boolean;
 
-export let prixMenuBaseOptions: Option[];
-export let arrondissements: string[];
-export let quartiers: string[];
-export let quantiteOptions: Option[];
-export let typeMangeurOptions: Option[];
+// Affinage : uniquement les critères qui ne sont pas dans la phrase de recherche.
 export let typeAmbianceOptions: Option[];
 export let typeBouchonOptions: Option[];
-export let serviceOptions: Option[];
 
-export let selectedPrixMenuBase: string;
-export let selectedArrondissements: string[];
-export let selectedQuartiers: string[];
-export let selectedQuantite: string;
-export let selectedTypeMangeur: string;
 export let selectedTypeAmbiance: string;
 export let selectedTypeBouchon: string;
 
-export let optionVegetariens: boolean;
 export let decorationRemarquable: boolean;
 export let terrace: boolean;
 export let remarkableTeam: boolean;
@@ -34,8 +23,6 @@ export let coupDeCoeurVins: boolean;
 export let labelBouchonsLyonnais: boolean;
 export let selectionAuthentiques: boolean;
 
-export let selectedDay: string;
-export let selectedService: string;
 export let hasActiveFilters: boolean;
 const dispatch = createEventDispatcher();
 
@@ -47,22 +34,13 @@ const distinctionsOptions = [
   '⭐ Sélection "Authentiques Bouchons Lyonnais"',
 ];
 
-const optionsOptions = [
-  '🥬 Option végétarienne',
-  '🎨 Décoration remarquable',
-  '☀️ Terrasse',
-  '👥 Personnel remarquable',
-];
+const optionsOptions = ['🎨 Décoration remarquable', '☀️ Terrasse', '👥 Personnel remarquable'];
 
 const distinctionsTooltips: Record<string, string> = {
   '🏅 Label "Les Bouchons Lyonnais"':
     'Label créé en 2012 qui vise à sauvegarder et pérenniser la tradition culinaire lyonnaise.',
   '⭐ Sélection "Authentiques Bouchons Lyonnais"':
     'Définie par "l\'Association de Défense des Bouchons lyonnais", créée en 1992.',
-};
-
-const optionsTooltips: Record<string, string> = {
-  '🥬 Option végétarienne': 'Au moins 1 entrée et 1 plat végétariens présents à la carte.',
 };
 
 let selectedDistinctions: string[] = [];
@@ -77,7 +55,6 @@ $: {
     '⭐ Sélection "Authentiques Bouchons Lyonnais"'
   );
 
-  optionVegetariens = selectedOptions.includes('🥬 Option végétarienne');
   decorationRemarquable = selectedOptions.includes('🎨 Décoration remarquable');
   terrace = selectedOptions.includes('☀️ Terrasse');
   remarkableTeam = selectedOptions.includes('👥 Personnel remarquable');
@@ -129,66 +106,7 @@ function resetFilters() {
         </div>
     </div>
     <div class="sidebar-filters">
-        <FilterSelect
-            label="Tous les prix"
-            options={prixMenuBaseOptions}
-            bind:value={selectedPrixMenuBase}
-            emoji="💰"
-            ariaLabel="Prix du menu de base"
-        />
-        <FilterMultiSelect
-            label="Tous les arrondissements"
-            options={arrondissements}
-            bind:selectedValues={selectedArrondissements}
-            emoji="📍"
-            ariaLabel="Arrondissement"
-        />
-        <FilterMultiSelect
-            label="Tous les quartiers"
-            options={quartiers}
-            bind:selectedValues={selectedQuartiers}
-            emoji="🏘️"
-            ariaLabel="Quartier"
-        />
-        <FilterSelect
-            label="Jour"
-            options={[
-                { value: '', label: 'Tous les jours' },
-                { value: '1', label: 'Lundi' },
-                { value: '2', label: 'Mardi' },
-                { value: '3', label: 'Mercredi' },
-                { value: '4', label: 'Jeudi' },
-                { value: '5', label: 'Vendredi' },
-                { value: '6', label: 'Samedi' },
-                { value: '0', label: 'Dimanche' },
-            ]}
-            bind:value={selectedDay}
-            emoji="📅"
-            ariaLabel="Jour"
-        />
-        {#if selectedDay}
-            <FilterSelect
-                label="Tous les services"
-                options={serviceOptions}
-                bind:value={selectedService}
-                emoji="⏰"
-                ariaLabel="Service"
-            />
-        {/if}
-        <FilterSelect
-            label="Toutes les portions"
-            options={quantiteOptions}
-            bind:value={selectedQuantite}
-            emoji="🍽️"
-            ariaLabel="Taille des portions"
-        />
-        <FilterSelect
-            label="Toute clientèle"
-            options={typeMangeurOptions}
-            bind:value={selectedTypeMangeur}
-            emoji="👥"
-            ariaLabel="Type de clientèle"
-        />
+        <p class="titre-affinage">Affiner les résultats</p>
         <FilterSelect
             label="Tous les types de bouchons"
             options={typeBouchonOptions}
@@ -217,7 +135,6 @@ function resetFilters() {
             bind:selectedValues={selectedOptions}
             emoji="✨"
             ariaLabel="Options"
-            tooltips={optionsTooltips}
         />
     </div>
 </aside>
@@ -234,6 +151,11 @@ function resetFilters() {
         box-shadow: 0 4px 16px rgba(240, 198, 218, 0.15);
         overflow-y: auto;
         overflow-x: visible;
+    }
+    .titre-affinage {
+        margin: 0;
+        font-weight: 600;
+        color: #221f20;
     }
     .sidebar-filters {
         display: flex;
@@ -316,7 +238,12 @@ function resetFilters() {
         .sidebar.sidebar-mobile-open {
             transform: translateX(0);
         }
-        .sidebar-filters {
+        .titre-affinage {
+        margin: 0;
+        font-weight: 600;
+        color: #221f20;
+    }
+    .sidebar-filters {
             gap: 0.5rem;
         }
         .results-count {

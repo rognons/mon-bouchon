@@ -3,35 +3,22 @@ import { onMount } from 'svelte';
 import { BOUCHONS } from '../data/bouchons';
 import {
   AMBIANCES,
-  ARRONDISSEMENTS_LYON,
-  COMMUNES,
-  PORTIONS,
-  PROFILS_MANGEUR,
-  QUARTIERS,
-  TYPES_BOUCHON,
   type Ambiance,
-  type Portions,
-  type ProfilMangeur,
-  type Quartier,
+  TYPES_BOUCHON,
   type TypeBouchon,
   type Valeur,
 } from '../data/referentiel';
 import {
   type Affinage,
   type Critere,
-  evaluer,
-  type PalierDePrix,
   passeAffinage,
-  type Service,
+  rechercher,
   type Tri,
   trier,
 } from '../recherche/regles';
+import PhraseDeRecherche from './search/PhraseDeRecherche.svelte';
 import Sidebar from './search/Sidebar.svelte';
 import Results from './search/Results.svelte';
-
-// Jour et service
-let selectedDay: string = '';
-let selectedService: string = '';
 
 let isMobile = false;
 
@@ -69,15 +56,13 @@ onMount(() => {
   return () => window.removeEventListener('scroll', handleScroll);
 });
 
-// Critères choisis dans la barre (codes du référentiel ; '' = aucun)
-let selectedPrixMenuBase: string = '';
-let selectedArrondissements: string[] = [];
-let selectedQuartiers: string[] = [];
-let selectedQuantite: string = '';
-let selectedTypeMangeur: string = '';
+// La phrase de recherche : le premier critère est le critère principal.
+// biome-ignore lint/style/useConst: Bound to the search phrase
+let criteres: Critere[] = [];
+
+// L'affinage (la barre) : uniquement des critères absents de la phrase.
 let selectedTypeAmbiance: string = '';
 let selectedTypeBouchon: string = '';
-let optionVegetariens: boolean = false;
 let decorationRemarquable: boolean = false;
 let terrace: boolean = false;
 let remarkableTeam: boolean = false;
@@ -86,26 +71,16 @@ let coupDeCoeurVins: boolean = false;
 let labelBouchonsLyonnais: boolean = false;
 let selectionAuthentiques: boolean = false;
 
-// Variable réactive pour savoir si des filtres sont actifs
-let hasActiveFilters = false;
-
 $: hasActiveFilters = Boolean(
-  selectedPrixMenuBase ||
-    selectedArrondissements.length > 0 ||
-    selectedQuartiers.length > 0 ||
-    selectedQuantite ||
-    selectedTypeMangeur ||
-    selectedTypeAmbiance ||
+  selectedTypeAmbiance ||
     selectedTypeBouchon ||
-    optionVegetariens ||
     decorationRemarquable ||
     terrace ||
     remarkableTeam ||
     coupDeCoeurCompagnie ||
     coupDeCoeurVins ||
     labelBouchonsLyonnais ||
-    selectionAuthentiques ||
-    selectedDay
+    selectionAuthentiques
 );
 
 // Tri : par défaut, coups de cœur de la Compagnie d'abord, puis note Google
@@ -117,68 +92,8 @@ const options = <Code extends string>(valeurs: Valeur<Code>[]) => [
   { value: '', label: '' },
   ...valeurs.map((v) => ({ value: v.code, label: v.libelle })),
 ];
-
-const prixMenuBaseOptions = [
-  { value: '', label: '' },
-  { value: 'moins-de-32', label: 'Moins de 32 €' },
-  { value: 'moins-de-38', label: 'Moins de 38 €' },
-];
-const quantiteOptions = options(PORTIONS);
-const typeMangeurOptions = options(PROFILS_MANGEUR);
 const typeAmbianceOptions = options(AMBIANCES);
 const typeBouchonOptions = options(TYPES_BOUCHON);
-const serviceOptions = [
-  { value: '', label: '' },
-  { value: 'machon', label: 'Mâchon (le matin)' },
-  { value: 'midi', label: 'Midi' },
-  { value: 'soir', label: 'Soir' },
-];
-
-// Les listes à choix multiples affichent des libellés : on les relie aux codes.
-const ARRONDISSEMENTS = [
-  ...ARRONDISSEMENTS_LYON.map((cp) => ({ code: cp as string, libelle: cp as string })),
-  ...COMMUNES.map((c) => ({ code: c.code as string, libelle: c.libelle })),
-];
-const arrondissements = ['', ...ARRONDISSEMENTS.map((a) => a.libelle)];
-const quartiers = ['', ...QUARTIERS.map((q) => q.libelle)];
-const codesDe = (libelles: string[], valeurs: { code: string; libelle: string }[]) =>
-  valeurs.filter((v) => libelles.includes(v.libelle)).map((v) => v.code);
-
-// Les critères de la barre, combinés en « et » (la phrase de recherche
-// arrivera ensuite et remplacera cette partie).
-$: criteres = ((): Critere[] => {
-  const liste: Critere[] = [];
-  if (selectedPrixMenuBase) {
-    liste.push({ type: 'prix', palier: selectedPrixMenuBase as PalierDePrix });
-  }
-  if (selectedArrondissements.length > 0) {
-    liste.push({
-      type: 'arrondissement',
-      valeurs: codesDe(selectedArrondissements, ARRONDISSEMENTS),
-    });
-  }
-  if (selectedQuartiers.length > 0) {
-    liste.push({
-      type: 'quartier',
-      valeurs: codesDe(selectedQuartiers, QUARTIERS) as Quartier[],
-    });
-  }
-  if (selectedDay && selectedService) {
-    liste.push({
-      type: 'moment',
-      jour: Number(selectedDay),
-      service: selectedService as Service,
-    });
-  }
-  if (selectedTypeMangeur) {
-    liste.push({ type: 'profil', profil: selectedTypeMangeur as ProfilMangeur });
-  }
-  if (selectedQuantite) {
-    liste.push({ type: 'portions', minimum: selectedQuantite as Portions });
-  }
-  if (optionVegetariens) liste.push({ type: 'vegetarien' });
-  return liste;
-})();
 
 $: affinage = {
   terrasse: terrace,
@@ -192,28 +107,26 @@ $: affinage = {
   ambiances: selectedTypeAmbiance ? [selectedTypeAmbiance as Ambiance] : [],
 } satisfies Affinage;
 
-$: bouchons = trier(
-  BOUCHONS.filter(
-    (b) => passeAffinage(b, affinage) && criteres.every((c) => evaluer(b, c) === 'oui')
-  ),
-  tri
-);
-
-// Sans service choisi, un jour seul garde les bouchons ouverts ce jour-là.
-$: if (selectedDay && !selectedService) {
-  const jour = Number(selectedDay);
-  bouchons = bouchons.filter((b) => b.openingHours?.some((c) => c.day === jour));
-}
+// Sans critère dans la phrase, tous les bouchons (affinés) sont des résultats.
+$: resultats =
+  criteres.length === 0
+    ? {
+        exacts: trier(
+          BOUCHONS.filter((b) => passeAffinage(b, affinage)),
+          tri
+        ),
+        aUnCriterePres: [],
+      }
+    : rechercher(
+        BOUCHONS,
+        { principal: criteres[0], complementaires: criteres.slice(1) },
+        affinage,
+        tri
+      );
 
 function clearFilters() {
-  selectedPrixMenuBase = '';
-  selectedArrondissements = [];
-  selectedQuartiers = [];
-  selectedQuantite = '';
-  selectedTypeMangeur = '';
   selectedTypeAmbiance = '';
   selectedTypeBouchon = '';
-  optionVegetariens = false;
   decorationRemarquable = false;
   terrace = false;
   remarkableTeam = false;
@@ -221,8 +134,6 @@ function clearFilters() {
   coupDeCoeurVins = false;
   labelBouchonsLyonnais = false;
   selectionAuthentiques = false;
-  selectedDay = '';
-  selectedService = '';
 }
 </script>
 
@@ -245,35 +156,21 @@ function clearFilters() {
     <Sidebar
       {isMobile}
       {sidebarOpen}
-      {prixMenuBaseOptions}
-    {arrondissements}
-    {quartiers}
-    {quantiteOptions}
-    {typeMangeurOptions}
-    {typeAmbianceOptions}
-    {typeBouchonOptions}
-    {serviceOptions}
-    {hasActiveFilters}
-    resultsCount={bouchons.length}
-  bind:selectedPrixMenuBase
-  bind:selectedArrondissements
-  bind:selectedQuartiers
-  bind:selectedQuantite
-  bind:selectedTypeMangeur
-  bind:selectedTypeAmbiance
-  bind:selectedTypeBouchon
-  bind:optionVegetariens
-  bind:decorationRemarquable
-  bind:terrace
-  bind:remarkableTeam
-  bind:coupDeCoeurCompagnie
-  bind:coupDeCoeurVins
-  bind:labelBouchonsLyonnais
-  bind:selectionAuthentiques
-  bind:selectedDay
-  bind:selectedService
-    on:close={() => (sidebarOpen = false)}
-    on:reset={clearFilters}
+      {typeAmbianceOptions}
+      {typeBouchonOptions}
+      {hasActiveFilters}
+      resultsCount={resultats.exacts.length}
+      bind:selectedTypeAmbiance
+      bind:selectedTypeBouchon
+      bind:decorationRemarquable
+      bind:terrace
+      bind:remarkableTeam
+      bind:coupDeCoeurCompagnie
+      bind:coupDeCoeurVins
+      bind:labelBouchonsLyonnais
+      bind:selectionAuthentiques
+      on:close={() => (sidebarOpen = false)}
+      on:reset={clearFilters}
     />
   </div>
 
@@ -294,8 +191,9 @@ function clearFilters() {
   </div>
 
   <main class="main-content">
+    <PhraseDeRecherche bind:criteres />
     <Results
-      {bouchons}
+      {resultats}
       {isMobile}
       bind:tri
       on:openSidebar={() => (sidebarOpen = true)}
