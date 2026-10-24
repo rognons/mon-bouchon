@@ -1,21 +1,21 @@
 <script lang="ts">
 import FilterSelect from './FilterSelect.svelte';
 import FilterMultiSelect from './FilterMultiSelect.svelte';
-import FilterTime from './FilterTime.svelte';
-import FilterCheckbox from './FilterCheckbox.svelte';
-import { createEventDispatcher, onMount } from 'svelte';
+import { createEventDispatcher } from 'svelte';
+
+type Option = { value: string; label: string };
 
 export let isMobile: boolean;
 export let sidebarOpen: boolean;
-export let isLoading: boolean = false;
 
-export let prixMenuBaseOptions: { value: string; label: string }[];
+export let prixMenuBaseOptions: Option[];
 export let arrondissements: string[];
 export let quartiers: string[];
-export let quantiteOptions: string[];
-export let typeMangeurOptions: string[];
-export let typeAmbianceOptions: string[];
-export let typeBouchonOptions: string[];
+export let quantiteOptions: Option[];
+export let typeMangeurOptions: Option[];
+export let typeAmbianceOptions: Option[];
+export let typeBouchonOptions: Option[];
+export let serviceOptions: Option[];
 
 export let selectedPrixMenuBase: string;
 export let selectedArrondissements: string[];
@@ -26,7 +26,6 @@ export let selectedTypeAmbiance: string;
 export let selectedTypeBouchon: string;
 
 export let optionVegetariens: boolean;
-export let optionMachon: boolean;
 export let decorationRemarquable: boolean;
 export let terrace: boolean;
 export let remarkableTeam: boolean;
@@ -36,7 +35,7 @@ export let labelBouchonsLyonnais: boolean;
 export let selectionAuthentiques: boolean;
 
 export let selectedDay: string;
-export let selectedTime: string;
+export let selectedService: string;
 export let hasActiveFilters: boolean;
 const dispatch = createEventDispatcher();
 
@@ -50,7 +49,6 @@ const distinctionsOptions = [
 
 const optionsOptions = [
   '🥬 Option végétarienne',
-  '🍳 Mâchon possible',
   '🎨 Décoration remarquable',
   '☀️ Terrasse',
   '👥 Personnel remarquable',
@@ -65,7 +63,6 @@ const distinctionsTooltips: Record<string, string> = {
 
 const optionsTooltips: Record<string, string> = {
   '🥬 Option végétarienne': 'Au moins 1 entrée et 1 plat végétariens présents à la carte.',
-  '🍳 Mâchon possible': 'Repas lyonnais matinal et copieux.',
 };
 
 let selectedDistinctions: string[] = [];
@@ -81,14 +78,18 @@ $: {
   );
 
   optionVegetariens = selectedOptions.includes('🥬 Option végétarienne');
-  optionMachon = selectedOptions.includes('🍳 Mâchon possible');
   decorationRemarquable = selectedOptions.includes('🎨 Décoration remarquable');
   terrace = selectedOptions.includes('☀️ Terrasse');
   remarkableTeam = selectedOptions.includes('👥 Personnel remarquable');
 }
 
 export let resultsCount: number = 0;
-export let totalResults: number = 0;
+
+// « Réinitialiser » vide aussi les cases cochées des listes multiples.
+$: if (!hasActiveFilters) {
+  selectedDistinctions = [];
+  selectedOptions = [];
+}
 
 function resetFilters() {
   dispatch('reset');
@@ -102,16 +103,8 @@ function resetFilters() {
 >
     <div class="sidebar-header">
         {#if hasActiveFilters}
-            <div class="results-count" class:loading={isLoading}>
-                {#if isLoading}
-                    <img
-                        src="/favicon.ico"
-                        alt="Chargement..."
-                        class="spinning-cochon-sidebar"
-                    />
-                {:else}
-                    {totalResults > 0 ? totalResults : resultsCount} résultat{(totalResults > 0 ? totalResults : resultsCount) > 1 ? 's' : ''}
-                {/if}
+            <div class="results-count">
+                {resultsCount} résultat{resultsCount > 1 ? 's' : ''}
             </div>
         {/if}
         <div class="sidebar-header-right">
@@ -174,10 +167,12 @@ function resetFilters() {
             ariaLabel="Jour"
         />
         {#if selectedDay}
-            <FilterTime
-                bind:value={selectedTime}
+            <FilterSelect
+                label="Tous les services"
+                options={serviceOptions}
+                bind:value={selectedService}
                 emoji="⏰"
-                ariaLabel="Heure"
+                ariaLabel="Service"
             />
         {/if}
         <FilterSelect
@@ -263,14 +258,6 @@ function resetFilters() {
         gap: 0.5rem;
         margin-left: auto;
     }
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
     .sidebar-close-btn {
         background: #f0c6da;
         color: #221f20;
@@ -342,21 +329,6 @@ function resetFilters() {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-        .results-count.loading {
-            background: rgba(240, 198, 218, 0.15);
-            padding: 0.3rem;
-            border: 0.5px solid rgba(240, 198, 218, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            aspect-ratio: 1;
-        }
-        .spinning-cochon-sidebar {
-            width: 20px;
-            animation: spin 1.5s linear infinite;
-            filter: drop-shadow(0 2px 6px rgba(240, 198, 218, 0.6));
         }
     }
 

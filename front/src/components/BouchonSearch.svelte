@@ -1,17 +1,37 @@
 <script lang="ts">
 import { onMount } from 'svelte';
+import { BOUCHONS } from '../data/bouchons';
 import {
-  getFilterOptions,
-  searchBouchons as apiBouchonSearch,
-  type BouchonData,
-  type FilterOptions,
-} from '../services/bouchonApi.ts';
+  AMBIANCES,
+  ARRONDISSEMENTS_LYON,
+  COMMUNES,
+  PORTIONS,
+  PROFILS_MANGEUR,
+  QUARTIERS,
+  TYPES_BOUCHON,
+  type Ambiance,
+  type Portions,
+  type ProfilMangeur,
+  type Quartier,
+  type TypeBouchon,
+  type Valeur,
+} from '../data/referentiel';
+import {
+  type Affinage,
+  type Critere,
+  evaluer,
+  type PalierDePrix,
+  passeAffinage,
+  type Service,
+  type Tri,
+  trier,
+} from '../recherche/regles';
 import Sidebar from './search/Sidebar.svelte';
 import Results from './search/Results.svelte';
 
-// Add day/time filter state
+// Jour et service
 let selectedDay: string = '';
-let selectedTime: string = '';
+let selectedService: string = '';
 
 let isMobile = false;
 
@@ -49,25 +69,15 @@ onMount(() => {
   return () => window.removeEventListener('scroll', handleScroll);
 });
 
-let bouchons: BouchonData[] = []; // Résultats de l'API (toujours filtrés)
-let filterOptions: FilterOptions | null = null; // Options de filtres depuis l'API
-
-// Pagination state
-let currentPage = 1;
-let totalPages = 1;
-let totalItems = 0;
-
-// Nouveaux filtres selon les critères de la Compagnie du Rognon
+// Critères choisis dans la barre (codes du référentiel ; '' = aucun)
 let selectedPrixMenuBase: string = '';
 let selectedArrondissements: string[] = [];
 let selectedQuartiers: string[] = [];
 let selectedQuantite: string = '';
 let selectedTypeMangeur: string = '';
 let selectedTypeAmbiance: string = '';
-let selectedTypeTablee: string = '';
 let selectedTypeBouchon: string = '';
 let optionVegetariens: boolean = false;
-let optionMachon: boolean = false;
 let decorationRemarquable: boolean = false;
 let terrace: boolean = false;
 let remarkableTeam: boolean = false;
@@ -86,10 +96,8 @@ $: hasActiveFilters = Boolean(
     selectedQuantite ||
     selectedTypeMangeur ||
     selectedTypeAmbiance ||
-    selectedTypeTablee ||
     selectedTypeBouchon ||
     optionVegetariens ||
-    optionMachon ||
     decorationRemarquable ||
     terrace ||
     remarkableTeam ||
@@ -97,181 +105,115 @@ $: hasActiveFilters = Boolean(
     coupDeCoeurVins ||
     labelBouchonsLyonnais ||
     selectionAuthentiques ||
-    selectedDay ||
-    selectedTime
+    selectedDay
 );
-// Variables de tri
+
+// Tri : par défaut, coups de cœur de la Compagnie d'abord, puis note Google
 // biome-ignore lint/style/useConst: Used in reactive bindings
-let sortBy = 'rating'; // rating, prix
-// biome-ignore lint/style/useConst: Modified by user interactions
-let sortOrder = 'desc'; // asc ou desc
+let tri: Tri = 'defaut';
 
-// Fonction pour définir l'ordre par défaut selon le critère
-// biome-ignore lint/correctness/noUnusedVariables: Used in template event handlers
-function getDefaultSortOrder(criteria: string): string {
-  switch (criteria) {
-    case 'rating':
-      return 'desc'; // Best ratings first (high to low)
-    case 'prix':
-      return 'asc'; // Lowest prices first (low to high)
-    default:
-      return 'desc';
+// Options des listes (le premier élément est la valeur « aucun »)
+const options = <Code extends string>(valeurs: Valeur<Code>[]) => [
+  { value: '', label: '' },
+  ...valeurs.map((v) => ({ value: v.code, label: v.libelle })),
+];
+
+const prixMenuBaseOptions = [
+  { value: '', label: '' },
+  { value: 'moins-de-32', label: 'Moins de 32 €' },
+  { value: 'moins-de-38', label: 'Moins de 38 €' },
+];
+const quantiteOptions = options(PORTIONS);
+const typeMangeurOptions = options(PROFILS_MANGEUR);
+const typeAmbianceOptions = options(AMBIANCES);
+const typeBouchonOptions = options(TYPES_BOUCHON);
+const serviceOptions = [
+  { value: '', label: '' },
+  { value: 'machon', label: 'Mâchon (le matin)' },
+  { value: 'midi', label: 'Midi' },
+  { value: 'soir', label: 'Soir' },
+];
+
+// Les listes à choix multiples affichent des libellés : on les relie aux codes.
+const ARRONDISSEMENTS = [
+  ...ARRONDISSEMENTS_LYON.map((cp) => ({ code: cp as string, libelle: cp as string })),
+  ...COMMUNES.map((c) => ({ code: c.code as string, libelle: c.libelle })),
+];
+const arrondissements = ['', ...ARRONDISSEMENTS.map((a) => a.libelle)];
+const quartiers = ['', ...QUARTIERS.map((q) => q.libelle)];
+const codesDe = (libelles: string[], valeurs: { code: string; libelle: string }[]) =>
+  valeurs.filter((v) => libelles.includes(v.libelle)).map((v) => v.code);
+
+// Les critères de la barre, combinés en « et » (la phrase de recherche
+// arrivera ensuite et remplacera cette partie).
+$: criteres = ((): Critere[] => {
+  const liste: Critere[] = [];
+  if (selectedPrixMenuBase) {
+    liste.push({ type: 'prix', palier: selectedPrixMenuBase as PalierDePrix });
   }
-}
-
-// Génère des options { value: number, label: string } pour le select prix
-function getPriceLevelOptions(): { value: string; label: string }[] {
-  return [
-    { value: '', label: 'Tous les prix' },
-    { value: '1', label: '€ (≤ 32 €)' },
-    { value: '2', label: '€€ (32–38 €)' },
-    { value: '3', label: '€€€ (> 38 €)' },
-  ];
-}
-
-$: prixMenuBaseOptions = getPriceLevelOptions();
-$: arrondissements = filterOptions ? ['', ...filterOptions.arrondissements] : [''];
-$: quartiers = filterOptions ? ['', ...filterOptions.neighborhoods] : [''];
-$: quantiteOptions = filterOptions ? ['', ...filterOptions.portionSizes] : [''];
-$: typeMangeurOptions = filterOptions ? ['', ...filterOptions.eaterTypes] : [''];
-$: typeAmbianceOptions = filterOptions ? ['', ...filterOptions.atmosphereTypes] : [''];
-$: typeBouchonOptions = filterOptions ? ['', ...filterOptions.bouchonTypes] : [''];
-
-let isLoading: boolean = true;
-let apiError: string | null = null;
-
-onMount(async () => {
-  try {
-    filterOptions = await getFilterOptions();
-  } catch (error) {
-    console.error('Failed to load filter options:', error);
+  if (selectedArrondissements.length > 0) {
+    liste.push({
+      type: 'arrondissement',
+      valeurs: codesDe(selectedArrondissements, ARRONDISSEMENTS),
+    });
   }
-  await searchBouchons();
-});
-
-// Fonction de recherche via API
-async function searchBouchons() {
-  try {
-    isLoading = true;
-    apiError = null;
-
-    // Démarrer le chronomètre pour le délai minimum
-    const startTime = Date.now();
-
-    // Construction des filtres à envoyer à l'API
-    const filters: Record<string, string> = {};
-
-    // Ajout des filtres uniquement s'ils sont définis
-    if (selectedPrixMenuBase) filters.priceLevel = String(Number(selectedPrixMenuBase));
-    if (selectedArrondissements.length > 0) filters.postalCode = selectedArrondissements.join(',');
-    if (selectedQuartiers.length > 0) filters.neighborhood = selectedQuartiers.join(',');
-    if (selectedQuantite) filters.portionSize = selectedQuantite;
-    if (selectedTypeMangeur) filters.eaterType = selectedTypeMangeur;
-    if (selectedTypeAmbiance) filters.atmosphereType = selectedTypeAmbiance;
-    if (selectedTypeTablee) filters.tableType = selectedTypeTablee;
-    if (selectedTypeBouchon) filters.bouchonType = selectedTypeBouchon;
-
-    // Filtres booléens
-    if (optionVegetariens) filters.vegetarianOption = 'true';
-    if (optionMachon) filters.machonOption = 'true';
-    if (decorationRemarquable) filters.remarkableDecoration = 'true';
-    if (terrace) filters.terrace = 'true';
-    if (remarkableTeam) filters.remarkableTeam = 'true';
-    if (coupDeCoeurCompagnie) filters.compagnieFavorite = 'true';
-    if (coupDeCoeurVins) filters.wineFavorite = 'true';
-    if (labelBouchonsLyonnais) filters.bouchonLyonnaisLabel = 'true';
-    if (selectionAuthentiques) filters.authenticSelection = 'true';
-
-    // Filtres jour/heure
-    if (selectedDay) filters.day = selectedDay;
-    if (selectedTime) filters.time = selectedTime;
-
-    // Sorting parameters
-    const apiSortBy = sortBy === 'prix' ? 'price' : sortBy;
-    filters.sortBy = apiSortBy;
-    filters.sortOrder = sortOrder;
-
-    const result = await apiBouchonSearch(filters, currentPage);
-    bouchons = result.data;
-    totalPages = result.pagination.totalPages;
-    totalItems = result.pagination.totalItems;
-
-    // Exclure les bouchons sans menuPrice si un filtre prix est actif
-    if (selectedPrixMenuBase) {
-      bouchons = bouchons.filter((b) => b.menuPrice !== null && b.menuPrice !== undefined);
-    }
-
-    // Assurer un délai minimum de 400ms pour que le loader soit visible
-    const elapsedTime = Date.now() - startTime;
-    const minLoadingTime = 400;
-    if (elapsedTime < minLoadingTime) {
-      await new Promise((resolve) => setTimeout(resolve, minLoadingTime - elapsedTime));
-    }
-  } catch (error: unknown) {
-    console.error('Failed to search bouchons:', error);
-    apiError = error instanceof Error ? error.message : 'Une erreur est survenue';
-    bouchons = [];
-    totalPages = 1;
-    totalItems = 0;
-  } finally {
-    isLoading = false;
+  if (selectedQuartiers.length > 0) {
+    liste.push({
+      type: 'quartier',
+      valeurs: codesDe(selectedQuartiers, QUARTIERS) as Quartier[],
+    });
   }
-}
-
-// Fonction pour appliquer les filtres (recherche seulement, le tri est fait par l'API)
-async function applyFilters() {
-  await searchBouchons();
-}
-
-// Réactivité : rechercher à chaque changement de critères, y compris jour/heure et tri
-$: {
-  const searchTriggers = [
-    selectedPrixMenuBase,
-    selectedArrondissements,
-    selectedQuartiers,
-    selectedQuantite,
-    selectedTypeMangeur,
-    selectedTypeAmbiance,
-    selectedTypeTablee,
-    selectedTypeBouchon,
-    optionVegetariens,
-    optionMachon,
-    decorationRemarquable,
-    terrace,
-    remarkableTeam,
-    coupDeCoeurCompagnie,
-    sortBy,
-    sortOrder,
-    coupDeCoeurVins,
-    labelBouchonsLyonnais,
-    selectionAuthentiques,
-    selectedDay,
-    selectedTime,
-  ];
-  if (typeof window !== 'undefined') {
-    currentPage = 1; // Reset to first page when filters change
-    searchBouchons();
+  if (selectedDay && selectedService) {
+    liste.push({
+      type: 'moment',
+      jour: Number(selectedDay),
+      service: selectedService as Service,
+    });
   }
-}
+  if (selectedTypeMangeur) {
+    liste.push({ type: 'profil', profil: selectedTypeMangeur as ProfilMangeur });
+  }
+  if (selectedQuantite) {
+    liste.push({ type: 'portions', minimum: selectedQuantite as Portions });
+  }
+  if (optionVegetariens) liste.push({ type: 'vegetarien' });
+  return liste;
+})();
 
-function handlePageChange(event: CustomEvent<number>) {
-  currentPage = event.detail;
-  searchBouchons();
-  scrollToTop();
+$: affinage = {
+  terrasse: terrace,
+  decorationRemarquable,
+  equipeRemarquable: remarkableTeam,
+  coupDeCoeurCompagnie,
+  coupDeCoeurVins,
+  labelBouchonsLyonnais,
+  selectionAuthentiques,
+  typesBouchon: selectedTypeBouchon ? [selectedTypeBouchon as TypeBouchon] : [],
+  ambiances: selectedTypeAmbiance ? [selectedTypeAmbiance as Ambiance] : [],
+} satisfies Affinage;
+
+$: bouchons = trier(
+  BOUCHONS.filter(
+    (b) => passeAffinage(b, affinage) && criteres.every((c) => evaluer(b, c) === 'oui')
+  ),
+  tri
+);
+
+// Sans service choisi, un jour seul garde les bouchons ouverts ce jour-là.
+$: if (selectedDay && !selectedService) {
+  const jour = Number(selectedDay);
+  bouchons = bouchons.filter((b) => b.openingHours?.some((c) => c.day === jour));
 }
 
 function clearFilters() {
-  currentPage = 1;
   selectedPrixMenuBase = '';
   selectedArrondissements = [];
   selectedQuartiers = [];
   selectedQuantite = '';
   selectedTypeMangeur = '';
   selectedTypeAmbiance = '';
-  selectedTypeTablee = '';
   selectedTypeBouchon = '';
   optionVegetariens = false;
-  optionMachon = false;
   decorationRemarquable = false;
   terrace = false;
   remarkableTeam = false;
@@ -280,7 +222,7 @@ function clearFilters() {
   labelBouchonsLyonnais = false;
   selectionAuthentiques = false;
   selectedDay = '';
-  selectedTime = '';
+  selectedService = '';
 }
 </script>
 
@@ -310,10 +252,9 @@ function clearFilters() {
     {typeMangeurOptions}
     {typeAmbianceOptions}
     {typeBouchonOptions}
+    {serviceOptions}
     {hasActiveFilters}
-    {isLoading}
     resultsCount={bouchons.length}
-    totalResults={totalItems}
   bind:selectedPrixMenuBase
   bind:selectedArrondissements
   bind:selectedQuartiers
@@ -322,7 +263,6 @@ function clearFilters() {
   bind:selectedTypeAmbiance
   bind:selectedTypeBouchon
   bind:optionVegetariens
-  bind:optionMachon
   bind:decorationRemarquable
   bind:terrace
   bind:remarkableTeam
@@ -331,7 +271,7 @@ function clearFilters() {
   bind:labelBouchonsLyonnais
   bind:selectionAuthentiques
   bind:selectedDay
-  bind:selectedTime
+  bind:selectedService
     on:close={() => (sidebarOpen = false)}
     on:reset={clearFilters}
     />
@@ -356,18 +296,9 @@ function clearFilters() {
   <main class="main-content">
     <Results
       {bouchons}
-      {isLoading}
-      {apiError}
       {isMobile}
-      bind:sortBy
-      bind:sortOrder
-      {getDefaultSortOrder}
-      {applyFilters}
-      {currentPage}
-      {totalPages}
-      {totalItems}
+      bind:tri
       on:openSidebar={() => (sidebarOpen = true)}
-      on:pageChange={handlePageChange}
     />
   </main>
 </div>

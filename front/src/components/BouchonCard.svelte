@@ -1,7 +1,7 @@
 <script lang="ts">
-import type { BouchonData } from '../services/bouchonApi';
+import type { BouchonComplet } from '../data/bouchons';
 
-export let bouchon: BouchonData;
+export let bouchon: BouchonComplet;
 
 // biome-ignore lint/correctness/noUnusedVariables: Used in template on:click
 function callBouchon(): void {

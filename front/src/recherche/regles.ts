@@ -203,7 +203,7 @@ export function passeAffinage(bouchon: Bouchon, affinage: Affinage): boolean {
 
 // --- Tri ----------------------------------------------------------------------
 
-export function trier(bouchons: Bouchon[], tri: Tri): Bouchon[] {
+export function trier<B extends Bouchon>(bouchons: B[], tri: Tri): B[] {
   const parNote = (a: Bouchon, b: Bouchon) => b.rating - a.rating;
   return [...bouchons].sort((a, b) => {
     if (tri === 'prix') {
@@ -225,17 +225,17 @@ export function trier(bouchons: Bouchon[], tri: Tri): Bouchon[] {
 
 // --- Recherche ----------------------------------------------------------------
 
-export interface AUnCriterePres {
-  bouchon: Bouchon;
+export interface AUnCriterePres<B extends Bouchon = Bouchon> {
+  bouchon: B;
   critereManquant: Critere;
   // « non » : le bouchon ne remplit pas le critère ; « inconnu » :
   // l'information manque (prix non renseigné…).
   raison: Exclude<Verdict, 'oui'>;
 }
 
-export interface ResultatsDeRecherche {
-  exacts: Bouchon[];
-  aUnCriterePres: AUnCriterePres[];
+export interface ResultatsDeRecherche<B extends Bouchon = Bouchon> {
+  exacts: B[];
+  aUnCriterePres: AUnCriterePres<B>[];
 }
 
 export class PhraseInvalideError extends Error {}
@@ -252,15 +252,15 @@ export function verifierPhrase(phrase: PhraseDeRecherche): void {
   }
 }
 
-export function rechercher(
-  bouchons: Bouchon[],
+export function rechercher<B extends Bouchon>(
+  bouchons: B[],
   phrase: PhraseDeRecherche,
   affinage: Affinage = {},
   tri: Tri = 'defaut'
-): ResultatsDeRecherche {
+): ResultatsDeRecherche<B> {
   verifierPhrase(phrase);
-  const exacts: Bouchon[] = [];
-  const aUnCriterePres: AUnCriterePres[] = [];
+  const exacts: B[] = [];
+  const aUnCriterePres: AUnCriterePres<B>[] = [];
 
   for (const bouchon of bouchons) {
     // L'affinage retire partout et n'est jamais relâché.
@@ -290,6 +290,6 @@ export function rechercher(
     aUnCriterePres: trier(
       aUnCriterePres.map((r) => r.bouchon),
       tri
-    ).map((b) => parBouchon.get(b.id) as AUnCriterePres),
+    ).map((b) => parBouchon.get(b.id) as AUnCriterePres<B>),
   };
 }
