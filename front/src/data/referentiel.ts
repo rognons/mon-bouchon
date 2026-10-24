@@ -126,7 +126,7 @@ export const ARRONDISSEMENTS_LYON = [
 // Renvoie undefined si le texte est vide ou inconnu.
 export function codeDepuisSheet<Code extends string>(
   valeurs: Valeur<Code>[],
-  texte: string | undefined | null,
+  texte: string | undefined | null
 ): Code | undefined {
   if (!texte) return undefined;
   const normalise = texte.trim();
