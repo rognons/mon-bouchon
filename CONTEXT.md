@@ -44,6 +44,12 @@ pas, des résultats exacts comme de « À un critère près », et n'est jamais
 relâché.
 *À éviter* : filtre, critère complémentaire.
 
+**Raccourci de recherche** :
+Situation toute faite proposée sous la phrase de recherche vide (« Un petit
+budget », « Un mâchon samedi »…) ; un clic remplit la phrase, que
+l'utilisateur ajuste ensuite.
+*À éviter* : suggestion, filtre rapide, tag.
+
 **Résultat exact** :
 Bouchon qui remplit tous les critères de la phrase de recherche.
 
