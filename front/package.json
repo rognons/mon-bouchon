@@ -14,7 +14,9 @@
     "typecheck": "svelte-check --no-tsconfig && astro check",
     "quality": "npm run format:check && npm run lint && npm run test",
     "fix": "npm run format && npm run lint:fix",
-    "test": "vitest run"
+    "test": "vitest run",
+    "donnees:sheet": "node scripts/mettre-a-jour-depuis-sheet.ts",
+    "donnees:google": "node scripts/mettre-a-jour-depuis-google.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.5",
@@ -26,8 +28,12 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",
+    "@types/node": "^22.15.3",
     "svelte-check": "^4.7.6",
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=22.18"
   }
 }

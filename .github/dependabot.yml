@@ -17,14 +17,6 @@ updates:
       default-days: 21
 
   - package-ecosystem: "docker"
-    directory: "/api"
-    schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 5
-    cooldown:
-      default-days: 21
-
-  - package-ecosystem: "docker"
     directory: "/front"
     schedule:
       interval: "weekly"

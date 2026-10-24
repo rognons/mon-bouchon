@@ -1,28 +1,9 @@
 services:
-  # API Backend (Deno)
-  api:
-    build: 
-      context: ./api
-      dockerfile: Dockerfile-dev
-    ports:
-      - "8000:8000"
-    environment:
-      - PORT=8000
-    volumes:
-      - ./api:/app
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 5s
-      timeout: 1s
-    restart: unless-stopped
-
-  # Front Interface (Astro)
+  # Site (Astro), avec rechargement automatique en développement
   front:
     build:
       context: ./front
       dockerfile: Dockerfile-dev
-      args:
-        - PUBLIC_API_URL=http://localhost:8000
     ports:
       - "4321:4321"
     volumes:
@@ -35,9 +16,6 @@ services:
         - 'http://localhost:4321'
       interval: 5s
       timeout: 1s
-    depends_on:
-      api:
-        condition: service_healthy
     restart: unless-stopped
 
 networks:

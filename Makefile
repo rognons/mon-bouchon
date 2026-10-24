@@ -12,9 +12,8 @@ help:
 	@echo "  make clean      - Stop and remove all containers/images"
 	@echo "  make dev        - Start development environment"
 	@echo ""
-	@echo "URLs:"
-	@echo "  Front: http://localhost:4321"  
-	@echo "  API: http://localhost:8000"
+	@echo "URL:"
+	@echo "  Front: http://localhost:4321"
 
 # Build all images
 build:
@@ -24,8 +23,7 @@ build:
 up:
 	docker-compose up --build --remove-orphans --force-recreate
 	@echo "🚀 Services started!"
-	@echo "Front: http://localhost:4321"  
-	@echo "API: http://localhost:8000"
+	@echo "Front: http://localhost:4321"
 
 # Stop all services
 down:
@@ -44,9 +42,7 @@ clean:
 # Development environment (local)
 dev:
 	@echo "Starting development environment..."
-	@echo "API: http://localhost:8000"
 	@echo "Front: http://localhost:4321"
 	@echo ""
-	@echo "Run in separate terminals:"
-	@echo "  cd api && deno task dev"
+	@echo "Run:"
 	@echo "  cd front && npm run dev"
