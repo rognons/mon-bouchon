@@ -25,55 +25,6 @@ jobs:
           echo "🎉 Quality check passed successfully!"
           echo "✅ Proceeding with build and deployment..."
 
-  build-api:
-    name: 🦕 Build API Image
-    runs-on: ubuntu-latest
-    needs: check-quality-success
-    permissions:
-      contents: read
-      id-token: write
-    outputs:
-      image-tag: ${{ steps.meta.outputs.tags }}
-      image-digest: ${{ steps.build.outputs.digest }}
-    
-    steps:
-      - name: 📦 Checkout code
-        uses: actions/checkout@v5
-
-      - name: 🔐 Authenticate to Google Cloud
-        id: auth
-        uses: google-github-actions/auth@v3
-        with:
-          workload_identity_provider: projects/517611743057/locations/global/workloadIdentityPools/github-pool/providers/github-provider
-          service_account: github@rognons.iam.gserviceaccount.com
-
-      - name: 🔧 Setup Docker Buildx
-        uses: docker/setup-buildx-action@v4
-
-      - name: 🔐 Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker europe-west1-docker.pkg.dev
-
-      - name: 📋 Extract metadata
-        id: meta
-        uses: docker/metadata-action@v6
-        with:
-          images: ${{ env.IMAGE_PREFIX }}/mon-bouchon_api
-          tags: |
-            type=sha
-            type=raw,value=latest
-
-      - name: 🐳 Build and push API image
-        id: build
-        uses: docker/build-push-action@v7
-        with:
-          context: ./api
-          file: ./api/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
   build-front:
     name: 🎨 Build Front Image
     runs-on: ubuntu-latest
@@ -115,8 +66,6 @@ jobs:
         id: build
         uses: docker/build-push-action@v7
         with:
-          build-args: |
-            PUBLIC_API_URL=https://api.mon-bouchon.fr
           context: ./front
           file: ./front/Dockerfile
           push: true
@@ -128,8 +77,8 @@ jobs:
   deploy-images:
     name: 🚢 Deploy to server(s)
     runs-on: self-hosted
-    needs: [build-api, build-front]
-    if: ${{ needs.build-api.result == 'success' && needs.build-front.result == 'success' }}
+    needs: [build-front]
+    if: ${{ needs.build-front.result == 'success' }}
     
     steps:
       - name: 🚀 Deploy to Kamehouse
@@ -189,7 +138,7 @@ jobs:
   deploy-summary:
     name: 📋 Deployment Summary
     runs-on: ubuntu-latest
-    needs: [check-quality-success, build-api, build-front, create-release, deploy-images]
+    needs: [check-quality-success, build-front, create-release, deploy-images]
     if: always()
     
     steps:
@@ -198,7 +147,6 @@ jobs:
           echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 🐳 Built Images:" >> $GITHUB_STEP_SUMMARY
-          echo "- **API**: \`${{ needs.build-api.outputs.image-tag }}\`" >> $GITHUB_STEP_SUMMARY
           echo "- **Front**: \`${{ needs.build-front.outputs.image-tag }}\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📦 Registry:" >> $GITHUB_STEP_SUMMARY
@@ -218,8 +166,8 @@ jobs:
   create-release:
     name: 🏷️ Create GitHub Release
     runs-on: ubuntu-latest
-    needs: [build-api, build-front]
-    if: ${{ needs.build-api.result == 'success' && needs.build-front.result == 'success' }}
+    needs: [build-front]
+    if: ${{ needs.build-front.result == 'success' }}
     permissions:
       contents: write
     
@@ -249,11 +197,6 @@ jobs:
             COMMITS=$(git log --pretty=format:"- %s (%h)" ${LAST_TAG}..HEAD)
           fi
           
-          # Extract and format API tags
-          API_TAGS="${{ needs.build-api.outputs.image-tag }}"
-          API_SHA_TAG=$(echo "$API_TAGS" | grep -E "sha-[a-f0-9]+" | head -1)
-          API_LATEST_TAG=$(echo "$API_TAGS" | grep ":latest" | head -1)
-          
           # Extract and format Front tags  
           FRONT_TAGS="${{ needs.build-front.outputs.image-tag }}"
           FRONT_SHA_TAG=$(echo "$FRONT_TAGS" | grep -E "sha-[a-f0-9]+" | head -1)
@@ -262,10 +205,6 @@ jobs:
           # Create release notes
           cat > release_notes.md << EOF
           ## 🐳 Images Docker
-          
-          ### 🦕 API
-          - **Version unique**: \`${API_SHA_TAG}\`
-          - **Version latest**: \`${API_LATEST_TAG}\`
           
           ### 🎨 Front 
           - **Version unique**: \`${FRONT_SHA_TAG}\`
