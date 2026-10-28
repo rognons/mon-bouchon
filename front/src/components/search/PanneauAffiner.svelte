@@ -101,7 +101,7 @@ const FAMILLES: Famille[] = [
       },
     ],
     definitions: [
-      { terme: 'Tradi', texte: 'resté dans son jus, 100% authentique' },
+      { terme: 'Traditionnel', texte: 'resté dans son jus, 100% authentique' },
       { terme: 'Moderne', texte: 'perpétue la tradition en la renouvelant' },
       { terme: 'Bourgeois', texte: 'gastronomique, hommage aux bouchons' },
     ],
@@ -407,18 +407,18 @@ const COCHE = 'M5 12l5 5 9-10';
               </ul>
             {/each}
             {#if f.definitions}
-              <div class="explications">
-                <svg class="ampoule" aria-hidden="true" viewBox="0 0 24 24"
-                  ><path
-                    d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"
-                  /></svg
-                >
-                <ul class="definitions">
-                  {#each f.definitions as d}
-                    <li><strong>{d.terme}</strong>{' : '}{d.texte}</li>
-                  {/each}
-                </ul>
-              </div>
+              <ul class="definitions">
+                {#each f.definitions as d}
+                  <li>
+                    <svg class="ampoule" aria-hidden="true" viewBox="0 0 24 24"
+                      ><path
+                        d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"
+                      /></svg
+                    >
+                    <span><strong>{d.terme}</strong>{' : '}{d.texte}</span>
+                  </li>
+                {/each}
+              </ul>
             {/if}
           </div>
         {/if}
@@ -597,11 +597,10 @@ const COCHE = 'M5 12l5 5 9-10';
     clip: rect(0 0 0 0);
     white-space: nowrap;
   }
-  .explications {
+  .definitions li {
     display: flex;
     align-items: flex-start;
     gap: 8px;
-    margin-top: 4px;
   }
   .ampoule {
     width: 18px;

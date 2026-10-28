@@ -82,7 +82,7 @@ const CHAMPS: Record<TypeDeCritere, Champ[]> = {
       options: TYPES_BOUCHON.map((t) => ({ value: t.code, label: majuscule(t.court ?? t.code) })),
       // Formulations courtes propres au bandeau (le Google Sheet garde les siennes).
       definitions: [
-        { terme: 'Tradi', texte: 'resté dans son jus, 100% authentique' },
+        { terme: 'Traditionnel', texte: 'resté dans son jus, 100% authentique' },
         { terme: 'Moderne', texte: 'perpétue la tradition en la renouvelant' },
         { terme: 'Bourgeois', texte: 'gastronomique, hommage aux bouchons' },
       ],
@@ -269,20 +269,20 @@ const typesProposes = (rang: number) =>
                     {/each}
                   </ul>
                   {#if champ.definitions}
-                    <div class="explications">
-                      <!-- Ampoule « bon à savoir » : repère décoratif, qui ne ressemble pas à un bouton. -->
-                      <svg class="picto-info" aria-hidden="true" viewBox="0 0 24 24"
-                        ><path
-                          d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"
-                        /></svg
-                      >
-                      <ul class="definitions">
-                        {#each champ.definitions as d}
+                    <ul class="definitions">
+                      {#each champ.definitions as d}
+                        <li>
+                          <!-- Ampoule « bon à savoir » devant chaque ligne : repère décoratif, qui ne ressemble pas à un bouton. -->
+                          <svg class="picto-info" aria-hidden="true" viewBox="0 0 24 24"
+                            ><path
+                              d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"
+                            /></svg
+                          >
                           <!-- « Terme : texte », avec une espace insécable avant les deux-points. -->
-                          <li>{#if d.terme}<strong>{d.terme}</strong>{' : '}{/if}{d.texte}</li>
-                        {/each}
-                      </ul>
-                    </div>
+                          <span>{#if d.terme}<strong>{d.terme}</strong>{' : '}{/if}{d.texte}</span>
+                        </li>
+                      {/each}
+                    </ul>
                   {/if}
                 </div>
               {/each}
@@ -479,11 +479,10 @@ const typesProposes = (rang: number) =>
     line-height: 1.4;
     color: var(--texte-secondaire);
   }
-  .explications {
+  .definitions li {
     display: flex;
     align-items: flex-start;
     gap: 8px;
-    margin-top: 4px;
   }
   .picto-info {
     width: 18px;

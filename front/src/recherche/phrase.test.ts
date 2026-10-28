@@ -26,7 +26,7 @@ describe('Formulation de la phrase de recherche', () => {
     );
     expect(decrire({ type: 'moment', jour: 6, service: 'midi' })).toBe('est ouvert le samedi midi');
     expect(decrire({ type: 'typeBouchon', valeurs: ['traditionnel', 'moderne'] })).toBe(
-      'est un bouchon tradi ou moderne'
+      'est un bouchon traditionnel ou moderne'
     );
     expect(decrire({ type: 'vegetarien' })).toBe('propose une option végétarienne');
   });
@@ -103,7 +103,9 @@ describe('Formulation de la phrase de recherche', () => {
     expect(etiquette({ type: 'lieu', valeurs: ['presquile'] }, b)).toBe('Sur la Presqu’île');
     expect(etiquette({ type: 'moment', jour: 6, service: 'soir' }, b)).toBe('Ouvert samedi soir');
     expect(etiquette({ type: 'moment', jour: 0, service: 'machon' }, b)).toBe('Mâchon le dimanche');
-    expect(etiquette({ type: 'typeBouchon', valeurs: ['traditionnel'] }, b)).toBe('Bouchon tradi');
+    expect(etiquette({ type: 'typeBouchon', valeurs: ['traditionnel'] }, b)).toBe(
+      'Bouchon traditionnel'
+    );
     expect(etiquette({ type: 'vegetarien' }, b)).toBe('Option végé');
   });
 

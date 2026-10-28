@@ -68,7 +68,7 @@ export const TYPES_BOUCHON: Valeur<TypeBouchon>[] = [
     code: 'traditionnel',
     texteSheet: 'Bouchon traditionnel : resté dans son jus, 100% authentique.',
     libelle: 'Bouchon traditionnel : resté dans son jus, 100% authentique.',
-    court: 'tradi',
+    court: 'traditionnel',
   },
   {
     code: 'moderne',
