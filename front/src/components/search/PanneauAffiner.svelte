@@ -191,7 +191,7 @@ const vide = (): Selection =>
 
 let sel: Selection = selectionDepuis(affinage);
 
-// Retrouve les pastilles cochées à partir d'un affinage (lien partagé).
+// Retrouve les pastilles cochées à partir de l’affinage, quand on rouvre le panneau.
 function selectionDepuis(a: Affinage): Selection {
   const s = vide();
   for (const c of a.principaux ?? []) {

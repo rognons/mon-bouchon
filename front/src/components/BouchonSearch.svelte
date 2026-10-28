@@ -1,5 +1,5 @@
 <script lang="ts">
-import { onMount, tick } from 'svelte';
+import { tick } from 'svelte';
 import { BOUCHONS } from '../data/bouchons';
 import { resumer } from '../recherche/phrase';
 import {
@@ -18,9 +18,6 @@ import Results from './search/Results.svelte';
 // Les critères choisis dans le bandeau : le premier est le critère principal.
 // biome-ignore lint/style/useConst: Bound to the criteria chooser
 let criteres: Critere[] = [];
-// Les critères d'un lien partagé, donnés au bandeau à l'ouverture.
-let criteresInitiaux: Critere[] = [];
-let versionBandeau = 0;
 
 // Les résultats ne s'affichent qu'après « Voir les N bouchons ».
 let resultatsVisibles = false;
@@ -115,45 +112,14 @@ async function modifierLaRecherche() {
     .getElementById('critere-1')
     ?.scrollIntoView({ behavior: reduit() ? 'auto' : 'smooth', block: 'start' });
 }
-
-// --- L'adresse de la recherche, pour la partager ----------------------------
-
-const PARAMETRE = 'recherche';
-
-onMount(() => {
-  const texte = new URLSearchParams(window.location.search).get(PARAMETRE);
-  if (!texte) return;
-  try {
-    const lu = JSON.parse(texte) as { c?: Critere[]; a?: Affinage; t?: Tri };
-    criteresInitiaux = lu.c ?? [];
-    affinage = lu.a ?? {};
-    tri = lu.t ?? 'defaut';
-    versionBandeau += 1;
-    resultatsVisibles = true;
-  } catch {
-    // Une adresse abîmée : on garde la page vierge.
-  }
-});
-
-$: if (typeof window !== 'undefined' && resultatsVisibles) {
-  const url = new URL(window.location.href);
-  url.searchParams.set(
-    PARAMETRE,
-    JSON.stringify({ c: criteres, a: affinageEffectif, t: tri === 'defaut' ? undefined : tri })
-  );
-  window.history.replaceState(null, '', url);
-}
 </script>
 
-{#key versionBandeau}
-  <ChoixDesCriteres
-    bind:criteres
-    initiaux={criteresInitiaux}
-    nbExacts={resultats.exacts.length}
-    nbProches={afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres.length : 0}
-    on:voir={voirLesResultats}
-  />
-{/key}
+<ChoixDesCriteres
+  bind:criteres
+  nbExacts={resultats.exacts.length}
+  nbProches={afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres.length : 0}
+  on:voir={voirLesResultats}
+/>
 
 {#if resultatsVisibles}
   <div class="rappel" id="resultats">

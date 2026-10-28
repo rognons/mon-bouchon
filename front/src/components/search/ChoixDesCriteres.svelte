@@ -97,25 +97,7 @@ interface Brouillon {
   choix: Valeur[][];
 }
 
-// Les critères d'un lien partagé, repris à l'ouverture de la page.
-export let initiaux: Critere[] = [];
-
-function versBrouillon(c: Critere): Brouillon {
-  switch (c.type) {
-    case 'prix':
-      return { type: c.type, choix: [[c.palier]] };
-    case 'lieu':
-      return { type: c.type, choix: [[...c.valeurs]] };
-    case 'moment':
-      return { type: c.type, choix: [[c.jour], [c.service]] };
-    case 'typeBouchon':
-      return { type: c.type, choix: [[...c.valeurs]] };
-    case 'vegetarien':
-      return { type: c.type, choix: [] };
-  }
-}
-
-let brouillons: Brouillon[] = initiaux.map(versBrouillon);
+let brouillons: Brouillon[] = [];
 let message = '';
 
 const complet = (b: Brouillon) => CHAMPS[b.type].every((_, j) => b.choix[j].length > 0);
@@ -386,9 +368,13 @@ const typesProposes = (rang: number) =>
   .titre + .etape {
     margin-top: -16px;
   }
+  /* Style « chapeau » de la charte (sous-titre de bandeau) : le titre reste
+     seul en Gilton, la question se lit comme une consigne. */
   .question {
-    font-size: 27px;
-    line-height: 1.1;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
   }
   /* En noir : le gris secondaire n'est pas assez contrasté sur le rose. */
   .facultatif {
@@ -572,9 +558,6 @@ const typesProposes = (rang: number) =>
     }
     .titre {
       font-size: 52px;
-    }
-    .question {
-      font-size: 33px;
     }
   }
 </style>
