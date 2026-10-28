@@ -97,12 +97,12 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
       <a class="btn" href={bouchon.menuUrl} target="_blank" rel="noopener noreferrer">Menu</a>
     {/if}
     <!-- L'icône dit à l'avance ce que fait le bouton : une page de réservation
-         (curseur) ou un appel (téléphone). Dessins repris de Lucide (licence ISC). -->
+         (curseur de souris) ou un appel (téléphone, dessin repris de Lucide, licence ISC). -->
     {#if bouchon.bookingUrl}
       <a class="btn" href={bouchon.bookingUrl} target="_blank" rel="noopener noreferrer"
         ><svg class="btn-ico" aria-hidden="true" viewBox="0 0 24 24"
           ><path
-            d="M4.04 4.69a.5.5 0 0 1 .65-.65l16 6.5a.5.5 0 0 1-.06.95l-6.13 1.58a2 2 0 0 0-1.43 1.43l-1.58 6.13a.5.5 0 0 1-.95.06z"
+            d="M5 2.5v16.5l4.3-4.2 2.9 6.7 3-1.3-2.9-6.6H18.5z"
           /></svg
         >Réserver<span class="sr"> en ligne</span></a
       >
