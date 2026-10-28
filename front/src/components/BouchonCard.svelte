@@ -96,11 +96,25 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     {#if bouchon.menuUrl}
       <a class="btn" href={bouchon.menuUrl} target="_blank" rel="noopener noreferrer">Menu</a>
     {/if}
+    <!-- L'icône dit à l'avance ce que fait le bouton : une page de réservation
+         (curseur) ou un appel (téléphone). Dessins repris de Lucide (licence ISC). -->
     {#if bouchon.bookingUrl}
-      <a class="btn" href={bouchon.bookingUrl} target="_blank" rel="noopener noreferrer">Réserver</a>
+      <a class="btn" href={bouchon.bookingUrl} target="_blank" rel="noopener noreferrer"
+        ><svg class="btn-ico" aria-hidden="true" viewBox="0 0 24 24"
+          ><path
+            d="M4.04 4.69a.5.5 0 0 1 .65-.65l16 6.5a.5.5 0 0 1-.06.95l-6.13 1.58a2 2 0 0 0-1.43 1.43l-1.58 6.13a.5.5 0 0 1-.95.06z"
+          /></svg
+        >Réserver<span class="sr"> en ligne</span></a
+      >
     {:else if bouchon.phone}
       <!-- Sans réservation en ligne, on réserve par téléphone. -->
-      <a class="btn" href="tel:{bouchon.phone.replace(/\s/g, '')}">Réserver</a>
+      <a class="btn" href="tel:{bouchon.phone.replace(/\s/g, '')}"
+        ><svg class="btn-ico" aria-hidden="true" viewBox="0 0 24 24"
+          ><path
+            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"
+          /></svg
+        >Réserver<span class="sr"> par téléphone</span></a
+      >
     {/if}
     {#if bouchon.mapsUrl}
       <a class="btn" href={bouchon.mapsUrl} target="_blank" rel="noopener noreferrer">Itinéraire</a>
@@ -286,10 +300,12 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     clip: rect(0 0 0 0);
     white-space: nowrap;
   }
+  /* Les quatre boutons tiennent sur une ligne et se partagent la largeur,
+     sur ordinateur comme sur téléphone. */
   .actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    flex-wrap: nowrap;
+    gap: 6px;
     padding: 0 24px 24px;
   }
   .btn {
@@ -298,8 +314,9 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     justify-content: center;
     /* La hauteur comprend la marge intérieure et le trait. */
     box-sizing: border-box;
+    flex: 1 1 auto;
     min-height: 40px;
-    padding: 6px 14px;
+    padding: 6px 8px;
     border: 1px solid #221f20;
     border-radius: 999px;
     background: #ffffff;
@@ -313,6 +330,17 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     transition:
       background-color 0.2s,
       color 0.2s;
+  }
+  .btn-ico {
+    width: 14px;
+    height: 14px;
+    flex: none;
+    margin-right: 5px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
   .btn:hover {
     background: #221f20;
@@ -333,21 +361,20 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     .visuel {
       height: 176px;
     }
-    /* Sur téléphone, les quatre boutons tiennent sur une ligne et se
-       partagent la largeur. */
     .actions {
-      flex-wrap: nowrap;
-      gap: 6px;
       padding: 0 16px 20px;
-    }
-    .btn {
-      flex: 1 1 auto;
-      padding: 6px 8px;
     }
   }
   @media (max-width: 370px) {
     .btn {
       font-size: 13px;
+    }
+  }
+  /* Très petits écrans (moins de 350 px) : les quatre boutons ne tiennent
+     plus, ils passent à la ligne plutôt que de déborder de la carte. */
+  @media (max-width: 349px) {
+    .actions {
+      flex-wrap: wrap;
     }
   }
 </style>
