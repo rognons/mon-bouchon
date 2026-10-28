@@ -1,248 +1,270 @@
 <script lang="ts">
 import BouchonCard from '../BouchonCard.svelte';
-import { createEventDispatcher } from 'svelte';
 import type { BouchonComplet } from '../../data/bouchons';
-import { decrireManque } from '../../recherche/phrase';
+import { chapeauAUnCriterePres, decrireManque } from '../../recherche/phrase';
 import {
   afficherAUnCriterePres,
+  type Critere,
   type ResultatsDeRecherche,
   type Tri,
 } from '../../recherche/regles';
 
 export let resultats: ResultatsDeRecherche<BouchonComplet> = { exacts: [], aUnCriterePres: [] };
-export let isMobile = false;
+export let criteres: Critere[] = [];
 export let tri: Tri = 'defaut';
-const dispatch = createEventDispatcher();
 
 $: bouchons = resultats.exacts;
 $: proches = afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres : [];
+$: titre =
+  bouchons.length > 1
+    ? `${bouchons.length} bouchons trouvés`
+    : bouchons.length === 1
+      ? '1 bouchon trouvé'
+      : 'Aucun bouchon trouvé';
+
+// Partager : la feuille de partage du téléphone, sinon le lien copié.
+let partage = '';
+async function partager() {
+  const url = window.location.href;
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: 'Mon Bouchon', url });
+      return;
+    }
+    await navigator.clipboard.writeText(url);
+    partage = 'Lien copié';
+  } catch (e) {
+    if ((e as Error).name !== 'AbortError') partage = 'Impossible de copier le lien';
+  }
+  setTimeout(() => {
+    partage = '';
+  }, 3000);
+}
 </script>
 
-<div class="results-root">
-    <div class="results-header">
-        <h2>
-            🍽️ {bouchons.length} bouchon{bouchons.length > 1 ? "s" : ""} trouvé{bouchons.length >
-            1
-                ? "s"
-                : ""}
-        </h2>
-        <div class="controls-row">
-            {#if isMobile}
-                <button
-                    class="show-advanced-filters-btn"
-                    on:click={() => dispatch("openSidebar")}
-                    aria-label="Afficher les filtres avancés">🔍 Filtres</button
-                >
-            {/if}
-            <div class="sort-control">
-                <label for="sortBy">
-                  <span class="sort-label">🎯 Trier par :</span>
-                </label>
-                <select id="sortBy" bind:value={tri}>
-                    <option value="defaut">❤️ Coups de cœur</option>
-                    <option value="note">⭐ Note (Google)</option>
-                    <option value="prix">💰 Prix</option>
-                </select>
-            </div>
-        </div>
+<div class="resultats">
+  <div class="entete">
+    <h2 class="titre">{titre}</h2>
+    <div class="outils">
+      <label class="tri">
+        <span>Trier par</span>
+        <select bind:value={tri}>
+          <option value="defaut">Top 10 de la Compagnie</option>
+          <option value="note">Note Google</option>
+          <option value="prix">Prix</option>
+        </select>
+      </label>
+      <button type="button" class="partager" on:click={partager}>
+        <svg aria-hidden="true" viewBox="0 0 24 24"
+          ><path d="M12 15V3M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6" /></svg
+        >
+        <span class="partager-texte">Partager cette recherche</span>
+      </button>
+      <span class="statut" role="status">{partage}</span>
     </div>
-    <div class="results-grid">
-        {#each bouchons as bouchon (bouchon.id)}
-            <BouchonCard {bouchon} />
-        {/each}
+  </div>
+
+  {#if bouchons.length}
+    <div class="grille">
+      {#each bouchons as bouchon (bouchon.id)}
+        <BouchonCard {bouchon} {criteres} />
+      {/each}
     </div>
-    {#if bouchons.length === 0 && proches.length === 0}
-        <div class="no-results">
-            <h3>
-                😞 Aïe, on n'a pas encore trouvé de bouchon comme celui-ci
-            </h3>
-            <p>Mais dites-nous et on le teste !</p>
-        </div>
-    {/if}
-    {#if proches.length > 0}
-        <section class="a-un-critere-pres" aria-labelledby="titre-a-un-critere-pres">
-            <h2 id="titre-a-un-critere-pres">À un critère près</h2>
-            <p class="chapeau-proches">
-                {bouchons.length === 0 ? "Aucun bouchon ne remplit tous vos critères" : "Peu de bouchons remplissent tous vos critères"},
-                mais ceux-ci n'en manquent qu'un.
-            </p>
-            <div class="results-grid">
-                {#each proches as proche (proche.bouchon.id)}
-                    <div class="proche">
-                        <p class="manque">{decrireManque(proche.critereManquant, proche.raison)}</p>
-                        <BouchonCard bouchon={proche.bouchon} />
-                    </div>
-                {/each}
-            </div>
-        </section>
-    {/if}
+  {:else if proches.length === 0}
+    <div class="aucun">
+      <p class="aucun-titre">On n’a pas encore trouvé de bouchon comme celui-ci.</p>
+      <p>Retirez un choix, ou dites-nous lequel tester !</p>
+    </div>
+  {/if}
 </div>
 
+{#if proches.length > 0}
+  <section class="proches" aria-labelledby="titre-proches">
+    <div class="proches-int">
+      <h2 class="titre" id="titre-proches">À un critère près</h2>
+      <p class="chapeau">{chapeauAUnCriterePres(proches[0].critereManquant, bouchons.length)}</p>
+      <div class="grille">
+        {#each proches as proche (proche.bouchon.id)}
+          <BouchonCard
+            bouchon={proche.bouchon}
+            {criteres}
+            manque={decrireManque(proche.critereManquant, proche.raison)}
+          />
+        {/each}
+      </div>
+    </div>
+  </section>
+{/if}
+
 <style>
-    .results-header {
-        margin: 0.5rem 0 1rem 0;
-        margin-top: 0rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.1rem;
+  .resultats,
+  .proches {
+    color: #221f20;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+  .entete {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .titre {
+    margin: 0;
+    padding: 0;
+    font-family: 'GiltonRegular', 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.1;
+    color: #221f20;
+  }
+  .outils {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+  }
+  .tri {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+  }
+  .tri select {
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid #221f20;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #221f20;
+    font: inherit;
+    font-weight: 400;
+    cursor: pointer;
+  }
+  .partager {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 8px 18px 8px 16px;
+    border: 1px solid #221f20;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #221f20;
+    font: inherit;
+    font-weight: 700;
+    font-stretch: 87.5%;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .partager:hover {
+    background: #221f20;
+    color: #ffffff;
+  }
+  .partager svg {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .statut {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .statut:empty {
+    display: none;
+  }
+  .tri select:focus-visible,
+  .partager:focus-visible {
+    outline: 3px solid #221f20;
+    outline-offset: 3px;
+  }
+  .grille {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+  .aucun {
+    padding: 32px 0;
+  }
+  .aucun p {
+    margin: 0;
+  }
+  .aucun-titre {
+    font-weight: 600;
+  }
+  /* « À un critère près » : sur fond crème, sur toute la largeur. */
+  .proches {
+    margin-top: 48px;
+    background: #eeebe4;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+  .proches-int {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 32px;
+  }
+  .chapeau {
+    margin: 8px 0 24px;
+    max-width: 70ch;
+  }
+  @media (max-width: 767px) {
+    .titre {
+      font-size: 27px;
     }
-    .controls-row {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+    /* Sur téléphone : le titre et le partage (icône seule) sur une ligne,
+       le tri en dessous. */
+    .entete {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 8px 12px;
+      margin-bottom: 16px;
     }
-    .results-header h2 {
-        font-family: "GiltonRegular", "Playfair Display", serif;
-        color: #221f20;
-        font-weight: normal;
-        margin: 0;
-        line-height: 1em;
-        padding-bottom: 0;
+    .outils {
+      display: contents;
     }
-    .sort-control {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 14px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(240, 198, 218, 0.1);
+    .partager {
+      grid-column: 2;
+      grid-row: 1;
+      width: 44px;
+      padding: 0;
+      justify-content: center;
     }
-    .sort-control label {
-        color: #221f20;
-        font-weight: 500;
-        font-family: "Open Sans", sans-serif;
+    .partager-texte {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
     }
-    @media (max-width: 360px) {
-        .sort-label {
-            display: none;
-        }
+    .tri {
+      grid-column: 1 / -1;
+      font-size: 15px;
     }
-    .sort-control select {
-        padding: 0.4rem 0.8rem;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        background: white;
-        font-size: 14px;
-        cursor: pointer;
-        transition: border-color 0.2s ease;
-        min-width: 120px;
+    /* 16 px au moins : sinon l'iPhone zoome sur le menu quand on le touche. */
+    .tri select {
+      padding: 6px 10px;
+      font-size: 16px;
     }
-    .sort-control select:focus {
-        outline: none;
-        border-color: #f0c6da;
+    .statut {
+      grid-column: 1 / -1;
     }
-    .results-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-        gap: 2rem;
+    .proches-int {
+      padding: 32px 16px;
     }
-    .no-results {
-        text-align: center;
-        padding: 3rem;
-        color: #6b7280;
-    }
-    .no-results h3 {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-    }
-    @media (min-width: 1600px) {
-        .results-grid {
-            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
-            gap: 2.5rem;
-        }
-    }
-    @media (min-width: 1200px) and (max-width: 1599px) {
-        .results-grid {
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-        }
-    }
-    @media (max-width: 1199px) and (min-width: 981px) {
-        .results-grid {
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        }
-    }
-    @media (max-width: 980px) and (min-width: 769px) {
-        .results-grid {
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-        }
-    }
-    @media (max-width: 768px) {
-        .results-grid {
-            grid-template-columns: 1fr;
-        }
-        .results-header {
-            margin-top: 1rem;
-            flex-direction: column;
-            text-align: center;
-            gap: 1rem;
-        }
-        .controls-row {
-            width: 100%;
-            justify-content: space-between;
-            gap: 0.5rem;
-        }
-        .show-advanced-filters-btn {
-            flex: 0 0 auto;
-            white-space: nowrap;
-        }
-        .sort-control {
-            flex: 0 1 auto;
-            min-width: 0;
-            box-sizing: border-box;
-        }
-        .sort-control label {
-            font-size: 13px;
-        }
-        .sort-control select {
-            font-size: 13px;
-            padding: 0.3rem 0.5rem;
-            min-width: 100px;
-        }
-    }
-    .show-advanced-filters-btn {
-        background: white;
-        color: #221f20;
-        border: 1px solid #f0c6da;
-        border-radius: 8px;
-        padding: 0.3rem 0.9rem;
-        font-size: 1rem;
-        cursor: pointer;
-        font-family: "GiltonRegular", serif;
-    }
-    .a-un-critere-pres {
-        margin-top: 64px;
-        padding-top: 32px;
-        border-top: 1px solid #e6e2dc;
-    }
-    .a-un-critere-pres h2 {
-        font-family: "GiltonRegular", "Playfair Display", serif;
-        font-weight: normal;
-        color: #221f20;
-        margin: 0 0 8px 0;
-    }
-    .chapeau-proches {
-        margin: 0 0 24px 0;
-        color: #221f20;
-        font-size: 17px;
-        line-height: 1.6;
-    }
-    .proche {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-    .manque {
-        margin: 0;
-        align-self: flex-start;
-        padding: 4px 12px;
-        background: #221f20;
-        color: #ffffff;
-        border-radius: 20px;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 1.4;
-    }
+  }
 </style>

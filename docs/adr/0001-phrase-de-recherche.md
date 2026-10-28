@@ -1,6 +1,6 @@
 # Une phrase de recherche avec critère principal, plutôt que des filtres libres
 
-Statut : acceptée (2026-10-24)
+Statut : acceptée (2026-10-24), remplacée en partie par les n° 0003, 0004 et 0005
 
 Avec 38 bouchons, des filtres libres cochés en vrac mènent vite à « aucun
 résultat ». On cherche donc par une phrase de recherche : un critère

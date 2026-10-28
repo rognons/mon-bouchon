@@ -68,16 +68,19 @@ export const TYPES_BOUCHON: Valeur<TypeBouchon>[] = [
     code: 'traditionnel',
     texteSheet: 'Bouchon traditionnel : resté dans son jus, 100% authentique.',
     libelle: 'Bouchon traditionnel : resté dans son jus, 100% authentique.',
+    court: 'tradi',
   },
   {
     code: 'moderne',
     texteSheet: 'Bouchon moderne : perpétue la tradition, tout en la renouvelant.',
     libelle: 'Bouchon moderne : perpétue la tradition, tout en la renouvelant.',
+    court: 'moderne',
   },
   {
     code: 'bourgeois',
     texteSheet: 'Bouchon bourgeois : gastronomique, hommage aux bouchons.',
     libelle: 'Bouchon bourgeois : gastronomique, hommage aux bouchons.',
+    court: 'bourgeois',
   },
 ];
 
@@ -144,3 +147,19 @@ export function codeDepuisSheet<Code extends string>(
 export function libelle<Code extends string>(valeurs: Valeur<Code>[], code: Code): string {
   return valeurs.find((v) => v.code === code)?.libelle ?? code;
 }
+
+// Le top 10 de la Compagnie, du n°1 au n°10 (identifiants de bouchons.json).
+// Provisoire : à reprendre dans le Google Sheet (le rang à la place de « oui »
+// dans la colonne coup de cœur), pour que la Compagnie le tienne à jour.
+export const TOP_10_COMPAGNIE = [
+  'chez-hugon',
+  'les-4g',
+  'le-bouchon-des-artistes',
+  'le-garet',
+  'le-bouchon-sully',
+  'a-ma-vigne',
+  'meuniere',
+  'l-auberge-des-canuts',
+  'cafe-lobut',
+  'bistrot-du-marche-chez-nenette',
+];

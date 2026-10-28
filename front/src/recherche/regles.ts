@@ -12,6 +12,7 @@ import {
   type TypeBouchon,
   PORTIONS,
   PROFILS_MANGEUR,
+  TOP_10_COMPAGNIE,
 } from '../data/referentiel';
 
 // --- Les bouchons ----------------------------------------------------------
@@ -38,7 +39,6 @@ export interface Bouchon {
   terrace: boolean;
   remarkableDecoration: boolean;
   remarkableTeam: boolean;
-  reservation: boolean;
   compagnieFavorite: boolean;
   wineFavorite: boolean;
   bouchonLyonnaisLabel: boolean;
@@ -49,20 +49,19 @@ export interface Bouchon {
 
 // --- La phrase de recherche -------------------------------------------------
 
-export type PalierDePrix = 'moins-de-32' | 'moins-de-38' | 'sans-limite';
+export type PalierDePrix = 'max-32' | 'max-35' | 'max-38';
 export type Service = 'machon' | 'midi' | 'soir';
 
-// Valeur du critère arrondissement : un code postal de Lyon (« 69001 »…)
-// ou une commune hors de Lyon (« villeurbanne »…).
-export type ValeurArrondissement = string;
+// Valeur du critère lieu (docs/adr/0004) : un quartier (« presquile »…), ou,
+// pour un bouchon sans quartier, un code postal de Lyon (« 69003 »…) ou une
+// commune hors de Lyon (« villeurbanne »…).
+export type Lieu = string;
 
 export type Critere =
   | { type: 'prix'; palier: PalierDePrix }
-  | { type: 'arrondissement'; valeurs: ValeurArrondissement[] }
-  | { type: 'quartier'; valeurs: Quartier[] }
+  | { type: 'lieu'; valeurs: Lieu[] }
   | { type: 'moment'; jour: number; service: Service }
-  | { type: 'profil'; profil: ProfilMangeur }
-  | { type: 'portions'; minimum: Portions }
+  | { type: 'typeBouchon'; valeurs: TypeBouchon[] }
   | { type: 'vegetarien' };
 
 export interface PhraseDeRecherche {
@@ -70,27 +69,37 @@ export interface PhraseDeRecherche {
   complementaires: Critere[];
 }
 
-export const MAX_CRITERES_COMPLEMENTAIRES = 3;
+// Une phrase compte deux critères au plus : le principal et un complémentaire
+// (docs/adr/0003).
+export const MAX_CRITERES_COMPLEMENTAIRES = 1;
 
 // --- L'affinage ---------------------------------------------------------------
 
-// Uniquement des conditions qui ne sont pas des critères de la phrase.
+// Les critères secondaires, et les critères principaux absents de la
+// recherche (docs/adr/0003). Rien n'y est jamais relâché.
 export interface Affinage {
+  // Critères principaux non choisis dans la recherche, chacun exigé.
+  principaux?: Critere[];
   terrasse?: boolean;
   decorationRemarquable?: boolean;
   equipeRemarquable?: boolean;
-  reservation?: boolean;
   coupDeCoeurCompagnie?: boolean;
   coupDeCoeurVins?: boolean;
   labelBouchonsLyonnais?: boolean;
   selectionAuthentiques?: boolean;
   typesBouchon?: TypeBouchon[];
   ambiances?: Ambiance[];
+  // Le profil de la tablée : on voit les bouchons de ce profil et des profils
+  // plus prudents (le profil d'un bouchon est le minimum pour l'apprécier).
+  profil?: ProfilMangeur;
+  // Des portions au moins de ce niveau.
+  portionsMinimum?: Portions;
 }
 
 // --- Le tri -------------------------------------------------------------------
 
-// « defaut » : coups de cœur de la Compagnie d'abord, puis la note Google.
+// « defaut » : le top 10 de la Compagnie dans l'ordre, puis la note Google,
+// puis le prix.
 export type Tri = 'defaut' | 'note' | 'prix';
 
 // --- Évaluer un critère -------------------------------------------------------
@@ -99,9 +108,9 @@ export type Tri = 'defaut' | 'note' | 'prix';
 export type Verdict = 'oui' | 'non' | 'inconnu';
 
 const PLAFONDS: Record<PalierDePrix, number> = {
-  'moins-de-32': 32,
-  'moins-de-38': 38,
-  'sans-limite': Number.POSITIVE_INFINITY,
+  'max-32': 32,
+  'max-35': 35,
+  'max-38': 38,
 };
 
 // Plages horaires qu'un créneau doit chevaucher pour compter comme un service.
@@ -122,7 +131,10 @@ function chevauche(creneau: Creneau, [debut, fin]: [number, number]): boolean {
   return ouverture < enMinutes(String(fin)) && fermeture > enMinutes(String(debut));
 }
 
-export function valeurArrondissement(bouchon: Bouchon): ValeurArrondissement {
+// Le lieu d'un bouchon : son quartier s'il en a un, sinon son arrondissement
+// ou sa commune. Chaque bouchon a un seul lieu.
+export function lieuDe(bouchon: Bouchon): Lieu {
+  if (bouchon.neighborhood !== null) return bouchon.neighborhood;
   return bouchon.commune === 'lyon' ? bouchon.postalCode : bouchon.commune;
 }
 
@@ -133,40 +145,25 @@ function rang<Code extends string>(valeurs: { code: Code }[], code: Code): numbe
 export function evaluer(bouchon: Bouchon, critere: Critere): Verdict {
   switch (critere.type) {
     case 'prix': {
-      if (critere.palier === 'sans-limite') return 'oui';
       if (typeof bouchon.menuPrice !== 'number') return 'inconnu';
       return bouchon.menuPrice <= PLAFONDS[critere.palier] ? 'oui' : 'non';
     }
-    case 'arrondissement':
-      return critere.valeurs.includes(valeurArrondissement(bouchon)) ? 'oui' : 'non';
-    case 'quartier':
-      // Un bouchon sans quartier n'est dans aucun des quartiers : « non ».
-      return bouchon.neighborhood !== null && critere.valeurs.includes(bouchon.neighborhood)
-        ? 'oui'
-        : 'non';
+    case 'lieu':
+      return critere.valeurs.includes(lieuDe(bouchon)) ? 'oui' : 'non';
     case 'moment': {
       if (!bouchon.openingHours || bouchon.openingHours.length === 0) return 'inconnu';
       const creneaux = bouchon.openingHours.filter((c) => c.day === critere.jour);
       if (critere.service === 'machon') {
-        // Règle provisoire : les jours de mâchon ne sont pas renseignés ; un
-        // bouchon qui sert le mâchon le sert les jours où il est ouvert.
+        // Le mâchon se sert sur réservation, en dehors des horaires, mais
+        // seulement les jours où le bouchon est ouvert (décidé le 28/10/2026).
         return bouchon.machonOption && creneaux.length > 0 ? 'oui' : 'non';
       }
       const plage = PLAGES_SERVICE[critere.service];
       return creneaux.some((c) => chevauche(c, plage)) ? 'oui' : 'non';
     }
-    case 'profil': {
-      // Le profil d'un bouchon est le profil minimum pour l'apprécier.
-      if (!bouchon.eaterType) return 'inconnu';
-      return rang(PROFILS_MANGEUR, bouchon.eaterType) <= rang(PROFILS_MANGEUR, critere.profil)
-        ? 'oui'
-        : 'non';
-    }
-    case 'portions': {
-      // Les portions demandées sont un minimum.
-      if (!bouchon.portionSize) return 'inconnu';
-      return rang(PORTIONS, bouchon.portionSize) >= rang(PORTIONS, critere.minimum) ? 'oui' : 'non';
-    }
+    case 'typeBouchon':
+      if (!bouchon.bouchonType) return 'inconnu';
+      return critere.valeurs.includes(bouchon.bouchonType) ? 'oui' : 'non';
     case 'vegetarien':
       return bouchon.vegetarianOption ? 'oui' : 'non';
   }
@@ -175,11 +172,12 @@ export function evaluer(bouchon: Bouchon, critere: Critere): Verdict {
 // --- Affinage -----------------------------------------------------------------
 
 export function passeAffinage(bouchon: Bouchon, affinage: Affinage): boolean {
+  // Un critère principal en affinage est exigé (information manquante comprise).
+  if (affinage.principaux?.some((c) => evaluer(bouchon, c) !== 'oui')) return false;
   const exigences: [boolean | undefined, boolean][] = [
     [affinage.terrasse, bouchon.terrace],
     [affinage.decorationRemarquable, bouchon.remarkableDecoration],
     [affinage.equipeRemarquable, bouchon.remarkableTeam],
-    [affinage.reservation, bouchon.reservation],
     [affinage.coupDeCoeurCompagnie, bouchon.compagnieFavorite],
     [affinage.coupDeCoeurVins, bouchon.wineFavorite],
     [affinage.labelBouchonsLyonnais, bouchon.bouchonLyonnaisLabel],
@@ -198,28 +196,44 @@ export function passeAffinage(bouchon: Bouchon, affinage: Affinage): boolean {
   ) {
     return false;
   }
+  if (
+    affinage.profil &&
+    (!bouchon.eaterType ||
+      rang(PROFILS_MANGEUR, bouchon.eaterType) > rang(PROFILS_MANGEUR, affinage.profil))
+  ) {
+    return false;
+  }
+  if (
+    affinage.portionsMinimum &&
+    (!bouchon.portionSize ||
+      rang(PORTIONS, bouchon.portionSize) < rang(PORTIONS, affinage.portionsMinimum))
+  ) {
+    return false;
+  }
   return true;
 }
 
 // --- Tri ----------------------------------------------------------------------
 
+// Le rang d'un bouchon dans le top 10 de la Compagnie (1 à 10), ou null.
+export function rangTop10(bouchon: Bouchon): number | null {
+  const i = TOP_10_COMPAGNIE.indexOf(bouchon.id);
+  return i < 0 ? null : i + 1;
+}
+
 export function trier<B extends Bouchon>(bouchons: B[], tri: Tri): B[] {
   const parNote = (a: Bouchon, b: Bouchon) => b.rating - a.rating;
+  // Les prix non renseignés vont à la fin.
+  const parPrix = (a: Bouchon, b: Bouchon) => {
+    const pa = typeof a.menuPrice === 'number' ? a.menuPrice : Number.POSITIVE_INFINITY;
+    const pb = typeof b.menuPrice === 'number' ? b.menuPrice : Number.POSITIVE_INFINITY;
+    return pa === pb ? 0 : pa - pb;
+  };
+  const parTop10 = (a: Bouchon, b: Bouchon) => (rangTop10(a) ?? 11) - (rangTop10(b) ?? 11);
   return [...bouchons].sort((a, b) => {
-    if (tri === 'prix') {
-      const pa = a.menuPrice;
-      const pb = b.menuPrice;
-      // Les prix non renseignés vont à la fin.
-      if (typeof pa !== 'number' || typeof pb !== 'number') {
-        if (typeof pa === typeof pb) return parNote(a, b);
-        return typeof pa === 'number' ? -1 : 1;
-      }
-      return pa - pb || parNote(a, b);
-    }
-    if (tri === 'defaut' && a.compagnieFavorite !== b.compagnieFavorite) {
-      return a.compagnieFavorite ? -1 : 1;
-    }
-    return parNote(a, b);
+    if (tri === 'prix') return parPrix(a, b) || parNote(a, b);
+    if (tri === 'note') return parNote(a, b) || parPrix(a, b);
+    return parTop10(a, b) || parNote(a, b) || parPrix(a, b);
   });
 }
 

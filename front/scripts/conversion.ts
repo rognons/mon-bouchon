@@ -49,8 +49,10 @@ function prix(t?: string): number | undefined {
 // Erreur listant toutes les valeurs du Sheet que le référentiel ne connaît pas.
 export class ValeurInconnueError extends Error {}
 
-// Convertit une ligne du Sheet en bouchon codé. Les colonnes sont celles de
-// l'ancien script Deno (le nom en première colonne, la colonne 2 ignorée).
+// Convertit une ligne du Sheet en bouchon codé. Le nom est en colonne A, la
+// colonne C est ignorée. L'ancienne colonne N (« réservation ») a été retirée
+// du Sheet le 28/10/2026 : on réserve par le lien de la colonne Y ou par le
+// téléphone de la colonne Z. Les coups de cœur suivent, en AA, AB et AC.
 export function ligneVersBouchon(ligne: string[], erreurs: string[] = []): BouchonJson {
   const nom = ligne[0].trim();
   const coder = <Code extends string>(
@@ -65,8 +67,8 @@ export function ligneVersBouchon(ligne: string[], erreurs: string[] = []): Bouch
       erreurs.push(`${nom} : ${champ} inconnu « ${t} » (à ajouter dans src/data/referentiel.ts)`);
     return code ?? null;
   };
-  const specialites = ligne[21]
-    ? ligne[21]
+  const specialites = ligne[20]
+    ? ligne[20]
         .split(',')
         .map((s) => s.trim())
         .filter(Boolean)
@@ -85,19 +87,25 @@ export function ligneVersBouchon(ligne: string[], erreurs: string[] = []): Bouch
     machonOption: booleen(ligne[10]),
     remarkableDecoration: booleen(ligne[11]),
     remarkableTeam: booleen(ligne[12]),
-    reservation: booleen(ligne[13]),
-    dateFriendly: booleen(ligne[14]),
-    businessMeal: booleen(ligne[15]),
-    compagnieFavorite: booleen(ligne[16]),
-    wineFavorite: booleen(ligne[17]),
-    bouchonLyonnaisLabel: booleen(ligne[18]),
-    authenticSelection: booleen(ligne[19]),
-    valueForMoney: booleen(ligne[20]),
+    dateFriendly: booleen(ligne[13]),
+    businessMeal: booleen(ligne[14]),
+    compagnieFavorite: booleen(ligne[15]),
+    wineFavorite: booleen(ligne[16]),
+    bouchonLyonnaisLabel: booleen(ligne[17]),
+    authenticSelection: booleen(ligne[18]),
+    valueForMoney: booleen(ligne[19]),
     specialties: specialites,
-    description: ligne[22],
-    articleUrl: ligne[23],
-    menuUrl: ligne[24],
-    bookingUrl: ligne[25],
+    description: ligne[21],
+    articleUrl: ligne[22],
+    menuUrl: ligne[23],
+    bookingUrl: ligne[24],
+    // Le téléphone du Sheet fait foi ; Google ne sert qu'à défaut.
+    phone: texte(ligne[25]),
+    // Les 3 coups de cœur de la Compagnie (colonnes AA à AC), tirés de l'article.
+    pointsCles: ligne
+      .slice(26, 29)
+      .map((t) => texte(t))
+      .filter((t): t is string => Boolean(t)),
   };
 }
 
@@ -113,7 +121,10 @@ export function sheetVersBouchons(lignes: string[][], anciens: BouchonJson[]): B
     const bouchon = ligneVersBouchon(ligne, erreurs);
     const ancien = anciens.find((a) => a.id === bouchon.id);
     if (ancien)
-      for (const champ of CHAMPS_GOOGLE) if (champ in ancien) bouchon[champ] = ancien[champ];
+      for (const champ of CHAMPS_GOOGLE) {
+        if (champ === 'phone' && bouchon.phone) continue;
+        if (champ in ancien) bouchon[champ] = ancien[champ];
+      }
     bouchons.push(bouchon);
   }
   const ids = bouchons.map((b) => b.id);
@@ -176,7 +187,7 @@ export function enrichir(bouchon: BouchonJson, details: DetailsGoogle): BouchonJ
     openingHours,
     exceptionalOpeningHours,
     rating: details.rating ?? null,
-    phone: details.formatted_phone_number ?? null,
+    phone: (bouchon.phone as string | undefined) ?? details.formatted_phone_number ?? null,
     postalCode,
     commune: communeDepuisCodePostal(postalCode),
     mapsUrl: details.url ?? null,

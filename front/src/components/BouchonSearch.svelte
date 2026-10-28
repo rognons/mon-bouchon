@@ -1,313 +1,325 @@
 <script lang="ts">
-import { onMount } from 'svelte';
+import { onMount, tick } from 'svelte';
 import { BOUCHONS } from '../data/bouchons';
-import {
-  AMBIANCES,
-  type Ambiance,
-  TYPES_BOUCHON,
-  type TypeBouchon,
-  type Valeur,
-} from '../data/referentiel';
+import { resumer } from '../recherche/phrase';
 import {
   type Affinage,
+  afficherAUnCriterePres,
   type Critere,
   passeAffinage,
   rechercher,
   type Tri,
   trier,
 } from '../recherche/regles';
-import PhraseDeRecherche from './search/PhraseDeRecherche.svelte';
-import Sidebar from './search/Sidebar.svelte';
+import ChoixDesCriteres from './search/ChoixDesCriteres.svelte';
+import PanneauAffiner from './search/PanneauAffiner.svelte';
 import Results from './search/Results.svelte';
 
-let isMobile = false;
-
-onMount(() => {
-  isMobile =
-    window.innerWidth <= 980 ||
-    (window.innerHeight <= 500 && window.matchMedia('(orientation: landscape)').matches);
-  window.addEventListener('resize', () => {
-    isMobile =
-      window.innerWidth <= 980 ||
-      (window.innerHeight <= 500 && window.matchMedia('(orientation: landscape)').matches);
-  });
-});
-
-let sidebarOpen = false;
-
-let showScrollTop = false;
-
-function scrollToTop() {
-  const filters = document.getElementById('filters-panel');
-  if (filters) {
-    filters.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  } else {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-}
-
-function handleScroll() {
-  showScrollTop = window.scrollY > 550;
-}
-
-onMount(() => {
-  window.addEventListener('scroll', handleScroll);
-  handleScroll();
-  return () => window.removeEventListener('scroll', handleScroll);
-});
-
-// La phrase de recherche : le premier critère est le critère principal.
-// biome-ignore lint/style/useConst: Bound to the search phrase
+// Les critères choisis dans le bandeau : le premier est le critère principal.
+// biome-ignore lint/style/useConst: Bound to the criteria chooser
 let criteres: Critere[] = [];
+// Les critères d'un lien partagé, donnés au bandeau à l'ouverture.
+let criteresInitiaux: Critere[] = [];
+let versionBandeau = 0;
 
-// L'affinage (la barre) : uniquement des critères absents de la phrase.
-let selectedTypeAmbiance: string = '';
-let selectedTypeBouchon: string = '';
-let decorationRemarquable: boolean = false;
-let terrace: boolean = false;
-let remarkableTeam: boolean = false;
-let coupDeCoeurCompagnie: boolean = false;
-let coupDeCoeurVins: boolean = false;
-let labelBouchonsLyonnais: boolean = false;
-let selectionAuthentiques: boolean = false;
+// Les résultats ne s'affichent qu'après « Voir les N bouchons ».
+let resultatsVisibles = false;
 
-$: hasActiveFilters = Boolean(
-  selectedTypeAmbiance ||
-    selectedTypeBouchon ||
-    decorationRemarquable ||
-    terrace ||
-    remarkableTeam ||
-    coupDeCoeurCompagnie ||
-    coupDeCoeurVins ||
-    labelBouchonsLyonnais ||
-    selectionAuthentiques
-);
+const reduit = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Tri : par défaut, coups de cœur de la Compagnie d'abord, puis note Google
+async function voirLesResultats() {
+  resultatsVisibles = true;
+  await tick();
+  document
+    .getElementById('resultats')
+    ?.scrollIntoView({ behavior: reduit() ? 'auto' : 'smooth', block: 'start' });
+}
+
+// L'affinage, choisi dans le panneau « Affiner ».
+// biome-ignore lint/style/useConst: Bound to the refine panel
+let affinage: Affinage = {};
+let panneauOuvert = false;
+
+// Tri : par défaut, le top 10 de la Compagnie dans l'ordre, puis note Google, puis prix
 // biome-ignore lint/style/useConst: Used in reactive bindings
 let tri: Tri = 'defaut';
 
-// Options des listes (le premier élément est la valeur « aucun »)
-const options = <Code extends string>(valeurs: Valeur<Code>[]) => [
-  { value: '', label: '' },
-  ...valeurs.map((v) => ({ value: v.code, label: v.libelle })),
-];
-const typeAmbianceOptions = options(AMBIANCES);
-const typeBouchonOptions = options(TYPES_BOUCHON);
+// Un critère principal passé dans le bandeau sort de l'affinage.
+function sansDoublon(a: Affinage, choisis: Critere[]): Affinage {
+  const { principaux = [], ...reste } = a;
+  const gardes = principaux.filter((c) => !choisis.some((x) => x.type === c.type));
+  return gardes.length ? { ...reste, principaux: gardes } : reste;
+}
 
-$: affinage = {
-  terrasse: terrace,
-  decorationRemarquable,
-  equipeRemarquable: remarkableTeam,
-  coupDeCoeurCompagnie,
-  coupDeCoeurVins,
-  labelBouchonsLyonnais,
-  selectionAuthentiques,
-  typesBouchon: selectedTypeBouchon ? [selectedTypeBouchon as TypeBouchon] : [],
-  ambiances: selectedTypeAmbiance ? [selectedTypeAmbiance as Ambiance] : [],
-} satisfies Affinage;
+function chercher(a: Affinage, t: Tri = tri, choisis: Critere[] = criteres) {
+  const effectif = sansDoublon(a, choisis);
+  // Sans critère dans la phrase, tous les bouchons (affinés) sont des résultats.
+  if (choisis.length === 0) {
+    return {
+      exacts: trier(
+        BOUCHONS.filter((b) => passeAffinage(b, effectif)),
+        t
+      ),
+      aUnCriterePres: [],
+    };
+  }
+  return rechercher(
+    BOUCHONS,
+    { principal: choisis[0], complementaires: choisis.slice(1) },
+    effectif,
+    t
+  );
+}
 
-// Sans critère dans la phrase, tous les bouchons (affinés) sont des résultats.
-$: resultats =
-  criteres.length === 0
-    ? {
-        exacts: trier(
-          BOUCHONS.filter((b) => passeAffinage(b, affinage)),
-          tri
-        ),
-        aUnCriterePres: [],
-      }
-    : rechercher(
-        BOUCHONS,
-        { principal: criteres[0], complementaires: criteres.slice(1) },
-        affinage,
-        tri
-      );
+// Les bouchons affichés pour un affinage : exacts et « à un critère près ».
+function compter(a: Affinage): number {
+  const r = chercher(a);
+  return r.exacts.length + (afficherAUnCriterePres(r) ? r.aUnCriterePres.length : 0);
+}
 
-function clearFilters() {
-  selectedTypeAmbiance = '';
-  selectedTypeBouchon = '';
-  decorationRemarquable = false;
-  terrace = false;
-  remarkableTeam = false;
-  coupDeCoeurCompagnie = false;
-  coupDeCoeurVins = false;
-  labelBouchonsLyonnais = false;
-  selectionAuthentiques = false;
+$: resultats = chercher(affinage, tri, criteres);
+$: affinageEffectif = sansDoublon(affinage, criteres);
+
+// Le nombre de choix faits dans l'affinage, sur le bouton « Affiner ».
+$: nbChoix =
+  (affinageEffectif.principaux?.length ?? 0) +
+  (affinageEffectif.ambiances?.length ? 1 : 0) +
+  (affinageEffectif.profil ? 1 : 0) +
+  (affinageEffectif.portionsMinimum ? 1 : 0) +
+  (
+    [
+      'coupDeCoeurCompagnie',
+      'coupDeCoeurVins',
+      'labelBouchonsLyonnais',
+      'selectionAuthentiques',
+      'terrasse',
+      'decorationRemarquable',
+      'equipeRemarquable',
+    ] as const
+  ).filter((k) => affinageEffectif[k]).length;
+
+async function fermerPanneau() {
+  panneauOuvert = false;
+  await tick();
+  document.getElementById('bouton-affiner')?.focus({ preventScroll: true });
+  document
+    .getElementById('resultats')
+    ?.scrollIntoView({ behavior: reduit() ? 'auto' : 'smooth', block: 'start' });
+}
+
+// « Modifier ma recherche » : on remonte au bandeau, au critère n°1.
+async function modifierLaRecherche() {
+  panneauOuvert = false;
+  await tick();
+  document
+    .getElementById('critere-1')
+    ?.scrollIntoView({ behavior: reduit() ? 'auto' : 'smooth', block: 'start' });
+}
+
+// --- L'adresse de la recherche, pour la partager ----------------------------
+
+const PARAMETRE = 'recherche';
+
+onMount(() => {
+  const texte = new URLSearchParams(window.location.search).get(PARAMETRE);
+  if (!texte) return;
+  try {
+    const lu = JSON.parse(texte) as { c?: Critere[]; a?: Affinage; t?: Tri };
+    criteresInitiaux = lu.c ?? [];
+    affinage = lu.a ?? {};
+    tri = lu.t ?? 'defaut';
+    versionBandeau += 1;
+    resultatsVisibles = true;
+  } catch {
+    // Une adresse abîmée : on garde la page vierge.
+  }
+});
+
+$: if (typeof window !== 'undefined' && resultatsVisibles) {
+  const url = new URL(window.location.href);
+  url.searchParams.set(
+    PARAMETRE,
+    JSON.stringify({ c: criteres, a: affinageEffectif, t: tri === 'defaut' ? undefined : tri })
+  );
+  window.history.replaceState(null, '', url);
 }
 </script>
 
-<div class="search-layout">
-  {#if sidebarOpen}
-    <button
-      type="button"
-      class="sidebar-overlay"
-      aria-label="Fermer les filtres"
-      on:click={() => (sidebarOpen = false)}
-      on:keydown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          sidebarOpen = false;
-        }
-      }}
-      tabindex="0"
-    ></button>
-  {/if}
-  <div class="sidebar-wrapper">
-    <Sidebar
-      {isMobile}
-      {sidebarOpen}
-      {typeAmbianceOptions}
-      {typeBouchonOptions}
-      {hasActiveFilters}
-      resultsCount={resultats.exacts.length}
-      bind:selectedTypeAmbiance
-      bind:selectedTypeBouchon
-      bind:decorationRemarquable
-      bind:terrace
-      bind:remarkableTeam
-      bind:coupDeCoeurCompagnie
-      bind:coupDeCoeurVins
-      bind:labelBouchonsLyonnais
-      bind:selectionAuthentiques
-      on:close={() => (sidebarOpen = false)}
-      on:reset={clearFilters}
-    />
-  </div>
+{#key versionBandeau}
+  <ChoixDesCriteres
+    bind:criteres
+    initiaux={criteresInitiaux}
+    nbExacts={resultats.exacts.length}
+    nbProches={afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres.length : 0}
+    on:voir={voirLesResultats}
+  />
+{/key}
 
-  <div class="floating-btns">
-    {#if showScrollTop}
+{#if resultatsVisibles}
+  <div class="rappel" id="resultats">
+    <div class="rappel-int">
+      <p class="rappel-texte">
+        <span class="rappel-titre">Votre recherche</span>
+        <span class="sr">Votre recherche : </span>{criteres.length
+          ? criteres.map(resumer).join(' · ')
+          : 'Tous les bouchons'}
+      </p>
       <button
-        class="scroll-top-btn"
-        on:click={scrollToTop}
-        title="Remonter en haut"
+        type="button"
+        id="bouton-affiner"
+        class="affiner"
+        aria-expanded={panneauOuvert}
+        aria-controls="panneau-affiner"
+        on:click={() => (panneauOuvert ? fermerPanneau() : (panneauOuvert = true))}
       >
-        <span
-          class="arrow-emoji"
-          aria-label="Remonter en haut"
-          title="Remonter en haut">⬆️</span
+        <svg class="ico" aria-hidden="true" viewBox="0 0 24 24"
+          ><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle
+            cx="10"
+            cy="17"
+            r="2"
+          /></svg
         >
+        Modifier ou affiner
+        {#if nbChoix > 0}<span class="compteur" aria-label="{nbChoix} choix">{nbChoix}</span>{/if}
       </button>
-    {/if}
+    </div>
   </div>
 
-  <main class="main-content">
-    <PhraseDeRecherche bind:criteres />
-    <Results
-      {resultats}
-      {isMobile}
-      bind:tri
-      on:openSidebar={() => (sidebarOpen = true)}
+  {#if panneauOuvert}
+    <PanneauAffiner
+      {criteres}
+      {compter}
+      bind:affinage
+      on:fermer={fermerPanneau}
+      on:modifier={modifierLaRecherche}
     />
-  </main>
-</div>
+  {/if}
+
+  <div class="zone-resultats">
+    <Results {resultats} {criteres} bind:tri />
+  </div>
+{/if}
 
 <style>
-  .search-layout {
+  /* Le rappel des choix reste en haut de l'écran pendant qu'on parcourt les résultats. */
+  .rappel {
+    position: sticky;
+    top: 0;
+    z-index: 150;
+    background: #ffffff;
+    border-bottom: 1px solid #e6e2dc;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif;
+    color: #221f20;
+  }
+  .rappel-int {
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 2rem;
-    max-width: 1400px;
+    align-items: center;
+    gap: 16px;
+    max-width: 1200px;
     margin: 0 auto;
-    width: 100%;
-    position: relative;
+    padding: 10px 32px;
   }
-  .sidebar-wrapper {
-    flex-shrink: 0;
-    width: 340px;
-  }
-  .main-content {
+  /* Le rappel en une ligne de texte : le rose est réservé à ce qui est coché. */
+  .rappel-texte {
     flex: 1;
     min-width: 0;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  @media (max-width: 980px) {
-    .sidebar-wrapper {
-      width: 100%;
-    }
-    .main-content {
-      padding-left: 0;
-    }
-    .search-layout {
-      flex-direction: column;
-      gap: 0;
-    }
+  .rappel-titre {
+    margin-right: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #696561;
   }
-
-  @media (max-height: 500px) and (orientation: landscape) {
-    .sidebar-wrapper {
-      width: 100%;
-    }
-    .main-content {
-      padding-left: 0;
-    }
-    .search-layout {
-      flex-direction: column;
-      gap: 0;
-    }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
-
-  .sidebar-overlay {
-    all: unset;
-    display: block;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(34, 31, 32, 0.35);
-    z-index: 200;
-    transition: opacity 0.2s;
-    cursor: pointer;
-  }
-
-  .arrow-emoji {
-    font-size: 1.7rem;
-    display: flex;
+  .affiner {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    transition: filter 0.2s;
-    padding: 10px;
-  }
-
-  .floating-btns {
-    position: fixed;
-    right: 2vw;
-    bottom: 2vw;
-    z-index: 101;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5vw;
-  }
-
-  .scroll-top-btn {
-    width: 55px;
-    height: 55px;
-    background: linear-gradient(135deg, #f0c6da 60%, #e4b3cc 100%);
-    border: 1px solid #e4b3cc;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    flex: none;
+    padding: 8px 18px 8px 16px;
+    border: 1px solid #221f20;
+    border-radius: 999px;
+    background: #221f20;
+    color: #ffffff;
+    font: inherit;
+    font-size: 17px;
+    font-weight: 700;
+    font-stretch: 87.5%;
+    line-height: 1.2;
+    white-space: nowrap;
     cursor: pointer;
     transition:
-      box-shadow 0.2s,
-      transform 0.2s,
-      background 0.2s,
-      border-color 0.2s;
-    overflow: hidden;
+      background-color 0.2s,
+      color 0.2s;
   }
-
-  @media (max-width: 900px) {
-    .floating-btns {
-      right: 4vw;
-      bottom: 4vw;
-      gap: 0.9vw;
-      flex-direction: column;
+  .affiner:hover {
+    background: #ffffff;
+    color: #221f20;
+  }
+  .compteur {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #f0c6da;
+    color: #221f20;
+    font-size: 14px;
+    font-stretch: 100%;
+  }
+  .ico {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+  .rappel button:focus-visible {
+    outline: 3px solid #221f20;
+    outline-offset: 3px;
+  }
+  .zone-resultats {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 32px 48px;
+  }
+  @media (max-width: 767px) {
+    .rappel-int {
+      gap: 8px;
+      padding: 8px 16px;
     }
-    .scroll-top-btn {
-      width: 50px;
-      height: 50px;
+    /* Sur téléphone, la barre ne garde que le bouton, sur toute la largeur :
+       les critères choisis se relisent dans le panneau. */
+    .rappel-texte {
+      display: none;
+    }
+    .affiner {
+      flex: 1;
+      justify-content: center;
+    }
+    .zone-resultats {
+      padding: 16px 16px 32px;
     }
   }
 </style>

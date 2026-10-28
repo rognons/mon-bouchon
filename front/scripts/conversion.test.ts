@@ -23,7 +23,7 @@ const bouchons = bouchonsJson as unknown as BouchonJson[];
 function ligneDuSheet(b: BouchonJson): string[] {
   const t = (valeurs: { code: string; texteSheet: string }[], code: unknown) =>
     valeurs.find((v) => v.code === code)?.texteSheet ?? '';
-  const ligne = Array(26).fill('');
+  const ligne = Array(29).fill('');
   ligne[0] = b.name;
   ligne[1] = typeof b.menuPrice === 'number' ? `${String(b.menuPrice).replace('.', ',')} €` : '';
   ligne[3] = t(QUARTIERS, b.neighborhood);
@@ -37,7 +37,6 @@ function ligneDuSheet(b: BouchonJson): string[] {
     'machonOption',
     'remarkableDecoration',
     'remarkableTeam',
-    'reservation',
     'dateFriendly',
     'businessMeal',
     'compagnieFavorite',
@@ -49,11 +48,15 @@ function ligneDuSheet(b: BouchonJson): string[] {
   booleens.forEach((champ, i) => {
     ligne[8 + i] = b[champ] ? 'TRUE' : 'FALSE';
   });
-  ligne[21] = ((b.specialties as string[]) ?? []).join(', ');
-  ligne[22] = (b.description as string) ?? '';
-  ligne[23] = (b.articleUrl as string) ?? '';
-  ligne[24] = (b.menuUrl as string) ?? '';
-  ligne[25] = (b.bookingUrl as string) ?? '';
+  ligne[20] = ((b.specialties as string[]) ?? []).join(', ');
+  ligne[21] = (b.description as string) ?? '';
+  ligne[22] = (b.articleUrl as string) ?? '';
+  ligne[23] = (b.menuUrl as string) ?? '';
+  ligne[24] = (b.bookingUrl as string) ?? '';
+  ligne[25] = (b.phone as string) ?? '';
+  ((b.pointsCles as string[]) ?? []).forEach((point, i) => {
+    ligne[26 + i] = point;
+  });
   return ligne;
 }
 
@@ -68,6 +71,26 @@ describe('Conversion du Google Sheet', () => {
   it('garde les informations Google des bouchons déjà connus', () => {
     const [premier] = sheetVersBouchons([['t'], ['c'], ligneDuSheet(bouchons[0])], bouchons);
     for (const champ of CHAMPS_GOOGLE) expect(premier[champ]).toEqual(bouchons[0][champ]);
+  });
+
+  it('prend le téléphone du Sheet (colonne Z), et celui de Google à défaut', () => {
+    const ligne = ligneDuSheet(bouchons[0]);
+    ligne[25] = '04 72 00 00 00';
+    expect(sheetVersBouchons([['t'], ['c'], ligne], bouchons)[0].phone).toBe('04 72 00 00 00');
+    ligne[25] = '';
+    expect(sheetVersBouchons([['t'], ['c'], ligne], bouchons)[0].phone).toBe(bouchons[0].phone);
+  });
+
+  it('lit les coups de cœur des colonnes AA à AC, en sautant les cellules vides', () => {
+    const ligne = ligneDuSheet(bouchons[0]);
+    ligne.splice(26, 3, 'Un', '', 'Trois');
+    expect(sheetVersBouchons([['t'], ['c'], ligne], bouchons)[0].pointsCles).toEqual([
+      'Un',
+      'Trois',
+    ]);
+    expect(sheetVersBouchons([['t'], ['c'], ligne.slice(0, 26)], bouchons)[0].pointsCles).toEqual(
+      []
+    );
   });
 
   it('refuse une valeur du Sheet inconnue du référentiel, en la nommant', () => {

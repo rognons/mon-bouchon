@@ -1,412 +1,353 @@
 <script lang="ts">
+// La carte d'un bouchon : son visuel, son rang dans le top 10, son nom et sa
+// note Google, les critères cherchés qu'il remplit, sa description, les
+// points-clés de la Compagnie et les actions.
 import type { BouchonComplet } from '../data/bouchons';
+import { AVEC_PHOTO } from '../data/photos';
+import { AVEC_STICKER } from '../data/stickers';
+import { etiquette } from '../recherche/phrase';
+import { type Critere, evaluer, rangTop10 } from '../recherche/regles';
 
 export let bouchon: BouchonComplet;
+// Les critères de la recherche : ceux que le bouchon remplit sont étiquetés.
+// biome-ignore lint/style/useConst: Svelte prop
+export let criteres: Critere[] = [];
+// Ce qui manque au bouchon, s'il est « à un critère près ».
+// biome-ignore lint/style/useConst: Svelte prop
+export let manque = '';
 
-// biome-ignore lint/correctness/noUnusedVariables: Used in template on:click
-function callBouchon(): void {
-  if (bouchon.phone) {
-    window.open(`tel:${bouchon.phone}`, '_self');
-  }
-}
-
-function formatMenuPrice(menuPrice: number | null | undefined): string {
-  if (menuPrice) {
-    return `${menuPrice.toFixed(2)} €`;
-  }
-  return 'N/A';
-}
+$: remplis = criteres
+  .filter((c) => evaluer(bouchon, c) === 'oui')
+  .map((c) => etiquette(c, bouchon));
+$: description = bouchon.description?.trim().startsWith('À venir') ? '' : bouchon.description;
+$: pointsCles = (bouchon.pointsCles ?? []).slice(0, 3);
+$: rang = rangTop10(bouchon);
+$: photo = AVEC_PHOTO.has(bouchon.id) ? `/photos/${bouchon.id}.webp` : '';
+$: sticker = AVEC_STICKER.has(bouchon.id) ? `/stickers/${bouchon.id}.webp` : '';
+$: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
 </script>
 
-<div class="bouchon-card">
-  <div class="card-header">
-    <h3 class="bouchon-name">{bouchon.name}</h3>
-    {#if bouchon.compagnieFavorite}
-      <div class="coup-de-coeur-header">
-        <img
-          src="/coup-coeur-rognons.png"
-          alt="Coup de cœur Rognon"
-          class="cochon-header"
-        />
-      </div>
+<article class="carte" aria-labelledby="nom-{bouchon.id}">
+  {#if manque}<p class="manque">{manque}</p>{/if}
+  <!-- La photo de l'article (souvent la devanture), sinon le sticker du bouchon,
+       sinon le cochon de la Compagnie. -->
+  <div class="visuel" class:visuel-photo={photo}>
+    {#if photo}
+      <img src={photo} alt="" width="720" height="480" loading="lazy" decoding="async" />
+    {:else if sticker}
+      <img src={sticker} alt="" width="480" height="360" loading="lazy" decoding="async" />
+    {:else}
+      <img class="cochon-seul" src="/cochon-top10.png" alt="" width="96" height="92" loading="lazy" />
+    {/if}
+  </div>
+  <div class="corps">
+    {#if rang}
+      <p class="top">
+        <img src="/cochon-top10.png" alt="" width="32" height="31" />
+        Top {rang} de la Compagnie du Rognon
+      </p>
+    {/if}
+    <div class="titre">
+      <h3 class="nom" id="nom-{bouchon.id}">{bouchon.name}</h3>
+      {#if note}
+        <p class="note">
+          <span class="sur">Google<span class="sr">, note</span></span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"
+            ><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" /></svg
+          >
+          {note}<span class="sr"> sur 5</span>
+        </p>
+      {/if}
+    </div>
+
+    {#if remplis.length}
+      <ul class="etiquettes" aria-label="Vos critères remplis">
+        {#each remplis as texte}
+          <li class="etiquette">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" /></svg>
+            {texte}
+          </li>
+        {/each}
+      </ul>
+    {/if}
+
+    {#if description}<p class="description">{description}</p>{/if}
+
+    {#if pointsCles.length}
+      <ul class="points-cles" aria-label="Les points-clés de la Compagnie">
+        {#each pointsCles as point}
+          <li>
+            <!-- Un cœur à la charte (rose et trait noir), à la place d'un émoji ;
+                 dessin repris de Lucide (licence ISC). -->
+            <svg class="coeur" aria-hidden="true" viewBox="0 0 24 24"
+              ><path
+                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"
+              /></svg
+            >
+            {point}
+          </li>
+        {/each}
+      </ul>
     {/if}
   </div>
 
-  <div class="bouchon-info">
-    <div class="location">
-      📍 {#if bouchon.mapsUrl}
-        <a
-          href={bouchon.mapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="address-link">{bouchon.address}</a
-        >
-      {:else}
-        {bouchon.address}
-      {/if}
-    </div>
-
-    <div class="details-grid">
-      <div class="detail-item">
-        <span class="label">Prix menu base</span>
-        <span class="value prix-menu">{formatMenuPrice(bouchon.menuPrice)}</span
-        >
-      </div>
-      <div class="detail-item">
-        <span class="label">Contact</span>
-        <button class="value phone-value" on:click={callBouchon}>
-          📞 {bouchon.phone}
-        </button>
-      </div>
-    </div>
-
-    <div class="description">
-      <p>{bouchon.description}</p>
-    </div>
-
-    <!-- <div class="amenities">
-      {#if bouchon.terrace}
-        <span class="amenity">🌿 Terrasse</span>
-      {/if}
-      {#if bouchon.reservation}
-        <span class="amenity">📞 Réservation</span>
-      {:else}
-        <span class="amenity no-reservation">🚫 Pas de réservation</span>
-      {/if}
-    </div> -->
-
-    <div class="bottom-row">
-      <div class="button-group">
-        {#if bouchon.articleUrl}
-          <div class="review-link">
-            <a
-              href={bouchon.articleUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="review-link-btn"
-            >
-              <span>Voir notre article</span>
-            </a>
-          </div>
-        {/if}
-        {#if bouchon.menuUrl}
-          <div class="review-link">
-            <a
-              href={bouchon.menuUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="review-link-btn"
-            >
-              <span>Voir le menu</span>
-            </a>
-          </div>
-        {/if}
-      </div>
-      <div class="bottom-rating">
-        <span class="bottom-note">
-          <span class="rating-full">⭐ Google : {bouchon.rating}/5</span>
-          <span class="rating-compact">{bouchon.rating}/5 ⭐</span>
-        </span>
-      </div>
-    </div>
+  <!-- Menu, Réserver, Itinéraire, Lire le test : tous au même niveau. -->
+  <div class="actions">
+    {#if bouchon.menuUrl}
+      <a class="btn" href={bouchon.menuUrl} target="_blank" rel="noopener noreferrer">Menu</a>
+    {/if}
+    {#if bouchon.bookingUrl}
+      <a class="btn" href={bouchon.bookingUrl} target="_blank" rel="noopener noreferrer">Réserver</a>
+    {:else if bouchon.phone}
+      <!-- Sans réservation en ligne, on réserve par téléphone. -->
+      <a class="btn" href="tel:{bouchon.phone.replace(/\s/g, '')}">Réserver</a>
+    {/if}
+    {#if bouchon.mapsUrl}
+      <a class="btn" href={bouchon.mapsUrl} target="_blank" rel="noopener noreferrer">Itinéraire</a>
+    {/if}
+    {#if bouchon.articleUrl}
+      <a class="btn" href={bouchon.articleUrl} target="_blank" rel="noopener noreferrer"
+        >Lire le test</a
+      >
+    {/if}
   </div>
-</div>
+</article>
 
 <style>
-  .bouchon-card {
-    background: #fff;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: all 0.4s ease-in-out;
-    position: relative;
+  .carte {
     display: flex;
     flex-direction: column;
-  }
-
-  .bouchon-card:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  }
-
-  .card-header {
-    background-color: #f0c6da;
+    background: #ffffff;
+    border: 1px solid #221f20;
+    border-radius: 4px;
+    overflow: hidden;
     color: #221f20;
-    padding: 1rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 52px;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
   }
-
-  .bouchon-name {
-    font-family: "GiltonRegular", "Playfair Display", serif;
-    font-size: 1.4rem;
-    font-weight: normal;
+  .manque {
+    margin: 0;
+    padding: 8px 24px;
+    background: #221f20;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .corps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    padding: 24px 24px 16px;
+  }
+  .visuel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    padding: 16px;
+    background: #f0c6da;
+  }
+  .visuel img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  /* La photo remplit toute la zone, sans marge. */
+  .visuel-photo {
+    padding: 0;
+  }
+  .visuel-photo img {
+    object-fit: cover;
+  }
+  .visuel .cochon-seul {
+    width: 80px;
+    height: 77px;
+  }
+  .top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .top img {
+    width: 32px;
+    height: 31px;
+    flex: none;
+    object-fit: contain;
+  }
+  .nom {
     margin: 0;
     padding: 0;
-    flex: 1;
-    line-height: 1;
-    padding-right: 1rem;
-    align-self: center;
+    font-family: 'GiltonRegular', 'Playfair Display', serif;
+    font-weight: 400;
+    font-size: 27px;
+    line-height: 1.1;
+    color: #221f20;
   }
-
-  /* Note en bas à droite */
-  .bottom-rating {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
+  .etiquettes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-
-  .bottom-note {
-    font-size: 0.8rem;
+  .etiquette {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px 4px 10px;
+    border-radius: 20px;
+    background: #f0c6da;
+    font-size: 14px;
     font-weight: 600;
-    color: #555;
-    opacity: 0.8;
-    transition: opacity 0.2s ease;
+    line-height: 1.4;
   }
-
-  .rating-compact {
-    display: none;
+  .etiquette svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-
-  @media (max-width: 360px) {
-    .rating-full {
-      display: none;
-    }
-    .rating-compact {
-      display: inline;
-    }
+  .description {
+    margin: 0;
   }
-
-  .bouchon-card:hover .bottom-note {
+  .titre {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  /* La note Google, discrète, sur la ligne du nom. */
+  .note {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex: none;
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .note svg {
+    width: 16px;
+    height: 16px;
+    fill: #221f20;
+  }
+  .sur {
+    font-weight: 400;
+    color: #696561;
+  }
+  .points-cles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* Sur fond blanc, un cadre fin détache l'avis de la Compagnie. */
+    margin: 4px 0 0;
+    padding: 12px 16px;
+    border: 1px solid #e6e2dc;
+    border-radius: 4px;
+    list-style: none;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .points-cles li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .coeur {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    fill: #f0c6da;
+    stroke: #221f20;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 24px 24px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* La hauteur comprend la marge intérieure et le trait. */
+    box-sizing: border-box;
+    min-height: 40px;
+    padding: 6px 14px;
+    border: 1px solid #221f20;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #221f20;
+    font-size: 14px;
+    font-weight: 700;
+    font-stretch: 87.5%;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .btn:hover {
+    background: #221f20;
+    color: #ffffff;
     opacity: 1;
   }
-
-  .coup-de-coeur-header {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 0.4rem 0.6rem;
-    border-radius: 20px;
-    box-shadow: 0 3px 10px rgba(240, 198, 218, 0.4);
+  .btn:focus-visible {
+    outline: 3px solid #221f20;
+    outline-offset: 3px;
   }
-
-  .cochon-header {
-    width: 25px;
-  }
-
-  @keyframes coupDeCoeurGlow {
-    0%,
-    100% {
-      box-shadow: 0 3px 10px rgba(240, 198, 218, 0.4);
-      border-color: #f0c6da;
+  @media (max-width: 767px) {
+    .corps {
+      padding: 20px 16px 12px;
     }
-    50% {
-      box-shadow: 0 4px 15px rgba(240, 198, 218, 0.7);
-      border-color: #e4b3cc;
+    .manque {
+      padding: 8px 16px;
     }
-  }
-
-  .bouchon-info {
-    padding: 1.5rem;
-    padding-bottom: 0.5rem;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .location {
-    font-family: "Open Sans", Arial, sans-serif;
-    color: #221f20;
-    opacity: 0.7;
-    margin-bottom: 1rem;
-    font-weight: 400;
-  }
-
-  .address-link {
-    color: inherit;
-    text-decoration: none;
-    font-weight: normal;
-    transition: text-decoration 0.2s;
-  }
-  .address-link:hover {
-    text-decoration: underline;
-  }
-
-  .details-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-  }
-
-  .detail-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .label {
-    font-family: "Open Sans", Arial, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 400;
-    color: #221f20;
-    opacity: 0.6;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .value {
-    font-family: "Open Sans", Arial, sans-serif;
-    font-weight: 400;
-    color: #221f20;
-  }
-
-  .description {
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-radius: 4px;
-    border-left: 4px solid #f0c6da;
-  }
-
-  .description p {
-    font-family: "Open Sans", Arial, sans-serif;
-    margin: 0;
-    color: #221f20;
-    line-height: 1.6;
-    font-weight: 400;
-  }
-
-  /* .amenities {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 1rem 0;
-  }
-
-  .amenity {
-    padding: 0.4rem 0.8rem;
-    background: #e8f5e8;
-    color: #27ae60;
-    border-radius: 10px;
-    font-size: 0.8rem;
-    font-weight: 600;
-  }
-
-  .no-reservation {
-    background: #ffe8e8;
-    color: #e74c3c;
-  } */
-
-  .phone-value {
-    background: none;
-    border: none;
-    padding: 0;
-    margin: 0;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: underline;
-    text-decoration-color: transparent;
-    font-weight: 500 !important;
-  }
-
-  .phone-value:hover {
-    color: #f0c6da !important;
-    text-decoration-color: #f0c6da;
-  }
-
-  @media (max-width: 768px) {
-    .card-header {
-      flex-direction: row;
-      align-items: center;
-      padding: 0.8rem 1rem;
-      min-height: 48px;
+    .visuel {
+      height: 176px;
     }
-
-    .bouchon-info {
-      padding: 1rem;
+    /* Sur téléphone, les quatre boutons tiennent sur une ligne et se
+       partagent la largeur. */
+    .actions {
+      flex-wrap: nowrap;
+      gap: 6px;
+      padding: 0 16px 20px;
     }
-
-    .bouchon-name {
-      font-size: 1.2rem;
-      padding-right: 0.5rem;
-      line-height: 1.2;
-    }
-
-    .coup-de-coeur-header {
-      padding: 0.35rem 0.5rem;
-      gap: 0.25rem;
-    }
-
-    .cochon-header {
-      width: 20px;
-    }
-
-    .details-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
+    .btn {
+      flex: 1 1 auto;
+      padding: 6px 8px;
     }
   }
-  /* Bouton Notre Review discret et charte */
-  .review-link {
-    margin-top: 0.3rem;
-    display: flex;
-    justify-content: flex-start;
-  }
-
-  .review-link-btn {
-    display: inline-block;
-    background: white;
-    color: #221f20;
-    font-family: "Open Sans", Arial, sans-serif;
-    font-weight: 600;
-    font-size: 0.8rem;
-    padding: 0.13rem 0.65rem;
-    border-radius: 13px;
-    border: 1px solid #f0c6da;
-    box-shadow: none;
-    text-decoration: none;
-    transition:
-      background 0.14s,
-      color 0.14s,
-      border-color 0.14s;
-    margin-top: 0.08rem;
-    margin-bottom: 0.08rem;
-    letter-spacing: 0.01em;
-  }
-
-  .review-link-btn:hover {
-    background: #f0c6da;
-    color: black;
-  }
-  .bottom-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.7rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    margin-top: auto;
-  }
-
-  @media (max-width: 768px) {
-    .bottom-row {
-      padding-bottom: 0rem;
+  @media (max-width: 370px) {
+    .btn {
+      font-size: 13px;
     }
-  }
-
-  .button-group {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .bottom-rating {
-    position: static;
-    margin-left: auto;
-    bottom: unset;
-    right: unset;
   }
 </style>

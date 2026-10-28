@@ -69,23 +69,59 @@ export interface DetailsGoogle {
   formatted_address?: string;
 }
 
-// Les détails Google Places d'un lieu cherché par son nom.
-export async function detailsGoogle(recherche: string): Promise<DetailsGoogle | null> {
-  const cle = env('GOOGLE_MAPS_API_KEY');
-  const trouve = await fetch(
-    `https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${encodeURIComponent(
-      recherche
-    )}&inputtype=textquery&fields=place_id&key=${cle}`
-  ).then((r) => r.json() as Promise<{ candidates?: { place_id?: string }[] }>);
-  const placeId = trouve.candidates?.[0]?.place_id;
-  if (!placeId) return null;
+// Un lieu tel que le renvoie Places API (New).
+interface LieuGoogle {
+  regularOpeningHours?: {
+    periods?: {
+      open?: { day: number; hour: number; minute: number };
+      close?: { day: number; hour: number; minute: number };
+    }[];
+  };
+  rating?: number;
+  nationalPhoneNumber?: string;
+  addressComponents?: { longText: string; shortText: string; types: string[] }[];
+  googleMapsUri?: string;
+  formattedAddress?: string;
+}
 
-  const details = await fetch(
-    `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=opening_hours,rating,formatted_phone_number,address_components,url,formatted_address&key=${cle}`
-  ).then((r) => r.json() as Promise<{ status: string; result: DetailsGoogle }>);
-  if (details.status !== 'OK') return null;
+// « 12 h 30 » s'écrit « 1230 », comme dans l'ancienne API.
+const heure = (h?: { hour: number; minute: number }) =>
+  h ? `${String(h.hour).padStart(2, '0')}${String(h.minute).padStart(2, '0')}` : undefined;
+
+// Les détails Google Places d'un lieu cherché par son nom, avec Places API
+// (New) : l'ancienne Places API ne s'active plus sur un projet Google Cloud.
+// La réponse est remise dans la forme de l'ancienne API, que lit enrichir().
+export async function detailsGoogle(recherche: string): Promise<DetailsGoogle | null> {
+  const reponse = await fetch('https://places.googleapis.com/v1/places:searchText', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Goog-Api-Key': env('GOOGLE_MAPS_API_KEY'),
+      'X-Goog-FieldMask':
+        'places.regularOpeningHours,places.rating,places.nationalPhoneNumber,places.addressComponents,places.googleMapsUri,places.formattedAddress',
+    },
+    body: JSON.stringify({ textQuery: recherche, languageCode: 'fr', regionCode: 'FR' }),
+  });
+  if (!reponse.ok)
+    throw new Error(`Erreur de Places API (New) : ${reponse.status} ${await reponse.text()}`);
+  const lieu = ((await reponse.json()) as { places?: LieuGoogle[] }).places?.[0];
+  if (!lieu) return null;
   return {
-    ...details.result,
-    formatted_address: details.result.formatted_address?.replace(/, France$/, ''),
+    opening_hours: lieu.regularOpeningHours && {
+      periods: lieu.regularOpeningHours.periods?.map((p) => ({
+        open: p.open && { day: p.open.day, time: heure(p.open) ?? '' },
+        close: p.close && { day: p.close.day, time: heure(p.close) ?? '' },
+      })),
+    },
+    rating: lieu.rating,
+    formatted_phone_number: lieu.nationalPhoneNumber,
+    address_components: lieu.addressComponents?.map((c) => ({
+      long_name: c.longText,
+      short_name: c.shortText,
+      types: c.types,
+    })),
+    // Sans le paramètre de suivi « g_mp » ajouté par Places API (New).
+    url: lieu.googleMapsUri?.replace(/&g_mp=[^&]*/, ''),
+    formatted_address: lieu.formattedAddress?.replace(/, France$/, ''),
   };
 }

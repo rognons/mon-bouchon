@@ -3,12 +3,16 @@
     "id": "le-vivarais",
     "name": "Le Vivarais",
     "menuPrice": 31,
+    "neighborhood": "presquile",
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "calme",
+    "bouchonType": "bourgeois",
     "vegetarianOption": true,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": true,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -21,6 +25,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/vivarais-lyon/",
     "menuUrl": "https://www.restaurant-levivarais.fr/menus-carte/",
     "bookingUrl": "https://www.restaurant-levivarais.fr/",
+    "phone": "+ 33 4 78 37 85 15",
+    "pointsCles": [
+      "Le porcelet à la broche, en tour de salle.",
+      "Le pâté en croûte Richelieu de la cheffe.",
+      "Un chef MOF qui salue ses convives."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -74,28 +84,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.5,
-    "phone": "04 78 37 85 15",
+    "rating": 4.6,
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=4561032330948174573",
-    "address": "1 Pl. Gailleton, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "raisonnables",
-    "eaterType": "decouvreur",
-    "atmosphereType": "calme",
-    "bouchonType": "bourgeois"
+    "mapsUrl": "https://maps.google.com/?cid=4561032330948174573",
+    "address": "1 Pl. Gailleton, 69002 Lyon"
   },
   {
     "id": "comptoir-abel",
     "name": "Comptoir Abel",
     "menuPrice": 44,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "decouvreur",
+    "atmosphereType": "convivial",
+    "bouchonType": "bourgeois",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": true,
     "remarkableTeam": false,
-    "reservation": true,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -106,8 +114,14 @@
     "specialties": ["Pâté-croûte", "Tarte aux pralines", "Quenelle de brochet"],
     "description": "Institution lyonnaise depuis 1928, le Café Comptoir Abel perpétue l’âme du bouchon authentique. Dans son décor d’époque, on savoure quenelle, poulet aux morilles et convivialité à l’ancienne.",
     "articleUrl": "https://compagnie-du-rognon.fr/cafe-comptoir-abel-le-plus-vieux-bouchon-lyonnais/",
-    "menuUrl": "https://www.maisonabel.fr/wp-content/uploads/2023/11/CARTE-HIVER-2023-2024-FR-ENG.pdf",
+    "menuUrl": "https://www.maisonabel.fr/wp-content/uploads/2026/01/CARTE-HIVER-2025-2026-FRANCAIS-ANGLAIS.pdf",
     "bookingUrl": "https://bookings.zenchef.com/results?rid=357745&fullscreen=1",
+    "phone": "+ 33 4 78 37 46 18",
+    "pointsCles": [
+      "Des boiseries du sol au plafond.",
+      "Le poulet aux morilles, flagrant délit de tendresse.",
+      "Une cervelle de canut parmi nos meilleures."
+    ],
     "openingHours": [
       {
         "day": 0,
@@ -116,7 +130,7 @@
       },
       {
         "day": 0,
-        "open": "1930",
+        "open": "1900",
         "close": "2200"
       },
       {
@@ -126,7 +140,7 @@
       },
       {
         "day": 1,
-        "open": "1930",
+        "open": "1900",
         "close": "2200"
       },
       {
@@ -136,7 +150,7 @@
       },
       {
         "day": 2,
-        "open": "1930",
+        "open": "1900",
         "close": "2200"
       },
       {
@@ -146,7 +160,7 @@
       },
       {
         "day": 3,
-        "open": "1930",
+        "open": "1900",
         "close": "2200"
       },
       {
@@ -156,7 +170,7 @@
       },
       {
         "day": 4,
-        "open": "1930",
+        "open": "1900",
         "close": "2200"
       },
       {
@@ -166,7 +180,7 @@
       },
       {
         "day": 5,
-        "open": "1930",
+        "open": "1900",
         "close": "2230"
       },
       {
@@ -176,33 +190,31 @@
       },
       {
         "day": 6,
-        "open": "1930",
+        "open": "1900",
         "close": "2230"
       }
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.5,
-    "phone": "04 78 37 46 18",
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=2003137518403648091",
-    "address": "25 Rue Guynemer, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "decouvreur",
-    "atmosphereType": "convivial",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=2003137518403648091",
+    "address": "25 Rue Guynemer, 69002 Lyon"
   },
   {
     "id": "cafe-du-jura",
     "name": "Café du Jura",
     "menuPrice": 37.5,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "amateur",
+    "atmosphereType": "calme",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": false,
-    "reservation": true,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -215,6 +227,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/cafe-jura-bouchon-lyonnais/",
     "menuUrl": "https://cafedujura.fr/la-carte/",
     "bookingUrl": "https://cafedujura.fr/reservations/",
+    "phone": "+ 33 4 78 42 20 57",
+    "pointsCles": [
+      "Des patrons pince-sans-rire, faussement taiseux.",
+      "Les ravioles aux escargots, sauce à l’ail.",
+      "Un décor rétro jusqu’aux Frigidaires d’époque."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -269,27 +287,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.6,
-    "phone": "04 78 42 20 57",
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=14017874763696467999",
-    "address": "25 Rue Tupin, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "amateur",
-    "atmosphereType": "calme",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=14017874763696467999",
+    "address": "25 Rue Tupin, 69002 Lyon"
   },
   {
     "id": "le-poelon-d-or",
     "name": "Le Poelon d'Or",
     "menuPrice": 34,
+    "neighborhood": "presquile",
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": false,
-    "reservation": true,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -300,8 +316,14 @@
     "specialties": ["Œufs meurette", "Quenelle de brochet", "Tarte aux pralines"],
     "description": "Le Poêlon d’Or marie tradition et raffinement. Dans ce décor Art Déco, Murielle et Yann Lalle perpétuent l’esprit bouchon avec une cuisine lyonnaise fine et généreuse.",
     "articleUrl": "https://compagnie-du-rognon.fr/poelon-or-bouchon-lyonnais/",
-    "menuUrl": "https://www.lepoelondor-restaurant.fr",
+    "menuUrl": "https://www.lepoelondor-restaurant.fr/cartes",
     "bookingUrl": "https://www.lepoelondor-restaurant.fr/reservation",
+    "phone": "+ 33 4 78 37 65 60",
+    "pointsCles": [
+      "Un plafond Art déco en bois et stuc.",
+      "Le pain perdu aux raisins et au rhum.",
+      "Saumon gravlax et gaufre de pommes de terre."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -355,28 +377,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.5,
-    "phone": "04 78 37 65 60",
+    "rating": 4.6,
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=1291154870447033542",
-    "address": "29 Rue des Remparts d'Ainay, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "raisonnables",
-    "eaterType": "decouvreur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=1291154870447033542",
+    "address": "29 Rue des Remparts d'Ainay, 69002 Lyon"
   },
   {
     "id": "daniel-denise-crequi",
     "name": "Daniel & Denise Créqui",
     "menuPrice": 45,
+    "neighborhood": null,
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "calme",
+    "bouchonType": "bourgeois",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -387,8 +407,14 @@
     "specialties": ["Pâté-croûte", "Œufs meurette", "Quenelle de brochet"],
     "description": "Entre tradition et gastronomie, Daniel & Denise Créqui sublime l’esprit bouchon. Joseph Viola, MOF, y signe une cuisine lyonnaise raffinée et sincère, servie dans une ambiance chaleureuse et intemporelle.",
     "articleUrl": "https://compagnie-du-rognon.fr/daniel-denise-crequi-bouchon-lyonnais/",
-    "menuUrl": "https://danieletdenise.fr/wp-content/uploads/2025/07/Carte-crequi-NEW-2025-49.pdf",
+    "menuUrl": "https://danieletdenise.fr/wp-content/uploads/2026/07/Carte-CRQ-260707-1.pdf",
     "bookingUrl": "https://bookings.zenchef.com/results?rid=353715&pid=1001",
+    "phone": "+ 33 4 78 60 66 53",
+    "pointsCles": [
+      "Une partie du menu dédiée aux abats.",
+      "Les saladiers lyonnais, précis et assaisonnés.",
+      "La brioche perdue, la vraie surprise."
+    ],
     "openingHours": [
       {
         "day": 1,
@@ -443,26 +469,24 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.5,
-    "phone": "04 78 60 66 53",
     "postalCode": "69003",
-    "mapsUrl": "https://maps.google.com/?cid=10773864657831970635",
-    "address": "156 Rue de Créqui, 69003 Lyon",
     "commune": "lyon",
-    "neighborhood": null,
-    "portionSize": "raisonnables",
-    "eaterType": "decouvreur",
-    "atmosphereType": "calme",
-    "bouchonType": "bourgeois"
+    "mapsUrl": "https://maps.google.com/?cid=10773864657831970635",
+    "address": "156 Rue de Créqui, 69003 Lyon"
   },
   {
     "id": "les-culottes-longues",
     "name": "Les Culottes Longues",
+    "neighborhood": "presquile",
+    "portionSize": "gargantuesques",
+    "eaterType": "puriste",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": true,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -475,6 +499,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/culottes-longues-lyon/",
     "menuUrl": "",
     "bookingUrl": "https://les-culottes-longues.com/fr/booking",
+    "phone": "+ 33 4 78 37 13 00",
+    "pointsCles": [
+      "Les culottes longues encadrées au mur.",
+      "Ris de veau et rognons, le plat signature.",
+      "Une carte du jour au gré des envies du chef."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -529,27 +559,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.6,
-    "phone": "04 78 37 13 00",
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=12971004636650303258",
-    "address": "42 Rue Sala, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "gargantuesques",
-    "eaterType": "puriste",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=12971004636650303258",
+    "address": "42 Rue Sala, 69002 Lyon"
   },
   {
     "id": "le-garet",
     "name": "Le Garet",
     "menuPrice": 32,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "puriste",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": true,
@@ -562,6 +590,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/le-garet-lyon-bouchon/",
     "menuUrl": "",
     "bookingUrl": "",
+    "phone": "+ 33 4 78 28 16 94",
+    "pointsCles": [
+      "La table de Jean Moulin, dos au mur.",
+      "Des saladiers où l’on se ressert à l’envi.",
+      "La cervelle de canut servie dans une tête de mort."
+    ],
     "openingHours": [
       {
         "day": 1,
@@ -616,27 +650,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.6,
-    "phone": "04 78 28 16 94",
     "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=10289824594298614701",
-    "address": "7 Rue du Garet, 69001 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "puriste",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=10289824594298614701",
+    "address": "7 Rue du Garet, 69001 Lyon"
   },
   {
     "id": "cafe-du-peintre",
     "name": "Café du Peintre",
     "menuPrice": 25,
+    "neighborhood": null,
+    "portionSize": "raisonnables",
+    "eaterType": "amateur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -649,6 +681,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/cafe-du-peintre-bouchon-lyonnais/",
     "menuUrl": "https://lecafedupeintre.com/menu-bouchon-lyonnais/",
     "bookingUrl": "",
+    "phone": "+ 33 4 78 52 52 61",
+    "pointsCles": [
+      "Une verrière ouverte sur la cuisine.",
+      "La tête de veau, panure croustillante.",
+      "Les desserts exposés qui narguent la salle."
+    ],
     "openingHours": [
       {
         "day": 1,
@@ -661,11 +699,6 @@
         "close": "1415"
       },
       {
-        "day": 1,
-        "open": "1830",
-        "close": "2130"
-      },
-      {
         "day": 2,
         "open": "0830",
         "close": "1000"
@@ -697,7 +730,7 @@
       },
       {
         "day": 4,
-        "open": "1830",
+        "open": "1930",
         "close": "2130"
       },
       {
@@ -713,27 +746,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.5,
-    "phone": "04 78 52 52 61",
     "postalCode": "69006",
-    "mapsUrl": "https://maps.google.com/?cid=15058688879389128918",
-    "address": "50 Bd des Brotteaux, 69006 Lyon",
     "commune": "lyon",
-    "neighborhood": null,
-    "portionSize": "raisonnables",
-    "eaterType": "amateur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=15058688879389128918",
+    "address": "50 Bd des Brotteaux, 69006 Lyon"
   },
   {
     "id": "cafe-comptoir-brunet",
     "name": "Café Comptoir Brunet",
     "menuPrice": 32,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "puriste",
+    "atmosphereType": "convivial",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": true,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -749,48 +780,54 @@
     ],
     "description": "Au Comptoir Brunet, Benjamin Baldassini perpétue l’héritage familial avec passion. Dans ce bouchon emblématique, tradition, générosité et respect du produit s’unissent pour célébrer Lyon dans toute sa gourmandise.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchon-comptoir-brunet/",
-    "menuUrl": "https://bouchonlyonnaisbrunet.com/fr/",
+    "menuUrl": "https://bouchonlyonnaisbrunet.com/fr/services",
     "bookingUrl": "https://bouchonlyonnaisbrunet.com/fr/booking",
+    "phone": "+ 33 4 78 37 44 31",
+    "pointsCles": [
+      "Le caquelon du Bon Bourgeois, hommage au père.",
+      "Une poitrine roulée, fondante et croustillante.",
+      "Faïences années 30 et tables en marbre."
+    ],
     "openingHours": [
       {
         "day": 0,
         "open": "1200",
-        "close": "1400"
+        "close": "1330"
       },
       {
         "day": 0,
         "open": "1900",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 1,
         "open": "1200",
-        "close": "1400"
+        "close": "1330"
       },
       {
         "day": 1,
         "open": "1900",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 4,
         "open": "1200",
-        "close": "1400"
+        "close": "1330"
       },
       {
         "day": 4,
         "open": "1900",
-        "close": "2200"
+        "close": "2100"
       },
       {
         "day": 5,
         "open": "1200",
-        "close": "1400"
+        "close": "1330"
       },
       {
         "day": 5,
         "open": "1900",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 6,
@@ -800,32 +837,30 @@
       {
         "day": 6,
         "open": "1900",
-        "close": "2230"
+        "close": "2200"
       }
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.5,
-    "phone": "04 78 37 44 31",
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=5226387440350553",
-    "address": "23 Rue Claudia, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "puriste",
-    "atmosphereType": "convivial",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=5226387440350553",
+    "address": "23 Rue Claudia, 69002 Lyon"
   },
   {
     "id": "meuniere",
     "name": "Meunière",
     "menuPrice": 35,
+    "neighborhood": "presquile",
+    "portionSize": "gargantuesques",
+    "eaterType": "puriste",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": true,
@@ -836,8 +871,14 @@
     "specialties": ["Pâté-croûte", "Quenelle de brochet", "Tablier de sapeur", "Œufs meurette"],
     "description": "Institution lyonnaise, La Meunière incarne l’esprit bouchon dans toute sa splendeur. Sous la houlette d’Olivier Canal, plats canailles, audace et convivialité s’unissent pour célébrer Lyon comme il se doit.",
     "articleUrl": "https://compagnie-du-rognon.fr/la-meuniere-lyon/",
-    "menuUrl": "https://www.lameuniere.fr/wp-content/uploads/2024/10/Affiche-menu-ext%C3%A9rieur.pdf",
+    "menuUrl": "https://www.lameuniere.fr/wp-content/uploads/2026/09/Affiche-menu-exterieur.pdf",
     "bookingUrl": "https://www.lameuniere.fr/#reservation",
+    "phone": "+ 33 4 78 28 62 91",
+    "pointsCles": [
+      "L’Oreiller de la Belle Meunière, pâté-croûte XXL.",
+      "La tétine de vache, pour palais curieux.",
+      "Un chef gouailleur qui mène la danse."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -891,28 +932,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.3,
-    "phone": "04 78 28 62 91",
+    "rating": 4.4,
     "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=14977060949854123959",
-    "address": "11 Rue Neuve, 69001 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "gargantuesques",
-    "eaterType": "puriste",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=14977060949854123959",
+    "address": "11 Rue Neuve, 69001 Lyon"
   },
   {
     "id": "l-antr-o-potes",
     "name": "L'Antr'O'Potes",
     "menuPrice": 34,
+    "neighborhood": null,
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
     "vegetarianOption": true,
     "terrace": true,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -925,76 +964,60 @@
     "articleUrl": "https://compagnie-du-rognon.fr/antropotes-lyon-bouchon/",
     "menuUrl": "https://lantropotes-lyon.fr/fr/services",
     "bookingUrl": "https://lantropotes-lyon.fr/fr/booking",
+    "phone": "+ 33 4 81 65 29 78",
+    "pointsCles": [
+      "Un chef reconnaissable à ses lunettes orange.",
+      "Une salade lyonnaise cachée sous les lardons.",
+      "Un gratin de ravioles : une part ne suffit pas."
+    ],
     "openingHours": [
       {
         "day": 2,
-        "open": "1200",
-        "close": "1500"
-      },
-      {
-        "day": 2,
-        "open": "1930",
-        "close": "2330"
+        "open": "0900",
+        "close": "0100"
       },
       {
         "day": 3,
-        "open": "1200",
-        "close": "1500"
-      },
-      {
-        "day": 3,
-        "open": "1930",
-        "close": "2330"
+        "open": "0900",
+        "close": "0100"
       },
       {
         "day": 4,
-        "open": "1200",
-        "close": "1500"
-      },
-      {
-        "day": 4,
-        "open": "1930",
-        "close": "2330"
+        "open": "0900",
+        "close": "0100"
       },
       {
         "day": 5,
-        "open": "1200",
-        "close": "1500"
-      },
-      {
-        "day": 5,
-        "open": "1930",
-        "close": "2330"
+        "open": "0900",
+        "close": "0100"
       },
       {
         "day": 6,
-        "open": "1930",
-        "close": "2130"
+        "open": "0900",
+        "close": "0100"
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.6,
-    "phone": "04 81 65 29 78",
+    "rating": 4.7,
     "postalCode": "69006",
-    "mapsUrl": "https://maps.google.com/?cid=1354094808059038932",
-    "address": "118 Rue Bossuet, 69006 Lyon",
     "commune": "lyon",
-    "neighborhood": null,
-    "portionSize": "raisonnables",
-    "eaterType": "decouvreur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=1354094808059038932",
+    "address": "118 Rue Bossuet, 69006 Lyon"
   },
   {
     "id": "le-bouchon-sully",
     "name": "Le Bouchon Sully",
     "menuPrice": 27,
+    "neighborhood": null,
+    "portionSize": "genereuses",
+    "eaterType": "amateur",
+    "atmosphereType": "calme",
+    "bouchonType": "bourgeois",
     "vegetarianOption": true,
     "terrace": true,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": true,
@@ -1006,7 +1029,13 @@
     "description": "Entre tradition et modernité, le Bouchon Sully ravive l’esprit lyonnais avec élégance. Julien Gautier et Emmanuel Tachon-Foley y signent une cuisine généreuse et soignée, dans un cadre chaleureux et contemporain.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchon-sully/",
     "menuUrl": "https://www.lesullylyon.fr/le-restaurant-6-w1",
-    "bookingUrl": "https://bookings.zenchef.com/results?rid=353194&pid=1001",
+    "bookingUrl": "https://widget.thefork.com/fr/73e69a3d-a40f-4749-9a7f-e12bdf4c3dad?step=date&utm_source=lesullylyon.fr",
+    "phone": "+ 33 4 78 89 07 09",
+    "pointsCles": [
+      "Le plateau de fromages qui vous accueille.",
+      "Un vol-au-vent, vraie corne d’abondance.",
+      "Un pâté en croûte farci au boudin noir."
+    ],
     "openingHours": [
       {
         "day": 1,
@@ -1015,7 +1044,7 @@
       },
       {
         "day": 1,
-        "open": "1900",
+        "open": "1915",
         "close": "2130"
       },
       {
@@ -1025,7 +1054,7 @@
       },
       {
         "day": 2,
-        "open": "1900",
+        "open": "1915",
         "close": "2130"
       },
       {
@@ -1035,7 +1064,7 @@
       },
       {
         "day": 3,
-        "open": "1900",
+        "open": "1915",
         "close": "2130"
       },
       {
@@ -1045,7 +1074,7 @@
       },
       {
         "day": 4,
-        "open": "1900",
+        "open": "1915",
         "close": "2130"
       },
       {
@@ -1055,33 +1084,31 @@
       },
       {
         "day": 5,
-        "open": "1900",
+        "open": "1915",
         "close": "2130"
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.5,
-    "phone": "04 78 89 07 09",
+    "rating": 4.6,
     "postalCode": "69006",
-    "mapsUrl": "https://maps.google.com/?cid=18101247420748676491",
-    "address": "20 Rue Sully, 69006 Lyon",
     "commune": "lyon",
-    "neighborhood": null,
-    "portionSize": "genereuses",
-    "eaterType": "amateur",
-    "atmosphereType": "calme",
-    "bouchonType": "bourgeois"
+    "mapsUrl": "https://maps.google.com/?cid=18101247420748676491",
+    "address": "20 Rue Sully, 69006 Lyon"
   },
   {
     "id": "les-fines-gueules",
     "name": "Les Fines Gueules",
     "menuPrice": 36,
+    "neighborhood": "vieux-lyon",
+    "portionSize": "genereuses",
+    "eaterType": "puriste",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -1092,8 +1119,14 @@
     "specialties": ["Œufs meurette", "Tarte aux pralines"],
     "description": "Au cœur du Vieux Lyon, Les Fines Gueules réconcilie tradition et exigence. Joël Salzi y sert une cuisine lyonnaise sincère et savoureuse, dans un cadre chaleureux où l’esprit bouchon reste roi.",
     "articleUrl": "https://compagnie-du-rognon.fr/les-fines-gueules-lyon/",
-    "menuUrl": "https://les-fines-gueules-lyon.com/fr/services",
-    "bookingUrl": "https://les-fines-gueules-lyon.com/fr/booking",
+    "menuUrl": "https://fines-gueules.fr/wp-content/uploads/2026/02/CARTE-_FINES_GUEULES_02.2026-.pdf",
+    "bookingUrl": "https://booking.ureserve.co/shop/external-booking/les-fines-gueules-lyon?fullpage=true&lang_code=fr",
+    "phone": "+ 33 4 28 29 57 14",
+    "pointsCles": [
+      "La queue de bœuf en terrine.",
+      "Des pieds de cochon désossés et panés.",
+      "Des maximes à la craie sur les murs."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -1138,7 +1171,7 @@
       {
         "day": 6,
         "open": "1200",
-        "close": "1400"
+        "close": "1430"
       },
       {
         "day": 6,
@@ -1147,28 +1180,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.4,
-    "phone": "04 28 29 57 14",
+    "rating": 4.5,
     "postalCode": "69005",
-    "mapsUrl": "https://maps.google.com/?cid=10176462396555469872",
-    "address": "16 Rue Lainerie, 69005 Lyon",
     "commune": "lyon",
-    "neighborhood": "vieux-lyon",
-    "portionSize": "genereuses",
-    "eaterType": "puriste",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=10176462396555469872",
+    "address": "16 Rue Lainerie, 69005 Lyon"
   },
   {
     "id": "le-bouchon-des-cordeliers",
     "name": "Le Bouchon des Cordeliers",
     "menuPrice": 32.5,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "amateur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -1185,8 +1216,14 @@
     ],
     "description": "Au Bouchon des Cordeliers, Cédric Garin perpétue l’esprit lyonnais avec brio. Cuisine généreuse, vins choisis et ambiance gouailleuse : un bouchon moderne où la tradition garde toute sa saveur.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-bouchon-des-cordeliers/",
-    "menuUrl": "https://www.bouchondescordeliers.com/",
-    "bookingUrl": "https://www.bouchondescordeliers.com/",
+    "menuUrl": "https://www.bouchondescordeliers.com/#la-carte",
+    "bookingUrl": "https://www.bouchondescordeliers.com/#contact",
+    "phone": "+ 33 4 78 03 33 53",
+    "pointsCles": [
+      "Les meilleurs communards qu’on ait bus.",
+      "La tatin de pieds de cochon et escargots.",
+      "Un service sans faille mais pas sans gouaille."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -1196,7 +1233,7 @@
       {
         "day": 2,
         "open": "1930",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 3,
@@ -1206,7 +1243,7 @@
       {
         "day": 3,
         "open": "1930",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 4,
@@ -1216,7 +1253,7 @@
       {
         "day": 4,
         "open": "1930",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 5,
@@ -1226,7 +1263,7 @@
       {
         "day": 5,
         "open": "1930",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 6,
@@ -1236,32 +1273,30 @@
       {
         "day": 6,
         "open": "1930",
-        "close": "2200"
+        "close": "2130"
       }
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.7,
-    "phone": "04 78 03 33 53",
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=4931754708560418635",
-    "address": "15 Rue Claudia, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "amateur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=4931754708560418635",
+    "address": "15 Rue Claudia, 69002 Lyon"
   },
   {
     "id": "maison-lea",
     "name": "Maison Léa",
     "menuPrice": 43,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "amateur",
+    "atmosphereType": "calme",
+    "bouchonType": "bourgeois",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -1273,7 +1308,13 @@
     "description": "À La Mère Léa, Christian Têtedoie et son équipe rendent un hommage élégant et gourmand aux bouchons lyonnais. Entre héritage des Mères et exigence de MOF, tradition et finesse se marient sans fausse note.",
     "articleUrl": "https://compagnie-du-rognon.fr/la-mere-lea/",
     "menuUrl": "https://lamaisonlea.fr/lamaisonlea/",
-    "bookingUrl": "https://widget.thefork.com/fr/d3a75e31-3381-47d2-9620-0a473f9f51be?utm_source=lamaisonlea.fr",
+    "bookingUrl": "https://widget.thefork.com/fr/d3a75e31-3381-47d2-9620-0a473f9f51be?step=date&utm_source=lamaisonlea.fr",
+    "phone": "+ 33 4 78 42 01 33",
+    "pointsCles": [
+      "Un poireau vinaigrette en robe de nori.",
+      "Le ris de veau forestière, servi entier.",
+      "Un époisses tiède au marc de Bourgogne."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -1327,28 +1368,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.4,
-    "phone": "04 78 42 01 33",
+    "rating": 4.5,
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=9929859665021898269",
-    "address": "11 Quai des Célestins, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "amateur",
-    "atmosphereType": "calme",
-    "bouchonType": "bourgeois"
+    "mapsUrl": "https://maps.google.com/?cid=9929859665021898269",
+    "address": "11 Quai des Célestins, 69002 Lyon"
   },
   {
     "id": "le-casse-museau",
     "name": "Le Casse Museau",
     "menuPrice": 35,
+    "neighborhood": "presquile",
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -1361,6 +1400,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/le-casse-museau/",
     "menuUrl": "https://static1.squarespace.com/static/60d38f3f2c0d5d4c1a7976c8/t/69137b72bc092c3aca8ccc7d/1762884466439/CARTE+-+OCTOBRE+2025.pdf",
     "bookingUrl": "https://lecassemuseau.com/reserver",
+    "phone": "+ 33 4 78 32 64 42",
+    "pointsCles": [
+      "Le poulet aux 40 gousses de la Tante Paulette.",
+      "Un patron espiègle et truculent.",
+      "Le Prix du Maître Sauceur pour les plus zélés."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -1414,28 +1459,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.7,
-    "phone": "04 78 32 64 42",
+    "rating": 4.8,
     "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=14239609059914616718",
-    "address": "2 Rue Chavanne, 69001 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "raisonnables",
-    "eaterType": "decouvreur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=14239609059914616718",
+    "address": "2 Rue Chavanne, 69001 Lyon"
   },
   {
     "id": "le-bat-d-argent",
     "name": "Le Bât d'Argent",
     "menuPrice": 32.5,
+    "neighborhood": "presquile",
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "calme",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -1446,8 +1489,14 @@
     "specialties": ["Pâté-croûte", "Œufs meurette", "Quenelle de brochet"],
     "description": "Au Bât d’Argent, Loïc Garcia réinvente le bouchon lyonnais avec audace. Entre tradition et modernité, ce néo-bouchon marie héritage gourmand et créativité contemporaine, sans jamais renier la convivialité.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchon-bat-argent/",
-    "menuUrl": "https://www.bouchonbatdargent.com/",
-    "bookingUrl": "https://www.bouchonbatdargent.com/",
+    "menuUrl": "https://www.bouchonbatdargent.com/#menu-carte",
+    "bookingUrl": "https://www.bouchonbatdargent.com/#reservation",
+    "phone": "+ 33 4 72 27 18 66",
+    "pointsCles": [
+      "Grenouille, riz soufflé et nori frite.",
+      "L’épaule de cochon confite 10 heures.",
+      "Une salle lumineuse et végétale."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -1501,28 +1550,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.6,
-    "phone": "04 72 27 18 66",
+    "rating": 4.7,
     "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=12684377946801495254",
-    "address": "23 Rue du Bât d'Argent, 69001 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "raisonnables",
-    "eaterType": "decouvreur",
-    "atmosphereType": "calme",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=12684377946801495254",
+    "address": "23 Rue du Bât d'Argent, 69001 Lyon"
   },
   {
     "id": "daniel-denise-croix-rousse",
     "name": "Daniel & Denise Croix-Rousse",
     "menuPrice": 37,
+    "neighborhood": "croix-rousse",
+    "portionSize": "genereuses",
+    "eaterType": "decouvreur",
+    "atmosphereType": "convivial",
+    "bouchonType": "bourgeois",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -1533,14 +1580,15 @@
     "specialties": ["Pâté-croûte", "Quenelle de brochet", "Œufs meurette"],
     "description": "À Daniel et Denise Croix-Rousse, Joseph Viola signe une ode à la gourmandise. Dans un cadre élégant et chaleureux, la cuisine canaille se fait raffinée, généreuse et toujours fidèle à l’esprit bouchon lyonnais.",
     "articleUrl": "https://compagnie-du-rognon.fr/daniel-denise-croix-rousse/",
-    "menuUrl": "https://danieletdenise.fr/wp-content/uploads/2025/10/Carte-croix-rousse-NEW-2025-7.pdf",
+    "menuUrl": "https://danieletdenise.fr/wp-content/uploads/2026/10/Carte-XROUSSE-20261002.pdf",
     "bookingUrl": "https://bookings.zenchef.com/results?rid=353716&pid=1001",
+    "phone": "+ 33 4 78 28 27 44",
+    "pointsCles": [
+      "Une table au bord de la cuisine ouverte.",
+      "La poitrine de cochon crousti-fondante.",
+      "Une tapisserie baroque sous les poutres."
+    ],
     "openingHours": [
-      {
-        "day": 2,
-        "open": "1200",
-        "close": "1400"
-      },
       {
         "day": 2,
         "open": "1900",
@@ -1589,27 +1637,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.3,
-    "phone": "04 78 28 27 44",
     "postalCode": "69004",
-    "mapsUrl": "https://maps.google.com/?cid=5188309686511737541",
-    "address": "8 Rue de Cuire, 69004 Lyon",
     "commune": "lyon",
-    "neighborhood": "croix-rousse",
-    "portionSize": "genereuses",
-    "eaterType": "decouvreur",
-    "atmosphereType": "convivial",
-    "bouchonType": "bourgeois"
+    "mapsUrl": "https://maps.google.com/?cid=5188309686511737541",
+    "address": "8 Rue de Cuire, 69004 Lyon"
   },
   {
-    "id": "bouchon-lea-le-comptoir-de-lea",
-    "name": "Bouchon Léa (Le Comptoir de Léa)",
+    "id": "bouchon-lea",
+    "name": "Bouchon Léa",
     "menuPrice": 37,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "amateur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -1621,7 +1667,13 @@
     "description": "Voisin de La Mère Léa, Le Comptoir de Léa célèbre l’esprit bouchon dans toute sa franchise. Cuisine canaille, portions généreuses et ambiance gouailleuse : un hommage vivant aux Mères lyonnaises et à",
     "articleUrl": "https://compagnie-du-rognon.fr/comptoir-de-lea/",
     "menuUrl": "https://lamaisonlea.fr/bouchon-lea/",
-    "bookingUrl": "",
+    "bookingUrl": "https://widget.thefork.com/fr/4871083e-ed6c-4c35-82ad-d4f8e361213b?step=date&utm_source=lamaisonlea.fr",
+    "phone": "+ 33 4 78 42 03 13",
+    "pointsCles": [
+      "La voûte qu’empruntait la Mère Léa.",
+      "Un service goguenard qui met les pieds dans le plat.",
+      "Le boudin noir aux pommes en bricks."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -1676,27 +1728,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.6,
-    "phone": "04 78 42 03 13",
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=15178301033031220000",
-    "address": "11 Pl. Antonin Gourju, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "amateur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=15178301033031220000",
+    "address": "11 Pl. Antonin Gourju, 69002 Lyon"
   },
   {
     "id": "le-val-d-isere",
     "name": "Le Val d'Isère",
     "menuPrice": 32,
+    "neighborhood": null,
+    "portionSize": "genereuses",
+    "eaterType": "decouvreur",
+    "atmosphereType": "calme",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": true,
     "dateFriendly": false,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -1714,6 +1764,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/val-isere-bouchon-lyonnais/",
     "menuUrl": "https://www.levaldisere.fr/la-carte-et-les-vins/",
     "bookingUrl": "",
+    "phone": "+ 33 4 78 71 09 39",
+    "pointsCles": [
+      "Un bar en étain sur son promontoire de bois.",
+      "Le trio cervelle, Saint-Marcellin et rigotte.",
+      "Un patron petit-fils d’un MOF charcutier."
+    ],
     "openingHours": [
       {
         "day": 1,
@@ -1767,28 +1823,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.4,
-    "phone": "04 78 71 09 39",
+    "rating": 4.5,
     "postalCode": "69003",
-    "mapsUrl": "https://maps.google.com/?cid=338603021536063819",
-    "address": "64 Rue de Bonnel, 69003 Lyon",
     "commune": "lyon",
-    "neighborhood": null,
-    "portionSize": "genereuses",
-    "eaterType": "decouvreur",
-    "atmosphereType": "calme",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=338603021536063819",
+    "address": "64 Rue de Bonnel, 69003 Lyon"
   },
   {
     "id": "la-tete-de-lard",
     "name": "La Tête de Lard",
     "menuPrice": 33,
+    "neighborhood": "presquile",
+    "portionSize": "raisonnables",
+    "eaterType": "amateur",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -1800,7 +1854,13 @@
     "description": "À la Tête de Lard, Yoann Blanc revisite la tradition lyonnaise sans trahir son esprit. Cuisine franche, ambiance joyeuse et décor sans chichis : un bouchon qui assume son nom et son caractère.",
     "articleUrl": "https://compagnie-du-rognon.fr/tete-de-lard/",
     "menuUrl": "https://www.bouchon-latetedelard.fr/notre-carte/",
-    "bookingUrl": "https://www.thefork.fr/restaurant/la-tete-de-lard-r12531#booking=",
+    "bookingUrl": "",
+    "phone": "+ 33 4 78 27 96 80",
+    "pointsCles": [
+      "Des têtes de cochon qui trônent aux murs.",
+      "Le hachoir à pain qui rythme le service.",
+      "L’andouillette en croûte, sauce moutarde."
+    ],
     "openingHours": [
       {
         "day": 3,
@@ -1845,27 +1905,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.4,
-    "phone": "04 78 27 96 80",
     "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=3210286685419655523",
-    "address": "13 Rue Désirée, 69001 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "raisonnables",
-    "eaterType": "amateur",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=3210286685419655523",
+    "address": "13 Rue Désirée, 69001 Lyon"
   },
   {
     "id": "bistrot-abel",
     "name": "Bistrot Abel",
     "menuPrice": 36,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "decouvreur",
+    "atmosphereType": "calme",
+    "bouchonType": "bourgeois",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -1878,6 +1936,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/bistrot-abel-bistrot-lyonnais-gastronomique/",
     "menuUrl": "https://www.maisonabel.fr/wp-content/uploads/2023/11/Nos-incontournables.pdf",
     "bookingUrl": "https://bookings.zenchef.com/results?rid=357746&fullscreen=1",
+    "phone": "+33 4 37 57 92 51",
+    "pointsCles": [
+      "Velours rouge, poutres et mobilier chiné.",
+      "La bavette au poivre et son gratin de macaronis.",
+      "Une formule à partager pour goûter à tout."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -1931,28 +1995,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.6,
-    "phone": "04 37 57 92 51",
+    "rating": 4.5,
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=1194894430273701093",
-    "address": "49 Rue de la Bourse 47, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "decouvreur",
-    "atmosphereType": "calme",
-    "bouchonType": "bourgeois"
+    "mapsUrl": "https://maps.google.com/?cid=1194894430273701093",
+    "address": "49 Rue de la Bourse 47, 69002 Lyon"
   },
   {
     "id": "le-bouchon-des-artistes",
     "name": "Le Bouchon des Artistes",
     "menuPrice": 28,
+    "neighborhood": null,
+    "portionSize": "genereuses",
+    "eaterType": "amateur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": true,
@@ -1963,8 +2025,14 @@
     "specialties": ["Quenelle de brochet", "Tarte aux pralines"],
     "description": "Au Bouchon des Artistes, Michael Romano et son équipe signent une cuisine lyonnaise élégante et maîtrisée. Entre tradition et créativité, chaque plat trouve le juste ton dans ce décor chaleureux et sans fausse note.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchon-artistes/",
-    "menuUrl": "https://www.le-bouchon-des-artistes.fr/_files/ugd/12be68_46e15bbe14984d189dd14825cfd8de2c.pdf",
-    "bookingUrl": "https://www.le-bouchon-des-artistes.fr/",
+    "menuUrl": "https://www.le-bouchon-des-artistes.fr/_files/ugd/12be68_682e0eb039b5413fbe0a51297abc98dd.pdf",
+    "bookingUrl": "https://www.le-bouchon-des-artistes.fr/#reserver",
+    "phone": "+ 33 4 78 03 37 40",
+    "pointsCles": [
+      "Le porcelet braisé façon Wellington.",
+      "Un patron affable, tablier au cou.",
+      "Des lardons de la taille d’un doigt."
+    ],
     "openingHours": [
       {
         "day": 1,
@@ -2019,27 +2087,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.7,
-    "phone": "04 78 03 37 40",
     "postalCode": "69003",
-    "mapsUrl": "https://maps.google.com/?cid=17666064860310757262",
-    "address": "98 Rue Mazenod, 69003 Lyon",
     "commune": "lyon",
-    "neighborhood": null,
-    "portionSize": "genereuses",
-    "eaterType": "amateur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=17666064860310757262",
+    "address": "98 Rue Mazenod, 69003 Lyon"
   },
   {
     "id": "daniel-denise-saint-jean",
     "name": "Daniel & Denise Saint-Jean",
     "menuPrice": 45,
+    "neighborhood": "vieux-lyon",
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "calme",
+    "bouchonType": "bourgeois",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -2050,14 +2116,15 @@
     "specialties": [],
     "description": "Dans le Vieux-Lyon, Daniel et Denise Saint-Jean perpétue l’esprit de Joseph Viola avec justesse. Sous la houlette du chef Cyril Renaud, la cuisine canaille gagne en finesse, sans perdre l’âme conviviale du bouchon.",
     "articleUrl": "https://compagnie-du-rognon.fr/daniel-denise-saint-jean/",
-    "menuUrl": "https://danieletdenise.fr/wp-content/uploads/2025/07/Carte-STJ-NEW-2025-49.pdf",
+    "menuUrl": "https://danieletdenise.fr/wp-content/uploads/2026/10/Carte-STJ-20261028.pdf",
     "bookingUrl": "https://bookings.zenchef.com/results?rid=353717&pid=1001",
+    "phone": "+ 33 4 78 42 24 62",
+    "pointsCles": [
+      "Des tablées serrées qui rient de bon cœur.",
+      "Des œufs meurette qui frisent le dessert.",
+      "Riz au lait, caramel et cacahuètes."
+    ],
     "openingHours": [
-      {
-        "day": 2,
-        "open": "1200",
-        "close": "1400"
-      },
       {
         "day": 2,
         "open": "1900",
@@ -2106,27 +2173,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.3,
-    "phone": "04 78 42 24 62",
     "postalCode": "69005",
-    "mapsUrl": "https://maps.google.com/?cid=7241440676186644405",
-    "address": "36 Rue Tramassac, 69005 Lyon",
     "commune": "lyon",
-    "neighborhood": "vieux-lyon",
-    "portionSize": "raisonnables",
-    "eaterType": "decouvreur",
-    "atmosphereType": "calme",
-    "bouchonType": "bourgeois"
+    "mapsUrl": "https://maps.google.com/?cid=7241440676186644405",
+    "address": "36 Rue Tramassac, 69005 Lyon"
   },
   {
     "id": "l-auberge-des-canuts",
     "name": "L'Auberge des Canuts",
     "menuPrice": 34,
+    "neighborhood": "vieux-lyon",
+    "portionSize": "genereuses",
+    "eaterType": "decouvreur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": false,
     "compagnieFavorite": true,
@@ -2139,6 +2204,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/auberge-canuts/",
     "menuUrl": "https://auberge-des-canuts.com/menus-carte-bouchon-lyonnais/",
     "bookingUrl": "https://auberge-des-canuts.com/reserver-restaurant-bouchon-lyonnais-vieux-lyon/",
+    "phone": "+ 33 9 86 50 36 26",
+    "pointsCles": [
+      "Le poulet Célestine, classique trop rare.",
+      "Le baba arrosé à table du rhum maison.",
+      "Tonneaux, poutres et comptoir sculpté."
+    ],
     "openingHours": [
       {
         "day": 0,
@@ -2177,28 +2248,26 @@
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.4,
-    "phone": "09 86 50 36 26",
+    "rating": 4.5,
     "postalCode": "69005",
-    "mapsUrl": "https://maps.google.com/?cid=9195159938639110312",
-    "address": "8 Pl. Saint-Jean, 69005 Lyon",
     "commune": "lyon",
-    "neighborhood": "vieux-lyon",
-    "portionSize": "genereuses",
-    "eaterType": "decouvreur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=9195159938639110312",
+    "address": "8 Pl. Saint-Jean, 69005 Lyon"
   },
   {
     "id": "notre-maison",
     "name": "Notre Maison",
     "menuPrice": 35,
+    "neighborhood": "vieux-lyon",
+    "portionSize": "gargantuesques",
+    "eaterType": "puriste",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": true,
     "remarkableTeam": true,
-    "reservation": true,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -2211,6 +2280,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/notre-maison-lyon/",
     "menuUrl": "https://bouchonnotremaison.com/fr/menu/4774524306744934507",
     "bookingUrl": "",
+    "phone": "+ 33 4 72 41 78 48",
+    "pointsCles": [
+      "Un chat, vrai propriétaire des lieux.",
+      "Le bocal de cornichons reste sur la table.",
+      "Tarte praline et crème au bidon d’antan."
+    ],
     "openingHours": [
       {
         "day": 0,
@@ -2255,26 +2330,24 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.7,
-    "phone": "04 72 41 78 48",
     "postalCode": "69005",
-    "mapsUrl": "https://maps.google.com/?cid=9756348451744919745",
-    "address": "2 Rue de Gadagne, 69005 Lyon",
     "commune": "lyon",
-    "neighborhood": "vieux-lyon",
-    "portionSize": "gargantuesques",
-    "eaterType": "puriste",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=9756348451744919745",
+    "address": "2 Rue de Gadagne, 69005 Lyon"
   },
   {
     "id": "bistrot-du-marche-chez-nenette",
     "name": "Bistrot du Marché - Chez Nénette",
+    "neighborhood": null,
+    "portionSize": "gargantuesques",
+    "eaterType": "puriste",
+    "atmosphereType": "convivial",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": true,
@@ -2292,66 +2365,70 @@
     "articleUrl": "https://compagnie-du-rognon.fr/chez-nenette/",
     "menuUrl": "",
     "bookingUrl": "",
+    "phone": "+ 33 4 72 17 52 88",
+    "pointsCles": [
+      "Un patron DJ, des platines aux fourneaux.",
+      "La quenelle dorée sur sa Nantua crépitante.",
+      "Une salade de pieds de veau sauce gribiche."
+    ],
     "openingHours": [
       {
         "day": 1,
-        "open": "0800",
-        "close": "1530"
+        "open": "1200",
+        "close": "1400"
       },
       {
         "day": 2,
-        "open": "0800",
-        "close": "1530"
+        "open": "1200",
+        "close": "1400"
       },
       {
         "day": 3,
-        "open": "0800",
-        "close": "1530"
+        "open": "1200",
+        "close": "1400"
       },
       {
         "day": 4,
-        "open": "0800",
-        "close": "1530"
+        "open": "1200",
+        "close": "1400"
       },
       {
         "day": 4,
         "open": "1930",
-        "close": "0000"
+        "close": "2030"
       },
       {
         "day": 5,
-        "open": "0800",
-        "close": "1530"
+        "open": "1200",
+        "close": "1400"
       },
       {
         "day": 5,
         "open": "1930",
-        "close": "0000"
+        "close": "2030"
       }
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.7,
-    "phone": "04 72 17 52 88",
     "postalCode": "69380",
-    "mapsUrl": "https://maps.google.com/?cid=8204241739239392012",
-    "address": "10 Pl. de l'Église, 69380 Les Chères",
     "commune": "les-cheres",
-    "neighborhood": null,
-    "portionSize": "gargantuesques",
-    "eaterType": "puriste",
-    "atmosphereType": "convivial",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=8204241739239392012",
+    "address": "10 Pl. de l'Église, 69380 Les Chères"
   },
   {
     "id": "le-cafe-des-federations",
     "name": "Le Café des Fédérations",
     "menuPrice": 34,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "decouvreur",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -2369,6 +2446,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/le-cafe-des-federations/",
     "menuUrl": "https://www.restaurant-cafedesfederations-lyon.fr/wp-content/uploads/menus/carte-soir.pdf",
     "bookingUrl": "https://app.resa.ninja/booking-new/web/30dcc43f-8e20-4a6d-a9cf-d6b5720fdb9d",
+    "phone": "+ 33 4 78 28 26 00",
+    "pointsCles": [
+      "L’œuf meurette imposé : le patron décide.",
+      "Une superbe cave en sous-sol pour dîner.",
+      "Un patron fou de poésie lyonnaise."
+    ],
     "openingHours": [
       {
         "day": 0,
@@ -2443,27 +2526,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.5,
-    "phone": "04 78 28 26 00",
     "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=13052971109937824297",
-    "address": "10 Rue Major Martin 8-9, 69001 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "decouvreur",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=13052971109937824297",
+    "address": "10 Rue Major Martin 8-9, 69001 Lyon"
   },
   {
     "id": "a-ma-vigne",
     "name": "À Ma Vigne",
     "menuPrice": 35,
+    "neighborhood": null,
+    "portionSize": "gargantuesques",
+    "eaterType": "amateur",
+    "atmosphereType": "convivial",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": true,
@@ -2475,81 +2556,85 @@
     "description": "À ma Vigne reste fidèle à l’esprit des Giraud tout en s’ouvrant à son époque. Entre steak frites mythique, gratin d’andouillettes et accueil chaleureux, ce bouchon du 3ᵉ prouve qu’on peut raviver la tradition sans la trahir.",
     "articleUrl": "https://compagnie-du-rognon.fr/a-ma-vigne-2/",
     "menuUrl": "",
-    "bookingUrl": "https://www.google.com/maps/reserve/v/dine/c/Qs7NEJ46uJY?source=pa&opi=79508299&hl=fr-FR&gei=rgwbabr9Ad6ikdUP2tCkwAk&sourceurl=https://www.google.fr/maps/preview/place?authuser%3D0%26hl%3Dfr%26gl%3Dfr%26pb%3D!1m20!1s0x47f4ea5a4f2d92f7:0x6aebaf7e03460852!3m12!1m3!1d2547.6715508847856!2d4.829849775818244!3d45.76655041321525!2m3!1f0!2f0!3f0!3m2!1i1536!2i703!4f13.1!4m2!3d45.7573389!4d4.8413078!5e0!9e0!11s/g/1tg6pgbt!12m4!2m3!1i360!2i120!4i8!13m57!2m2!1i203!2i100!3m2!2i4!5b1!6m6!1m2!1i86!2i86!1m2!1i408!2i240!7m33!1m3!1e1!2b0!3e3!1m3!1e2!2b1!3e2!1m3!1e2!2b0!3e3!1m3!1e8!2b0!3e3!1m3!1e10!2b0!3e3!1m3!1e10!2b1!3e2!1m3!1e10!2b0!3e4!1m3!1e9!2b1!3e2!2b1!9b0!15m8!1m7!1m2!1m1!1e2!2m2!1i195!2i195!3i20!14m6!1sOfUaafjDA9CokdUPwabX0Qg:2938!2s1i:0,t:6986,p:OfUaafjDA9CokdUPwabX0Qg:2938!7e81!12e15!17sOfUaafjDA9CokdUPwabX0Qg:2941!18e3!15m110!1m31!13m9!2b1!3b1!4b1!6i1!8b1!9b1!14b1!20b1!25b1!18m20!3b1!4b1!5b1!6b1!9b1!13b1!14b1!17b1!20b1!21b1!22b1!27m1!1b0!28b0!30b1!32b1!33m1!1b1!34b1!36e2!10m1!8e3!11m1!3e1!14m1!3b0!17b1!20m2!1e3!1e6!24b1!25b1!26b1!27b1!29b1!30m1!2b1!36b1!37b1!39m3!2m2!2i1!3i1!43b1!52b1!54m1!1b1!55b1!56m1!1b1!61m2!1m1!1e1!65m5!3m4!1m3!1m2!1i224!2i298!72m22!1m8!2b1!5b1!7b1!12m4!1b1!2b1!4m1!1e1!4b1!8m10!1m6!4m1!1e1!4m1!1e3!4m1!1e4!3sother_user_google_review_posts__and__hotel_and_vr_partner_review_posts!6m1!1e1!9b1!89b1!98m3!1b1!2b1!3b1!103b1!113b1!114m3!1b1!2m1!1b1!117b1!122m1!1b1!126b1!127b1!21m28!1m6!1m2!1i0!2i0!2m2!1i530!2i703!1m6!1m2!1i1486!2i0!2m2!1i1536!2i703!1m6!1m2!1i0!2i0!2m2!1i1536!2i20!1m6!1m2!1i0!2i683!2m2!1i1536!2i703!22m1!1e81!29m0!30m6!3b1!6m1!2b1!7m1!2b1!9b1!34m5!7b1!10b1!14b1!15m1!1b0!37i758!39sA%2BMa%2BVigne,%2BRue%2BJean%2BLarriv%25C3%25A9,%2BLyon%26q%3DA%2BMa%2BVigne,%2BRue%2BJean%2BLarriv%25C3%25A9,%2BLyon",
+    "bookingUrl": "https://www.google.com/maps/reserve/v/dine/c/Qs7NEJ46uJY?source=pa&opi=89978449&hl=fr-FR&gei=wjbiatCANefqhbIP7bOK2Ac&sourceurl=https://www.google.com/search?q%3D%25C3%25A0%2Bma%2Bvigne%26rlz%3D1C1ONGR_enFR1145FR1145%26oq%3D%25C3%25A0%2Bma%2Bv%26pf%3Dcs%26sourceid%3Dchrome%26source%3Dchrome.ob%26ie%3DUTF-8",
+    "phone": "+ 33 4 78 60 46 31",
+    "pointsCles": [
+      "Un steak maturé 30 jours dans son beurre noisette.",
+      "Le gratin d’andouillettes, monument de tripaille.",
+      "La tarte Joséphine, dessert de la fondatrice."
+    ],
     "openingHours": [
       {
         "day": 1,
         "open": "1200",
-        "close": "1400"
+        "close": "1330"
       },
       {
         "day": 1,
         "open": "1900",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 2,
         "open": "1200",
-        "close": "1400"
+        "close": "1330"
       },
       {
         "day": 2,
         "open": "1900",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 3,
         "open": "1200",
-        "close": "1400"
+        "close": "1330"
       },
       {
         "day": 3,
         "open": "1900",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 4,
         "open": "1200",
-        "close": "1400"
+        "close": "1330"
       },
       {
         "day": 4,
         "open": "1900",
-        "close": "2200"
+        "close": "2130"
       },
       {
         "day": 5,
         "open": "1200",
-        "close": "1400"
+        "close": "1330"
       },
       {
         "day": 5,
         "open": "1900",
-        "close": "2200"
+        "close": "2130"
       }
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.8,
-    "phone": "04 78 60 46 31",
     "postalCode": "69003",
-    "mapsUrl": "https://maps.google.com/?cid=7704444543303026770",
-    "address": "23 Rue Jean Larrivé, 69003 Lyon",
     "commune": "lyon",
-    "neighborhood": null,
-    "portionSize": "gargantuesques",
-    "eaterType": "amateur",
-    "atmosphereType": "convivial",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=7704444543303026770",
+    "address": "23 Rue Jean Larrivé, 69003 Lyon"
   },
   {
     "id": "les-4g",
     "name": "Les 4G",
+    "neighborhood": null,
+    "portionSize": "gargantuesques",
+    "eaterType": "puriste",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": true,
@@ -2562,6 +2647,12 @@
     "articleUrl": "https://compagnie-du-rognon.fr/les-4g-lyon/",
     "menuUrl": "",
     "bookingUrl": "",
+    "phone": "+ 33 4 37 46 56 42",
+    "pointsCles": [
+      "Un théâtre de guignol au-dessus du bar.",
+      "La quenelle à l’ail des ours.",
+      "Des tripes à la lyonnaise bien rissolées."
+    ],
     "openingHours": [
       {
         "day": 1,
@@ -2591,129 +2682,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.6,
-    "phone": "04 37 46 56 42",
     "postalCode": "69009",
+    "commune": "lyon",
     "mapsUrl": "https://maps.google.com/?cid=17784112239542590431",
-    "address": "27 Rue Gorge de Loup, 69009 Lyon",
-    "commune": "lyon",
-    "neighborhood": null,
-    "portionSize": "gargantuesques",
-    "eaterType": "puriste",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
-  },
-  {
-    "id": "bouchon-palais-grillet",
-    "name": "Bouchon Palais Grillet",
-    "menuPrice": 34,
-    "vegetarianOption": false,
-    "terrace": true,
-    "machonOption": false,
-    "remarkableDecoration": false,
-    "remarkableTeam": false,
-    "reservation": false,
-    "dateFriendly": false,
-    "businessMeal": true,
-    "compagnieFavorite": false,
-    "wineFavorite": false,
-    "bouchonLyonnaisLabel": true,
-    "authenticSelection": true,
-    "valueForMoney": false,
-    "specialties": ["Œufs meurette", "Quenelle de brochet", "Tarte aux pralines"],
-    "description": "À venir",
-    "articleUrl": "",
-    "menuUrl": "https://www.bouchonpalaisgrillet.com/#la-carte",
-    "bookingUrl": "",
-    "openingHours": [
-      {
-        "day": 0,
-        "open": "1200",
-        "close": "1500"
-      },
-      {
-        "day": 1,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 1,
-        "open": "1800",
-        "close": "2130"
-      },
-      {
-        "day": 2,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 2,
-        "open": "1800",
-        "close": "2130"
-      },
-      {
-        "day": 3,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 3,
-        "open": "1800",
-        "close": "2130"
-      },
-      {
-        "day": 4,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 4,
-        "open": "1800",
-        "close": "2130"
-      },
-      {
-        "day": 5,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 5,
-        "open": "1800",
-        "close": "2130"
-      },
-      {
-        "day": 6,
-        "open": "1200",
-        "close": "1430"
-      },
-      {
-        "day": 6,
-        "open": "1800",
-        "close": "2200"
-      }
-    ],
-    "exceptionalOpeningHours": null,
-    "rating": 4.5,
-    "phone": "04 72 04 04 00",
-    "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=9207028094963914103",
-    "address": "8 Rue Palais Grillet, 69002 Lyon",
-    "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "amateur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "address": "27 Rue Gorge de Loup, 69009 Lyon"
   },
   {
     "id": "le-merciere",
     "name": "Le Mercière",
     "menuPrice": 33,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "amateur",
+    "atmosphereType": "anime",
+    "bouchonType": "moderne",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": true,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -2725,12 +2712,18 @@
     "description": "Le Mercière réussit le pari de plaire à tout Lyon. Touristes, habitués et becs fins s’y côtoient dans une joyeuse promiscuité. Classicisme lyonnais se frotte sans complexe à une touche contemporaine bien dosée.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-merciere/",
     "menuUrl": "https://lemerciere.com/la-carte/",
-    "bookingUrl": "https://lemerciere.com/",
+    "bookingUrl": "https://lemerciere.com/#section-reservation",
+    "phone": "+ 33 4 78 37 67 35",
+    "pointsCles": [
+      "Une traboule entre les deux salles.",
+      "Les penne aux truffes et au foie gras.",
+      "On finit par piocher dans l’assiette du voisin."
+    ],
     "openingHours": [
       {
         "day": 0,
-        "open": "1145",
-        "close": "1530"
+        "open": "1200",
+        "close": "1430"
       },
       {
         "day": 0,
@@ -2789,8 +2782,8 @@
       },
       {
         "day": 6,
-        "open": "1145",
-        "close": "1530"
+        "open": "1200",
+        "close": "1430"
       },
       {
         "day": 6,
@@ -2800,27 +2793,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.5,
-    "phone": "04 78 37 67 35",
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=334717386464374466",
-    "address": "Restaurant Le Mercière, 56 Rue Mercière, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "amateur",
-    "atmosphereType": "anime",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=334717386464374466",
+    "address": "Restaurant Le Mercière, 56 Rue Mercière, 69002 Lyon"
   },
   {
     "id": "au-petit-bouchon-chez-georges",
     "name": "Au Petit Bouchon Chez Georges",
     "menuPrice": 35,
+    "neighborhood": "presquile",
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": true,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -2833,81 +2824,110 @@
     "articleUrl": "https://compagnie-du-rognon.fr/au-petit-bouchon-chez-georges/",
     "menuUrl": "https://bouchonchezgeorges.fr/cuisine-lyonnaise-la-carte-du-bouchon/",
     "bookingUrl": "https://bookings.zenchef.com/results?rid=368886&pid=1001",
+    "phone": "+ 33 4 78 28 30 46",
+    "pointsCles": [
+      "Moins de 30 places : on joue des coudes.",
+      "Le Saint-Marcellin, roi de la soirée.",
+      "Une aile de raie aux câpres, rare en bouchon."
+    ],
     "openingHours": [
       {
         "day": 1,
         "open": "0900",
+        "close": "1100"
+      },
+      {
+        "day": 1,
+        "open": "1200",
         "close": "1330"
       },
       {
         "day": 1,
         "open": "1900",
-        "close": "2145"
+        "close": "2130"
       },
       {
         "day": 2,
         "open": "0900",
+        "close": "1100"
+      },
+      {
+        "day": 2,
+        "open": "1200",
         "close": "1330"
       },
       {
         "day": 2,
         "open": "1900",
-        "close": "2145"
+        "close": "2130"
       },
       {
         "day": 3,
         "open": "0900",
+        "close": "1100"
+      },
+      {
+        "day": 3,
+        "open": "1200",
         "close": "1330"
       },
       {
         "day": 3,
         "open": "1900",
-        "close": "2145"
+        "close": "2130"
       },
       {
         "day": 4,
         "open": "0900",
+        "close": "1100"
+      },
+      {
+        "day": 4,
+        "open": "1200",
         "close": "1330"
       },
       {
         "day": 4,
         "open": "1900",
-        "close": "2145"
+        "close": "2130"
       },
       {
         "day": 5,
         "open": "0900",
+        "close": "1100"
+      },
+      {
+        "day": 5,
+        "open": "1200",
         "close": "1330"
       },
       {
         "day": 5,
         "open": "1900",
-        "close": "2145"
+        "close": "2130"
       }
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.5,
-    "phone": "04 78 28 30 46",
     "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=17571092174809772741",
-    "address": "8 Rue du Garet, 69001 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "raisonnables",
-    "eaterType": "decouvreur",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=17571092174809772741",
+    "address": "8 Rue du Garet, 69001 Lyon"
   },
   {
     "id": "le-musee",
     "name": "Le Musée",
     "menuPrice": 24,
+    "neighborhood": "presquile",
+    "portionSize": "gargantuesques",
+    "eaterType": "amateur",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": true,
     "remarkableDecoration": true,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -2916,65 +2936,84 @@
     "authenticSelection": true,
     "valueForMoney": true,
     "specialties": ["Quenelle de brochet", "Tablier de sapeur"],
-    "description": "À venir",
-    "articleUrl": "",
+    "description": "Ancienne écurie de l’Hôtel de Ville, Le Musée nourrit désormais les Lyonnais avec gourmandise. Sous ses voûtes de pierre, Quentin Delbasse perpétue l’héritage de Luc Minaire : mâchon, plats canailles et tablées serrées, dans la pure tradition bouchon.",
+    "articleUrl": "https://compagnie-du-rognon.fr/bouchons-lyonnais/bouchon-le-musee/",
     "menuUrl": "https://www.bouchonlemusee.fr/#menu",
     "bookingUrl": "https://bookings.zenchef.com/results?rid=377171&pid=1001",
+    "phone": "+ 33 4 78 37 71 54",
+    "pointsCles": [
+      "On entre par une traboule Renaissance.",
+      "L’assiette Jeanne Mas : mousse et tarte praline.",
+      "Queue de bœuf et joue de porc fondantes."
+    ],
     "openingHours": [
       {
-        "day": 0,
-        "open": "1000",
-        "close": "1800"
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
       },
       {
-        "day": 1,
-        "open": "1000",
-        "close": "1800"
+        "day": 2,
+        "open": "1930",
+        "close": "2100"
       },
       {
         "day": 3,
-        "open": "1000",
-        "close": "1800"
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2100"
       },
       {
         "day": 4,
-        "open": "1000",
-        "close": "1800"
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2100"
       },
       {
         "day": 5,
-        "open": "1030",
-        "close": "1800"
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2100"
       },
       {
         "day": 6,
-        "open": "1000",
-        "close": "1800"
+        "open": "1200",
+        "close": "1400"
       }
     ],
     "exceptionalOpeningHours": null,
-    "rating": 4.5,
-    "phone": "04 72 10 17 40",
-    "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=1694171015029161583",
-    "address": "20 Pl. des Terreaux, 69001 Lyon",
+    "rating": 4.8,
+    "postalCode": "69002",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "gargantuesques",
-    "eaterType": "amateur",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=11688116377654496031",
+    "address": "2 Rue des Forces, 69002 Lyon"
   },
   {
     "id": "le-bouchon-des-filles",
     "name": "Le Bouchon des Filles",
     "menuPrice": 32,
+    "neighborhood": "presquile",
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
     "vegetarianOption": true,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": false,
@@ -2985,8 +3024,14 @@
     "specialties": [],
     "description": "Au Bouchon des Filles, tradition et légèreté font bon ménage : une cuisine maligne et moderne, servie avec malice par une équipe qui revisite le bouchon sans en trahir l’âme.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-bouchon-des-filles/",
-    "menuUrl": "https://lebouchondesfilles.fr/",
+    "menuUrl": "https://lebouchondesfilles.fr/#menu",
     "bookingUrl": "https://app.resa.ninja/booking-new/web/5q1cwmlPnTTJP1kagqOIEL4LqRt2",
+    "phone": "+ 33 4 78 30 40 44",
+    "pointsCles": [
+      "La quenelle de rouget, coup de théâtre.",
+      "Une brioche au cumin à la place des grattons.",
+      "Des harengs betterave sauce curry."
+    ],
     "openingHours": [
       {
         "day": 0,
@@ -3012,6 +3057,11 @@
         "day": 3,
         "open": "1900",
         "close": "2200"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1430"
       },
       {
         "day": 4,
@@ -3036,27 +3086,25 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.6,
-    "phone": "04 78 30 40 44",
     "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=14019120405395751031",
-    "address": "20 Rue Sergent Blandan, 69001 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "raisonnables",
-    "eaterType": "decouvreur",
-    "atmosphereType": "convivial",
-    "bouchonType": "moderne"
+    "mapsUrl": "https://maps.google.com/?cid=14019120405395751031",
+    "address": "20 Rue Sergent Blandan, 69001 Lyon"
   },
   {
     "id": "chez-mounier",
     "name": "Chez Mounier",
     "menuPrice": 19,
+    "neighborhood": "presquile",
+    "portionSize": "gargantuesques",
+    "eaterType": "puriste",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": false,
     "businessMeal": false,
     "compagnieFavorite": false,
@@ -3070,10 +3118,16 @@
       "Tablier de sapeur",
       "Tarte aux pralines"
     ],
-    "description": "À venir",
-    "articleUrl": "",
+    "description": "Chez Mounier, l’esprit bouchon se transmet de génération en génération. Berceau du gnafron, cette maison familiale de la rue des Marronniers régale avec sa cuisine maison, ses saladiers lyonnais et son décor d’autrefois tout en bordeaux.",
+    "articleUrl": "https://compagnie-du-rognon.fr/bouchons-lyonnais/chez-mounier-lyon/",
     "menuUrl": "",
     "bookingUrl": "",
+    "phone": "+ 33 4 78 37 79 26",
+    "pointsCles": [
+      "Le gnafron, recette inventée par Marc Mounier.",
+      "Un bar centenaire et un sol en mosaïque.",
+      "Une patronne riche en anecdotes de gones."
+    ],
     "openingHours": [
       {
         "day": 2,
@@ -3083,7 +3137,7 @@
       {
         "day": 2,
         "open": "1900",
-        "close": "2215"
+        "close": "2130"
       },
       {
         "day": 3,
@@ -3093,7 +3147,7 @@
       {
         "day": 3,
         "open": "1900",
-        "close": "2215"
+        "close": "2130"
       },
       {
         "day": 4,
@@ -3103,7 +3157,7 @@
       {
         "day": 4,
         "open": "1900",
-        "close": "2215"
+        "close": "2130"
       },
       {
         "day": 5,
@@ -3113,7 +3167,7 @@
       {
         "day": 5,
         "open": "1900",
-        "close": "2215"
+        "close": "2130"
       },
       {
         "day": 6,
@@ -3123,31 +3177,29 @@
       {
         "day": 6,
         "open": "1900",
-        "close": "2215"
+        "close": "2130"
       }
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.5,
-    "phone": "04 78 37 79 26",
     "postalCode": "69002",
-    "mapsUrl": "https://maps.google.com/?cid=14172405795022734505",
-    "address": "3 Rue des Marronniers, 69002 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "gargantuesques",
-    "eaterType": "puriste",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=14172405795022734505",
+    "address": "3 Rue des Marronniers, 69002 Lyon"
   },
   {
     "id": "cafe-lobut",
     "name": "Café Lobut",
+    "neighborhood": null,
+    "portionSize": "genereuses",
+    "eaterType": "puriste",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": true,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": false,
-    "reservation": true,
     "dateFriendly": false,
     "businessMeal": true,
     "compagnieFavorite": true,
@@ -3156,60 +3208,64 @@
     "authenticSelection": true,
     "valueForMoney": true,
     "specialties": ["Tablier de sapeur", "Œufs meurette"],
-    "description": "À venir",
-    "articleUrl": "",
+    "description": "Loin des circuits touristiques, le Café Lobut fait battre le cœur de Villeurbanne. Sandrine Huit y signe une cuisine canaille, copieuse et maîtrisée : tablier de sapeur, soirées grenouilles et ambiance de café-comptoir d’antan.",
+    "articleUrl": "https://compagnie-du-rognon.fr/bouchons-lyonnais/cafe-lobut/",
     "menuUrl": "https://www.cafe-lobut.fr/la-carte/",
     "bookingUrl": "",
+    "phone": "+ 33 4 78 84 91 66",
+    "pointsCles": [
+      "Les soirées grenouilles du vendredi.",
+      "Le tablier de sapeur, spécialité maison.",
+      "Une mezzanine pour toiser les assiettes voisines."
+    ],
     "openingHours": [
       {
         "day": 1,
         "open": "0730",
-        "close": "2000"
+        "close": "1830"
       },
       {
         "day": 2,
         "open": "0730",
-        "close": "2000"
+        "close": "1830"
       },
       {
         "day": 3,
         "open": "0730",
-        "close": "2000"
+        "close": "1830"
       },
       {
         "day": 4,
         "open": "0730",
-        "close": "2000"
+        "close": "1830"
       },
       {
         "day": 5,
         "open": "0730",
-        "close": "2000"
+        "close": "2200"
       }
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.5,
-    "phone": "04 78 84 91 66",
     "postalCode": "69100",
-    "mapsUrl": "https://maps.google.com/?cid=2062264627983239156",
-    "address": "50 Cr Tolstoï, 69100 Villeurbanne",
     "commune": "villeurbanne",
-    "neighborhood": null,
-    "portionSize": "genereuses",
-    "eaterType": "puriste",
-    "atmosphereType": "anime",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=2062264627983239156",
+    "address": "50 Cr Tolstoï, 69100 Villeurbanne"
   },
   {
     "id": "chez-hugon",
     "name": "Chez Hugon",
     "menuPrice": 30,
+    "neighborhood": "presquile",
+    "portionSize": "genereuses",
+    "eaterType": "amateur",
+    "atmosphereType": "convivial",
+    "bouchonType": "traditionnel",
     "vegetarianOption": false,
     "terrace": false,
     "machonOption": false,
     "remarkableDecoration": false,
     "remarkableTeam": true,
-    "reservation": false,
     "dateFriendly": true,
     "businessMeal": true,
     "compagnieFavorite": true,
@@ -3218,10 +3274,16 @@
     "authenticSelection": true,
     "valueForMoney": true,
     "specialties": ["Tarte aux pralines", "Quenelle de brochet", "Œufs meurette"],
-    "description": "À venir",
-    "articleUrl": "",
+    "description": "Chez Hugon, Paola et Fatima perpétuent avec cœur l’héritage d’Arlette Hugon, Mère lyonnaise. Six tables, mobilier d’origine et plats canailles généreux : un bouchon convivial où la tradition se transmet de main en main.",
+    "articleUrl": "https://compagnie-du-rognon.fr/bouchons-lyonnais/chez-hugon/",
     "menuUrl": "",
     "bookingUrl": "",
+    "phone": "+ 33 4 78 28 10 94",
+    "pointsCles": [
+      "Six tables, comme à la maison.",
+      "L’œuf meurette au vin blanc, hérésie réussie.",
+      "Les recettes de la Mère Arlette Hugon."
+    ],
     "openingHours": [
       {
         "day": 1,
@@ -3276,15 +3338,9 @@
     ],
     "exceptionalOpeningHours": null,
     "rating": 4.6,
-    "phone": "04 78 28 10 94",
     "postalCode": "69001",
-    "mapsUrl": "https://maps.google.com/?cid=1034666749526570260",
-    "address": "12 Rue Pizay, 69001 Lyon",
     "commune": "lyon",
-    "neighborhood": "presquile",
-    "portionSize": "genereuses",
-    "eaterType": "amateur",
-    "atmosphereType": "convivial",
-    "bouchonType": "traditionnel"
+    "mapsUrl": "https://maps.google.com/?cid=1034666749526570260",
+    "address": "12 Rue Pizay, 69001 Lyon"
   }
 ]

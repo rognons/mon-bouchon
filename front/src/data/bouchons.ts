@@ -13,6 +13,8 @@ export interface BouchonComplet extends Bouchon {
   menuUrl?: string;
   bookingUrl?: string;
   specialties?: string[];
+  // Les trois points-clés de la Compagnie (CONTEXT.md).
+  pointsCles?: string[];
 }
 
 export const BOUCHONS = donnees as BouchonComplet[];
