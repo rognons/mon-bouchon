@@ -49,7 +49,7 @@ export interface Bouchon {
 
 // --- La phrase de recherche -------------------------------------------------
 
-export type PalierDePrix = 'max-32' | 'max-35' | 'max-38';
+export type PalierDePrix = 'max-30' | 'max-35' | 'max-40' | 'max-45';
 export type Service = 'machon' | 'midi' | 'soir';
 
 // Valeur du critère lieu (docs/adr/0004) : un quartier (« presquile »…), ou,
@@ -108,9 +108,10 @@ export type Tri = 'defaut' | 'note' | 'prix';
 export type Verdict = 'oui' | 'non' | 'inconnu';
 
 const PLAFONDS: Record<PalierDePrix, number> = {
-  'max-32': 32,
+  'max-30': 30,
   'max-35': 35,
-  'max-38': 38,
+  'max-40': 40,
+  'max-45': 45,
 };
 
 // Plages horaires qu'un créneau doit chevaucher pour compter comme un service.

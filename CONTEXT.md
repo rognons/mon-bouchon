@@ -15,7 +15,7 @@ l'utilisateur, il propose les bouchons qui y correspondent.
 
 **Phrase de recherche** :
 Phrase à compléter par laquelle l'utilisateur décrit ce qu'il cherche, par
-exemple « Je cherche un bouchon lyonnais qui a un menu à moins de 32 €, qui
+exemple « Je cherche un bouchon lyonnais qui a un menu à 30 € max, qui
 se trouve dans le quartier Croix-Rousse ».
 *À éviter* : formulaire, barre de filtres.
 
@@ -85,8 +85,10 @@ lui manque.
 
 **Palier de prix** :
 Budget maximum choisi dans la phrase de recherche, parmi des seuils fixes
-(32 € max, 35 € max, 38 € max), seuil compris ; il inclut tous les bouchons
-moins chers.
+(30 € max, 35 € max, 40 € max, 45 € max), seuil compris ; il inclut tous les bouchons
+moins chers. Paliers espacés de 5 € depuis le 29/10/2026 (avant : 32, 35 et
+38 €), car les prix des bouchons se tassent entre 30 et 38 € et des paliers
+trop proches donnaient presque les mêmes résultats.
 *À éviter* : tranche de prix, niveau de prix.
 
 ### Les bouchons

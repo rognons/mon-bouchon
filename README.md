@@ -1,8 +1,8 @@
 # 🍽️ Mon Bouchon - Recherche de Bouchons Lyonnais
 
 Le générateur de bouchons lyonnais de La Compagnie du Rognon : à partir d'une
-phrase de recherche (« Je cherche un bouchon lyonnais qui a un menu à moins
-de 32 €, et qui se trouve à la Croix-Rousse »), il propose les bouchons testés
+phrase de recherche (« Je cherche un bouchon lyonnais qui a un menu à
+30 € max, et qui se trouve à la Croix-Rousse »), il propose les bouchons testés
 par la Compagnie qui correspondent, et ceux « à un critère près ».
 
 Le vocabulaire du projet est dans [CONTEXT.md](CONTEXT.md), les décisions

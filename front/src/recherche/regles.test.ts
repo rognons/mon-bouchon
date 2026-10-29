@@ -56,20 +56,20 @@ const phrase = (principal: Critere, ...complementaires: Critere[]): PhraseDeRech
 });
 const ids = (bouchons: Bouchon[]) => bouchons.map((b) => b.id);
 
-const moinsDe32: Critere = { type: 'prix', palier: 'max-32' };
+const moinsDe35: Critere = { type: 'prix', palier: 'max-35' };
 const surLaPresquile: Critere = { type: 'lieu', valeurs: ['presquile'] };
 const vegetarien: Critere = { type: 'vegetarien' };
 
 describe('Phrase de recherche', () => {
   it('un résultat exact remplit tous les critères', () => {
     const bouchons = [unBouchon('bon'), unBouchon('trop-cher', { menuPrice: 40 })];
-    const r = rechercher(bouchons, phrase(moinsDe32, surLaPresquile));
+    const r = rechercher(bouchons, phrase(moinsDe35, surLaPresquile));
     expect(ids(r.exacts)).toEqual(['bon']);
   });
 
   it("le critère principal n'est jamais relâché", () => {
     const bouchons = [unBouchon('trop-cher', { menuPrice: 40 })];
-    const r = rechercher(bouchons, phrase(moinsDe32, surLaPresquile));
+    const r = rechercher(bouchons, phrase(moinsDe35, surLaPresquile));
     expect(r.exacts).toEqual([]);
     expect(r.aUnCriterePres).toEqual([]);
   });
@@ -77,7 +77,7 @@ describe('Phrase de recherche', () => {
   it('« À un critère près » : il manque le critère complémentaire, que l’on nomme', () => {
     const r = rechercher(
       [unBouchon('dans-le-5e', { postalCode: '69005', neighborhood: 'vieux-lyon' })],
-      phrase(moinsDe32, surLaPresquile)
+      phrase(moinsDe35, surLaPresquile)
     );
     expect(r.exacts).toEqual([]);
     expect(r.aUnCriterePres).toHaveLength(1);
@@ -86,7 +86,7 @@ describe('Phrase de recherche', () => {
   });
 
   it('accepte au plus un critère complémentaire', () => {
-    const trois = phrase(moinsDe32, surLaPresquile, vegetarien);
+    const trois = phrase(moinsDe35, surLaPresquile, vegetarien);
     expect(() => rechercher([], trois)).toThrow(PhraseInvalideError);
     expect(() =>
       rechercher([], { ...trois, complementaires: trois.complementaires.slice(0, 1) })
@@ -94,7 +94,7 @@ describe('Phrase de recherche', () => {
   });
 
   it('refuse le même critère deux fois dans la phrase', () => {
-    expect(() => rechercher([], phrase(moinsDe32, { type: 'prix', palier: 'max-38' }))).toThrow(
+    expect(() => rechercher([], phrase(moinsDe35, { type: 'prix', palier: 'max-40' }))).toThrow(
       PhraseInvalideError
     );
   });
@@ -127,15 +127,15 @@ describe('Affichage de « À un critère près »', () => {
 describe('Affinage', () => {
   it('retire les bouchons qui ne le remplissent pas des résultats exacts', () => {
     const bouchons = [unBouchon('terrasse', { terrace: true }), unBouchon('sans-terrasse')];
-    const r = rechercher(bouchons, phrase(moinsDe32), { terrasse: true });
+    const r = rechercher(bouchons, phrase(moinsDe35), { terrasse: true });
     expect(ids(r.exacts)).toEqual(['terrasse']);
   });
 
   it('retire aussi de « À un critère près », et n’est jamais relâché', () => {
     const bouchons = [unBouchon('dans-le-5e', { postalCode: '69005', neighborhood: 'vieux-lyon' })];
-    const sansAffinage = rechercher(bouchons, phrase(moinsDe32, surLaPresquile));
+    const sansAffinage = rechercher(bouchons, phrase(moinsDe35, surLaPresquile));
     expect(sansAffinage.aUnCriterePres).toHaveLength(1);
-    const avecAffinage = rechercher(bouchons, phrase(moinsDe32, surLaPresquile), {
+    const avecAffinage = rechercher(bouchons, phrase(moinsDe35, surLaPresquile), {
       terrasse: true,
     });
     expect(avecAffinage.aUnCriterePres).toEqual([]);
@@ -148,7 +148,7 @@ describe('Affinage', () => {
       unBouchon('bourgeois-calme', { bouchonType: 'bourgeois', atmosphereType: 'calme' }),
       unBouchon('traditionnel-calme', { atmosphereType: 'calme' }),
     ];
-    const r = rechercher(bouchons, phrase(moinsDe32), {
+    const r = rechercher(bouchons, phrase(moinsDe35), {
       typesBouchon: ['moderne', 'bourgeois'],
       ambiances: ['calme'],
     });
@@ -165,7 +165,7 @@ describe('Affinage', () => {
         neighborhood: 'vieux-lyon',
       }),
     ];
-    const r = rechercher(bouchons, phrase(moinsDe32, surLaPresquile), {
+    const r = rechercher(bouchons, phrase(moinsDe35, surLaPresquile), {
       principaux: [vegetarien],
     });
     expect(ids(r.exacts)).toEqual(['vege']);
@@ -183,17 +183,17 @@ describe('Profil de mangeur, en affinage (cascade vers le plus doux)', () => {
   ];
 
   it('un puriste voit les bouchons puristes, amateurs et découvreurs', () => {
-    const r = rechercher(bouchons, phrase(moinsDe32), { profil: 'puriste' });
+    const r = rechercher(bouchons, phrase(moinsDe35), { profil: 'puriste' });
     expect(ids(r.exacts).sort()).toEqual(['pour-amateur', 'pour-decouvreur', 'pour-puriste']);
   });
 
   it('un amateur voit les bouchons amateurs et découvreurs', () => {
-    const r = rechercher(bouchons, phrase(moinsDe32), { profil: 'amateur' });
+    const r = rechercher(bouchons, phrase(moinsDe35), { profil: 'amateur' });
     expect(ids(r.exacts).sort()).toEqual(['pour-amateur', 'pour-decouvreur']);
   });
 
   it('un découvreur ne voit que les bouchons pour découvreurs', () => {
-    const r = rechercher(bouchons, phrase(moinsDe32), { profil: 'decouvreur' });
+    const r = rechercher(bouchons, phrase(moinsDe35), { profil: 'decouvreur' });
     expect(ids(r.exacts)).toEqual(['pour-decouvreur']);
   });
 });
@@ -217,7 +217,7 @@ describe('Type de bouchon', () => {
   it('un type non renseigné compte « à un critère près » en complémentaire', () => {
     const r = rechercher(
       bouchons,
-      phrase(moinsDe32, { type: 'typeBouchon', valeurs: ['traditionnel'] })
+      phrase(moinsDe35, { type: 'typeBouchon', valeurs: ['traditionnel'] })
     );
     expect(r.aUnCriterePres.find((p) => p.bouchon.id === 'type-inconnu')?.raison).toBe('inconnu');
   });
@@ -233,24 +233,26 @@ describe('Palier de prix (budget maximum)', () => {
   ];
 
   it('un palier inclut tous les bouchons moins chers, seuil compris', () => {
-    const r = rechercher(bouchons, phrase({ type: 'prix', palier: 'max-38' }));
-    expect(ids(r.exacts).sort()).toEqual(['a-30', 'a-32', 'a-36']);
-    const r35 = rechercher(bouchons, phrase({ type: 'prix', palier: 'max-35' }));
+    const r45 = rechercher(bouchons, phrase({ type: 'prix', palier: 'max-45' }));
+    expect(ids(r45.exacts).sort()).toEqual(['a-30', 'a-32', 'a-36', 'a-45']);
+    const r40 = rechercher(bouchons, phrase({ type: 'prix', palier: 'max-40' }));
+    expect(ids(r40.exacts).sort()).toEqual(['a-30', 'a-32', 'a-36']);
+    const r35 = rechercher(bouchons, phrase(moinsDe35));
     expect(ids(r35.exacts).sort()).toEqual(['a-30', 'a-32']);
-    const r32 = rechercher(bouchons, phrase(moinsDe32));
-    expect(ids(r32.exacts).sort()).toEqual(['a-30', 'a-32']);
+    const r30 = rechercher(bouchons, phrase({ type: 'prix', palier: 'max-30' }));
+    expect(ids(r30.exacts).sort()).toEqual(['a-30']);
   });
 
   it("un prix non renseigné n'est jamais un résultat exact, mais compte « à un critère près » en complémentaire", () => {
-    const r = rechercher(bouchons, phrase(surLaPresquile, moinsDe32));
+    const r = rechercher(bouchons, phrase(surLaPresquile, moinsDe35));
     expect(ids(r.exacts)).not.toContain('prix-inconnu');
     const pres = r.aUnCriterePres.find((p) => p.bouchon.id === 'prix-inconnu');
     expect(pres?.raison).toBe('inconnu');
-    expect(pres?.critereManquant).toEqual(moinsDe32);
+    expect(pres?.critereManquant).toEqual(moinsDe35);
   });
 
   it("un prix non renseigné n'apparaît nulle part quand le prix est le critère principal", () => {
-    const r = rechercher(bouchons, phrase(moinsDe32, surLaPresquile));
+    const r = rechercher(bouchons, phrase(moinsDe35, surLaPresquile));
     expect(ids(r.exacts)).not.toContain('prix-inconnu');
     expect(r.aUnCriterePres.map((p) => p.bouchon.id)).not.toContain('prix-inconnu');
   });
@@ -263,7 +265,7 @@ describe('Portions, en affinage (minimum)', () => {
       unBouchon('genereuses', { portionSize: 'genereuses' }),
       unBouchon('gargantuesques', { portionSize: 'gargantuesques' }),
     ];
-    const r = rechercher(bouchons, phrase(moinsDe32), { portionsMinimum: 'genereuses' });
+    const r = rechercher(bouchons, phrase(moinsDe35), { portionsMinimum: 'genereuses' });
     expect(ids(r.exacts).sort()).toEqual(['gargantuesques', 'genereuses']);
   });
 });

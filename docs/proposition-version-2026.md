@@ -7,7 +7,7 @@ relire la proposition avant d'en décider.
 ## En bref
 
 1. **Une nouvelle façon de chercher** : une phrase de recherche (« Je cherche
-   un bouchon lyonnais qui a un menu à moins de 32 €, et qui se trouve dans
+   un bouchon lyonnais qui a un menu à 30 € max, et qui se trouve dans
    le 1er »), avec un critère principal jamais relâché, jusqu'à trois
    critères complémentaires, et une section « À un critère près » quand il y
    a peu de résultats. La barre latérale ne sert plus qu'à affiner.
@@ -29,7 +29,7 @@ Le vocabulaire du projet est dans [CONTEXT.md](../CONTEXT.md).
 | Recherche | Filtres libres, tous éliminatoires, côté API | Phrase de recherche + affinage, dans le navigateur (`front/src/recherche/regles.ts`) |
 | Données | `api/src/infrastructure/data/bouchons.json`, textes longs avec émojis | `front/src/data/bouchons.json`, codes courts (`puriste`, `genereuses`…), identifiant stable, commune |
 | Référentiel | — | `front/src/data/referentiel.ts` : code ↔ texte du Google Sheet ↔ libellé |
-| Prix | Tranche exacte (33–38 € cachait les moins chers) | Budget maximum : moins de 32 €, moins de 38 € |
+| Prix | Tranche exacte (33–38 € cachait les moins chers) | Budget maximum : 30, 35, 40 ou 45 € max |
 | Profil, portions | Correspondance exacte | Cascade : un puriste voit aussi les bouchons pour amateurs ; « au moins généreuses » montre aussi les gargantuesques |
 | Horaires | Jour + heure précise | Jour + service (mâchon, midi, soir) |
 | Hors de Lyon | Demander 69100 renvoyait une erreur 400 | Villeurbanne et Les Chères sont des valeurs du lieu |

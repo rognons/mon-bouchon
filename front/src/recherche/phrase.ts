@@ -1,6 +1,6 @@
 // Vocabulaire de la phrase de recherche : comment chaque critère se dit, ses
 // valeurs possibles, et comment décrire un critère qui manque à un bouchon.
-// « Je cherche un bouchon lyonnais qui a un menu à moins de 32 €,
+// « Je cherche un bouchon lyonnais qui a un menu à 30 € max,
 //   et qui se trouve à la Croix-Rousse. »
 
 import { ARRONDISSEMENTS_LYON, COMMUNES, TYPES_BOUCHON } from '../data/referentiel';
@@ -36,10 +36,11 @@ export const nomDuCritere = (type: TypeDeCritere): string =>
   TYPES_DE_CRITERE.find((t) => t.type === type)?.nom ?? type;
 
 export const PALIERS: { value: PalierDePrix; label: string }[] = [
-  // Espaces insécables : « 32 € max » ne se coupe jamais en fin de ligne.
-  { value: 'max-32', label: '32 € max' },
+  // Espaces insécables : « 30 € max » ne se coupe jamais en fin de ligne.
+  { value: 'max-30', label: '30 € max' },
   { value: 'max-35', label: '35 € max' },
-  { value: 'max-38', label: '38 € max' },
+  { value: 'max-40', label: '40 € max' },
+  { value: 'max-45', label: '45 € max' },
 ];
 
 const ordinal = (n: number) => (n === 1 ? '1er' : `${n}e`);
@@ -89,7 +90,7 @@ export const SERVICES: { value: Service; label: string }[] = [
 export function critereParDefaut(type: TypeDeCritere): Critere {
   switch (type) {
     case 'prix':
-      return { type, palier: 'max-32' };
+      return { type, palier: 'max-30' };
     case 'lieu':
       return { type, valeurs: ['presquile'] };
     case 'moment':
@@ -109,8 +110,8 @@ const libelleDe = <T>(liste: { value: T; label: string }[], value: T) =>
 const ouEntre = (mots: string[]) =>
   mots.length <= 1 ? (mots[0] ?? '') : `${mots.slice(0, -1).join(', ')} ou ${mots.at(-1)}`;
 
-// La fin de phrase d'un critère : « a un menu à moins de 32 € ». Avec
-// negatif, la même à la forme négative : « n’a pas de menu à moins de 32 € ».
+// La fin de phrase d'un critère : « a un menu à 30 € max ». Avec
+// negatif, la même à la forme négative : « n’a pas de menu à 30 € max ».
 export function decrire(critere: Critere, negatif = false): string {
   const t = TYPES_DE_CRITERE.find((x) => x.type === critere.type);
   const verbe = (negatif ? t?.negation : t?.verbe) ?? '';
@@ -136,7 +137,7 @@ export function lieuCourt(value: string): string {
 const minuscule = (texte: string) => texte.charAt(0).toLowerCase() + texte.slice(1);
 
 // Un critère en quelques mots, pour le rappel des choix au-dessus des
-// résultats : « Prix : moins de 32 € », « Lieu : Presqu’île ou 3e ».
+// résultats : « Prix : 30 € max », « Lieu : Presqu’île ou 3e ».
 export function resumer(critere: Critere): string {
   const nom = nomDuCritere(critere.type);
   switch (critere.type) {

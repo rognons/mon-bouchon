@@ -16,7 +16,7 @@ import {
 
 describe('Formulation de la phrase de recherche', () => {
   it('décrit chaque critère comme une fin de phrase après « qui »', () => {
-    expect(decrire({ type: 'prix', palier: 'max-32' })).toBe('a un menu à 32 € max');
+    expect(decrire({ type: 'prix', palier: 'max-30' })).toBe('a un menu à 30 € max');
     expect(decrire({ type: 'lieu', valeurs: ['presquile', '69003'] })).toBe(
       'se trouve sur la Presqu’île ou dans le 3e'
     );
@@ -35,7 +35,7 @@ describe('Formulation de la phrase de recherche', () => {
     expect(decrireManque({ type: 'lieu', valeurs: ['vieux-lyon'] }, 'non')).toBe(
       'Mais il ne se trouve pas dans le Vieux-Lyon.'
     );
-    expect(decrireManque({ type: 'prix', palier: 'max-32' }, 'inconnu')).toBe(
+    expect(decrireManque({ type: 'prix', palier: 'max-30' }, 'inconnu')).toBe(
       'Prix non renseigné.'
     );
     expect(decrireManque({ type: 'typeBouchon', valeurs: ['moderne'] }, 'inconnu')).toBe(
@@ -99,7 +99,7 @@ describe('Formulation de la phrase de recherche', () => {
       bouchonLyonnaisLabel: true,
       authenticSelection: false,
     } as Bouchon;
-    expect(etiquette({ type: 'prix', palier: 'max-32' }, b)).toBe('Menu à 31 €');
+    expect(etiquette({ type: 'prix', palier: 'max-35' }, b)).toBe('Menu à 31 €');
     expect(etiquette({ type: 'lieu', valeurs: ['presquile'] }, b)).toBe('Sur la Presqu’île');
     expect(etiquette({ type: 'moment', jour: 6, service: 'soir' }, b)).toBe('Ouvert samedi soir');
     expect(etiquette({ type: 'moment', jour: 0, service: 'machon' }, b)).toBe('Mâchon le dimanche');
