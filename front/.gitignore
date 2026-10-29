@@ -1,0 +1,4 @@
+# Lien du dossier avec le projet Vercel « mon-bouchon-beta », propre à cet ordinateur.
+.vercel
+# Clés et jetons : jamais dans Git.
+.env*

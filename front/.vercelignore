@@ -1,0 +1,6 @@
+# Jamais envoyé à Vercel : les clés Google, et ce que Vercel reconstruit lui-même.
+.env
+.env.*
+node_modules
+dist
+.astro
