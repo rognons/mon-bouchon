@@ -7,6 +7,7 @@ import { AVEC_PHOTO } from '../data/photos';
 import { AVEC_STICKER } from '../data/stickers';
 import { etiquette } from '../recherche/phrase';
 import { type Critere, evaluer, rangTop10 } from '../recherche/regles';
+import FeuilleVege from './FeuilleVege.svelte';
 
 export let bouchon: BouchonComplet;
 // Les critères de la recherche : ceux que le bouchon remplit sont étiquetés.
@@ -18,7 +19,7 @@ export let manque = '';
 
 $: remplis = criteres
   .filter((c) => evaluer(bouchon, c) === 'oui')
-  .map((c) => etiquette(c, bouchon));
+  .map((c) => ({ texte: etiquette(c, bouchon), vege: c.type === 'vegetarien' }));
 $: description = bouchon.description?.trim().startsWith('À venir') ? '' : bouchon.description;
 $: pointsCles = (bouchon.pointsCles ?? []).slice(0, 3);
 $: rang = rangTop10(bouchon);
@@ -62,10 +63,10 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
 
     {#if remplis.length}
       <ul class="etiquettes" aria-label="Vos critères remplis">
-        {#each remplis as texte}
+        {#each remplis as { texte, vege }}
           <li class="etiquette">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" /></svg>
-            {texte}
+            {texte}{#if vege}<FeuilleVege taille={16} />{/if}
           </li>
         {/each}
       </ul>
@@ -91,7 +92,8 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     {/if}
   </div>
 
-  <!-- Menu, Réserver, Itinéraire, Lire le test : tous au même niveau. -->
+  <!-- Menu, Réserver, Y aller, Lire le test : tous au même niveau. Seul Réserver
+       porte une icône, qui annonce la page de réservation ou l’appel. -->
   <div class="actions">
     {#if bouchon.menuUrl}
       <a class="btn" href={bouchon.menuUrl} target="_blank" rel="noopener noreferrer">Menu</a>
@@ -117,7 +119,7 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
       >
     {/if}
     {#if bouchon.mapsUrl}
-      <a class="btn" href={bouchon.mapsUrl} target="_blank" rel="noopener noreferrer">Itinéraire</a>
+      <a class="btn" href={bouchon.mapsUrl} target="_blank" rel="noopener noreferrer">Y aller</a>
     {/if}
     {#if bouchon.articleUrl}
       <a class="btn" href={bouchon.articleUrl} target="_blank" rel="noopener noreferrer"

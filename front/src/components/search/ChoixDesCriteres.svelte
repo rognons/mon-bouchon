@@ -15,6 +15,7 @@ import {
   type TypeDeCritere,
 } from '../../recherche/phrase';
 import type { Critere, PalierDePrix, Service } from '../../recherche/regles';
+import FeuilleVege from '../FeuilleVege.svelte';
 
 export let criteres: Critere[] = [];
 export let nbExacts = 0;
@@ -220,6 +221,7 @@ const typesProposes = (rang: number) =>
                   <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
                     ><path d={choisi ? COCHE : PLUS} /></svg
                   >
+                  {#if t.type === 'vegetarien'}<FeuilleVege />{/if}
                   {t.nom}
                 </button>
               </li>

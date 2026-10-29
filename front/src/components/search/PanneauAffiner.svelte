@@ -18,6 +18,7 @@ import {
 } from '../../data/referentiel';
 import { JOURS, lieuxProposes, PALIERS, resumer, type TypeDeCritere } from '../../recherche/phrase';
 import type { Affinage, Critere, PalierDePrix, Service } from '../../recherche/regles';
+import FeuilleVege from '../FeuilleVege.svelte';
 
 // Les critères déjà choisis dans le bandeau : leurs familles n'apparaissent pas.
 export let criteres: Critere[] = [];
@@ -400,6 +401,7 @@ const COCHE = 'M5 12l5 5 9-10';
                       <svg class="ico" aria-hidden="true" viewBox="0 0 24 24"
                         ><path d={on ? COCHE : PLUS} /></svg
                       >
+                      {#if f.id === 'vegetarien'}<FeuilleVege />{/if}
                       {o.label}{#if off}<span class="sr">{' (indisponible)'}</span>{/if}
                     </button>
                   </li>
