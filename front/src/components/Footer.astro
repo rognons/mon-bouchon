@@ -1,124 +1,93 @@
-<footer class="main-footer">
-	<div class="footer-content">
-		<div class="footer-section">
-			<h3>Mon Bouchon</h3>
-			<p>Votre guide des authentiques bouchons lyonnais</p>
-			<div class="footer-logo">
-				<a href="https://rognons.fr" target="_blank" rel="noopener noreferrer">
-					<img src="/logo-compagnie-nom.png" alt="La Compagnie du Rognon" class="footer-compagnie-logo">
-				</a>
-			</div>
-		</div>
-		<div class="footer-section">
-			<h4>La Compagnie du Rognon</h4>
-			<ul>
-				<li><a href="https://compagnie-du-rognon.fr" target="_blank">Site officiel</a></li>
-				<li><a href="https://www.instagram.com/compagniedurognon/" target="_blank">Instagram</a></li>
-				<li><a href="mailto:compagnie@rognons.fr">compagnie@rognons.fr</a></li>
-			</ul>
-		</div>
-		<div class="footer-section">
-			<h4>À propos</h4>
-			<p>Outil de recherche développé par les connaisseurs du bon goût lyonnais</p>
-			<p>Pour les coureurs de bouchons amateurs de ripaille et de mâchons</p>
-		</div>
-	</div>
-	<div class="footer-bottom">
-		<p>&copy; 2025 mon-bouchon.fr - Tous droits réservés</p>
-		<p style="margin-top: 0.5rem;">Fait avec <span style="color: #f0c6da;">❤️</span> par <a href="https://compagnie-du-rognon.fr" target="_blank" style="color: #f0c6da; text-decoration: none; transition: opacity 0.3s ease;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">La Compagnie du Rognon</a></p>
+<!-- Pied de page en bande compacte (option C, 29/10/2026) : fond noir uni de la
+     charte, cochon rose, liens roses soulignés. Il suit directement le bandeau
+     ou les résultats, sans marge blanche. -->
+<footer class="pied">
+	<div class="bande">
+		<a class="marque" href="https://compagnie-du-rognon.fr" target="_blank" rel="noopener noreferrer">
+			<img src="/cochon-rose.png" alt="" width="42" height="40" />
+			<span>Mon Bouchon, par La Compagnie du Rognon</span>
+		</a>
+		<ul class="liens">
+			<li><a href="https://compagnie-du-rognon.fr" target="_blank" rel="noopener noreferrer">Site officiel</a></li>
+			<li><a href="https://www.instagram.com/compagniedurognon/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+			<li><a href="mailto:compagnie@rognons.fr">Contact</a></li>
+		</ul>
+		<p class="mentions">&copy; 2026 mon-bouchon.fr</p>
 	</div>
 </footer>
 
 <style>
-	.main-footer {
-		background: linear-gradient(135deg, #221f20 0%, #2a2728 100%);
-		color: #fff;
-		padding: 3rem 0 0 0;
-		margin-top: 1rem;
-	}
-
-	.footer-content {
-		max-width: 1200px;
-		margin: 0 auto;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 3rem;
-		padding: 0 2rem 2rem 2rem;
-	}
-
-	.footer-section h3 {
-		font-family: 'GiltonRegular', 'Playfair Display', serif;
-		font-size: 24px;
-		font-weight: normal;
-		margin-bottom: 1rem;
-		color: #f0c6da;
-	}
-
-	.footer-section h4 {
-		font-family: 'GiltonRegular', 'Playfair Display', serif;
-		font-size: 18px;
-		font-weight: normal;
-		margin-bottom: 1rem;
-		color: #f0c6da;
-	}
-
-	.footer-section p {
-		margin-bottom: 1rem;
-		color: #ccc;
+	.pied {
+		background: #221f20;
+		color: #d0cbc7;
+		font-family: 'Bricolage Grotesque', Arial, sans-serif;
+		font-size: 15px;
 		line-height: 1.6;
 	}
 
-	.footer-section ul {
-		list-style: none;
-		padding: 0;
+	.bande {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 28px 32px;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px 32px;
 	}
 
-	.footer-section li {
-		margin-bottom: 0.5rem;
-	}
-
-	.footer-section a {
-		color: #ccc;
+	.marque {
+		display: inline-flex;
+		align-items: center;
+		gap: 14px;
+		color: #ffffff;
+		font-weight: 600;
 		text-decoration: none;
-		transition: color 0.3s ease;
 	}
 
-	.footer-section a:hover {
+	.marque img {
+		width: 42px;
+		height: 40px;
+		flex: none;
+	}
+
+	.liens {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px 24px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	/* Liens de la charte sur fond noir : rose, soulignés 1px, 3px au survol. */
+	.liens a {
 		color: #f0c6da;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
 	}
 
-	.footer-logo {
-		margin-top: 1rem;
+	.liens a:hover {
+		text-decoration-thickness: 3px;
 	}
 
-	.footer-compagnie-logo {
-		height: 80px;
-		width: auto;
-		opacity: 0.9;
-		transition: opacity 0.3s ease;
+	.pied a:focus-visible {
+		outline: 3px solid #f0c6da;
+		outline-offset: 3px;
 	}
 
-	.footer-compagnie-logo:hover {
-		opacity: 1;
-	}
-
-	.footer-bottom {
-		border-top: 1px solid #333;
-		text-align: center;
-		padding: 2rem;
-		color: #999;
+	.mentions {
+		margin: 0;
+		color: #9c9894;
 		font-size: 14px;
 	}
 
-	@media (max-width: 600px) {
-		.footer-content {
-			grid-template-columns: 1fr;
-			gap: 2rem;
-			padding: 0 1rem;
-		}
-
-		.footer-bottom {
-			padding: 1.5rem 1rem;
+	@media (max-width: 767px) {
+		.bande {
+			flex-direction: column;
+			align-items: flex-start;
+			padding: 28px 16px;
 		}
 	}
 </style>

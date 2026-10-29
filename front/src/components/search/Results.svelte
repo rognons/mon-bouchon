@@ -120,6 +120,13 @@ $: titre =
     gap: 24px;
     align-items: start;
   }
+  /* Sur ordinateur, les cartes partagent les rangs de cette grille (sous-grille,
+     voir BouchonCard) : l'écart vertical vient de la marge des cartes. */
+  @media (min-width: 768px) {
+    .grille {
+      row-gap: 0;
+    }
+  }
   .aucun {
     padding: 32px 0;
   }

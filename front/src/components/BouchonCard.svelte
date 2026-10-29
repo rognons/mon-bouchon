@@ -351,6 +351,59 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     outline: 3px solid #221f20;
     outline-offset: 3px;
   }
+  /* Sur ordinateur, les cartes d'une rangée ont la même hauteur et leurs blocs
+     s'alignent d'une carte à l'autre (sous-grille de 8 rangs partagés avec la
+     grille des résultats). Un bloc absent laisse son rang vide : les suivants
+     restent alignés. Les marges remplacent l'écart du flex de .corps. */
+  @media (min-width: 768px) {
+    .carte {
+      display: grid;
+      grid-row: span 8;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+      align-self: stretch;
+      /* L'écart entre deux rangées de cartes (la grille n'en a plus sur
+         ordinateur, sinon il s'ajouterait entre les blocs de chaque carte). */
+      margin-bottom: 24px;
+    }
+    .corps {
+      display: contents;
+    }
+    .corps > * {
+      margin: 12px 24px 0;
+    }
+    .manque {
+      grid-row: 1;
+    }
+    .visuel {
+      grid-row: 2;
+      margin-bottom: 12px;
+    }
+    .top {
+      grid-row: 3;
+    }
+    .titre {
+      grid-row: 4;
+      align-self: start;
+    }
+    .etiquettes {
+      grid-row: 5;
+      align-self: start;
+    }
+    .description {
+      grid-row: 6;
+    }
+    .points-cles {
+      grid-row: 7;
+      align-self: start;
+      margin-top: 16px;
+    }
+    .actions {
+      grid-row: 8;
+      align-self: end;
+      padding-top: 16px;
+    }
+  }
   @media (max-width: 767px) {
     .corps {
       padding: 20px 16px 12px;
