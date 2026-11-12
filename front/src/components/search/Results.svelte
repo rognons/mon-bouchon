@@ -4,6 +4,7 @@ import type { BouchonComplet } from '../../data/bouchons';
 import { chapeauAUnCriterePres, decrireManque } from '../../recherche/phrase';
 import {
   afficherAUnCriterePres,
+  bouchonIdeal,
   type Critere,
   type ResultatsDeRecherche,
   type Tri,
@@ -15,6 +16,8 @@ export let tri: Tri = 'defaut';
 
 $: bouchons = resultats.exacts;
 $: proches = afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres : [];
+// « Votre bouchon idéal », parmi tous les bouchons affichés (voir bouchonIdeal).
+$: ideal = bouchonIdeal([...bouchons, ...proches.map((p) => p.bouchon)], criteres)?.id;
 $: titre =
   bouchons.length > 1
     ? `${bouchons.length} bouchons trouvés`
@@ -38,10 +41,8 @@ $: titre =
 
   {#if bouchons.length}
     <div class="grille">
-      <!-- Avec des critères choisis, le premier bouchon qui les remplit tous
-           est « Votre bouchon idéal ». -->
-      {#each bouchons as bouchon, i (bouchon.id)}
-        <BouchonCard {bouchon} {criteres} ideal={i === 0 && criteres.length > 0} />
+      {#each bouchons as bouchon (bouchon.id)}
+        <BouchonCard {bouchon} {criteres} ideal={bouchon.id === ideal} />
       {/each}
     </div>
   {:else if proches.length === 0}
@@ -62,6 +63,7 @@ $: titre =
           <BouchonCard
             bouchon={proche.bouchon}
             {criteres}
+            ideal={proche.bouchon.id === ideal}
             manque={decrireManque(proche.critereManquant, proche.raison)}
           />
         {/each}

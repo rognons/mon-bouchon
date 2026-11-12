@@ -16,7 +16,7 @@ export let criteres: Critere[] = [];
 // Ce qui manque au bouchon, s'il est « à un critère près ».
 // biome-ignore lint/style/useConst: Svelte prop
 export let manque = '';
-// Le bouchon idéal : le premier de la liste qui remplit tous vos critères.
+// « Votre bouchon idéal » (choisi par bouchonIdeal, dans recherche/regles.ts).
 // Sa fiche passe en rose, avec une pastille noire sur la photo.
 // biome-ignore lint/style/useConst: Svelte prop
 export let ideal = false;

@@ -14,6 +14,7 @@ import {
   type PhraseDeRecherche,
   PhraseInvalideError,
   afficherAUnCriterePres,
+  bouchonIdeal,
   evaluer,
   rechercher,
 } from './regles';
@@ -501,5 +502,40 @@ describe('« Autre critère » en critère n°1', () => {
       complementaires: [],
     });
     expect(r.exacts.map((b) => b.id)).toEqual(['a']);
+  });
+});
+
+describe('Votre bouchon idéal', () => {
+  // Les vrais identifiants du top 10, pour que le classement compte.
+  const [premier, deuxieme, troisieme] = TOP_10_COMPAGNIE;
+  const hors = 'hors-du-top-10';
+
+  it("choisit d'abord le bouchon qui remplit le plus de critères", () => {
+    const bouchons = [
+      unBouchon(premier, { vegetarianOption: false }),
+      unBouchon(troisieme, { vegetarianOption: true }),
+    ];
+    expect(bouchonIdeal(bouchons, [moinsDe35, vegetarien])?.id).toBe(troisieme);
+  });
+
+  it('à égalité de critères, choisit le mieux classé du top 10, quel que soit le tri', () => {
+    const bouchons = [unBouchon(troisieme), unBouchon(premier), unBouchon(deuxieme)];
+    expect(bouchonIdeal(bouchons, [moinsDe35])?.id).toBe(premier);
+  });
+
+  it('ne choisit jamais un bouchon hors du top 10, même s’il remplit plus de critères', () => {
+    const bouchons = [
+      unBouchon(hors, { vegetarianOption: true }),
+      unBouchon(deuxieme, { vegetarianOption: false }),
+    ];
+    expect(bouchonIdeal(bouchons, [moinsDe35, vegetarien])?.id).toBe(deuxieme);
+  });
+
+  it("n'en propose pas si aucun bouchon affiché n'est dans le top 10", () => {
+    expect(bouchonIdeal([unBouchon(hors), unBouchon('autre')], [moinsDe35])).toBeNull();
+  });
+
+  it("n'en propose pas sans critère choisi", () => {
+    expect(bouchonIdeal([unBouchon(premier)], [])).toBeNull();
   });
 });

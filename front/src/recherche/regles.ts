@@ -307,6 +307,29 @@ export function trier<B extends Bouchon>(bouchons: B[], tri: Tri): B[] {
   });
 }
 
+// --- Bouchon idéal -------------------------------------------------------------
+
+// « Votre bouchon idéal », parmi les bouchons affichés : d'abord celui qui
+// remplit le plus de critères choisis, puis, à égalité, le mieux classé du top 10
+// de la Compagnie. Un bouchon hors du top 10 n'est jamais idéal ; sans critère
+// choisi, il n'y a pas de bouchon idéal non plus.
+export function bouchonIdeal<B extends Bouchon>(bouchons: B[], criteres: Critere[]): B | null {
+  if (criteres.length === 0) return null;
+  const remplis = (b: Bouchon) => criteres.filter((c) => evaluer(b, c) === 'oui').length;
+  let ideal: B | null = null;
+  let meilleur = { remplis: -1, rang: Number.POSITIVE_INFINITY };
+  for (const bouchon of bouchons) {
+    const rang = rangTop10(bouchon);
+    if (rang === null) continue;
+    const n = remplis(bouchon);
+    if (n > meilleur.remplis || (n === meilleur.remplis && rang < meilleur.rang)) {
+      ideal = bouchon;
+      meilleur = { remplis: n, rang };
+    }
+  }
+  return ideal;
+}
+
 // --- Recherche ----------------------------------------------------------------
 
 export interface AUnCriterePres<B extends Bouchon = Bouchon> {
