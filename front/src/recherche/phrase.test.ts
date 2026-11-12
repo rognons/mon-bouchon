@@ -204,12 +204,3 @@ describe('Formulation de la phrase de recherche', () => {
     }
   });
 });
-
-describe('« Autre critère »', () => {
-  it('se résume avec sa famille, ou seule pour une option', () => {
-    expect(resumer({ type: 'autre', famille: 'ambiance', valeur: 'calme' })).toBe(
-      'Ambiance : Calme et spacieux'
-    );
-    expect(resumer({ type: 'autre', famille: 'option', valeur: 'terrasse' })).toBe('Terrasse');
-  });
-});

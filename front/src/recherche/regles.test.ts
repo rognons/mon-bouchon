@@ -446,65 +446,6 @@ describe('Données réelles (bouchons.json)', () => {
   });
 });
 
-describe('« Autre critère » en critère n°1', () => {
-  const autre = (famille: Extract<Critere, { type: 'autre' }>['famille'], valeur: string) =>
-    ({ type: 'autre', famille, valeur }) as const;
-
-  it('ambiance : la même ambiance, inconnue si non renseignée', () => {
-    expect(evaluer(unBouchon('a'), autre('ambiance', 'convivial'))).toBe('oui');
-    expect(evaluer(unBouchon('a'), autre('ambiance', 'calme'))).toBe('non');
-    expect(evaluer(unBouchon('a', { atmosphereType: null }), autre('ambiance', 'calme'))).toBe(
-      'inconnu'
-    );
-  });
-
-  it('profil : ce profil et les profils plus prudents', () => {
-    expect(evaluer(unBouchon('a'), autre('profil', 'puriste'))).toBe('oui');
-    expect(evaluer(unBouchon('a'), autre('profil', 'decouvreur'))).toBe('non');
-  });
-
-  it('portions : au moins ce niveau', () => {
-    expect(evaluer(unBouchon('a'), autre('portions', 'raisonnables'))).toBe('oui');
-    expect(
-      evaluer(unBouchon('a', { portionSize: 'raisonnables' }), autre('portions', 'genereuses'))
-    ).toBe('non');
-  });
-
-  it('distinctions et options : le champ oui/non du bouchon', () => {
-    expect(evaluer(unBouchon('a', { terrace: true }), autre('option', 'terrasse'))).toBe('oui');
-    expect(evaluer(unBouchon('a'), autre('option', 'terrasse'))).toBe('non');
-    expect(
-      evaluer(
-        unBouchon('a', { compagnieFavorite: true }),
-        autre('distinction', 'coupDeCoeurCompagnie')
-      )
-    ).toBe('oui');
-  });
-
-  it('en n°2 : relâché « à un critère près », mais pas deux fois la même famille', () => {
-    const r = rechercher([unBouchon('a', { terrace: true }), unBouchon('b')], {
-      principal: autre('ambiance', 'convivial'),
-      complementaires: [autre('option', 'terrasse')],
-    });
-    expect(r.exacts.map((b) => b.id)).toEqual(['a']);
-    expect(r.aUnCriterePres.map((x) => x.bouchon.id)).toEqual(['b']);
-    expect(() =>
-      rechercher([], {
-        principal: autre('ambiance', 'convivial'),
-        complementaires: [autre('ambiance', 'calme')],
-      })
-    ).toThrow(PhraseInvalideError);
-  });
-
-  it('jamais relâché comme critère principal', () => {
-    const r = rechercher([unBouchon('a', { terrace: true }), unBouchon('b')], {
-      principal: autre('option', 'terrasse'),
-      complementaires: [],
-    });
-    expect(r.exacts.map((b) => b.id)).toEqual(['a']);
-  });
-});
-
 describe('Votre bouchon idéal', () => {
   // Les vrais identifiants du top 10, pour que le classement compte.
   const [premier, deuxieme, troisieme] = TOP_10_COMPAGNIE;

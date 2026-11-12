@@ -3,18 +3,10 @@
 // « Je cherche un bouchon lyonnais qui a un menu à 30 € max,
 //   et qui se trouve à la Croix-Rousse. »
 
-import {
-  AMBIANCES,
-  ARRONDISSEMENTS_LYON,
-  COMMUNES,
-  PORTIONS,
-  PROFILS_MANGEUR,
-  TYPES_BOUCHON,
-} from '../data/referentiel';
+import { ARRONDISSEMENTS_LYON, COMMUNES, TYPES_BOUCHON } from '../data/referentiel';
 import {
   type Bouchon,
   type Critere,
-  type FamilleAutre,
   lieuDe,
   type Moment,
   momentsRemplis,
@@ -49,75 +41,7 @@ export const TYPES_DE_CRITERE: {
 ];
 
 export const nomDuCritere = (type: TypeDeCritere): string =>
-  type === 'autre' ? 'Autre critère' : (TYPES_DE_CRITERE.find((t) => t.type === type)?.nom ?? type);
-
-// --- « Autre critère » --------------------------------------------------------
-
-const majuscule = (texte: string) => texte.charAt(0).toUpperCase() + texte.slice(1);
-
-// Les critères de « Modifier ou affiner » proposés dans la liste « Autre
-// critère », avec toutes leurs valeurs, dans l'ordre de la fenêtre.
-export const AUTRES_CRITERES: {
-  famille: FamilleAutre;
-  titre: string;
-  options: { value: string; label: string }[];
-}[] = [
-  {
-    famille: 'ambiance',
-    titre: 'Ambiance',
-    // « Calme & spacieux : un cadre… » → « Calme et spacieux ».
-    options: AMBIANCES.map((a) => ({
-      value: a.code,
-      label: a.libelle.split(' : ')[0].replace(' & ', ' et '),
-    })),
-  },
-  {
-    famille: 'profil',
-    titre: 'Profil de mangeur',
-    options: PROFILS_MANGEUR.map((p) => ({
-      value: p.code,
-      label: majuscule((p.court ?? p.code).replace(/^un /, '')),
-    })),
-  },
-  {
-    famille: 'portions',
-    titre: 'Des portions au moins',
-    options: PORTIONS.map((p) => ({ value: p.code, label: majuscule(p.court ?? p.code) })),
-  },
-  {
-    famille: 'distinction',
-    titre: 'Distinctions',
-    options: [
-      { value: 'coupDeCoeurCompagnie', label: 'Top 10 de la Compagnie' },
-      { value: 'coupDeCoeurVins', label: 'Coup de cœur vins' },
-      { value: 'labelBouchonsLyonnais', label: 'Label « Les Bouchons Lyonnais »' },
-      { value: 'selectionAuthentiques', label: 'Sélection Authentiques' },
-    ],
-  },
-  {
-    famille: 'option',
-    titre: 'Options',
-    options: [
-      { value: 'terrasse', label: 'Terrasse' },
-      { value: 'decorationRemarquable', label: 'Décoration remarquable' },
-      { value: 'equipeRemarquable', label: 'Personnel remarquable' },
-    ],
-  },
-];
-
-const familleAutre = (famille: FamilleAutre) => AUTRES_CRITERES.find((f) => f.famille === famille);
-
-// Le libellé d'une valeur d'« Autre critère » : « Calme et spacieux », « Terrasse ».
-export function libelleAutre(famille: FamilleAutre, valeur: string): string {
-  return familleAutre(famille)?.options.find((o) => o.value === valeur)?.label ?? valeur;
-}
-
-// « Ambiance : Calme et spacieux », « Terrasse ».
-function resumerAutre({ famille, valeur }: Extract<Critere, { type: 'autre' }>): string {
-  const label = libelleAutre(famille, valeur);
-  if (famille === 'distinction' || famille === 'option') return label;
-  return `${familleAutre(famille)?.titre} : ${label}`;
-}
+  TYPES_DE_CRITERE.find((t) => t.type === type)?.nom ?? type;
 
 export const PALIERS: { value: PalierDePrix; label: string }[] = [
   // Espaces insécables : « 30 € max » ne se coupe jamais en fin de ligne.
@@ -186,8 +110,6 @@ export function critereParDefaut(type: TypeDeCritere): Critere {
       return { type, valeurs: ['traditionnel'] };
     case 'vegetarien':
       return { type };
-    case 'autre':
-      return { type, famille: 'option', valeur: 'terrasse' };
   }
 }
 
@@ -234,8 +156,6 @@ export function decrire(critere: Critere, negatif = false): string {
       return `${verbe} ${ouEntre(critere.valeurs.map(typeCourt))}`;
     case 'vegetarien':
       return verbe;
-    case 'autre':
-      return `${negatif ? 'ne correspond pas à' : 'correspond à'} « ${resumerAutre(critere)} »`;
   }
 }
 
@@ -261,8 +181,6 @@ export function resumer(critere: Critere): string {
       return `${nom} : ${ouEntre(critere.valeurs.map(typeCourt))}`;
     case 'vegetarien':
       return nom;
-    case 'autre':
-      return resumerAutre(critere);
   }
 }
 
@@ -274,7 +192,6 @@ const NON_RENSEIGNE: Record<TypeDeCritere, string> = {
   moment: 'Horaires non renseignés.',
   typeBouchon: 'Type de bouchon non renseigné.',
   vegetarien: 'Option végétarienne non renseignée.',
-  autre: 'Information non renseignée.',
 };
 
 // Ce qui manque à un bouchon « à un critère près », dit à l'utilisateur.
@@ -334,8 +251,6 @@ export function etiquette(critere: Critere, bouchon: Bouchon): string {
       return `Bouchon ${typeCourt(bouchon.bouchonType ?? '')}`;
     case 'vegetarien':
       return nomDuCritere('vegetarien');
-    case 'autre':
-      return resumerAutre(critere);
   }
 }
 

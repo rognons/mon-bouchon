@@ -18,7 +18,6 @@ export interface Brouillon {
 import { BOUCHONS } from '../../data/bouchons';
 import { TYPES_BOUCHON, type TypeBouchon } from '../../data/referentiel';
 import {
-  AUTRES_CRITERES,
   JOURS,
   lieuxProposes,
   nomDuCritere,
@@ -26,17 +25,11 @@ import {
   TYPES_DE_CRITERE,
   type TypeDeCritere,
 } from '../../recherche/phrase';
-import {
-  type Critere,
-  evaluer,
-  type FamilleAutre,
-  type PalierDePrix,
-  type Service,
-} from '../../recherche/regles';
+import type { Critere, PalierDePrix, Service } from '../../recherche/regles';
 import { createEventDispatcher } from 'svelte';
 import FeuilleVege from '../FeuilleVege.svelte';
 import CasesAvecLegende from './CasesAvecLegende.svelte';
-import { type Case, CASES_AMBIANCE, CASES_PROFIL, CASES_TYPE_BOUCHON } from './cases';
+import { type Case, CASES_TYPE_BOUCHON } from './cases';
 
 export let criteres: Critere[] = [];
 // Les critères en cours de choix : la même liste dans le bandeau et dans la
@@ -76,7 +69,6 @@ interface Champ {
 // pastilles voisines ne bougent pas.
 const PLUS = 'M12 5v14M5 12h14';
 const COCHE = 'M5 12l5 5 9-10';
-const MOINS = 'M5 12h14';
 
 const majuscule = (texte: string) => texte.charAt(0).toUpperCase() + texte.slice(1);
 
@@ -126,18 +118,11 @@ const CHAMPS: Record<TypeDeCritere, Champ[]> = {
     },
   ],
   vegetarien: [],
-  // « Autre critère » se choisit dans sa liste déroulante, pas en dessous.
-  autre: [],
 };
 
 let message = '';
 
-// « Autre critère » est complet dès qu'une valeur est choisie dans sa liste
-// (choix : [[famille], [valeur]]).
-const complet = (b: Brouillon) =>
-  b.type === 'autre'
-    ? (b.choix[1]?.length ?? 0) > 0
-    : CHAMPS[b.type].every((_, j) => b.choix[j].length > 0);
+const complet = (b: Brouillon) => CHAMPS[b.type].every((_, j) => b.choix[j].length > 0);
 
 function versCritere(b: Brouillon): Critere | null {
   if (!complet(b)) return null;
@@ -153,8 +138,6 @@ function versCritere(b: Brouillon): Critere | null {
       return { type: 'typeBouchon', valeurs: premier as TypeBouchon[] };
     case 'vegetarien':
       return { type: 'vegetarien' };
-    case 'autre':
-      return { type: 'autre', famille: premier[0] as FamilleAutre, valeur: second[0] as string };
   }
 }
 
@@ -179,10 +162,6 @@ $: ouverts = [0, 1].map(
 // ou la première suivie du nombre d'autres (« Croix-Rousse +2 »). Pour
 // « Jour et service », les deux parties : « Samedi · Soir ».
 function resume(b: Brouillon): string {
-  if (b.type === 'autre') {
-    const famille = AUTRES_CRITERES.find((f) => f.famille === b.choix[0][0]);
-    return famille?.options.find((o) => o.value === b.choix[1][0])?.label ?? '';
-  }
   return CHAMPS[b.type]
     .map((champ, j) => {
       const labels = champ.options.filter((o) => b.choix[j].includes(o.value)).map((o) => o.label);
@@ -194,12 +173,7 @@ function resume(b: Brouillon): string {
 $: montrerSecond = brouillons.length > 1 || (brouillons[0] !== undefined && complet(brouillons[0]));
 
 function retirer(rang: number) {
-  let suivants = brouillons.filter((_, i) => i !== rang);
-  // « Autre critère » ne se propose qu'en n°2 : il ne monte pas en n°1.
-  if (suivants[0]?.type === 'autre') {
-    suivants = [];
-    autresDeplies = false;
-  }
+  const suivants = brouillons.filter((_, i) => i !== rang);
   rouverts = [false, false];
   message =
     rang === 0 && suivants.length
@@ -209,7 +183,6 @@ function retirer(rang: number) {
 }
 
 function choisirCritere(rang: number, type: TypeDeCritere) {
-  if (rang === 1) autresDeplies = false;
   const actuel = brouillons[rang];
   if (actuel?.type === type) {
     // Replié : on rouvre ses valeurs. Ouvert : on le retire.
@@ -242,59 +215,6 @@ function choisirValeur(rang: number, champ: number, value: Valeur) {
   brouillons = brouillons.map((x, i) => (i === rang ? modifie : x));
   // Chaque choix replie les valeurs (si le critère est complet).
   rouverts = rouverts.map((r, i) => (i === rang ? false : r));
-  message = '';
-}
-
-// « Autre critère » (critère n°2 seulement) : la pastille déplie, à la
-// suite, les critères de « Modifier ou affiner » (Ambiance, Profil de
-// mangeur…) en pastilles ; on en choisit un, puis une de ses valeurs.
-let autresDeplies = false;
-$: autreComplet = brouillons[1]?.type === 'autre' && complet(brouillons[1]);
-$: autresVisibles = autresDeplies || (brouillons[1]?.type === 'autre' && !autreComplet);
-$: familleChoisie =
-  brouillons[1]?.type === 'autre' ? (brouillons[1].choix[0][0] as FamilleAutre) : null;
-$: familleAutre = AUTRES_CRITERES.find((f) => f.famille === familleChoisie);
-
-// Les valeurs en cases avec légende, comme dans « Modifier ou affiner ».
-const CASES_AUTRES: Partial<Record<FamilleAutre, Case[]>> = {
-  ambiance: CASES_AMBIANCE,
-  profil: CASES_PROFIL,
-};
-
-// Une valeur qu'aucun bouchon ne remplit n'est pas proposée.
-const sansBouchon = (famille: FamilleAutre, valeur: string) =>
-  !BOUCHONS.some((b) => evaluer(b, { type: 'autre', famille, valeur }) === 'oui');
-
-function basculerAutres() {
-  if (autreComplet && !autresDeplies) {
-    // Replié sur sa valeur : on rouvre.
-    autresDeplies = true;
-  } else if (autresVisibles) {
-    autresDeplies = false;
-    if (brouillons[1]?.type === 'autre') retirer(1);
-  } else {
-    autresDeplies = true;
-  }
-}
-
-function choisirFamille(famille: FamilleAutre) {
-  if (familleChoisie === famille) {
-    retirer(1);
-    return;
-  }
-  const suivants = [...brouillons];
-  suivants[1] = { type: 'autre', choix: [[famille], []] };
-  brouillons = suivants;
-  message = '';
-}
-
-// Une seule valeur à la fois ; la recliquer la retire.
-function choisirValeurAutre(valeur: Valeur) {
-  const b = brouillons[1];
-  const nouvelles = b.choix[1].includes(valeur) ? [] : [valeur];
-  brouillons = [brouillons[0], { ...b, choix: [b.choix[0], nouvelles] }];
-  // Une valeur choisie : tout se replie, la pastille affiche la valeur.
-  if (nouvelles.length) autresDeplies = false;
   message = '';
 }
 
@@ -354,82 +274,7 @@ const typesProposes = (rang: number) =>
                 </button>
               </li>
             {/each}
-            {#if rang === 1}
-              {@const valeurAutre = autreComplet && !autresVisibles ? resume(brouillons[1]) : ''}
-              <li>
-                <button
-                  type="button"
-                  class="puce"
-                  class:puce-choisie={valeurAutre !== ''}
-                  aria-expanded={autresVisibles}
-                  aria-label={valeurAutre ? `Autre critère : ${valeurAutre}` : undefined}
-                  title={valeurAutre ? (familleAutre?.titre ?? 'Autre critère') : undefined}
-                  on:click={basculerAutres}
-                >
-                  <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
-                    ><path d={valeurAutre ? COCHE : autresVisibles ? MOINS : PLUS} /></svg
-                  >
-                  {valeurAutre || 'Autre critère'}
-                </button>
-              </li>
-              {#if autresVisibles}
-                {#each AUTRES_CRITERES as f (f.famille)}
-                  {@const choisi = familleChoisie === f.famille}
-                  <li>
-                    <button
-                      type="button"
-                      class="puce"
-                      class:puce-choisie={choisi}
-                      aria-pressed={choisi}
-                      on:click={() => choisirFamille(f.famille)}
-                    >
-                      <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
-                        ><path d={choisi ? COCHE : PLUS} /></svg
-                      >
-                      {f.titre}
-                    </button>
-                  </li>
-                {/each}
-              {/if}
-            {/if}
           </ul>
-
-          {#if rang === 1 && autresVisibles && familleAutre && brouillons[1]?.type === 'autre'}
-            {@const cases = CASES_AUTRES[familleAutre.famille]}
-            <div class="valeurs">
-              <div class="groupe" role="group" aria-label={familleAutre.titre}>
-                <p class="groupe-titre">{familleAutre.titre}</p>
-                {#if cases}
-                  <CasesAvecLegende
-                    options={cases}
-                    choisies={brouillons[1].choix[1]}
-                    on:choisir={(e) => choisirValeurAutre(e.detail)}
-                  />
-                {:else}
-                  <ul class="puces">
-                    {#each familleAutre.options as option (option.value)}
-                      {@const coche = brouillons[1].choix[1].includes(option.value)}
-                      <li>
-                        <button
-                          type="button"
-                          class="puce"
-                          class:puce-choisie={coche}
-                          aria-pressed={coche}
-                          disabled={!coche && sansBouchon(familleAutre.famille, option.value)}
-                          on:click={() => choisirValeurAutre(option.value)}
-                        >
-                          <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
-                            ><path d={coche ? COCHE : PLUS} /></svg
-                          >
-                          {option.label}
-                        </button>
-                      </li>
-                    {/each}
-                  </ul>
-                {/if}
-              </div>
-            </div>
-          {/if}
 
           {#if ouverts[rang] && CHAMPS[brouillons[rang].type].length > 0}
             <div class="valeurs">
@@ -649,11 +494,6 @@ const typesProposes = (rang: number) =>
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
-  }
-  .puce:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    background: transparent;
   }
   .valeurs {
     display: flex;

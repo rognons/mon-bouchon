@@ -204,33 +204,7 @@ function selectionDepuis(a: Affinage): Selection {
 }
 
 // Les familles proposées : pas celles des critères déjà choisis dans le bandeau.
-// Un « Autre critère » choisi retire sa famille (ambiance, profil, portions),
-// ou seulement sa pastille pour une distinction ou une option.
-const FAMILLE_DE_L_AUTRE: Record<string, string> = {
-  ambiance: 'ambiance',
-  profil: 'profil',
-  portions: 'portions',
-  distinction: 'distinctions',
-  option: 'options',
-};
-function famillesProposees(choisis: Critere[]): Famille[] {
-  const autres = choisis.flatMap((c) => (c.type === 'autre' ? [c] : []));
-  return FAMILLES.filter((f) => !f.principal || !choisis.some((c) => c.type === f.principal))
-    .map((f) => {
-      const ici = autres.filter((c) => FAMILLE_DE_L_AUTRE[c.famille] === f.id);
-      if (!ici.length) return f;
-      if (f.id !== 'distinctions' && f.id !== 'options') return null;
-      return {
-        ...f,
-        champs: f.champs.map((c) => ({
-          ...c,
-          options: c.options.filter((o) => !ici.some((x) => x.valeur === o.value)),
-        })),
-      };
-    })
-    .filter((f): f is Famille => f !== null);
-}
-$: familles = famillesProposees(criteres);
+$: familles = FAMILLES.filter((f) => !f.principal || !criteres.some((c) => c.type === f.principal));
 
 function versAffinage(s: Selection, visibles: Famille[]): Affinage {
   const ids = new Set(visibles.map((f) => f.id));
@@ -253,11 +227,9 @@ function versAffinage(s: Selection, visibles: Famille[]): Affinage {
     principaux.push({ type: 'typeBouchon', valeurs: s.typeBouchon[0] as TypeBouchon[] });
   }
   if (ids.has('vegetarien') && s.vegetarien[0].length) principaux.push({ type: 'vegetarien' });
-  if (ids.has('ambiance') && s.ambiance[0].length) a.ambiances = s.ambiance[0] as Ambiance[];
-  if (ids.has('profil') && s.profil[0].length) a.profil = s.profil[0][0] as ProfilMangeur;
-  if (ids.has('portions') && s.portions[0].length) {
-    a.portionsMinimum = s.portions[0][0] as Portions;
-  }
+  if (s.ambiance[0].length) a.ambiances = s.ambiance[0] as Ambiance[];
+  if (s.profil[0].length) a.profil = s.profil[0][0] as ProfilMangeur;
+  if (s.portions[0].length) a.portionsMinimum = s.portions[0][0] as Portions;
   for (const k of [...s.distinctions[0], ...s.options[0]]) {
     (a as Record<string, unknown>)[k as string] = true;
   }

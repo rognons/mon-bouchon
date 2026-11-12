@@ -64,25 +64,7 @@ export type Critere =
   // au moins une des combinaisons (samedi midi, ou samedi soir, ou dimanche midi…).
   | { type: 'moment'; jours: number[]; services: Service[] }
   | { type: 'typeBouchon'; valeurs: TypeBouchon[] }
-  | { type: 'vegetarien' }
-  // « Autre critère » : une seule valeur d'un critère secondaire (ambiance,
-  // profil de mangeur, portions, distinction ou option), choisie comme
-  // critère n°1.
-  | { type: 'autre'; famille: FamilleAutre; valeur: string };
-
-// Les critères secondaires proposables comme « Autre critère ».
-export type FamilleAutre = 'ambiance' | 'profil' | 'portions' | 'distinction' | 'option';
-
-// Les distinctions et options : chacune lue dans un champ oui/non du bouchon.
-export const DRAPEAUX: Record<string, keyof Bouchon> = {
-  coupDeCoeurCompagnie: 'compagnieFavorite',
-  coupDeCoeurVins: 'wineFavorite',
-  labelBouchonsLyonnais: 'bouchonLyonnaisLabel',
-  selectionAuthentiques: 'authenticSelection',
-  terrasse: 'terrace',
-  decorationRemarquable: 'remarkableDecoration',
-  equipeRemarquable: 'remarkableTeam',
-};
+  | { type: 'vegetarien' };
 
 export interface PhraseDeRecherche {
   principal: Critere;
@@ -207,35 +189,6 @@ export function evaluer(bouchon: Bouchon, critere: Critere): Verdict {
       return critere.valeurs.includes(bouchon.bouchonType) ? 'oui' : 'non';
     case 'vegetarien':
       return bouchon.vegetarianOption ? 'oui' : 'non';
-    case 'autre':
-      return evaluerAutre(bouchon, critere);
-  }
-}
-
-// Mêmes règles que dans l'affinage : le profil laisse voir les profils plus
-// prudents, les portions sont un minimum.
-function evaluerAutre(
-  bouchon: Bouchon,
-  { famille, valeur }: Extract<Critere, { type: 'autre' }>
-): Verdict {
-  switch (famille) {
-    case 'ambiance':
-      if (!bouchon.atmosphereType) return 'inconnu';
-      return bouchon.atmosphereType === valeur ? 'oui' : 'non';
-    case 'profil':
-      if (!bouchon.eaterType) return 'inconnu';
-      return rang(PROFILS_MANGEUR, bouchon.eaterType) <=
-        rang(PROFILS_MANGEUR, valeur as ProfilMangeur)
-        ? 'oui'
-        : 'non';
-    case 'portions':
-      if (!bouchon.portionSize) return 'inconnu';
-      return rang(PORTIONS, bouchon.portionSize) >= rang(PORTIONS, valeur as Portions)
-        ? 'oui'
-        : 'non';
-    case 'distinction':
-    case 'option':
-      return bouchon[DRAPEAUX[valeur]] === true ? 'oui' : 'non';
   }
 }
 
@@ -361,10 +314,7 @@ export function verifierPhrase(phrase: PhraseDeRecherche): void {
       `Au plus ${MAX_CRITERES_COMPLEMENTAIRES} critères complémentaires`
     );
   }
-  // Deux « Autre » sont permis s'ils viennent de familles différentes.
-  const types = [phrase.principal, ...phrase.complementaires].map((c) =>
-    c.type === 'autre' ? `autre:${c.famille}` : c.type
-  );
+  const types = [phrase.principal, ...phrase.complementaires].map((c) => c.type);
   if (new Set(types).size !== types.length) {
     throw new PhraseInvalideError('Un même critère ne peut figurer deux fois dans la phrase');
   }
