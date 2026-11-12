@@ -45,6 +45,8 @@ interface Champ {
 interface Famille {
   id: string;
   titre: string;
+  // Sur ordinateur, un titre qui remplace les sous-titres des champs.
+  titreOrdi?: string;
   // Le critère principal que remplace cette famille, s'il y en a un.
   principal?: TypeDeCritere;
   champs: Champ[];
@@ -74,6 +76,7 @@ const FAMILLES: Famille[] = [
   {
     id: 'moment',
     titre: 'Jour et service',
+    titreOrdi: 'Jour et service : plusieurs choix possibles',
     principal: 'moment',
     champs: [
       {
@@ -466,7 +469,7 @@ const COCHE = 'M5 12l5 5 9-10';
             >
           </button>
         {:else}
-          <p class="libelle" id="famille-{f.id}">{f.titre}</p>
+          <p class="libelle" id="famille-{f.id}">{f.titreOrdi ?? f.titre}</p>
           {#if !ouverte}
             {@const court = resumeCourt(f, sel)}
             <ul class="puces">
@@ -492,7 +495,7 @@ const COCHE = 'M5 12l5 5 9-10';
         {#if ouverte}
           <div class="contenu" transition:glisser>
             {#each f.champs as champ, j}
-              {#if champ.sousTitre}<p class="libelle">{champ.sousTitre}</p>{/if}
+              {#if champ.sousTitre && (mobile || !f.titreOrdi)}<p class="libelle">{champ.sousTitre}</p>{/if}
               {#if champ.cases}
                 <CasesAvecLegende
                   options={champ.cases}
