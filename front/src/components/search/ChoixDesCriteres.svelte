@@ -16,6 +16,8 @@ import {
 } from '../../recherche/phrase';
 import type { Critere, PalierDePrix, Service } from '../../recherche/regles';
 import FeuilleVege from '../FeuilleVege.svelte';
+import CasesAvecLegende from './CasesAvecLegende.svelte';
+import { type Case, CASES_TYPE_BOUCHON } from './casesTypeBouchon';
 
 export let criteres: Critere[] = [];
 
@@ -27,6 +29,8 @@ interface Champ {
   // Des définitions courtes sous les pastilles, une ligne par terme, quand les
   // mots ne suffisent pas. Le terme reprend le libellé de la pastille.
   definitions?: { terme?: string; texte: string }[];
+  // Des cases avec leur légende à la place des pastilles (essai sur « Type de bouchon »).
+  cases?: Case[];
 }
 
 // Une pastille porte toujours une icône de même largeur : « + » au repos,
@@ -77,12 +81,7 @@ const CHAMPS: Record<TypeDeCritere, Champ[]> = {
       titre: 'Quel style ? Plusieurs choix possibles',
       multi: true,
       options: TYPES_BOUCHON.map((t) => ({ value: t.code, label: majuscule(t.court ?? t.code) })),
-      // Formulations courtes propres au bandeau (le Google Sheet garde les siennes).
-      definitions: [
-        { terme: 'Traditionnel', texte: 'resté dans son jus, 100% authentique' },
-        { terme: 'Moderne', texte: 'perpétue la tradition en la renouvelant' },
-        { terme: 'Bourgeois', texte: 'gastronomique, hommage aux bouchons' },
-      ],
+      cases: CASES_TYPE_BOUCHON,
     },
   ],
   vegetarien: [],
@@ -220,6 +219,13 @@ const typesProposes = (rang: number) =>
               {#each CHAMPS[brouillons[rang].type] as champ, j}
                 <div class="groupe" role="group" aria-label={champ.titre}>
                   <p class="groupe-titre">{champ.titre}</p>
+                  {#if champ.cases}
+                    <CasesAvecLegende
+                      options={champ.cases}
+                      choisies={brouillons[rang].choix[j]}
+                      on:choisir={(e) => choisirValeur(rang, j, e.detail)}
+                    />
+                  {:else}
                   <ul class="puces">
                     {#each champ.options as option (option.value)}
                       {@const coche = brouillons[rang].choix[j].includes(option.value)}
@@ -239,6 +245,7 @@ const typesProposes = (rang: number) =>
                       </li>
                     {/each}
                   </ul>
+                  {/if}
                   {#if champ.definitions}
                     <ul class="definitions">
                       {#each champ.definitions as d}

@@ -19,6 +19,8 @@ import {
 import { JOURS, lieuxProposes, PALIERS, resumer, type TypeDeCritere } from '../../recherche/phrase';
 import type { Affinage, Critere, PalierDePrix, Service } from '../../recherche/regles';
 import FeuilleVege from '../FeuilleVege.svelte';
+import CasesAvecLegende from './CasesAvecLegende.svelte';
+import { type Case, CASES_TYPE_BOUCHON } from './casesTypeBouchon';
 
 // Les critères déjà choisis dans le bandeau : leurs familles n'apparaissent pas.
 export let criteres: Critere[] = [];
@@ -33,6 +35,8 @@ interface Champ {
   sousTitre?: string;
   multi?: boolean;
   options: { value: Valeur; label: string }[];
+  // Des cases avec leur légende à la place des pastilles (essai sur « Type de bouchon »).
+  cases?: Case[];
 }
 interface Famille {
   id: string;
@@ -99,12 +103,8 @@ const FAMILLES: Famille[] = [
       {
         multi: true,
         options: TYPES_BOUCHON.map((t) => ({ value: t.code, label: majuscule(t.court ?? t.code) })),
+        cases: CASES_TYPE_BOUCHON,
       },
-    ],
-    definitions: [
-      { terme: 'Traditionnel', texte: 'resté dans son jus, 100% authentique' },
-      { terme: 'Moderne', texte: 'perpétue la tradition en la renouvelant' },
-      { terme: 'Bourgeois', texte: 'gastronomique, hommage aux bouchons' },
     ],
   },
   {
@@ -382,6 +382,14 @@ const COCHE = 'M5 12l5 5 9-10';
           <div class="contenu">
             {#each f.champs as champ, j}
               {#if champ.sousTitre}<p class="libelle">{champ.sousTitre}</p>{/if}
+              {#if champ.cases}
+                <CasesAvecLegende
+                  options={champ.cases}
+                  choisies={sel[f.id][j]}
+                  indisponible={(v) => indisponible(sel, familles, f, j, v)}
+                  on:choisir={(e) => choisir(f, j, e.detail)}
+                />
+              {:else}
               <ul class="puces">
                 {#each champ.options as o (o.value)}
                   {@const on = sel[f.id][j].includes(o.value)}
@@ -407,6 +415,7 @@ const COCHE = 'M5 12l5 5 9-10';
                   </li>
                 {/each}
               </ul>
+              {/if}
             {/each}
             {#if f.definitions}
               <ul class="definitions">
