@@ -7,11 +7,9 @@
 import { createEventDispatcher, onMount, tick } from 'svelte';
 import { BOUCHONS } from '../../data/bouchons';
 import {
-  AMBIANCES,
   type Ambiance,
   PORTIONS,
   type Portions,
-  PROFILS_MANGEUR,
   type ProfilMangeur,
   TYPES_BOUCHON,
   type TypeBouchon,
@@ -21,7 +19,7 @@ import type { Affinage, Critere, PalierDePrix, Service } from '../../recherche/r
 import FeuilleVege from '../FeuilleVege.svelte';
 import CasesAvecLegende from './CasesAvecLegende.svelte';
 import ChoixDesCriteres, { type Brouillon } from './ChoixDesCriteres.svelte';
-import { type Case, CASES_TYPE_BOUCHON } from './casesTypeBouchon';
+import { CASES_AMBIANCE, CASES_PROFIL, CASES_TYPE_BOUCHON, type Case } from './cases';
 
 // Les critères déjà choisis dans le bandeau : leurs familles n'apparaissent pas.
 export let criteres: Critere[] = [];
@@ -39,7 +37,7 @@ interface Champ {
   sousTitre?: string;
   multi?: boolean;
   options: { value: Valeur; label: string }[];
-  // Des cases avec leur légende à la place des pastilles (essai sur « Type de bouchon »).
+  // Des cases avec leur légende à la place des pastilles et des définitions.
   cases?: Case[];
 }
 interface Famille {
@@ -52,11 +50,6 @@ interface Famille {
 }
 
 const majuscule = (texte: string) => texte.charAt(0).toUpperCase() + texte.slice(1);
-const apresDeuxPoints = (texte: string) =>
-  (texte.split(' : ')[1] ?? texte).replace(/[.]$/, '').replace(/ \(.*\)$/, '');
-
-// « un découvreur curieux » → « Découvreur curieux ».
-const profilCourt = (court: string) => majuscule(court.replace(/^un /, ''));
 
 const FAMILLES: Famille[] = [
   {
@@ -125,32 +118,20 @@ const FAMILLES: Famille[] = [
     champs: [
       {
         multi: true,
-        options: AMBIANCES.map((a) => ({
-          value: a.code,
-          label: a.libelle.split(' : ')[0].replace(' & ', ' et '),
-        })),
+        options: CASES_AMBIANCE,
+        cases: CASES_AMBIANCE,
       },
     ],
-    definitions: AMBIANCES.map((a) => ({
-      terme: a.libelle.split(' : ')[0].replace(' & ', ' et '),
-      texte: apresDeuxPoints(a.libelle),
-    })),
   },
   {
     id: 'profil',
     titre: 'Profil de mangeur',
     champs: [
       {
-        options: PROFILS_MANGEUR.map((p) => ({
-          value: p.code,
-          label: profilCourt(p.court ?? p.code),
-        })),
+        options: CASES_PROFIL,
+        cases: CASES_PROFIL,
       },
     ],
-    definitions: PROFILS_MANGEUR.map((p) => ({
-      terme: profilCourt(p.court ?? p.code),
-      texte: apresDeuxPoints(p.libelle),
-    })),
   },
   {
     id: 'portions',

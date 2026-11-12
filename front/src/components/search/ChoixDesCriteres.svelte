@@ -29,7 +29,7 @@ import type { Critere, PalierDePrix, Service } from '../../recherche/regles';
 import { createEventDispatcher } from 'svelte';
 import FeuilleVege from '../FeuilleVege.svelte';
 import CasesAvecLegende from './CasesAvecLegende.svelte';
-import { type Case, CASES_TYPE_BOUCHON } from './casesTypeBouchon';
+import { type Case, CASES_TYPE_BOUCHON } from './cases';
 
 export let criteres: Critere[] = [];
 // Les critères en cours de choix : la même liste dans le bandeau et dans la

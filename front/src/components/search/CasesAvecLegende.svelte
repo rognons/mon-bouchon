@@ -3,7 +3,7 @@
 // juste en dessous : la définition se lit sur la case elle-même, au lieu d'une
 // liste séparée sous les pastilles. Essayé d'abord sur « Type de bouchon ».
 import { createEventDispatcher } from 'svelte';
-import type { Case } from './casesTypeBouchon';
+import type { Case } from './cases';
 
 type Valeur = string | number;
 
