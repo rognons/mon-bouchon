@@ -1,7 +1,8 @@
 <script lang="ts">
 // Le bandeau d'accueil : deux questions, chacune avec ses critères principaux
-// en pastilles, puis leurs valeurs. La liste des bouchons s'affiche juste
-// en dessous et se met à jour à chaque choix.
+// en pastilles, puis leurs valeurs, et le bouton « Voir les N bouchons ».
+// La liste s'affiche déjà juste en dessous et se met à jour à chaque choix :
+// le bouton est un raccourci pour y descendre, utile surtout sur téléphone.
 // Le premier critère complet est le critère principal, le second le critère
 // complémentaire (docs/adr/0003).
 import { BOUCHONS } from '../../data/bouchons';
@@ -15,11 +16,25 @@ import {
   type TypeDeCritere,
 } from '../../recherche/phrase';
 import type { Critere, PalierDePrix, Service } from '../../recherche/regles';
+import { createEventDispatcher } from 'svelte';
 import FeuilleVege from '../FeuilleVege.svelte';
 import CasesAvecLegende from './CasesAvecLegende.svelte';
 import { type Case, CASES_TYPE_BOUCHON } from './casesTypeBouchon';
 
 export let criteres: Critere[] = [];
+export let nbExacts = 0;
+export let nbProches = 0;
+
+const dispatch = createEventDispatcher<{ voir: undefined }>();
+
+$: texteVoir =
+  nbExacts > 1
+    ? `Voir les ${nbExacts} bouchons →`
+    : nbExacts === 1
+      ? 'Voir le bouchon →'
+      : nbProches > 0
+        ? 'Voir les bouchons les plus proches →'
+        : 'Voir le résultat →';
 
 type Valeur = string | number;
 interface Champ {
@@ -270,7 +285,10 @@ const typesProposes = (rang: number) =>
       {/if}
     {/each}
 
-    <p class="statut" role="status">{message}</p>
+    <div class="voir" id="voir-les-bouchons">
+      <button type="button" class="bouton" on:click={() => dispatch('voir')}>{texteVoir}</button>
+      <p class="statut" role="status">{message}</p>
+    </div>
   </div>
 </header>
 
@@ -486,6 +504,35 @@ const typesProposes = (rang: number) =>
   .definitions strong {
     font-weight: 600;
     color: var(--noir);
+  }
+  .voir {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+  .bouton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 52px;
+    padding: 12px 28px;
+    border: 1px solid var(--noir);
+    border-radius: 999px;
+    background: var(--blanc);
+    color: var(--noir);
+    font: inherit;
+    font-weight: 700;
+    font-stretch: 87.5%;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .bouton:hover {
+    background: var(--noir);
+    color: var(--blanc);
   }
   .statut {
     margin: 0;

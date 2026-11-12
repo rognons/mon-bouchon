@@ -19,8 +19,15 @@ import Results from './search/Results.svelte';
 // biome-ignore lint/style/useConst: Bound to the criteria chooser
 let criteres: Critere[] = [];
 
-// La liste des bouchons s'affiche directement sous le bandeau, sans bouton.
+// La liste des bouchons s'affiche directement sous le bandeau.
 const reduit = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// « Voir les N bouchons » : un raccourci qui descend jusqu'à la liste.
+function voirLesResultats() {
+  document
+    .getElementById('resultats')
+    ?.scrollIntoView({ behavior: reduit() ? 'auto' : 'smooth', block: 'start' });
+}
 
 // L'affinage, choisi dans le panneau « Affiner ».
 // biome-ignore lint/style/useConst: Bound to the refine panel
@@ -102,7 +109,12 @@ async function modifierLaRecherche() {
 }
 </script>
 
-<ChoixDesCriteres bind:criteres />
+<ChoixDesCriteres
+  bind:criteres
+  nbExacts={resultats.exacts.length}
+  nbProches={afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres.length : 0}
+  on:voir={voirLesResultats}
+/>
 
 <div class="rappel" id="resultats">
   <div class="rappel-int">
