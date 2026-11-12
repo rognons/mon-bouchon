@@ -3,7 +3,8 @@
 // secondaires, en pastilles rangées par famille
 // (docs/adr/0003). Sur téléphone, plein écran et en accordéon (tout s'ouvre
 // replié, un résumé des choix sous chaque titre) ; sur ordinateur, toutes les
-// familles dépliées. Une pastille qui mènerait à zéro bouchon est indisponible.
+// familles dépliées, une par ligne (les cases se partagent la largeur).
+// Une pastille qui mènerait à zéro bouchon est indisponible.
 import { createEventDispatcher, onMount, tick } from 'svelte';
 import { cubicInOut } from 'svelte/easing';
 import { slide } from 'svelte/transition';
@@ -616,13 +617,31 @@ const COCHE = 'M5 12l5 5 9-10';
     width: 100%;
     margin: 0;
     padding: 24px var(--marge);
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-    gap: 28px 40px;
+    /* Ordinateur : un critère par ligne, sur toute la largeur du contenu,
+       séparés par un filet, pour lire la liste de haut en bas. */
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
   .cale {
-    grid-column: 1 / -1;
     flex: none;
+  }
+  .panneau:not(.mobile) .famille {
+    padding: 20px 0 24px;
+  }
+  .panneau:not(.mobile) .famille + .famille {
+    border-top: 1px solid var(--gris);
+  }
+  .panneau:not(.mobile) .famille:first-child {
+    padding-top: 0;
+  }
+  /* Les cases (Type de bouchon, Ambiance, Profil) se partagent toute la
+     largeur de la ligne, à parts égales. */
+  .panneau:not(.mobile) .corps :global(.cases) {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+    gap: 16px;
   }
   .famille {
     display: flex;
