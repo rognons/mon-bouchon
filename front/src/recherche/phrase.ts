@@ -4,7 +4,15 @@
 //   et qui se trouve à la Croix-Rousse. »
 
 import { ARRONDISSEMENTS_LYON, COMMUNES, TYPES_BOUCHON } from '../data/referentiel';
-import { type Bouchon, type Critere, lieuDe, type PalierDePrix, type Service } from './regles';
+import {
+  type Bouchon,
+  type Critere,
+  lieuDe,
+  type Moment,
+  momentsRemplis,
+  type PalierDePrix,
+  type Service,
+} from './regles';
 
 export type TypeDeCritere = Critere['type'];
 
@@ -80,6 +88,9 @@ export const JOURS: { value: number; label: string }[] = [
   { value: 0, label: 'le dimanche' },
 ];
 
+// Indexé par numéro de jour (0 = dimanche).
+const JOURS_COURTS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+
 export const SERVICES: { value: Service; label: string }[] = [
   { value: 'machon', label: 'pour le mâchon (le matin)' },
   { value: 'midi', label: 'midi' },
@@ -94,7 +105,7 @@ export function critereParDefaut(type: TypeDeCritere): Critere {
     case 'lieu':
       return { type, valeurs: ['presquile'] };
     case 'moment':
-      return { type, jour: 6, service: 'midi' };
+      return { type, jours: [6], services: ['midi'] };
     case 'typeBouchon':
       return { type, valeurs: ['traditionnel'] };
     case 'vegetarien':
@@ -110,6 +121,22 @@ const libelleDe = <T>(liste: { value: T; label: string }[], value: T) =>
 const ouEntre = (mots: string[]) =>
   mots.length <= 1 ? (mots[0] ?? '') : `${mots.slice(0, -1).join(', ')} ou ${mots.at(-1)}`;
 
+// Les jours dans l'ordre de la semaine (lundi d'abord), les services dans
+// l'ordre de la journée (mâchon, midi, soir), quel que soit l'ordre des clics.
+const ORDRE_SERVICES: Service[] = ['machon', 'midi', 'soir'];
+const dansLOrdre = <T>(ordre: T[], valeurs: T[]) => ordre.filter((v) => valeurs.includes(v));
+const joursDansLOrdre = (jours: number[]) =>
+  dansLOrdre(
+    JOURS.map((j) => j.value),
+    jours
+  );
+const serviceCourt = (s: Service) => (s === 'machon' ? 'mâchon' : s);
+
+// « le samedi midi », « le samedi ou le dimanche, midi ou soir ».
+function joursEtServices(jours: string[], services: string[]): string {
+  return `${ouEntre(jours)}${jours.length > 1 ? ',' : ''} ${ouEntre(services)}`;
+}
+
 // La fin de phrase d'un critère : « a un menu à 30 € max ». Avec
 // negatif, la même à la forme négative : « n’a pas de menu à 30 € max ».
 export function decrire(critere: Critere, negatif = false): string {
@@ -121,7 +148,10 @@ export function decrire(critere: Critere, negatif = false): string {
     case 'lieu':
       return `${verbe} ${ouEntre(critere.valeurs.map((v) => libelleDe(LIEUX, v)))}`;
     case 'moment':
-      return `${verbe} ${libelleDe(JOURS, critere.jour)} ${libelleDe(SERVICES, critere.service)}`;
+      return `${verbe} ${joursEtServices(
+        joursDansLOrdre(critere.jours).map((j) => libelleDe(JOURS, j)),
+        dansLOrdre(ORDRE_SERVICES, critere.services).map((sv) => libelleDe(SERVICES, sv))
+      )}`;
     case 'typeBouchon':
       return `${verbe} ${ouEntre(critere.valeurs.map(typeCourt))}`;
     case 'vegetarien':
@@ -134,8 +164,6 @@ export function lieuCourt(value: string): string {
   return LIEUX.find((l) => l.value === value)?.court ?? value;
 }
 
-const minuscule = (texte: string) => texte.charAt(0).toLowerCase() + texte.slice(1);
-
 // Un critère en quelques mots, pour le rappel des choix au-dessus des
 // résultats : « Prix : 30 € max », « Lieu : Presqu’île ou 3e ».
 export function resumer(critere: Critere): string {
@@ -146,9 +174,9 @@ export function resumer(critere: Critere): string {
     case 'lieu':
       return `${nom} : ${ouEntre(critere.valeurs.map(lieuCourt))}`;
     case 'moment':
-      return `${nom} : ${minuscule(libelleDe(JOURS, critere.jour).replace(/^le /, ''))}, ${
-        critere.service === 'machon' ? 'mâchon' : critere.service
-      }`;
+      return `${nom} : ${ouEntre(
+        joursDansLOrdre(critere.jours).map((j) => JOURS_COURTS[j])
+      )}, ${ouEntre(dansLOrdre(ORDRE_SERVICES, critere.services).map(serviceCourt))}`;
     case 'typeBouchon':
       return `${nom} : ${ouEntre(critere.valeurs.map(typeCourt))}`;
     case 'vegetarien':
@@ -180,7 +208,30 @@ export function prixEnEuros(prix: number): string {
   return `${montant} €`;
 }
 
-const JOURS_COURTS = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+// Au-delà de deux jours, l'étiquette compte les créneaux au lieu de les citer,
+// pour rester courte sur la carte.
+const MAX_JOURS_ETIQUETTE = 2;
+
+// « Ouvert samedi soir », « Mâchon le dimanche », « Ouvert samedi midi et
+// soir, dimanche midi » : seulement les créneaux choisis où le bouchon est
+// ouvert (tous les créneaux choisis si ses horaires manquent).
+function etiquetteMoment(critere: Extract<Critere, { type: 'moment' }>, bouchon: Bouchon): string {
+  const remplis: Moment[] = bouchon.openingHours?.length
+    ? momentsRemplis(bouchon, critere)
+    : critere.jours.flatMap((jour) => critere.services.map((service) => ({ jour, service })));
+  if (remplis.length === 1 && remplis[0].service === 'machon') {
+    return `Mâchon le ${JOURS_COURTS[remplis[0].jour]}`;
+  }
+  const jours = joursDansLOrdre(remplis.map((m) => m.jour));
+  if (jours.length > MAX_JOURS_ETIQUETTE) {
+    return `Ouvert sur ${remplis.length} de vos créneaux`;
+  }
+  const parJour = jours.map((jour) => {
+    const services = remplis.filter((m) => m.jour === jour).map((m) => m.service);
+    return `${JOURS_COURTS[jour]} ${dansLOrdre(ORDRE_SERVICES, services).map(serviceCourt).join(' et ')}`;
+  });
+  return `Ouvert ${parJour.join(', ')}`;
+}
 
 // L'étiquette d'un critère rempli par un bouchon, sur sa carte :
 // « Menu à 27 € », « Sur la Presqu’île », « Ouvert samedi soir »…
@@ -194,12 +245,8 @@ export function etiquette(critere: Critere, bouchon: Bouchon): string {
       const label = libelleDe(LIEUX, lieuDe(bouchon));
       return label.charAt(0).toUpperCase() + label.slice(1);
     }
-    case 'moment': {
-      const jour = JOURS_COURTS[critere.jour];
-      return critere.service === 'machon'
-        ? `Mâchon le ${jour}`
-        : `Ouvert ${jour} ${critere.service}`;
-    }
+    case 'moment':
+      return etiquetteMoment(critere, bouchon);
     case 'typeBouchon':
       return `Bouchon ${typeCourt(bouchon.bouchonType ?? '')}`;
     case 'vegetarien':

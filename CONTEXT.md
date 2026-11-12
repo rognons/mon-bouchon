@@ -133,7 +133,8 @@ on voit les bouchons de ce niveau et des niveaux plus copieux.
 
 **Service** :
 Moment de la journée où un bouchon sert : mâchon (le matin), midi ou soir.
-Dans la phrase de recherche, on choisit un jour et un service.
+Dans la phrase de recherche, on choisit un ou plusieurs jours et un ou plusieurs
+services : le bouchon doit être ouvert sur au moins une des combinaisons.
 *À éviter* : créneau, horaire, heure, option mâchon.
 
 **Mâchon** :

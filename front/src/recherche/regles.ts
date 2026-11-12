@@ -60,7 +60,9 @@ export type Lieu = string;
 export type Critere =
   | { type: 'prix'; palier: PalierDePrix }
   | { type: 'lieu'; valeurs: Lieu[] }
-  | { type: 'moment'; jour: number; service: Service }
+  // Plusieurs jours et services possibles : le bouchon doit être ouvert sur
+  // au moins une des combinaisons (samedi midi, ou samedi soir, ou dimanche midi…).
+  | { type: 'moment'; jours: number[]; services: Service[] }
   | { type: 'typeBouchon'; valeurs: TypeBouchon[] }
   | { type: 'vegetarien' };
 
@@ -143,6 +145,33 @@ function rang<Code extends string>(valeurs: { code: Code }[], code: Code): numbe
   return valeurs.findIndex((v) => v.code === code);
 }
 
+export interface Moment {
+  jour: number;
+  service: Service;
+}
+
+// Est-ce que le bouchon est ouvert ce jour-là pour ce service ?
+function ouvertA(bouchon: Bouchon, { jour, service }: Moment): boolean {
+  const creneaux = (bouchon.openingHours ?? []).filter((c) => c.day === jour);
+  if (service === 'machon') {
+    // Le mâchon se sert sur réservation, en dehors des horaires, mais
+    // seulement les jours où le bouchon est ouvert (décidé le 28/10/2026).
+    return bouchon.machonOption && creneaux.length > 0;
+  }
+  const plage = PLAGES_SERVICE[service];
+  return creneaux.some((c) => chevauche(c, plage));
+}
+
+// Les combinaisons jour + service choisies où le bouchon est ouvert.
+export function momentsRemplis(
+  bouchon: Bouchon,
+  critere: Extract<Critere, { type: 'moment' }>
+): Moment[] {
+  return critere.jours.flatMap((jour) =>
+    critere.services.map((service) => ({ jour, service })).filter((m) => ouvertA(bouchon, m))
+  );
+}
+
 export function evaluer(bouchon: Bouchon, critere: Critere): Verdict {
   switch (critere.type) {
     case 'prix': {
@@ -153,14 +182,7 @@ export function evaluer(bouchon: Bouchon, critere: Critere): Verdict {
       return critere.valeurs.includes(lieuDe(bouchon)) ? 'oui' : 'non';
     case 'moment': {
       if (!bouchon.openingHours || bouchon.openingHours.length === 0) return 'inconnu';
-      const creneaux = bouchon.openingHours.filter((c) => c.day === critere.jour);
-      if (critere.service === 'machon') {
-        // Le mâchon se sert sur réservation, en dehors des horaires, mais
-        // seulement les jours où le bouchon est ouvert (décidé le 28/10/2026).
-        return bouchon.machonOption && creneaux.length > 0 ? 'oui' : 'non';
-      }
-      const plage = PLAGES_SERVICE[critere.service];
-      return creneaux.some((c) => chevauche(c, plage)) ? 'oui' : 'non';
+      return momentsRemplis(bouchon, critere).length > 0 ? 'oui' : 'non';
     }
     case 'typeBouchon':
       if (!bouchon.bouchonType) return 'inconnu';

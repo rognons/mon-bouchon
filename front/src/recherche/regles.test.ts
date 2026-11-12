@@ -271,8 +271,8 @@ describe('Portions, en affinage (minimum)', () => {
 });
 
 describe('Jour et service', () => {
-  const samediMidi: Critere = { type: 'moment', jour: 6, service: 'midi' };
-  const samediSoir: Critere = { type: 'moment', jour: 6, service: 'soir' };
+  const samediMidi: Critere = { type: 'moment', jours: [6], services: ['midi'] };
+  const samediSoir: Critere = { type: 'moment', jours: [6], services: ['soir'] };
 
   it('trouve un bouchon ouvert ce jour-là pour ce service', () => {
     expect(evaluer(unBouchon('ouvert'), samediMidi)).toBe('oui');
@@ -280,7 +280,9 @@ describe('Jour et service', () => {
   });
 
   it('écarte un bouchon fermé ce jour-là', () => {
-    expect(evaluer(unBouchon('ouvert'), { type: 'moment', jour: 0, service: 'midi' })).toBe('non');
+    expect(evaluer(unBouchon('ouvert'), { type: 'moment', jours: [0], services: ['midi'] })).toBe(
+      'non'
+    );
   });
 
   it('écarte un bouchon ouvert ce jour-là mais pas pour ce service', () => {
@@ -297,11 +299,33 @@ describe('Jour et service', () => {
   });
 
   it('mâchon (règle provisoire) : le bouchon sert le mâchon et il est ouvert ce jour-là', () => {
-    const samediMachon: Critere = { type: 'moment', jour: 6, service: 'machon' };
+    const samediMachon: Critere = { type: 'moment', jours: [6], services: ['machon'] };
     expect(evaluer(unBouchon('machon', { machonOption: true }), samediMachon)).toBe('oui');
     expect(evaluer(unBouchon('sans-machon'), samediMachon)).toBe('non');
-    expect(evaluer(unBouchon('machon', { machonOption: true }), { ...samediMachon, jour: 0 })).toBe(
-      'non'
+    expect(
+      evaluer(unBouchon('machon', { machonOption: true }), { ...samediMachon, jours: [0] })
+    ).toBe('non');
+  });
+});
+
+describe('Jour et service : plusieurs choix', () => {
+  // Ouvert du mardi au samedi, midi et soir (voir unBouchon).
+  it('garde un bouchon ouvert sur au moins une des combinaisons choisies', () => {
+    const dimancheOuSamedi: Critere = { type: 'moment', jours: [0, 6], services: ['midi'] };
+    expect(evaluer(unBouchon('ouvert'), dimancheOuSamedi)).toBe('oui');
+  });
+
+  it('écarte un bouchon fermé sur toutes les combinaisons choisies', () => {
+    const dimancheOuLundi: Critere = { type: 'moment', jours: [0, 1], services: ['midi', 'soir'] };
+    expect(evaluer(unBouchon('ouvert'), dimancheOuLundi)).toBe('non');
+  });
+
+  it('accepte le soir quand le bouchon n’est ouvert que le soir', () => {
+    const soirSeulement = unBouchon('soir-seulement', {
+      openingHours: [{ day: 5, open: '1900', close: '2300' }],
+    });
+    expect(evaluer(soirSeulement, { type: 'moment', jours: [5], services: ['midi', 'soir'] })).toBe(
+      'oui'
     );
   });
 });

@@ -75,14 +75,16 @@ const CHAMPS: Record<TypeDeCritere, Champ[]> = {
   ],
   moment: [
     {
-      titre: 'Quel jour ?',
+      titre: 'Quel jour ? Plusieurs choix possibles',
+      multi: true,
       options: JOURS.map((j) => ({
         value: j.value,
         label: majuscule(j.label.replace(/^le /, '')),
       })),
     },
     {
-      titre: 'Pour quel service ?',
+      titre: 'Pour quel service ? Plusieurs choix possibles',
+      multi: true,
       options: [
         { value: 'midi', label: 'Midi' },
         { value: 'soir', label: 'Soir' },
@@ -122,7 +124,7 @@ function versCritere(b: Brouillon): Critere | null {
     case 'lieu':
       return { type: 'lieu', valeurs: premier as string[] };
     case 'moment':
-      return { type: 'moment', jour: premier[0] as number, service: second[0] as Service };
+      return { type: 'moment', jours: premier as number[], services: second as Service[] };
     case 'typeBouchon':
       return { type: 'typeBouchon', valeurs: premier as TypeBouchon[] };
     case 'vegetarien':

@@ -24,7 +24,9 @@ describe('Formulation de la phrase de recherche', () => {
     expect(decrire({ type: 'lieu', valeurs: ['croix-rousse'] })).toBe(
       'se trouve à la Croix-Rousse'
     );
-    expect(decrire({ type: 'moment', jour: 6, service: 'midi' })).toBe('est ouvert le samedi midi');
+    expect(decrire({ type: 'moment', jours: [6], services: ['midi'] })).toBe(
+      'est ouvert le samedi midi'
+    );
     expect(decrire({ type: 'typeBouchon', valeurs: ['traditionnel', 'moderne'] })).toBe(
       'est un bouchon traditionnel ou moderne'
     );
@@ -71,13 +73,44 @@ describe('Formulation de la phrase de recherche', () => {
       'Lieu : Presqu’île ou 3e'
     );
     expect(resumer({ type: 'lieu', valeurs: ['les-cheres'] })).toBe('Lieu : Beaujolais');
-    expect(resumer({ type: 'moment', jour: 6, service: 'machon' })).toBe(
+    expect(resumer({ type: 'moment', jours: [6], services: ['machon'] })).toBe(
       'Jour et service : samedi, mâchon'
     );
     expect(resumer({ type: 'typeBouchon', valeurs: ['bourgeois'] })).toBe(
       'Type de bouchon : bourgeois'
     );
     expect(resumer({ type: 'vegetarien' })).toBe('Option végé');
+  });
+
+  it('décrit plusieurs jours et services', () => {
+    const critere = {
+      type: 'moment' as const,
+      jours: [0, 6],
+      services: ['soir' as const, 'midi' as const],
+    };
+    expect(decrire(critere)).toBe('est ouvert le samedi ou le dimanche, midi ou soir');
+    expect(resumer(critere)).toBe('Jour et service : samedi ou dimanche, midi ou soir');
+  });
+
+  it('étiquette seulement les créneaux choisis où le bouchon est ouvert', () => {
+    const b = {
+      machonOption: false,
+      openingHours: [
+        { day: 6, open: '1200', close: '1400' },
+        { day: 6, open: '1930', close: '2300' },
+        { day: 0, open: '1200', close: '1400' },
+      ],
+    } as Bouchon;
+    expect(etiquette({ type: 'moment', jours: [5, 6, 0], services: ['midi', 'soir'] }, b)).toBe(
+      'Ouvert samedi midi et soir, dimanche midi'
+    );
+    const tousLesJours = {
+      ...b,
+      openingHours: [1, 2, 3].map((day) => ({ day, open: '1200', close: '1400' })),
+    };
+    expect(etiquette({ type: 'moment', jours: [1, 2, 3], services: ['midi'] }, tousLesJours)).toBe(
+      'Ouvert sur 3 de vos créneaux'
+    );
   });
 
   it('écrit les prix à la française', () => {
@@ -101,8 +134,12 @@ describe('Formulation de la phrase de recherche', () => {
     } as Bouchon;
     expect(etiquette({ type: 'prix', palier: 'max-35' }, b)).toBe('Menu à 31 €');
     expect(etiquette({ type: 'lieu', valeurs: ['presquile'] }, b)).toBe('Sur la Presqu’île');
-    expect(etiquette({ type: 'moment', jour: 6, service: 'soir' }, b)).toBe('Ouvert samedi soir');
-    expect(etiquette({ type: 'moment', jour: 0, service: 'machon' }, b)).toBe('Mâchon le dimanche');
+    expect(etiquette({ type: 'moment', jours: [6], services: ['soir'] }, b)).toBe(
+      'Ouvert samedi soir'
+    );
+    expect(etiquette({ type: 'moment', jours: [0], services: ['machon'] }, b)).toBe(
+      'Mâchon le dimanche'
+    );
     expect(etiquette({ type: 'typeBouchon', valeurs: ['traditionnel'] }, b)).toBe(
       'Bouchon traditionnel'
     );

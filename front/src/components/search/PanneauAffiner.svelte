@@ -78,14 +78,16 @@ const FAMILLES: Famille[] = [
     principal: 'moment',
     champs: [
       {
-        sousTitre: 'Quel jour ?',
+        sousTitre: 'Quel jour ? Plusieurs choix possibles',
+        multi: true,
         options: JOURS.map((j) => ({
           value: j.value,
           label: majuscule(j.label.replace(/^le /, '')),
         })),
       },
       {
-        sousTitre: 'Pour quel service ?',
+        sousTitre: 'Pour quel service ? Plusieurs choix possibles',
+        multi: true,
         options: [
           { value: 'midi', label: 'Midi' },
           { value: 'soir', label: 'Soir' },
@@ -198,7 +200,7 @@ function selectionDepuis(a: Affinage): Selection {
   for (const c of a.principaux ?? []) {
     if (c.type === 'prix') s.prix[0] = [c.palier];
     if (c.type === 'lieu') s.lieu[0] = [...c.valeurs];
-    if (c.type === 'moment') s.moment = [[c.jour], [c.service]];
+    if (c.type === 'moment') s.moment = [[...c.jours], [...c.services]];
     if (c.type === 'typeBouchon') s.typeBouchon[0] = [...c.valeurs];
     if (c.type === 'vegetarien') s.vegetarien[0] = ['oui'];
   }
@@ -232,8 +234,8 @@ function versAffinage(s: Selection, visibles: Famille[]): Affinage {
   if (ids.has('moment') && s.moment[0].length && s.moment[1].length) {
     principaux.push({
       type: 'moment',
-      jour: s.moment[0][0] as number,
-      service: s.moment[1][0] as Service,
+      jours: s.moment[0] as number[],
+      services: s.moment[1] as Service[],
     });
   }
   if (ids.has('typeBouchon') && s.typeBouchon[0].length) {
