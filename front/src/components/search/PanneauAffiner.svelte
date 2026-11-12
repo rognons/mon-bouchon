@@ -298,22 +298,31 @@ function choisir(f: Famille, j: number, value: Valeur) {
   if (sereplie(f) && estActive(f, sel)) replierEnDouceur(f);
 }
 
-// Replier d'un coup faisait « sauter » la fenêtre : tout ce qui suit remontait
-// sans prévenir. On laisse donc d'abord voir la case cochée un instant, puis
-// la famille se replie en glissant (voir `glisser`), et son en-tête, avec le
-// choix (« Amateur averti »), revient en vue. Le focus, qui était sur la case
-// disparue, passe sur cet en-tête (ou sa pastille sur ordinateur).
+// Replier une famille raccourcit la fenêtre : si l'on avait fait défiler
+// jusqu'en bas, le navigateur remontait d'un coup, ce qui était perturbant.
+// On ajoute donc en bas une « cale » blanche de la hauteur des options
+// repliées : la fenêtre garde sa hauteur et l'on reste au même endroit ; seul
+// du blanc apparaît en dessous. Quand on rouvre une famille, la cale rétrécit
+// d'autant. On laisse aussi voir la case cochée un instant avant de replier.
+// Le focus, qui était sur la case disparue, passe sur l'en-tête de la famille
+// (ou sa pastille sur ordinateur), sans faire défiler.
 const PAUSE_AVANT_REPLI = 350;
+const DUREE_GLISSEMENT = 250;
+let cale = 0;
 const replisEnAttente: Record<string, ReturnType<typeof setTimeout>> = {};
+const groupeDe = (f: Famille) =>
+  document.querySelector<HTMLElement>(`[aria-labelledby="famille-${f.id}"]`);
+const hauteurDesOptions = (f: Famille) =>
+  groupeDe(f)?.querySelector<HTMLElement>('.contenu')?.offsetHeight ?? 0;
+
 function replierEnDouceur(f: Famille) {
   clearTimeout(replisEnAttente[f.id]);
   replisEnAttente[f.id] = setTimeout(async () => {
     if (!estActive(f, sel)) return;
+    cale += hauteurDesOptions(f);
     ouverts = { ...ouverts, [f.id]: false };
     await tick();
-    const groupe = document.querySelector<HTMLElement>(`[aria-labelledby="famille-${f.id}"]`);
-    groupe?.querySelector<HTMLElement>('button')?.focus({ preventScroll: true });
-    groupe?.scrollIntoView({ block: 'nearest', behavior: mouvementReduit() ? 'auto' : 'smooth' });
+    groupeDe(f)?.querySelector<HTMLElement>('button')?.focus({ preventScroll: true });
   }, PAUSE_AVANT_REPLI);
 }
 
@@ -322,7 +331,8 @@ const mouvementReduit = () =>
 
 // Les options se déplient et se replient en glissant, sauf si la personne a
 // demandé à son appareil de réduire les animations.
-const glisser = (noeud: Element) => slide(noeud, { duration: mouvementReduit() ? 0 : 250 });
+const glisser = (noeud: Element) =>
+  slide(noeud, { duration: mouvementReduit() ? 0 : DUREE_GLISSEMENT });
 
 function reinitialiser() {
   sel = vide();
@@ -386,7 +396,15 @@ const estOuverte = (f: Famille, s: Selection, o: Record<string, boolean>, m: boo
   o[f.id] ?? (!m && !(sereplie(f) && estActive(f, s)));
 
 function basculer(f: Famille) {
-  ouverts = { ...ouverts, [f.id]: !estOuverte(f, sel, ouverts, mobile) };
+  const ouvrir = !estOuverte(f, sel, ouverts, mobile);
+  if (!ouvrir) cale += hauteurDesOptions(f);
+  ouverts = { ...ouverts, [f.id]: ouvrir };
+  // Une fois les options dépliées, la cale rend la place qu'elles prennent.
+  if (ouvrir && cale > 0) {
+    setTimeout(() => {
+      cale = Math.max(0, cale - hauteurDesOptions(f));
+    }, DUREE_GLISSEMENT + 20);
+  }
 }
 
 function surTouche(e: KeyboardEvent) {
@@ -516,6 +534,7 @@ const COCHE = 'M5 12l5 5 9-10';
         {/if}
       </div>
     {/each}
+    {#if cale > 0}<div class="cale" style:height="{cale}px" aria-hidden="true"></div>{/if}
   </div>
 
   <div class="pied">
@@ -589,6 +608,10 @@ const COCHE = 'M5 12l5 5 9-10';
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
     gap: 28px 40px;
+  }
+  .cale {
+    grid-column: 1 / -1;
+    flex: none;
   }
   .famille {
     display: flex;
