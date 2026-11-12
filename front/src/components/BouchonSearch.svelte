@@ -97,9 +97,9 @@ $: nbChoix =
     ] as const
   ).filter((k) => affinageEffectif[k]).length;
 
-// Sur téléphone, « Modifier ou affiner » n'apparaît qu'une fois arrivé
-// à la liste des bouchons, en bas de l'écran (à portée du pouce).
-// Sur ordinateur, la classe ne change rien : la barre reste en haut.
+// « Modifier ou affiner » n'apparaît qu'une fois arrivé à la liste des
+// bouchons : en haut de l'écran sur ordinateur, en bas sur téléphone
+// (à portée du pouce). Le premier écran garde une seule action.
 let zoneResultats: HTMLElement;
 let dansLaListe = false;
 onMount(() => {
@@ -107,7 +107,10 @@ onMount(() => {
   const verifier = () => {
     attente = 0;
     const r = zoneResultats.getBoundingClientRect();
-    dansLaListe = r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4;
+    // Arrivé à la liste = son haut est presque en haut de l'écran, quelle que
+    // soit la hauteur de l'écran (sinon, sur un grand écran, la barre
+    // apparaîtrait dès le premier écran).
+    dansLaListe = r.top < 160 && r.bottom > window.innerHeight * 0.4;
   };
   const surDefilement = () => {
     if (!attente) attente = requestAnimationFrame(verifier);
@@ -184,15 +187,38 @@ async function fermerPanneau() {
 </div>
 
 <style>
-  /* Le rappel des choix reste en haut de l'écran pendant qu'on parcourt les résultats. */
+  /* Le rappel des choix glisse en haut de l'écran quand on arrive à la liste,
+     et reste là pendant qu'on parcourt les résultats. */
   .rappel {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 150;
     background: #ffffff;
     border-bottom: 1px solid #e6e2dc;
     font-family: 'Bricolage Grotesque', Arial, sans-serif;
     color: #221f20;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-100%);
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease,
+      visibility 0s linear 0.25s;
+  }
+  .rappel.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity 0.25s ease,
+      transform 0.25s ease,
+      visibility 0s;
+  }
+  /* « Voir les N bouchons » s'arrête sous la barre, pas dessous. */
+  #resultats {
+    scroll-margin-top: 65px;
   }
   .rappel-int {
     display: flex;
@@ -293,29 +319,17 @@ async function fermerPanneau() {
        le premier écran garde une seule action, « Voir les N bouchons ».
        Les critères choisis se relisent dans la fenêtre. */
     .rappel {
-      position: fixed;
       top: auto;
       bottom: 0;
-      left: 0;
-      right: 0;
       border-bottom: 0;
       border-top: 1px solid #e6e2dc;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(24px);
-      transition:
-        opacity 0.25s ease,
-        transform 0.25s ease,
-        visibility 0s linear 0.25s;
+      transform: translateY(100%);
     }
     .rappel.visible {
-      opacity: 1;
-      visibility: visible;
       transform: none;
-      transition:
-        opacity 0.25s ease,
-        transform 0.25s ease,
-        visibility 0s;
+    }
+    #resultats {
+      scroll-margin-top: 0;
     }
     .rappel-int {
       padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px));
@@ -332,7 +346,7 @@ async function fermerPanneau() {
       padding: 16px 16px 96px;
     }
   }
-  @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  @media (prefers-reduced-motion: reduce) {
     .rappel,
     .rappel.visible {
       transform: none;
