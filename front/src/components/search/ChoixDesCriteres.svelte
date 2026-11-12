@@ -178,7 +178,7 @@ function retirer(rang: number) {
 }
 
 function choisirCritere(rang: number, type: TypeDeCritere) {
-  if (rang === 0) listeAutreOuverte = false;
+  menuOuvert = null;
   if (brouillons[rang]?.type === type) {
     retirer(rang);
     return;
@@ -208,27 +208,38 @@ function choisirValeur(rang: number, champ: number, value: Valeur) {
   message = '';
 }
 
-// La liste déroulante « Autre critère » (critère n°1 seulement) : les
-// critères de « Modifier ou affiner », chacun avec toutes ses valeurs.
-let listeAutreOuverte = false;
-$: autreChoisi = brouillons[0]?.type === 'autre' ? versCritere(brouillons[0]) : null;
-$: idListeAutre = `${dansFenetre ? 'fenetre-' : ''}liste-autre-critere`;
+// Le menu « Autre » (critères n°1 et n°2) : les critères de « Modifier ou
+// affiner », chacun avec toutes ses valeurs. Un seul menu ouvert à la fois.
+let menuOuvert: number | null = null;
+$: autresChoisis = [0, 1].map((rang) =>
+  brouillons[rang]?.type === 'autre' ? versCritere(brouillons[rang]) : null
+);
+const idMenu = (rang: number) => `${dansFenetre ? 'fenetre-' : ''}menu-autre-${rang + 1}`;
 
 const estAutreChoisi = (choisi: Critere | null, famille: FamilleAutre, valeur: string) =>
   choisi?.type === 'autre' && choisi.famille === famille && choisi.valeur === valeur;
 
-// Une valeur qu'aucun bouchon ne remplit n'est pas proposée comme critère n°1.
+// Une valeur qu'aucun bouchon ne remplit n'est pas proposée.
 const sansBouchon = (famille: FamilleAutre, valeur: string) =>
   !BOUCHONS.some((b) => evaluer(b, { type: 'autre', famille, valeur }) === 'oui');
 
-function choisirAutre(famille: FamilleAutre, valeur: string) {
-  listeAutreOuverte = false;
-  if (estAutreChoisi(autreChoisi, famille, valeur)) {
-    retirer(0);
+// En n°2, pas une seconde valeur de la famille déjà choisie en n°1
+// (deux ambiances à la fois ne laisseraient aucun bouchon).
+const familleDuPremier = (choisis: (Critere | null)[]) =>
+  choisis[0]?.type === 'autre' ? choisis[0].famille : null;
+const indisponible = (rang: number, famille: FamilleAutre, valeur: string) =>
+  (rang === 1 && familleDuPremier(autresChoisis) === famille) || sansBouchon(famille, valeur);
+
+function choisirAutre(rang: number, famille: FamilleAutre, valeur: string) {
+  if (estAutreChoisi(autresChoisis[rang], famille, valeur)) {
+    retirer(rang);
     return;
   }
-  const suivants = [...brouillons];
-  suivants[0] = { type: 'autre', choix: [[famille], [valeur]] };
+  let suivants = [...brouillons];
+  suivants[rang] = { type: 'autre', choix: [[famille], [valeur]] };
+  // Le n°2 de la même famille que le nouveau n°1 s'en va.
+  const second = rang === 0 && suivants[1] ? versCritere(suivants[1]) : null;
+  if (second?.type === 'autre' && second.famille === famille) suivants = suivants.slice(0, 1);
   brouillons = suivants;
   message = '';
 }
@@ -236,39 +247,41 @@ function choisirAutre(famille: FamilleAutre, valeur: string) {
 // Le menu flotte sous la pastille, comme un menu Notion : il se place par
 // rapport à l'écran (le bandeau rose coupe ce qui dépasse), au-dessus de la
 // pastille s'il n'y a pas la place en dessous.
-let boutonAutre: HTMLButtonElement;
+const boutonsAutre: HTMLButtonElement[] = [];
 let menuAutre: HTMLDivElement;
 let positionMenu = '';
 
 const MARGE = 16;
-const LARGEUR_MENU = 340;
+const LARGEUR_MENU = 440;
 
 function placerMenu() {
-  if (!boutonAutre) return;
-  const r = boutonAutre.getBoundingClientRect();
+  const bouton = menuOuvert === null ? null : boutonsAutre[menuOuvert];
+  if (!bouton) return;
+  const r = bouton.getBoundingClientRect();
   const largeur = Math.min(LARGEUR_MENU, window.innerWidth - 2 * MARGE);
   const gauche = Math.max(MARGE, Math.min(r.left, window.innerWidth - largeur - MARGE));
-  const dessous = window.innerHeight - r.bottom - MARGE - 6;
-  const dessus = r.top - MARGE - 6;
+  const dessous = window.innerHeight - r.bottom - MARGE - 8;
+  const dessus = r.top - MARGE - 8;
   const enDessous = dessous >= 320 || dessous >= dessus;
   positionMenu = enDessous
-    ? `top:${r.bottom + 6}px;max-height:${dessous}px;`
-    : `bottom:${window.innerHeight - r.top + 6}px;max-height:${dessus}px;`;
+    ? `top:${r.bottom + 8}px;max-height:${dessous}px;`
+    : `bottom:${window.innerHeight - r.top + 8}px;max-height:${dessus}px;`;
   positionMenu += `left:${gauche}px;width:${largeur}px;`;
 }
 
-async function ouvrirMenu() {
+async function ouvrirMenu(rang: number) {
+  menuOuvert = rang;
   placerMenu();
-  listeAutreOuverte = true;
   await tick();
   // Le focus va sur la valeur choisie, sinon sur la première.
   const lignes = lignesDuMenu();
-  (lignes.find((l) => l.dataset.choisi === "true") ?? lignes[0])?.focus();
+  (lignes.find((l) => l.dataset.choisi === 'true') ?? lignes[0])?.focus();
 }
 
 function fermerMenu(rendreFocus = false) {
-  listeAutreOuverte = false;
-  if (rendreFocus) boutonAutre?.focus();
+  const rang = menuOuvert;
+  menuOuvert = null;
+  if (rendreFocus && rang !== null) boutonsAutre[rang]?.focus();
 }
 
 const lignesDuMenu = () =>
@@ -291,11 +304,11 @@ function toucheMenu(e: KeyboardEvent) {
   }
 }
 
-// Un clic ailleurs que dans le menu ou sur la pastille ferme le menu.
+// Un clic ailleurs que dans le menu ou sur sa pastille ferme le menu.
 function clicAilleurs(e: PointerEvent) {
-  if (!listeAutreOuverte) return;
+  if (menuOuvert === null) return;
   const cible = e.target as Node;
-  if (menuAutre?.contains(cible) || boutonAutre?.contains(cible)) return;
+  if (menuAutre?.contains(cible) || boutonsAutre[menuOuvert]?.contains(cible)) return;
   fermerMenu();
 }
 
@@ -305,8 +318,8 @@ const typesProposes = (rang: number) =>
 
 <svelte:window
   on:pointerdown={clicAilleurs}
-  on:resize={() => listeAutreOuverte && placerMenu()}
-  on:scroll|capture={() => listeAutreOuverte && placerMenu()}
+  on:resize={() => menuOuvert !== null && placerMenu()}
+  on:scroll|capture={() => menuOuvert !== null && placerMenu()}
 />
 
 <svelte:element this={dansFenetre ? 'div' : 'header'} class="bandeau" class:fenetre={dansFenetre}>
@@ -357,59 +370,57 @@ const typesProposes = (rang: number) =>
                 </button>
               </li>
             {/each}
-            {#if rang === 0}
-              <li>
-                <button
-                  type="button"
-                  bind:this={boutonAutre}
-                  class="puce"
-                  class:puce-choisie={autreChoisi}
-                  aria-haspopup="true"
-                  aria-expanded={listeAutreOuverte}
-                  aria-controls={idListeAutre}
-                  on:click={() => (listeAutreOuverte ? fermerMenu() : ouvrirMenu())}
-                  on:keydown={(e) => {
-                    if (e.key === 'ArrowDown' && !listeAutreOuverte) {
-                      e.preventDefault();
-                      ouvrirMenu();
-                    }
-                  }}
+            <li>
+              <button
+                type="button"
+                bind:this={boutonsAutre[rang]}
+                class="puce"
+                class:puce-choisie={autresChoisis[rang]}
+                aria-haspopup="true"
+                aria-expanded={menuOuvert === rang}
+                aria-controls={idMenu(rang)}
+                on:click={() => (menuOuvert === rang ? fermerMenu() : ouvrirMenu(rang))}
+                on:keydown={(e) => {
+                  if (e.key === 'ArrowDown' && menuOuvert !== rang) {
+                    e.preventDefault();
+                    ouvrirMenu(rang);
+                  }
+                }}
+              >
+                <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
+                  ><path d={autresChoisis[rang] ? COCHE : PLUS} /></svg
                 >
-                  <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
-                    ><path d={autreChoisi ? COCHE : PLUS} /></svg
-                  >
-                  {autreChoisi ? resumer(autreChoisi) : 'Autre critère'}
-                  <svg class="chevron" class:chevron-ouvert={listeAutreOuverte} aria-hidden="true" viewBox="0 0 24 24"
-                    ><path d="m6 9 6 6 6-6" /></svg
-                  >
-                </button>
-              </li>
-            {/if}
+                {autresChoisis[rang] ? resumer(autresChoisis[rang]) : 'Autre'}
+                <svg class="chevron" class:chevron-ouvert={menuOuvert === rang} aria-hidden="true" viewBox="0 0 24 24"
+                  ><path d="m6 9 6 6 6-6" /></svg
+                >
+              </button>
+            </li>
           </ul>
 
-          {#if rang === 0 && listeAutreOuverte}
+          {#if menuOuvert === rang}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
             <div
               class="menu-autre"
-              id={idListeAutre}
+              id={idMenu(rang)}
               bind:this={menuAutre}
               style={positionMenu}
               on:keydown={toucheMenu}
             >
               {#each AUTRES_CRITERES as f (f.famille)}
-                <div class="menu-groupe" role="group" aria-labelledby="{idListeAutre}-{f.famille}">
-                  <p class="menu-titre" id="{idListeAutre}-{f.famille}">{f.titre}</p>
+                <div class="menu-groupe" role="group" aria-labelledby="{idMenu(rang)}-{f.famille}">
+                  <p class="menu-titre" id="{idMenu(rang)}-{f.famille}">{f.titre}</p>
                   {#each f.options as option (option.value)}
-                    {@const coche = estAutreChoisi(autreChoisi, f.famille, option.value)}
+                    {@const coche = estAutreChoisi(autresChoisis[rang], f.famille, option.value)}
                     <button
                       type="button"
                       class="ligne"
                       class:ligne-choisie={coche}
                       aria-pressed={coche}
                       data-choisi={coche}
-                      disabled={!coche && sansBouchon(f.famille, option.value)}
+                      disabled={!coche && indisponible(rang, f.famille, option.value)}
                       on:click={() => {
-                        choisirAutre(f.famille, option.value);
+                        choisirAutre(rang, f.famille, option.value);
                         fermerMenu(true);
                       }}
                     >
@@ -669,41 +680,48 @@ const typesProposes = (rang: number) =>
     box-sizing: border-box;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 6px;
+    padding: 8px;
     background: var(--blanc);
     border: 1px solid rgb(34 31 32 / 12%);
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow:
       0 0 0 1px rgb(34 31 32 / 4%),
       0 12px 32px rgb(34 31 32 / 20%);
-    font-size: 16px;
+    /* Le texte courant du site : 17 px. */
+    font-size: 17px;
     line-height: 1.3;
     color: var(--noir);
   }
   .menu-groupe + .menu-groupe {
-    margin-top: 6px;
-    padding-top: 6px;
+    margin-top: 8px;
+    padding-top: 8px;
     border-top: 1px solid var(--gris);
   }
+  /* Même style que les petits titres des valeurs (« UN MENU À »…). */
   .menu-titre {
     margin: 0;
-    padding: 6px 10px 4px;
-    font-size: 13px;
+    padding: 8px 12px 4px;
+    font-size: 14px;
     font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    line-height: 1.4;
     color: var(--texte-secondaire);
   }
+  /* Lignes de 44 px de haut : une cible confortable au doigt. */
   .ligne {
     display: flex;
     align-items: center;
     gap: 8px;
     width: 100%;
-    min-height: 40px;
-    padding: 8px 10px;
+    min-height: 44px;
+    padding: 10px 12px;
     border: 0;
-    border-radius: 6px;
+    border-radius: 8px;
     background: transparent;
     color: inherit;
     font: inherit;
+    font-weight: 500;
     text-align: left;
     cursor: pointer;
   }
@@ -715,7 +733,7 @@ const typesProposes = (rang: number) =>
     outline: none;
   }
   .ligne-choisie {
-    font-weight: 600;
+    font-weight: 700;
   }
   .ligne:disabled {
     opacity: 0.4;
@@ -726,8 +744,8 @@ const typesProposes = (rang: number) =>
     flex: 1;
   }
   .ligne-coche {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     flex: none;
     fill: none;
     stroke: currentColor;

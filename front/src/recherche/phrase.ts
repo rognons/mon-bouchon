@@ -49,7 +49,7 @@ export const TYPES_DE_CRITERE: {
 ];
 
 export const nomDuCritere = (type: TypeDeCritere): string =>
-  type === 'autre' ? 'Autre critère' : (TYPES_DE_CRITERE.find((t) => t.type === type)?.nom ?? type);
+  type === 'autre' ? 'Autre' : (TYPES_DE_CRITERE.find((t) => t.type === type)?.nom ?? type);
 
 // --- « Autre critère » --------------------------------------------------------
 

@@ -214,16 +214,17 @@ const FAMILLE_DE_L_AUTRE: Record<string, string> = {
   option: 'options',
 };
 function famillesProposees(choisis: Critere[]): Famille[] {
-  const autre = choisis.find((c) => c.type === 'autre');
+  const autres = choisis.flatMap((c) => (c.type === 'autre' ? [c] : []));
   return FAMILLES.filter((f) => !f.principal || !choisis.some((c) => c.type === f.principal))
     .map((f) => {
-      if (autre?.type !== 'autre' || FAMILLE_DE_L_AUTRE[autre.famille] !== f.id) return f;
+      const ici = autres.filter((c) => FAMILLE_DE_L_AUTRE[c.famille] === f.id);
+      if (!ici.length) return f;
       if (f.id !== 'distinctions' && f.id !== 'options') return null;
       return {
         ...f,
         champs: f.champs.map((c) => ({
           ...c,
-          options: c.options.filter((o) => o.value !== autre.valeur),
+          options: c.options.filter((o) => !ici.some((x) => x.valeur === o.value)),
         })),
       };
     })

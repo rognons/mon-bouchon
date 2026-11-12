@@ -480,6 +480,21 @@ describe('« Autre critère » en critère n°1', () => {
     ).toBe('oui');
   });
 
+  it('en n°2 : relâché « à un critère près », mais pas deux fois la même famille', () => {
+    const r = rechercher([unBouchon('a', { terrace: true }), unBouchon('b')], {
+      principal: autre('ambiance', 'convivial'),
+      complementaires: [autre('option', 'terrasse')],
+    });
+    expect(r.exacts.map((b) => b.id)).toEqual(['a']);
+    expect(r.aUnCriterePres.map((x) => x.bouchon.id)).toEqual(['b']);
+    expect(() =>
+      rechercher([], {
+        principal: autre('ambiance', 'convivial'),
+        complementaires: [autre('ambiance', 'calme')],
+      })
+    ).toThrow(PhraseInvalideError);
+  });
+
   it('jamais relâché comme critère principal', () => {
     const r = rechercher([unBouchon('a', { terrace: true }), unBouchon('b')], {
       principal: autre('option', 'terrasse'),

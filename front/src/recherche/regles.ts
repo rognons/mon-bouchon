@@ -338,7 +338,10 @@ export function verifierPhrase(phrase: PhraseDeRecherche): void {
       `Au plus ${MAX_CRITERES_COMPLEMENTAIRES} critères complémentaires`
     );
   }
-  const types = [phrase.principal, ...phrase.complementaires].map((c) => c.type);
+  // Deux « Autre » sont permis s'ils viennent de familles différentes.
+  const types = [phrase.principal, ...phrase.complementaires].map((c) =>
+    c.type === 'autre' ? `autre:${c.famille}` : c.type
+  );
   if (new Set(types).size !== types.length) {
     throw new PhraseInvalideError('Un même critère ne peut figurer deux fois dans la phrase');
   }
