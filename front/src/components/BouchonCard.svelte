@@ -8,6 +8,7 @@ import { AVEC_STICKER } from '../data/stickers';
 import { etiquette, infosCles } from '../recherche/phrase';
 import { type Critere, evaluer, rangTop10 } from '../recherche/regles';
 import FeuilleVege from './FeuilleVege.svelte';
+import { variante } from './maquetteLabel';
 
 export let bouchon: BouchonComplet;
 // Les critères de la recherche : ceux que le bouchon remplit sont étiquetés.
@@ -16,6 +17,10 @@ export let criteres: Critere[] = [];
 // Ce qui manque au bouchon, s'il est « à un critère près ».
 // biome-ignore lint/style/useConst: Svelte prop
 export let manque = '';
+// MAQUETTE : le bouchon idéal (le premier qui remplit tous vos critères).
+// biome-ignore lint/style/useConst: Svelte prop
+export let ideal = false;
+$: v = ideal ? variante : '';
 
 $: criteresRemplis = criteres.filter((c) => evaluer(bouchon, c) === 'oui');
 $: remplis = criteresRemplis.map((c) => ({
@@ -36,11 +41,18 @@ $: sticker = AVEC_STICKER.has(bouchon.id) ? `/stickers/${bouchon.id}.webp` : '';
 $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
 </script>
 
-<article class="carte" aria-labelledby="nom-{bouchon.id}">
+<article class="carte" class:ideal1={v === '1'} class:ideal2={v === '2'} class:ideal3={v === '3'} aria-labelledby="nom-{bouchon.id}">
   {#if manque}<p class="manque">{manque}</p>{/if}
   <!-- La photo de l'article (souvent la devanture), sinon le sticker du bouchon,
        sinon le cochon de la Compagnie. -->
   <div class="visuel" class:visuel-photo={photo}>
+    {#if v === '1'}
+      <p class="macaron-ideal">Votre bouchon idéal</p>
+    {:else if v === '2'}
+      <p class="bandeau-ideal"><img src="/cochon-top10.png" alt="" width="32" height="31" />Votre bouchon idéal</p>
+    {:else if v === '3'}
+      <p class="pastille-ideal"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" /></svg>Votre bouchon idéal</p>
+    {/if}
     {#if photo}
       <img src={photo} alt="" width="720" height="480" loading="lazy" decoding="async" />
     {:else if sticker}
@@ -453,5 +465,43 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     .actions {
       flex-wrap: wrap;
     }
+  }
+
+  /* ===== MAQUETTES « Votre bouchon idéal » ===== */
+  .visuel { position: relative; }
+  /* 1 : macaron rond + cadre rose épais */
+  .ideal1 { border: 3px solid #221f20; box-shadow: 0 0 0 5px #f0c6da; }
+  .macaron-ideal {
+    position: absolute; top: 12px; right: 12px; margin: 0;
+    width: 104px; height: 104px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    padding: 12px; box-sizing: border-box;
+    background: #f0c6da; border: 2px solid #221f20; box-shadow: 3px 3px 0 #221f20;
+    transform: rotate(-8deg);
+    font-family: 'GiltonRegular', 'Playfair Display', serif; font-size: 19px; line-height: 1.05; color: #221f20;
+  }
+  /* 2 : bandeau rose en tête + ombre décalée */
+  .ideal2 { border: 2px solid #221f20; box-shadow: 8px 8px 0 #221f20; }
+  .bandeau-ideal {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; gap: 8px; margin: 0;
+    padding: 8px 24px; background: #f0c6da; border-bottom: 2px solid #221f20;
+    font-family: 'GiltonRegular', 'Playfair Display', serif; font-size: 22px; line-height: 1.2;
+  }
+  .bandeau-ideal img { width: 32px; height: 31px; object-fit: contain; }
+  /* 3 : fiche entièrement rose + pastille noire sur la photo */
+  .ideal3 { background: #f0c6da; border: 2px solid #221f20; }
+  .ideal3 .etiquette:not(.info) { background: #ffffff; }
+  .ideal3 .points-cles { background: #ffffff; border-color: #221f20; }
+  .ideal3 .coeur { fill: #f0c6da; }
+  .pastille-ideal {
+    position: absolute; top: 12px; left: 12px; margin: 0;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px 6px 10px; border-radius: 20px; background: #221f20; color: #ffffff;
+    font-family: 'Bricolage Grotesque', Arial, sans-serif; font-size: 15px; font-weight: 700; line-height: 1.3;
+  }
+  .pastille-ideal svg { width: 16px; height: 16px; fill: #f0c6da; }
+  @media (max-width: 767px) {
+    .bandeau-ideal { padding: 8px 16px; }
   }
 </style>

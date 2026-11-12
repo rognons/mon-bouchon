@@ -38,8 +38,8 @@ $: titre =
 
   {#if bouchons.length}
     <div class="grille">
-      {#each bouchons as bouchon (bouchon.id)}
-        <BouchonCard {bouchon} {criteres} />
+      {#each bouchons as bouchon, i (bouchon.id)}
+        <BouchonCard {bouchon} {criteres} ideal={i === 0 && criteres.length > 0} />
       {/each}
     </div>
   {:else if proches.length === 0}
