@@ -11,13 +11,17 @@ import {
   type Tri,
   trier,
 } from '../recherche/regles';
-import ChoixDesCriteres from './search/ChoixDesCriteres.svelte';
+import ChoixDesCriteres, { type Brouillon } from './search/ChoixDesCriteres.svelte';
 import PanneauAffiner from './search/PanneauAffiner.svelte';
 import Results from './search/Results.svelte';
 
 // Les critères choisis dans le bandeau : le premier est le critère principal.
 // biome-ignore lint/style/useConst: Bound to the criteria chooser
 let criteres: Critere[] = [];
+// Les critères en cours de choix, partagés entre le bandeau et la fenêtre
+// « Modifier ou affiner » : on peut les changer à l'un ou l'autre endroit.
+// biome-ignore lint/style/useConst: Bound to the criteria chooser and the refine panel
+let brouillons: Brouillon[] = [];
 
 // La liste des bouchons s'affiche directement sous le bandeau.
 const reduit = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -66,10 +70,11 @@ function chercher(a: Affinage, t: Tri = tri, choisis: Critere[] = criteres) {
 }
 
 // Les bouchons affichés pour un affinage : exacts et « à un critère près ».
-function compter(a: Affinage): number {
-  const r = chercher(a);
+// Recalculé quand les critères changent, pour que la fenêtre se mette à jour.
+$: compter = (a: Affinage): number => {
+  const r = chercher(a, tri, criteres);
   return r.exacts.length + (afficherAUnCriterePres(r) ? r.aUnCriterePres.length : 0);
-}
+};
 
 $: resultats = chercher(affinage, tri, criteres);
 $: affinageEffectif = sansDoublon(affinage, criteres);
@@ -98,19 +103,11 @@ async function fermerPanneau() {
   // La fenêtre se referme sur place : la page reste là où on l'avait laissée.
   document.getElementById('bouton-affiner')?.focus({ preventScroll: true });
 }
-
-// « Modifier ma recherche » : on remonte au bandeau, au critère n°1.
-async function modifierLaRecherche() {
-  panneauOuvert = false;
-  await tick();
-  document
-    .getElementById('critere-1')
-    ?.scrollIntoView({ behavior: reduit() ? 'auto' : 'smooth', block: 'start' });
-}
 </script>
 
 <ChoixDesCriteres
   bind:criteres
+  bind:brouillons
   nbExacts={resultats.exacts.length}
   nbProches={afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres.length : 0}
   on:voir={voirLesResultats}
@@ -149,9 +146,9 @@ async function modifierLaRecherche() {
   <PanneauAffiner
     {criteres}
     {compter}
+    bind:brouillons
     bind:affinage
     on:fermer={fermerPanneau}
-    on:modifier={modifierLaRecherche}
   />
 {/if}
 

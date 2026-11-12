@@ -1,3 +1,13 @@
+<script lang="ts" context="module">
+import type { TypeDeCritere as Type } from '../../recherche/phrase';
+// Un critère en cours de choix : ses valeurs, champ par champ.
+// Partagé entre le bandeau et la fenêtre « Modifier ou affiner ».
+export interface Brouillon {
+  type: Type;
+  choix: (string | number)[][];
+}
+</script>
+
 <script lang="ts">
 // Le bandeau d'accueil : deux questions, chacune avec ses critères principaux
 // en pastilles, puis leurs valeurs, et le bouton « Voir les N bouchons ».
@@ -22,6 +32,12 @@ import CasesAvecLegende from './CasesAvecLegende.svelte';
 import { type Case, CASES_TYPE_BOUCHON } from './casesTypeBouchon';
 
 export let criteres: Critere[] = [];
+// Les critères en cours de choix : la même liste dans le bandeau et dans la
+// fenêtre « Modifier ou affiner », pour qu'une modification se voie partout.
+export let brouillons: Brouillon[] = [];
+// Dans la fenêtre « Modifier ou affiner » : seulement les deux questions,
+// sans logo, titre ni bouton, sur fond blanc.
+export let dansFenetre = false;
 export let nbExacts = 0;
 export let nbProches = 0;
 
@@ -104,13 +120,6 @@ const CHAMPS: Record<TypeDeCritere, Champ[]> = {
   vegetarien: [],
 };
 
-// Un critère en cours de choix : ses valeurs, champ par champ.
-interface Brouillon {
-  type: TypeDeCritere;
-  choix: Valeur[][];
-}
-
-let brouillons: Brouillon[] = [];
 let message = '';
 
 const complet = (b: Brouillon) => CHAMPS[b.type].every((_, j) => b.choix[j].length > 0);
@@ -185,27 +194,31 @@ const typesProposes = (rang: number) =>
   TYPES_DE_CRITERE.filter((t) => rang === 0 || t.type !== brouillons[0]?.type);
 </script>
 
-<header class="bandeau">
+<svelte:element this={dansFenetre ? 'div' : 'header'} class="bandeau" class:fenetre={dansFenetre}>
+  {#if !dansFenetre}
   <!-- Les effets des affiches de la Compagnie : une trame de points en haut à
        droite, un damier noir et blanc en bas. Purement décoratifs. -->
   <div class="trame" aria-hidden="true"></div>
   <div class="damier" aria-hidden="true"></div>
+  {/if}
   <div class="conteneur bandeau-int">
+    {#if !dansFenetre}
     <a class="logo-lien" href="https://rognons.fr">
       <img class="logo" src="/logo-compagnie-image-text-black.png" alt="La Compagnie du Rognon" />
     </a>
 
     <!-- Espace insécable : « bouchon lyonnais » ne se coupe jamais. -->
     <h1 class="titre">Trouvez votre bouchon&nbsp;lyonnais</h1>
+    {/if}
 
     {#each [0, 1] as rang}
       {#if rang === 0 || montrerSecond}
-        <div class="etape" role="group" aria-labelledby="critere-{rang + 1}">
+        <div class="etape" role="group" aria-labelledby="{dansFenetre ? 'fenetre-' : ''}critere-{rang + 1}">
           <!-- Espaces insécables avant « ? » (typographie française). -->
           {#if rang === 0}
-            <h2 id="critere-1" class="question">Quel est votre critère n°1&nbsp;?</h2>
+            <h2 id="{dansFenetre ? 'fenetre-' : ''}critere-1" class="question">Quel est votre critère n°1&nbsp;?</h2>
           {:else}
-            <h2 id="critere-2" class="question">
+            <h2 id="{dansFenetre ? 'fenetre-' : ''}critere-2" class="question">
               Et quel est votre critère n°2&nbsp;? <span class="facultatif">Facultatif</span>
             </h2>
           {/if}
@@ -287,12 +300,16 @@ const typesProposes = (rang: number) =>
       {/if}
     {/each}
 
+    {#if dansFenetre}
+      {#if message}<p class="statut" role="status">{message}</p>{/if}
+    {:else}
     <div class="voir" id="voir-les-bouchons">
       <button type="button" class="bouton" on:click={() => dispatch('voir')}>{texteVoir}</button>
       <p class="statut" role="status">{message}</p>
     </div>
+    {/if}
   </div>
-</header>
+</svelte:element>
 
 <style>
   .bandeau {
@@ -545,6 +562,34 @@ const typesProposes = (rang: number) =>
     outline: 3px solid var(--noir);
     outline-offset: 3px;
   }
+  /* Dans la fenêtre « Modifier ou affiner » : fond blanc, les valeurs sur
+     fond crème comme le reste de la fenêtre. */
+  .fenetre {
+    background: transparent;
+    padding: 0;
+    overflow: visible;
+  }
+  .fenetre .conteneur {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  .fenetre .bandeau-int {
+    gap: 24px;
+  }
+  .fenetre .question {
+    font-size: 18px;
+  }
+  .fenetre .puce:hover {
+    background: var(--gris);
+  }
+  .fenetre .puce-choisie,
+  .fenetre .puce-choisie:hover {
+    background: var(--noir);
+  }
+  .fenetre .valeurs {
+    background: #f6f4ef;
+  }
   @media (min-width: 768px) {
     .puce {
       gap: 6px;
@@ -554,13 +599,13 @@ const typesProposes = (rang: number) =>
       width: 18px;
       height: 18px;
     }
-    .bandeau {
+    .bandeau:not(.fenetre) {
       padding: 32px 0 64px;
     }
-    .conteneur {
+    .bandeau:not(.fenetre) .conteneur {
       padding: 0 32px;
     }
-    .bandeau-int {
+    .bandeau:not(.fenetre) .bandeau-int {
       gap: 40px;
     }
     .logo {

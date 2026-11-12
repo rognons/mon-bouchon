@@ -16,19 +16,23 @@ import {
   TYPES_BOUCHON,
   type TypeBouchon,
 } from '../../data/referentiel';
-import { JOURS, lieuxProposes, PALIERS, resumer, type TypeDeCritere } from '../../recherche/phrase';
+import { JOURS, lieuxProposes, PALIERS, type TypeDeCritere } from '../../recherche/phrase';
 import type { Affinage, Critere, PalierDePrix, Service } from '../../recherche/regles';
 import FeuilleVege from '../FeuilleVege.svelte';
 import CasesAvecLegende from './CasesAvecLegende.svelte';
+import ChoixDesCriteres, { type Brouillon } from './ChoixDesCriteres.svelte';
 import { type Case, CASES_TYPE_BOUCHON } from './casesTypeBouchon';
 
 // Les critères déjà choisis dans le bandeau : leurs familles n'apparaissent pas.
 export let criteres: Critere[] = [];
+// Les critères n°1 et n°2 en cours de choix, partagés avec le bandeau :
+// on les modifie directement dans la fenêtre.
+export let brouillons: Brouillon[] = [];
 // Le nombre de bouchons affichés pour un affinage donné.
 export let compter: (affinage: Affinage) => number;
 export let affinage: Affinage = {};
 
-const dispatch = createEventDispatcher<{ fermer: undefined; modifier: undefined }>();
+const dispatch = createEventDispatcher<{ fermer: undefined }>();
 
 type Valeur = string | number;
 interface Champ {
@@ -349,15 +353,10 @@ const COCHE = 'M5 12l5 5 9-10';
   </div>
 
   <div class="corps">
-    <!-- La recherche en lecture seule : elle se modifie dans le bandeau. -->
+    <!-- Les critères n°1 et n°2 se modifient ici, comme dans le bandeau. -->
     <div class="recherche">
       <p class="libelle">Votre recherche</p>
-      {#each criteres as critere, i (critere.type)}
-        <p class="recherche-ligne"><span>Critère n°{i + 1}{' :'}</span> {resumer(critere)}</p>
-      {:else}
-        <p class="recherche-ligne">Tous les bouchons</p>
-      {/each}
-      <button type="button" class="lien" on:click={() => dispatch('modifier')}>Modifier ma recherche</button>
+      <ChoixDesCriteres dansFenetre bind:brouillons />
     </div>
     <p class="libelle titre-affiner">Affiner</p>
     {#each familles as f (f.id)}
@@ -518,34 +517,9 @@ const COCHE = 'M5 12l5 5 9-10';
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
-    padding: 12px 16px;
-    border-radius: 4px;
-    background: #eeebe4;
-  }
-  .recherche-ligne {
-    margin: 0;
-    font-weight: 600;
-    line-height: 1.4;
-  }
-  .recherche-ligne span {
-    font-weight: 400;
-    color: var(--texte-secondaire);
-  }
-  .lien {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    padding: 0;
-    border: 0;
-    background: none;
-    color: var(--noir);
-    font: inherit;
-    text-decoration: underline;
-    text-decoration-color: var(--noir);
-    text-decoration-thickness: 2px;
-    text-underline-offset: 4px;
-    cursor: pointer;
+    gap: 12px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--gris);
   }
   .titre-affiner {
     grid-column: 1 / -1;
