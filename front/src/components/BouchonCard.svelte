@@ -17,7 +17,7 @@ export let criteres: Critere[] = [];
 // biome-ignore lint/style/useConst: Svelte prop
 export let manque = '';
 // Le bouchon idéal : le premier de la liste qui remplit tous vos critères.
-// Sa fiche porte un bandeau et une ombre qui la détachent des autres.
+// Sa fiche passe en rose, avec une pastille noire sur la photo.
 // biome-ignore lint/style/useConst: Svelte prop
 export let ideal = false;
 
@@ -46,8 +46,10 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
        sinon le cochon de la Compagnie. -->
   <div class="visuel" class:visuel-photo={photo}>
     {#if ideal}
-      <p class="bandeau-ideal">
-        <img src="/cochon-top10.png" alt="" width="32" height="31" />Votre bouchon idéal
+      <p class="pastille-ideal">
+        <svg aria-hidden="true" viewBox="0 0 24 24"
+          ><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" /></svg
+        >Votre bouchon idéal
       </p>
     {/if}
     {#if photo}
@@ -463,45 +465,47 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
       flex-wrap: wrap;
     }
   }
-  /* Le bouchon idéal : un bandeau rose en haut du visuel, un trait plus épais
-     et une ombre noire décalée, sans changer les couleurs de la fiche. */
+  /* Le bouchon idéal : toute la fiche passe en rose, avec une pastille noire
+     sur la photo. Les étiquettes et l'avis de la Compagnie restent blancs pour
+     se détacher du fond. */
   .ideal {
     border-width: 2px;
-    box-shadow: 8px 8px 0 #221f20;
+    background: #f0c6da;
+  }
+  .ideal .etiquette:not(.info) {
+    background: #ffffff;
+  }
+  /* Le gris de « Google » manquerait de contraste sur le rose. */
+  .ideal .sur {
+    color: #221f20;
+  }
+  .ideal .points-cles {
+    background: #ffffff;
+    border-color: #221f20;
   }
   .visuel {
     position: relative;
   }
-  .bandeau-ideal {
+  .pastille-ideal {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    display: flex;
+    top: 12px;
+    left: 12px;
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     margin: 0;
-    padding: 8px 24px;
-    background: #f0c6da;
-    border-bottom: 2px solid #221f20;
-    font-family: 'GiltonRegular', 'Playfair Display', serif;
-    font-size: 22px;
-    line-height: 1.2;
-    color: #221f20;
+    padding: 6px 14px 6px 10px;
+    border-radius: 20px;
+    background: #221f20;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
   }
-  .bandeau-ideal img {
-    width: 32px;
-    height: 31px;
+  .pastille-ideal svg {
+    width: 16px;
+    height: 16px;
     flex: none;
-    object-fit: contain;
-  }
-  @media (max-width: 767px) {
-    .bandeau-ideal {
-      padding: 8px 16px;
-    }
-    /* Sur téléphone, l'ombre est plus courte pour ne pas toucher le bord. */
-    .ideal {
-      box-shadow: 6px 6px 0 #221f20;
-    }
+    fill: #f0c6da;
   }
 </style>
