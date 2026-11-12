@@ -37,6 +37,8 @@ const dispatch = createEventDispatcher<{ fermer: undefined }>();
 type Valeur = string | number;
 interface Champ {
   sousTitre?: string;
+  // Sur ordinateur, le sous-titre à afficher à la place.
+  sousTitreOrdi?: string;
   multi?: boolean;
   options: { value: Valeur; label: string }[];
   // Des cases avec leur légende à la place des pastilles et des définitions.
@@ -45,7 +47,8 @@ interface Champ {
 interface Famille {
   id: string;
   titre: string;
-  // Sur ordinateur, un titre qui remplace les sous-titres des champs.
+  // Sur ordinateur, un titre qui remplace le titre et les sous-titres.
+  // (Jour et service : « Jour : … » en titre, puis « Service : … ».)
   titreOrdi?: string;
   // Le critère principal que remplace cette famille, s'il y en a un.
   principal?: TypeDeCritere;
@@ -76,7 +79,7 @@ const FAMILLES: Famille[] = [
   {
     id: 'moment',
     titre: 'Jour et service',
-    titreOrdi: 'Jour et service : plusieurs choix possibles',
+    titreOrdi: 'Jour : plusieurs choix possibles',
     principal: 'moment',
     champs: [
       {
@@ -89,6 +92,7 @@ const FAMILLES: Famille[] = [
       },
       {
         sousTitre: 'Pour quel service ? Plusieurs choix possibles',
+        sousTitreOrdi: 'Service : plusieurs choix possibles',
         multi: true,
         options: [
           { value: 'midi', label: 'Midi' },
@@ -495,7 +499,11 @@ const COCHE = 'M5 12l5 5 9-10';
         {#if ouverte}
           <div class="contenu" transition:glisser>
             {#each f.champs as champ, j}
-              {#if champ.sousTitre && (mobile || !f.titreOrdi)}<p class="libelle">{champ.sousTitre}</p>{/if}
+              {#if mobile || !f.titreOrdi}
+                {#if champ.sousTitre}<p class="libelle">{champ.sousTitre}</p>{/if}
+              {:else if champ.sousTitreOrdi}
+                <p class="libelle libelle-suite">{champ.sousTitreOrdi}</p>
+              {/if}
               {#if champ.cases}
                 <CasesAvecLegende
                   options={champ.cases}
@@ -660,6 +668,9 @@ const COCHE = 'M5 12l5 5 9-10';
     text-transform: uppercase;
     line-height: 1.4;
     color: var(--texte-secondaire);
+  }
+  .libelle-suite {
+    margin-top: 12px;
   }
   .contenu {
     display: flex;
