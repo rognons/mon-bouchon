@@ -38,8 +38,10 @@ $: titre =
 
   {#if bouchons.length}
     <div class="grille">
-      {#each bouchons as bouchon (bouchon.id)}
-        <BouchonCard {bouchon} {criteres} />
+      <!-- Avec des critères choisis, le premier bouchon qui les remplit tous
+           est « Votre bouchon idéal ». -->
+      {#each bouchons as bouchon, i (bouchon.id)}
+        <BouchonCard {bouchon} {criteres} ideal={i === 0 && criteres.length > 0} />
       {/each}
     </div>
   {:else if proches.length === 0}

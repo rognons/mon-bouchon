@@ -16,6 +16,10 @@ export let criteres: Critere[] = [];
 // Ce qui manque au bouchon, s'il est « à un critère près ».
 // biome-ignore lint/style/useConst: Svelte prop
 export let manque = '';
+// Le bouchon idéal : le premier de la liste qui remplit tous vos critères.
+// Sa fiche porte un bandeau et une ombre qui la détachent des autres.
+// biome-ignore lint/style/useConst: Svelte prop
+export let ideal = false;
 
 $: criteresRemplis = criteres.filter((c) => evaluer(bouchon, c) === 'oui');
 $: remplis = criteresRemplis.map((c) => ({
@@ -36,11 +40,16 @@ $: sticker = AVEC_STICKER.has(bouchon.id) ? `/stickers/${bouchon.id}.webp` : '';
 $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
 </script>
 
-<article class="carte" aria-labelledby="nom-{bouchon.id}">
+<article class="carte" class:ideal aria-labelledby="nom-{bouchon.id}">
   {#if manque}<p class="manque">{manque}</p>{/if}
   <!-- La photo de l'article (souvent la devanture), sinon le sticker du bouchon,
        sinon le cochon de la Compagnie. -->
   <div class="visuel" class:visuel-photo={photo}>
+    {#if ideal}
+      <p class="bandeau-ideal">
+        <img src="/cochon-top10.png" alt="" width="32" height="31" />Votre bouchon idéal
+      </p>
+    {/if}
     {#if photo}
       <img src={photo} alt="" width="720" height="480" loading="lazy" decoding="async" />
     {:else if sticker}
@@ -452,6 +461,47 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
   @media (max-width: 349px) {
     .actions {
       flex-wrap: wrap;
+    }
+  }
+  /* Le bouchon idéal : un bandeau rose en haut du visuel, un trait plus épais
+     et une ombre noire décalée, sans changer les couleurs de la fiche. */
+  .ideal {
+    border-width: 2px;
+    box-shadow: 8px 8px 0 #221f20;
+  }
+  .visuel {
+    position: relative;
+  }
+  .bandeau-ideal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 8px 24px;
+    background: #f0c6da;
+    border-bottom: 2px solid #221f20;
+    font-family: 'GiltonRegular', 'Playfair Display', serif;
+    font-size: 22px;
+    line-height: 1.2;
+    color: #221f20;
+  }
+  .bandeau-ideal img {
+    width: 32px;
+    height: 31px;
+    flex: none;
+    object-fit: contain;
+  }
+  @media (max-width: 767px) {
+    .bandeau-ideal {
+      padding: 8px 16px;
+    }
+    /* Sur téléphone, l'ombre est plus courte pour ne pas toucher le bord. */
+    .ideal {
+      box-shadow: 6px 6px 0 #221f20;
     }
   }
 </style>
