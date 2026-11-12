@@ -34,7 +34,7 @@ import {
   type PalierDePrix,
   type Service,
 } from '../../recherche/regles';
-import { createEventDispatcher } from 'svelte';
+import { createEventDispatcher, tick } from 'svelte';
 import FeuilleVege from '../FeuilleVege.svelte';
 import CasesAvecLegende from './CasesAvecLegende.svelte';
 import { type Case, CASES_TYPE_BOUCHON } from './cases';
@@ -233,17 +233,81 @@ function choisirAutre(famille: FamilleAutre, valeur: string) {
   message = '';
 }
 
-function fermerSurEchap(e: KeyboardEvent) {
-  if (e.key === 'Escape' && listeAutreOuverte) {
+// Le menu flotte sous la pastille, comme un menu Notion : il se place par
+// rapport à l'écran (le bandeau rose coupe ce qui dépasse), au-dessus de la
+// pastille s'il n'y a pas la place en dessous.
+let boutonAutre: HTMLButtonElement;
+let menuAutre: HTMLDivElement;
+let positionMenu = '';
+
+const MARGE = 16;
+const LARGEUR_MENU = 340;
+
+function placerMenu() {
+  if (!boutonAutre) return;
+  const r = boutonAutre.getBoundingClientRect();
+  const largeur = Math.min(LARGEUR_MENU, window.innerWidth - 2 * MARGE);
+  const gauche = Math.max(MARGE, Math.min(r.left, window.innerWidth - largeur - MARGE));
+  const dessous = window.innerHeight - r.bottom - MARGE - 6;
+  const dessus = r.top - MARGE - 6;
+  const enDessous = dessous >= 320 || dessous >= dessus;
+  positionMenu = enDessous
+    ? `top:${r.bottom + 6}px;max-height:${dessous}px;`
+    : `bottom:${window.innerHeight - r.top + 6}px;max-height:${dessus}px;`;
+  positionMenu += `left:${gauche}px;width:${largeur}px;`;
+}
+
+async function ouvrirMenu() {
+  placerMenu();
+  listeAutreOuverte = true;
+  await tick();
+  // Le focus va sur la valeur choisie, sinon sur la première.
+  const lignes = lignesDuMenu();
+  (lignes.find((l) => l.dataset.choisi === "true") ?? lignes[0])?.focus();
+}
+
+function fermerMenu(rendreFocus = false) {
+  listeAutreOuverte = false;
+  if (rendreFocus) boutonAutre?.focus();
+}
+
+const lignesDuMenu = () =>
+  menuAutre ? [...menuAutre.querySelectorAll<HTMLButtonElement>('.ligne:not(:disabled)')] : [];
+
+// Échap ferme le menu (sans fermer la fenêtre « Modifier ou affiner ») ;
+// les flèches passent d'une ligne à l'autre.
+function toucheMenu(e: KeyboardEvent) {
+  if (e.key === 'Escape') {
     e.stopPropagation();
-    listeAutreOuverte = false;
-    document.getElementById(`${idListeAutre}-bouton`)?.focus();
+    fermerMenu(true);
+  } else if (e.key === 'Tab') {
+    fermerMenu();
+  } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const lignes = lignesDuMenu();
+    const i = lignes.indexOf(document.activeElement as HTMLButtonElement);
+    const suivant = e.key === 'ArrowDown' ? i + 1 : i - 1;
+    lignes[(suivant + lignes.length) % lignes.length]?.focus();
   }
+}
+
+// Un clic ailleurs que dans le menu ou sur la pastille ferme le menu.
+function clicAilleurs(e: PointerEvent) {
+  if (!listeAutreOuverte) return;
+  const cible = e.target as Node;
+  if (menuAutre?.contains(cible) || boutonAutre?.contains(cible)) return;
+  fermerMenu();
 }
 
 const typesProposes = (rang: number) =>
   TYPES_DE_CRITERE.filter((t) => rang === 0 || t.type !== brouillons[0]?.type);
 </script>
+
+<svelte:window
+  on:pointerdown={clicAilleurs}
+  on:resize={() => listeAutreOuverte && placerMenu()}
+  on:scroll|capture={() => listeAutreOuverte && placerMenu()}
+/>
 
 <svelte:element this={dansFenetre ? 'div' : 'header'} class="bandeau" class:fenetre={dansFenetre}>
   {#if !dansFenetre}
@@ -297,12 +361,19 @@ const typesProposes = (rang: number) =>
               <li>
                 <button
                   type="button"
-                  id="{idListeAutre}-bouton"
+                  bind:this={boutonAutre}
                   class="puce"
                   class:puce-choisie={autreChoisi}
+                  aria-haspopup="true"
                   aria-expanded={listeAutreOuverte}
                   aria-controls={idListeAutre}
-                  on:click={() => (listeAutreOuverte = !listeAutreOuverte)}
+                  on:click={() => (listeAutreOuverte ? fermerMenu() : ouvrirMenu())}
+                  on:keydown={(e) => {
+                    if (e.key === 'ArrowDown' && !listeAutreOuverte) {
+                      e.preventDefault();
+                      ouvrirMenu();
+                    }
+                  }}
                 >
                   <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
                     ><path d={autreChoisi ? COCHE : PLUS} /></svg
@@ -318,30 +389,38 @@ const typesProposes = (rang: number) =>
 
           {#if rang === 0 && listeAutreOuverte}
             <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <div class="liste-autre" id={idListeAutre} on:keydown={fermerSurEchap}>
+            <div
+              class="menu-autre"
+              id={idListeAutre}
+              bind:this={menuAutre}
+              style={positionMenu}
+              on:keydown={toucheMenu}
+            >
               {#each AUTRES_CRITERES as f (f.famille)}
-                <div class="groupe" role="group" aria-label={f.titre}>
-                  <p class="groupe-titre">{f.titre}</p>
-                  <ul class="puces">
-                    {#each f.options as option (option.value)}
-                      {@const coche = estAutreChoisi(autreChoisi, f.famille, option.value)}
-                      <li>
-                        <button
-                          type="button"
-                          class="puce"
-                          class:puce-choisie={coche}
-                          aria-pressed={coche}
-                          disabled={!coche && sansBouchon(f.famille, option.value)}
-                          on:click={() => choisirAutre(f.famille, option.value)}
+                <div class="menu-groupe" role="group" aria-labelledby="{idListeAutre}-{f.famille}">
+                  <p class="menu-titre" id="{idListeAutre}-{f.famille}">{f.titre}</p>
+                  {#each f.options as option (option.value)}
+                    {@const coche = estAutreChoisi(autreChoisi, f.famille, option.value)}
+                    <button
+                      type="button"
+                      class="ligne"
+                      class:ligne-choisie={coche}
+                      aria-pressed={coche}
+                      data-choisi={coche}
+                      disabled={!coche && sansBouchon(f.famille, option.value)}
+                      on:click={() => {
+                        choisirAutre(f.famille, option.value);
+                        fermerMenu(true);
+                      }}
+                    >
+                      <span class="ligne-texte">{option.label}</span>
+                      {#if coche}
+                        <svg class="ligne-coche" aria-hidden="true" viewBox="0 0 24 24"
+                          ><path d={COCHE} /></svg
                         >
-                          <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
-                            ><path d={coche ? COCHE : PLUS} /></svg
-                          >
-                          {option.label}
-                        </button>
-                      </li>
-                    {/each}
-                  </ul>
+                      {/if}
+                    </button>
+                  {/each}
                 </div>
               {/each}
             </div>
@@ -580,29 +659,81 @@ const typesProposes = (rang: number) =>
   .chevron-ouvert {
     transform: rotate(180deg);
   }
-  /* La liste déroulante « Autre critère » : une carte blanche sous les
-     pastilles, avec une ombre pour la détacher du rose. */
-  .liste-autre {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 20px;
+  /* Le menu « Autre critère », à la manière de Notion : une carte blanche
+     flottante, les catégories en petits titres gris, les critères en lignes
+     simples qui se surlignent au survol, une coche à droite du choix. */
+  .menu-autre {
+    position: fixed;
+    /* Au-dessus de la barre « Votre recherche » et de la fenêtre « Modifier ou affiner ». */
+    z-index: 400;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 6px;
     background: var(--blanc);
-    border: 1px solid var(--noir);
-    border-radius: 4px;
-    box-shadow: 0 8px 24px rgb(34 31 32 / 18%);
+    border: 1px solid rgb(34 31 32 / 12%);
+    border-radius: 10px;
+    box-shadow:
+      0 0 0 1px rgb(34 31 32 / 4%),
+      0 12px 32px rgb(34 31 32 / 20%);
+    font-size: 16px;
+    line-height: 1.3;
+    color: var(--noir);
   }
-  .liste-autre .puce:hover {
-    background: var(--gris);
+  .menu-groupe + .menu-groupe {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--gris);
   }
-  .liste-autre .puce-choisie,
-  .liste-autre .puce-choisie:hover {
-    background: var(--noir);
+  .menu-titre {
+    margin: 0;
+    padding: 6px 10px 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--texte-secondaire);
   }
-  .liste-autre .puce:disabled {
+  .ligne {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .ligne:hover,
+  .ligne:focus-visible {
+    background: #f1eee9;
+  }
+  .menu-autre .ligne:focus-visible {
+    outline: none;
+  }
+  .ligne-choisie {
+    font-weight: 600;
+  }
+  .ligne:disabled {
     opacity: 0.4;
     cursor: not-allowed;
     background: transparent;
+  }
+  .ligne-texte {
+    flex: 1;
+  }
+  .ligne-coche {
+    width: 18px;
+    height: 18px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
   .valeurs {
     display: flex;
