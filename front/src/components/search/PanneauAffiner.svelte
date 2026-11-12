@@ -5,6 +5,7 @@
 // replié, un résumé des choix sous chaque titre) ; sur ordinateur, toutes les
 // familles dépliées. Une pastille qui mènerait à zéro bouchon est indisponible.
 import { createEventDispatcher, onMount, tick } from 'svelte';
+import { slide } from 'svelte/transition';
 import { BOUCHONS } from '../../data/bouchons';
 import {
   type Ambiance,
@@ -270,8 +271,34 @@ const sereplie = (f: Famille) => SE_REPLIENT.includes(f.id);
 
 function choisir(f: Famille, j: number, value: Valeur) {
   sel = avecChoix(sel, f, j, value);
-  if (sereplie(f)) ouverts = { ...ouverts, [f.id]: !estActive(f, sel) };
+  if (sereplie(f) && estActive(f, sel)) replierEnDouceur(f);
 }
+
+// Replier d'un coup faisait « sauter » la fenêtre : tout ce qui suit remontait
+// sans prévenir. On laisse donc d'abord voir la case cochée un instant, puis
+// la famille se replie en glissant (voir `glisser`), et son en-tête, avec le
+// choix (« Amateur averti »), revient en vue. Le focus, qui était sur la case
+// disparue, passe sur cet en-tête (ou sa pastille sur ordinateur).
+const PAUSE_AVANT_REPLI = 350;
+const replisEnAttente: Record<string, ReturnType<typeof setTimeout>> = {};
+function replierEnDouceur(f: Famille) {
+  clearTimeout(replisEnAttente[f.id]);
+  replisEnAttente[f.id] = setTimeout(async () => {
+    if (!estActive(f, sel)) return;
+    ouverts = { ...ouverts, [f.id]: false };
+    await tick();
+    const groupe = document.querySelector<HTMLElement>(`[aria-labelledby="famille-${f.id}"]`);
+    groupe?.querySelector<HTMLElement>('button')?.focus({ preventScroll: true });
+    groupe?.scrollIntoView({ block: 'nearest', behavior: mouvementReduit() ? 'auto' : 'smooth' });
+  }, PAUSE_AVANT_REPLI);
+}
+
+const mouvementReduit = () =>
+  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Les options se déplient et se replient en glissant, sauf si la personne a
+// demandé à son appareil de réduire les animations.
+const glisser = (noeud: Element) => slide(noeud, { duration: mouvementReduit() ? 0 : 250 });
 
 function reinitialiser() {
   sel = vide();
@@ -410,7 +437,7 @@ const COCHE = 'M5 12l5 5 9-10';
         {/if}
 
         {#if ouverte}
-          <div class="contenu">
+          <div class="contenu" transition:glisser>
             {#each f.champs as champ, j}
               {#if champ.sousTitre}<p class="libelle">{champ.sousTitre}</p>{/if}
               {#if champ.cases}
