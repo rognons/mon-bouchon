@@ -166,6 +166,31 @@ $: criteres = (() => {
   return complementaire ? [principal, complementaire] : [principal];
 })();
 
+// Les valeurs d'un critère se replient dès qu'il est complet : la pastille
+// affiche alors la valeur choisie (« Traditionnel » au lieu de « Type de
+// bouchon »). Recliquer la pastille rouvre les valeurs ; la recliquer encore
+// retire le critère. Un critère incomplet garde toujours ses valeurs ouvertes.
+let rouverts: boolean[] = [false, false];
+$: ouverts = [0, 1].map(
+  (rang) => brouillons[rang] !== undefined && (!complet(brouillons[rang]) || rouverts[rang]),
+);
+
+// Le texte de la pastille une fois le critère complet : la valeur choisie,
+// ou la première suivie du nombre d'autres (« Croix-Rousse +2 »). Pour
+// « Jour et service », les deux parties : « Samedi · Soir ».
+function resume(b: Brouillon): string {
+  if (b.type === 'autre') {
+    const famille = AUTRES_CRITERES.find((f) => f.famille === b.choix[0][0]);
+    return famille?.options.find((o) => o.value === b.choix[1][0])?.label ?? '';
+  }
+  return CHAMPS[b.type]
+    .map((champ, j) => {
+      const labels = champ.options.filter((o) => b.choix[j].includes(o.value)).map((o) => o.label);
+      return labels.length > 1 ? `${labels[0]} +${labels.length - 1}` : labels[0];
+    })
+    .join(' · ');
+}
+
 $: montrerSecond = brouillons.length > 1 || (brouillons[0] !== undefined && complet(brouillons[0]));
 
 function retirer(rang: number) {
@@ -175,6 +200,7 @@ function retirer(rang: number) {
     suivants = [];
     autresDeplies = false;
   }
+  rouverts = [false, false];
   message =
     rang === 0 && suivants.length
       ? `« ${nomDuCritere(suivants[0].type)} » devient ce qui compte le plus.`
@@ -184,10 +210,14 @@ function retirer(rang: number) {
 
 function choisirCritere(rang: number, type: TypeDeCritere) {
   if (rang === 1) autresDeplies = false;
-  if (brouillons[rang]?.type === type) {
-    retirer(rang);
+  const actuel = brouillons[rang];
+  if (actuel?.type === type) {
+    // Replié : on rouvre ses valeurs. Ouvert : on le retire.
+    if (complet(actuel) && !rouverts[rang]) rouverts = rouverts.map((r, i) => (i === rang ? true : r));
+    else retirer(rang);
     return;
   }
+  rouverts = rouverts.map((r, i) => (i === rang ? false : r));
   let suivants = [...brouillons];
   suivants[rang] = { type, choix: CHAMPS[type].map(() => []) };
   // Le critère choisi en premier ne peut pas rester aussi en second.
@@ -210,6 +240,8 @@ function choisirValeur(rang: number, champ: number, value: Valeur) {
   }
   const modifie = { ...b, choix: b.choix.map((c, j) => (j === champ ? nouvelles : c)) };
   brouillons = brouillons.map((x, i) => (i === rang ? modifie : x));
+  // Chaque choix replie les valeurs (si le critère est complet).
+  rouverts = rouverts.map((r, i) => (i === rang ? false : r));
   message = '';
 }
 
@@ -217,7 +249,8 @@ function choisirValeur(rang: number, champ: number, value: Valeur) {
 // suite, les critères de « Modifier ou affiner » (Ambiance, Profil de
 // mangeur…) en pastilles ; on en choisit un, puis une de ses valeurs.
 let autresDeplies = false;
-$: autresVisibles = autresDeplies || brouillons[1]?.type === 'autre';
+$: autreComplet = brouillons[1]?.type === 'autre' && complet(brouillons[1]);
+$: autresVisibles = autresDeplies || (brouillons[1]?.type === 'autre' && !autreComplet);
 $: familleChoisie =
   brouillons[1]?.type === 'autre' ? (brouillons[1].choix[0][0] as FamilleAutre) : null;
 $: familleAutre = AUTRES_CRITERES.find((f) => f.famille === familleChoisie);
@@ -233,7 +266,10 @@ const sansBouchon = (famille: FamilleAutre, valeur: string) =>
   !BOUCHONS.some((b) => evaluer(b, { type: 'autre', famille, valeur }) === 'oui');
 
 function basculerAutres() {
-  if (autresVisibles) {
+  if (autreComplet && !autresDeplies) {
+    // Replié sur sa valeur : on rouvre.
+    autresDeplies = true;
+  } else if (autresVisibles) {
     autresDeplies = false;
     if (brouillons[1]?.type === 'autre') retirer(1);
   } else {
@@ -257,6 +293,8 @@ function choisirValeurAutre(valeur: Valeur) {
   const b = brouillons[1];
   const nouvelles = b.choix[1].includes(valeur) ? [] : [valeur];
   brouillons = [brouillons[0], { ...b, choix: [b.choix[0], nouvelles] }];
+  // Une valeur choisie : tout se replie, la pastille affiche la valeur.
+  if (nouvelles.length) autresDeplies = false;
   message = '';
 }
 
@@ -296,34 +334,42 @@ const typesProposes = (rang: number) =>
           <ul class="puces">
             {#each typesProposes(rang) as t (t.type)}
               {@const choisi = brouillons[rang]?.type === t.type}
+              {@const valeur = choisi && !ouverts[rang] && CHAMPS[t.type].length > 0 ? resume(brouillons[rang]) : ''}
               <li>
                 <button
                   type="button"
                   class="puce"
                   class:puce-choisie={choisi}
                   aria-pressed={choisi}
+                  aria-expanded={CHAMPS[t.type].length > 0 && choisi ? ouverts[rang] : undefined}
+                  aria-label={valeur ? `${t.nom} : ${valeur}` : undefined}
+                  title={valeur ? t.nom : undefined}
                   on:click={() => choisirCritere(rang, t.type)}
                 >
                   <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
                     ><path d={choisi ? COCHE : PLUS} /></svg
                   >
                   {#if t.type === 'vegetarien'}<FeuilleVege />{/if}
-                  {t.nom}
+                  {valeur || t.nom}
                 </button>
               </li>
             {/each}
             {#if rang === 1}
+              {@const valeurAutre = autreComplet && !autresVisibles ? resume(brouillons[1]) : ''}
               <li>
                 <button
                   type="button"
                   class="puce"
+                  class:puce-choisie={valeurAutre !== ''}
                   aria-expanded={autresVisibles}
+                  aria-label={valeurAutre ? `Autre critère : ${valeurAutre}` : undefined}
+                  title={valeurAutre ? (familleAutre?.titre ?? 'Autre critère') : undefined}
                   on:click={basculerAutres}
                 >
                   <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
-                    ><path d={autresVisibles ? MOINS : PLUS} /></svg
+                    ><path d={valeurAutre ? COCHE : autresVisibles ? MOINS : PLUS} /></svg
                   >
-                  Autre critère
+                  {valeurAutre || 'Autre critère'}
                 </button>
               </li>
               {#if autresVisibles}
@@ -348,7 +394,7 @@ const typesProposes = (rang: number) =>
             {/if}
           </ul>
 
-          {#if rang === 1 && familleAutre && brouillons[1]?.type === 'autre'}
+          {#if rang === 1 && autresVisibles && familleAutre && brouillons[1]?.type === 'autre'}
             {@const cases = CASES_AUTRES[familleAutre.famille]}
             <div class="valeurs">
               <div class="groupe" role="group" aria-label={familleAutre.titre}>
@@ -385,7 +431,7 @@ const typesProposes = (rang: number) =>
             </div>
           {/if}
 
-          {#if brouillons[rang] && CHAMPS[brouillons[rang].type].length > 0}
+          {#if ouverts[rang] && CHAMPS[brouillons[rang].type].length > 0}
             <div class="valeurs">
               {#each CHAMPS[brouillons[rang].type] as champ, j}
                 <div class="groupe" role="group" aria-label={champ.titre}>
