@@ -85,26 +85,11 @@ $: nbChoix =
     ] as const
   ).filter((k) => affinageEffectif[k]).length;
 
-// Sur ordinateur, le panneau s'ouvre dans la page, juste sous la barre « Votre recherche ».
-// Si l'on a fait défiler la liste, il serait hors de l'écran : on remonte jusqu'à lui.
-async function ouvrirPanneau() {
-  panneauOuvert = true;
-  await tick();
-  if (window.matchMedia('(max-width: 767px)').matches) return; // téléphone : plein écran
-  const panneau = document.getElementById('panneau-affiner');
-  const barre = document.getElementById('resultats');
-  if (!panneau) return;
-  const haut = panneau.getBoundingClientRect().top + window.scrollY - (barre?.offsetHeight ?? 0);
-  window.scrollTo({ top: haut, behavior: reduit() ? 'auto' : 'smooth' });
-}
-
 async function fermerPanneau() {
   panneauOuvert = false;
   await tick();
+  // La fenêtre se referme sur place : la page reste là où on l'avait laissée.
   document.getElementById('bouton-affiner')?.focus({ preventScroll: true });
-  document
-    .getElementById('resultats')
-    ?.scrollIntoView({ behavior: reduit() ? 'auto' : 'smooth', block: 'start' });
 }
 
 // « Modifier ma recherche » : on remonte au bandeau, au critère n°1.
@@ -133,7 +118,7 @@ async function modifierLaRecherche() {
       class="affiner"
       aria-expanded={panneauOuvert}
       aria-controls="panneau-affiner"
-      on:click={() => (panneauOuvert ? fermerPanneau() : ouvrirPanneau())}
+      on:click={() => (panneauOuvert ? fermerPanneau() : (panneauOuvert = true))}
     >
       <svg class="ico" aria-hidden="true" viewBox="0 0 24 24"
         ><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle

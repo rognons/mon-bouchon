@@ -312,8 +312,10 @@ onMount(() => {
   };
 });
 
-// En plein écran, la page derrière le panneau ne défile pas.
-$: if (typeof document !== 'undefined') document.body.style.overflow = mobile ? 'hidden' : '';
+// Le panneau s'ouvre par-dessus la page : derrière lui, la page ne défile pas.
+onMount(() => {
+  document.body.style.overflow = 'hidden';
+});
 
 function basculer(id: string) {
   ouverts = { ...ouverts, [id]: !ouverts[id] };
@@ -329,10 +331,16 @@ const COCHE = 'M5 12l5 5 9-10';
 
 <svelte:window on:keydown={surTouche} />
 
-<section
+<!-- Le voile sombre derrière la fenêtre : un clic dessus la referme (Échap aussi). -->
+<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
+<div class="voile" aria-hidden="true" on:click={() => dispatch('fermer')}></div>
+
+<div
   id="panneau-affiner"
   class="panneau"
   class:mobile
+  role="dialog"
+  aria-modal="true"
   aria-labelledby="titre-affiner"
 >
   <div class="tete">
@@ -444,7 +452,7 @@ const COCHE = 'M5 12l5 5 9-10';
     {/if}
     <button type="button" class="btn btn-principal" on:click={() => dispatch('fermer')}>{texteVoir}</button>
   </div>
-</section>
+</div>
 
 <style>
   .panneau {
@@ -468,8 +476,36 @@ const COCHE = 'M5 12l5 5 9-10';
     outline: 3px solid var(--noir);
     outline-offset: 3px;
   }
+  /* Ordinateur : une fenêtre au centre de l'écran, par-dessus la page assombrie. */
+  .voile {
+    position: fixed;
+    inset: 0;
+    z-index: 299;
+    background: rgba(34, 31, 32, 0.5);
+  }
+  .panneau {
+    position: fixed;
+    z-index: 300;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 64px);
+    max-width: 1200px;
+    max-height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column;
+    border: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(34, 31, 32, 0.25);
+  }
   .tete {
-    display: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--gris);
   }
   .titre {
     font-family: 'GiltonRegular', 'Playfair Display', serif;
@@ -481,8 +517,11 @@ const COCHE = 'M5 12l5 5 9-10';
     color: var(--noir);
   }
   .corps {
-    max-width: 1200px;
-    margin: 0 auto;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    width: 100%;
+    margin: 0;
     padding: 24px 32px;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
@@ -640,8 +679,8 @@ const COCHE = 'M5 12l5 5 9-10';
     color: var(--noir);
   }
   .pied {
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
     padding: 16px 32px;
     display: flex;
     flex-wrap: wrap;
@@ -693,6 +732,12 @@ const COCHE = 'M5 12l5 5 9-10';
     position: fixed;
     inset: 0;
     z-index: 300;
+    transform: none;
+    width: auto;
+    max-width: none;
+    max-height: none;
+    border-radius: 0;
+    box-shadow: none;
     display: flex;
     flex-direction: column;
     border: 0;
