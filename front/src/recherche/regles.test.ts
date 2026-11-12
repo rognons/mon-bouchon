@@ -444,3 +444,47 @@ describe('Données réelles (bouchons.json)', () => {
     expect(r.exacts.map((b) => b.name)).toEqual(['Café Lobut']);
   });
 });
+
+describe('« Autre critère » en critère n°1', () => {
+  const autre = (famille: Extract<Critere, { type: 'autre' }>['famille'], valeur: string) =>
+    ({ type: 'autre', famille, valeur }) as const;
+
+  it('ambiance : la même ambiance, inconnue si non renseignée', () => {
+    expect(evaluer(unBouchon('a'), autre('ambiance', 'convivial'))).toBe('oui');
+    expect(evaluer(unBouchon('a'), autre('ambiance', 'calme'))).toBe('non');
+    expect(evaluer(unBouchon('a', { atmosphereType: null }), autre('ambiance', 'calme'))).toBe(
+      'inconnu'
+    );
+  });
+
+  it('profil : ce profil et les profils plus prudents', () => {
+    expect(evaluer(unBouchon('a'), autre('profil', 'puriste'))).toBe('oui');
+    expect(evaluer(unBouchon('a'), autre('profil', 'decouvreur'))).toBe('non');
+  });
+
+  it('portions : au moins ce niveau', () => {
+    expect(evaluer(unBouchon('a'), autre('portions', 'raisonnables'))).toBe('oui');
+    expect(
+      evaluer(unBouchon('a', { portionSize: 'raisonnables' }), autre('portions', 'genereuses'))
+    ).toBe('non');
+  });
+
+  it('distinctions et options : le champ oui/non du bouchon', () => {
+    expect(evaluer(unBouchon('a', { terrace: true }), autre('option', 'terrasse'))).toBe('oui');
+    expect(evaluer(unBouchon('a'), autre('option', 'terrasse'))).toBe('non');
+    expect(
+      evaluer(
+        unBouchon('a', { compagnieFavorite: true }),
+        autre('distinction', 'coupDeCoeurCompagnie')
+      )
+    ).toBe('oui');
+  });
+
+  it('jamais relâché comme critère principal', () => {
+    const r = rechercher([unBouchon('a', { terrace: true }), unBouchon('b')], {
+      principal: autre('option', 'terrasse'),
+      complementaires: [],
+    });
+    expect(r.exacts.map((b) => b.id)).toEqual(['a']);
+  });
+});

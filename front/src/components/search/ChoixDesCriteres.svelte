@@ -18,14 +18,22 @@ export interface Brouillon {
 import { BOUCHONS } from '../../data/bouchons';
 import { TYPES_BOUCHON, type TypeBouchon } from '../../data/referentiel';
 import {
+  AUTRES_CRITERES,
   JOURS,
   lieuxProposes,
   nomDuCritere,
   PALIERS,
+  resumer,
   TYPES_DE_CRITERE,
   type TypeDeCritere,
 } from '../../recherche/phrase';
-import type { Critere, PalierDePrix, Service } from '../../recherche/regles';
+import {
+  type Critere,
+  evaluer,
+  type FamilleAutre,
+  type PalierDePrix,
+  type Service,
+} from '../../recherche/regles';
 import { createEventDispatcher } from 'svelte';
 import FeuilleVege from '../FeuilleVege.svelte';
 import CasesAvecLegende from './CasesAvecLegende.svelte';
@@ -118,11 +126,18 @@ const CHAMPS: Record<TypeDeCritere, Champ[]> = {
     },
   ],
   vegetarien: [],
+  // « Autre critère » se choisit dans sa liste déroulante, pas en dessous.
+  autre: [],
 };
 
 let message = '';
 
-const complet = (b: Brouillon) => CHAMPS[b.type].every((_, j) => b.choix[j].length > 0);
+// « Autre critère » est complet dès qu'une valeur est choisie dans sa liste
+// (choix : [[famille], [valeur]]).
+const complet = (b: Brouillon) =>
+  b.type === 'autre'
+    ? (b.choix[1]?.length ?? 0) > 0
+    : CHAMPS[b.type].every((_, j) => b.choix[j].length > 0);
 
 function versCritere(b: Brouillon): Critere | null {
   if (!complet(b)) return null;
@@ -138,6 +153,8 @@ function versCritere(b: Brouillon): Critere | null {
       return { type: 'typeBouchon', valeurs: premier as TypeBouchon[] };
     case 'vegetarien':
       return { type: 'vegetarien' };
+    case 'autre':
+      return { type: 'autre', famille: premier[0] as FamilleAutre, valeur: second[0] as string };
   }
 }
 
@@ -161,6 +178,7 @@ function retirer(rang: number) {
 }
 
 function choisirCritere(rang: number, type: TypeDeCritere) {
+  if (rang === 0) listeAutreOuverte = false;
   if (brouillons[rang]?.type === type) {
     retirer(rang);
     return;
@@ -188,6 +206,39 @@ function choisirValeur(rang: number, champ: number, value: Valeur) {
   const modifie = { ...b, choix: b.choix.map((c, j) => (j === champ ? nouvelles : c)) };
   brouillons = brouillons.map((x, i) => (i === rang ? modifie : x));
   message = '';
+}
+
+// La liste déroulante « Autre critère » (critère n°1 seulement) : les
+// critères de « Modifier ou affiner », chacun avec toutes ses valeurs.
+let listeAutreOuverte = false;
+$: autreChoisi = brouillons[0]?.type === 'autre' ? versCritere(brouillons[0]) : null;
+$: idListeAutre = `${dansFenetre ? 'fenetre-' : ''}liste-autre-critere`;
+
+const estAutreChoisi = (choisi: Critere | null, famille: FamilleAutre, valeur: string) =>
+  choisi?.type === 'autre' && choisi.famille === famille && choisi.valeur === valeur;
+
+// Une valeur qu'aucun bouchon ne remplit n'est pas proposée comme critère n°1.
+const sansBouchon = (famille: FamilleAutre, valeur: string) =>
+  !BOUCHONS.some((b) => evaluer(b, { type: 'autre', famille, valeur }) === 'oui');
+
+function choisirAutre(famille: FamilleAutre, valeur: string) {
+  listeAutreOuverte = false;
+  if (estAutreChoisi(autreChoisi, famille, valeur)) {
+    retirer(0);
+    return;
+  }
+  const suivants = [...brouillons];
+  suivants[0] = { type: 'autre', choix: [[famille], [valeur]] };
+  brouillons = suivants;
+  message = '';
+}
+
+function fermerSurEchap(e: KeyboardEvent) {
+  if (e.key === 'Escape' && listeAutreOuverte) {
+    e.stopPropagation();
+    listeAutreOuverte = false;
+    document.getElementById(`${idListeAutre}-bouton`)?.focus();
+  }
 }
 
 const typesProposes = (rang: number) =>
@@ -242,7 +293,59 @@ const typesProposes = (rang: number) =>
                 </button>
               </li>
             {/each}
+            {#if rang === 0}
+              <li>
+                <button
+                  type="button"
+                  id="{idListeAutre}-bouton"
+                  class="puce"
+                  class:puce-choisie={autreChoisi}
+                  aria-expanded={listeAutreOuverte}
+                  aria-controls={idListeAutre}
+                  on:click={() => (listeAutreOuverte = !listeAutreOuverte)}
+                >
+                  <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
+                    ><path d={autreChoisi ? COCHE : PLUS} /></svg
+                  >
+                  {autreChoisi ? resumer(autreChoisi) : 'Autre critère'}
+                  <svg class="chevron" class:chevron-ouvert={listeAutreOuverte} aria-hidden="true" viewBox="0 0 24 24"
+                    ><path d="m6 9 6 6 6-6" /></svg
+                  >
+                </button>
+              </li>
+            {/if}
           </ul>
+
+          {#if rang === 0 && listeAutreOuverte}
+            <!-- svelte-ignore a11y_no_static_element_interactions -->
+            <div class="liste-autre" id={idListeAutre} on:keydown={fermerSurEchap}>
+              {#each AUTRES_CRITERES as f (f.famille)}
+                <div class="groupe" role="group" aria-label={f.titre}>
+                  <p class="groupe-titre">{f.titre}</p>
+                  <ul class="puces">
+                    {#each f.options as option (option.value)}
+                      {@const coche = estAutreChoisi(autreChoisi, f.famille, option.value)}
+                      <li>
+                        <button
+                          type="button"
+                          class="puce"
+                          class:puce-choisie={coche}
+                          aria-pressed={coche}
+                          disabled={!coche && sansBouchon(f.famille, option.value)}
+                          on:click={() => choisirAutre(f.famille, option.value)}
+                        >
+                          <svg class="coche" aria-hidden="true" viewBox="0 0 24 24"
+                            ><path d={coche ? COCHE : PLUS} /></svg
+                          >
+                          {option.label}
+                        </button>
+                      </li>
+                    {/each}
+                  </ul>
+                </div>
+              {/each}
+            </div>
+          {/if}
 
           {#if brouillons[rang] && CHAMPS[brouillons[rang].type].length > 0}
             <div class="valeurs">
@@ -462,6 +565,44 @@ const typesProposes = (rang: number) =>
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+  .chevron {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.2s;
+  }
+  .chevron-ouvert {
+    transform: rotate(180deg);
+  }
+  /* La liste déroulante « Autre critère » : une carte blanche sous les
+     pastilles, avec une ombre pour la détacher du rose. */
+  .liste-autre {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+    background: var(--blanc);
+    border: 1px solid var(--noir);
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgb(34 31 32 / 18%);
+  }
+  .liste-autre .puce:hover {
+    background: var(--gris);
+  }
+  .liste-autre .puce-choisie,
+  .liste-autre .puce-choisie:hover {
+    background: var(--noir);
+  }
+  .liste-autre .puce:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: transparent;
   }
   .valeurs {
     display: flex;
