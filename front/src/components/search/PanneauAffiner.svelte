@@ -546,8 +546,8 @@ const COCHE = 'M5 12l5 5 9-10';
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    /* Le titre s'aligne sur le contenu ; la croix va dans le coin haut droit de l'écran. */
-    padding: 16px 24px 16px var(--marge);
+    /* Le titre et la croix s'alignent sur les bords du contenu. */
+    padding: 16px var(--marge);
     border-bottom: 1px solid var(--gris);
   }
   .titre {
