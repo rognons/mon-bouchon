@@ -304,7 +304,8 @@ function choisir(f: Famille, j: number, value: Valeur) {
   const duBandeauAvant = duBandeau(f, brouillons);
   sel = avecChoix(sel, f, j, value);
   if (duBandeauAvant) versBandeau(f, sel);
-  if (sereplie(f) && estActive(f, sel)) replierEnDouceur(f);
+  // Sur ordinateur, tout reste affiché : rien ne se replie.
+  if (mobile && sereplie(f) && estActive(f, sel)) replierEnDouceur(f);
 }
 
 // Replier une famille raccourcit la fenêtre : si l'on avait fait défiler
@@ -356,16 +357,6 @@ function reinitialiser() {
   ouverts = {};
 }
 
-// La valeur choisie, ou la première suivie du nombre d'autres (« Terrasse +1 »).
-const resumeCourt = (f: Famille, s: Selection) =>
-  f.champs
-    .map((c, j) => {
-      const labels = c.options.filter((o) => s[f.id][j].includes(o.value)).map((o) => o.label);
-      return labels.length > 1 ? `${labels[0]} +${labels.length - 1}` : labels[0];
-    })
-    .filter(Boolean)
-    .join(' · ');
-
 const resume = (f: Famille, s: Selection) =>
   f.champs
     .flatMap((c, j) => c.options.filter((o) => s[f.id][j].includes(o.value)).map((o) => o.label))
@@ -379,9 +370,8 @@ $: texteVoir =
       ? 'Voir le bouchon'
       : 'Fermer';
 
-// Sur téléphone, accordéon : tout s'ouvre replié. Sur ordinateur, tout est
-// déplié, sauf les familles déjà choisies. Un clic sur l'en-tête (téléphone)
-// ou sur la valeur choisie (ordinateur) déplie ou replie.
+// Sur téléphone, accordéon : tout s'ouvre replié, un clic sur l'en-tête
+// déplie ou replie. Sur ordinateur, tout est toujours déplié.
 // On sait dès la création si l'on est sur téléphone : sinon les familles
 // s'affichaient d'abord dépliées (comme sur ordinateur), puis se repliaient
 // toutes d'un coup sous les yeux, à l'ouverture de la fenêtre.
@@ -411,11 +401,13 @@ onMount(() => {
   document.body.style.overflow = 'hidden';
 });
 
-const estOuverte = (f: Famille, s: Selection, o: Record<string, boolean>, m: boolean) =>
-  o[f.id] ?? (!m && !(sereplie(f) && estActive(f, s)));
+// Sur ordinateur, toutes les familles restent dépliées, même après un choix
+// unique : l'option choisie se repère à sa coche et à son fond noir.
+const estOuverte = (f: Famille, o: Record<string, boolean>, m: boolean) =>
+  !m || (o[f.id] ?? false);
 
 function basculer(f: Famille) {
-  const ouvrir = !estOuverte(f, sel, ouverts, mobile);
+  const ouvrir = !estOuverte(f, ouverts, mobile);
   if (!ouvrir) cale += hauteurDesOptions(f);
   ouverts = { ...ouverts, [f.id]: ouvrir };
   // Une fois les options dépliées, la cale rend la place qu'elles prennent.
@@ -453,7 +445,7 @@ const COCHE = 'M5 12l5 5 9-10';
 
   <div class="corps">
     {#each familles as f (f.id)}
-      {@const ouverte = estOuverte(f, sel, ouverts, mobile)}
+      {@const ouverte = estOuverte(f, ouverts, mobile)}
       {@const choix = resume(f, sel)}
       <div class="famille" role="group" aria-labelledby="famille-{f.id}">
         {#if mobile}
@@ -474,26 +466,6 @@ const COCHE = 'M5 12l5 5 9-10';
           </button>
         {:else}
           <p class="libelle" id="famille-{f.id}">{f.titreOrdi ?? f.titre}</p>
-          {#if !ouverte}
-            {@const court = resumeCourt(f, sel)}
-            <ul class="puces">
-              <li>
-                <button
-                  type="button"
-                  class="puce puce-on"
-                  aria-expanded="false"
-                  aria-label={`${f.titre} : ${court || 'choisir'}`}
-                  on:click={() => basculer(f)}
-                >
-                  <svg class="ico" aria-hidden="true" viewBox="0 0 24 24"
-                    ><path d={court ? COCHE : PLUS} /></svg
-                  >
-                  {#if f.id === 'vegetarien'}<FeuilleVege />{/if}
-                  {court || f.titre}
-                </button>
-              </li>
-            </ul>
-          {/if}
         {/if}
 
         {#if ouverte}
