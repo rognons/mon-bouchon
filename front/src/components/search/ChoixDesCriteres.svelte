@@ -1,9 +1,9 @@
 <script lang="ts">
 // Le bandeau d'accueil : deux questions, chacune avec ses critères principaux
-// en pastilles, puis leurs valeurs, et le bouton « Voir les N bouchons ».
+// en pastilles, puis leurs valeurs. La liste des bouchons s'affiche juste
+// en dessous et se met à jour à chaque choix.
 // Le premier critère complet est le critère principal, le second le critère
 // complémentaire (docs/adr/0003).
-import { createEventDispatcher } from 'svelte';
 import { BOUCHONS } from '../../data/bouchons';
 import { TYPES_BOUCHON, type TypeBouchon } from '../../data/referentiel';
 import {
@@ -18,10 +18,6 @@ import type { Critere, PalierDePrix, Service } from '../../recherche/regles';
 import FeuilleVege from '../FeuilleVege.svelte';
 
 export let criteres: Critere[] = [];
-export let nbExacts = 0;
-export let nbProches = 0;
-
-const dispatch = createEventDispatcher<{ voir: undefined }>();
 
 type Valeur = string | number;
 interface Champ {
@@ -129,15 +125,6 @@ $: criteres = (() => {
 })();
 
 $: montrerSecond = brouillons.length > 1 || (brouillons[0] !== undefined && complet(brouillons[0]));
-
-$: texteVoir =
-  nbExacts > 1
-    ? `Voir les ${nbExacts} bouchons →`
-    : nbExacts === 1
-      ? 'Voir le bouchon →'
-      : nbProches > 0
-        ? 'Voir les bouchons les plus proches →'
-        : 'Voir le résultat →';
 
 function retirer(rang: number) {
   const suivants = brouillons.filter((_, i) => i !== rang);
@@ -276,10 +263,7 @@ const typesProposes = (rang: number) =>
       {/if}
     {/each}
 
-    <div class="voir" id="voir-les-bouchons">
-      <button type="button" class="bouton" on:click={() => dispatch('voir')}>{texteVoir}</button>
-      <p class="statut" role="status">{message}</p>
-    </div>
+    <p class="statut" role="status">{message}</p>
   </div>
 </header>
 
@@ -296,12 +280,9 @@ const typesProposes = (rang: number) =>
     font-size: 17px;
     line-height: 1.6;
     padding: 24px 0 48px;
-    /* Le rose occupe au moins tout l'écran : à l'arrivée, rien ne détourne du
-       choix. svh (petite hauteur d'écran) évite que le bas ne bouge quand la
-       barre d'adresse du téléphone apparaît ou disparaît ; vh en secours. */
+    /* Le rose ne prend que la place des questions : la liste des bouchons
+       commence juste en dessous. */
     box-sizing: border-box;
-    min-height: 100vh;
-    min-height: 100svh;
     position: relative;
     overflow: hidden;
   }
@@ -498,35 +479,6 @@ const typesProposes = (rang: number) =>
   .definitions strong {
     font-weight: 600;
     color: var(--noir);
-  }
-  .voir {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 16px;
-  }
-  .bouton {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 52px;
-    padding: 12px 28px;
-    border: 1px solid var(--noir);
-    border-radius: 999px;
-    background: var(--blanc);
-    color: var(--noir);
-    font: inherit;
-    font-weight: 700;
-    font-stretch: 87.5%;
-    line-height: 1.2;
-    cursor: pointer;
-    transition:
-      background-color 0.2s,
-      color 0.2s;
-  }
-  .bouton:hover {
-    background: var(--noir);
-    color: var(--blanc);
   }
   .statut {
     margin: 0;

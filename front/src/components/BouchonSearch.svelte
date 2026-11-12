@@ -19,18 +19,8 @@ import Results from './search/Results.svelte';
 // biome-ignore lint/style/useConst: Bound to the criteria chooser
 let criteres: Critere[] = [];
 
-// Les résultats ne s'affichent qu'après « Voir les N bouchons ».
-let resultatsVisibles = false;
-
+// La liste des bouchons s'affiche directement sous le bandeau, sans bouton.
 const reduit = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-async function voirLesResultats() {
-  resultatsVisibles = true;
-  await tick();
-  document
-    .getElementById('resultats')
-    ?.scrollIntoView({ behavior: reduit() ? 'auto' : 'smooth', block: 'start' });
-}
 
 // L'affinage, choisi dans le panneau « Affiner ».
 // biome-ignore lint/style/useConst: Bound to the refine panel
@@ -114,57 +104,50 @@ async function modifierLaRecherche() {
 }
 </script>
 
-<ChoixDesCriteres
-  bind:criteres
-  nbExacts={resultats.exacts.length}
-  nbProches={afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres.length : 0}
-  on:voir={voirLesResultats}
-/>
+<ChoixDesCriteres bind:criteres />
 
-{#if resultatsVisibles}
-  <div class="rappel" id="resultats">
-    <div class="rappel-int">
-      <p class="rappel-texte">
-        <span class="rappel-titre">Votre recherche</span>
-        <span class="sr">Votre recherche : </span>{criteres.length
-          ? criteres.map(resumer).join(' · ')
-          : 'Tous les bouchons'}
-      </p>
-      <button
-        type="button"
-        id="bouton-affiner"
-        class="affiner"
-        aria-expanded={panneauOuvert}
-        aria-controls="panneau-affiner"
-        on:click={() => (panneauOuvert ? fermerPanneau() : (panneauOuvert = true))}
+<div class="rappel" id="resultats">
+  <div class="rappel-int">
+    <p class="rappel-texte">
+      <span class="rappel-titre">Votre recherche</span>
+      <span class="sr">Votre recherche : </span>{criteres.length
+        ? criteres.map(resumer).join(' · ')
+        : 'Tous les bouchons'}
+    </p>
+    <button
+      type="button"
+      id="bouton-affiner"
+      class="affiner"
+      aria-expanded={panneauOuvert}
+      aria-controls="panneau-affiner"
+      on:click={() => (panneauOuvert ? fermerPanneau() : (panneauOuvert = true))}
+    >
+      <svg class="ico" aria-hidden="true" viewBox="0 0 24 24"
+        ><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle
+          cx="10"
+          cy="17"
+          r="2"
+        /></svg
       >
-        <svg class="ico" aria-hidden="true" viewBox="0 0 24 24"
-          ><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle
-            cx="10"
-            cy="17"
-            r="2"
-          /></svg
-        >
-        Modifier ou affiner
-        {#if nbChoix > 0}<span class="compteur" aria-label="{nbChoix} choix">{nbChoix}</span>{/if}
-      </button>
-    </div>
+      Modifier ou affiner
+      {#if nbChoix > 0}<span class="compteur" aria-label="{nbChoix} choix">{nbChoix}</span>{/if}
+    </button>
   </div>
+</div>
 
-  {#if panneauOuvert}
-    <PanneauAffiner
-      {criteres}
-      {compter}
-      bind:affinage
-      on:fermer={fermerPanneau}
-      on:modifier={modifierLaRecherche}
-    />
-  {/if}
-
-  <div class="zone-resultats">
-    <Results {resultats} {criteres} bind:tri />
-  </div>
+{#if panneauOuvert}
+  <PanneauAffiner
+    {criteres}
+    {compter}
+    bind:affinage
+    on:fermer={fermerPanneau}
+    on:modifier={modifierLaRecherche}
+  />
 {/if}
+
+<div class="zone-resultats">
+  <Results {resultats} {criteres} bind:tri />
+</div>
 
 <style>
   /* Le rappel des choix reste en haut de l'écran pendant qu'on parcourt les résultats. */
