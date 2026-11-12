@@ -3,6 +3,7 @@ import { BOUCHONS } from '../data/bouchons';
 import type { Bouchon } from './regles';
 import {
   etiquette,
+  infosCles,
   prixEnEuros,
   chapeauAUnCriterePres,
   critereParDefaut,
@@ -144,6 +145,36 @@ describe('Formulation de la phrase de recherche', () => {
       'Bouchon traditionnel'
     );
     expect(etiquette({ type: 'vegetarien' }, b)).toBe('Option végé');
+  });
+
+  it('montre toujours les infos clés, sans répéter une étiquette', () => {
+    const b = {
+      menuPrice: 27.5,
+      postalCode: '69005',
+      commune: 'lyon',
+      neighborhood: 'vieux-lyon',
+      bouchonType: 'moderne',
+      vegetarianOption: true,
+    } as Bouchon;
+    expect(infosCles(b).map((i) => i.texte)).toEqual([
+      'Menu à 27,50\u00a0€',
+      'Dans le Vieux-Lyon',
+      'Bouchon moderne',
+      'Option végé',
+    ]);
+    // Le prix et le lieu sont déjà dits par l'étiquette d'un critère rempli.
+    expect(infosCles(b, ['prix', 'lieu']).map((i) => i.type)).toEqual([
+      'typeBouchon',
+      'vegetarien',
+    ]);
+    // Ce qu'on ne connaît pas, ou l'absence d'option végé, n'est pas affiché.
+    const sansInfos = {
+      ...b,
+      menuPrice: null,
+      bouchonType: null,
+      vegetarianOption: false,
+    } as Bouchon;
+    expect(infosCles(sansInfos).map((i) => i.texte)).toEqual(['Dans le Vieux-Lyon']);
   });
 
   it('nomme un lieu sans préposition', () => {

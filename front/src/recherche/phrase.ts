@@ -254,6 +254,27 @@ export function etiquette(critere: Critere, bouchon: Bouchon): string {
   }
 }
 
+// Les infos clés toujours montrées sur une carte, à la suite des étiquettes
+// des critères remplis : prix, lieu, type de bouchon et option végé. On saute
+// celles qu'une étiquette dit déjà (dejaDits) et celles qu'on ne connaît pas
+// (prix ou type non renseigné, pas d'option végé).
+const TYPES_INFOS_CLES: TypeDeCritere[] = ['prix', 'lieu', 'typeBouchon', 'vegetarien'];
+
+export function infosCles(
+  bouchon: Bouchon,
+  dejaDits: TypeDeCritere[] = []
+): { type: TypeDeCritere; texte: string }[] {
+  const connue: Record<string, boolean> = {
+    prix: typeof bouchon.menuPrice === 'number',
+    lieu: true,
+    typeBouchon: Boolean(bouchon.bouchonType),
+    vegetarien: bouchon.vegetarianOption === true,
+  };
+  return TYPES_INFOS_CLES.filter((type) => connue[type] && !dejaDits.includes(type)).map(
+    (type) => ({ type, texte: etiquette(critereParDefaut(type), bouchon) })
+  );
+}
+
 // Le chapeau de « À un critère près ». Le critère principal n'est jamais
 // relâché : ce qui manque est toujours le critère complémentaire, qu'on
 // nomme. Texte provisoire, à faire valider par la Compagnie.

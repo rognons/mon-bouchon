@@ -5,7 +5,7 @@
 import type { BouchonComplet } from '../data/bouchons';
 import { AVEC_PHOTO } from '../data/photos';
 import { AVEC_STICKER } from '../data/stickers';
-import { etiquette } from '../recherche/phrase';
+import { etiquette, infosCles } from '../recherche/phrase';
 import { type Critere, evaluer, rangTop10 } from '../recherche/regles';
 import FeuilleVege from './FeuilleVege.svelte';
 
@@ -17,9 +17,17 @@ export let criteres: Critere[] = [];
 // biome-ignore lint/style/useConst: Svelte prop
 export let manque = '';
 
-$: remplis = criteres
-  .filter((c) => evaluer(bouchon, c) === 'oui')
-  .map((c) => ({ texte: etiquette(c, bouchon), vege: c.type === 'vegetarien' }));
+$: criteresRemplis = criteres.filter((c) => evaluer(bouchon, c) === 'oui');
+$: remplis = criteresRemplis.map((c) => ({
+  texte: etiquette(c, bouchon),
+  vege: c.type === 'vegetarien',
+}));
+// À la suite, les infos clés (prix, lieu, type, végé) que les étiquettes ne
+// disent pas déjà : elles restent visibles même sans critère choisi.
+$: infos = infosCles(
+  bouchon,
+  criteresRemplis.map((c) => c.type)
+).map((i) => ({ texte: i.texte, vege: i.type === 'vegetarien' }));
 $: description = bouchon.description?.trim().startsWith('À venir') ? '' : bouchon.description;
 $: pointsCles = (bouchon.pointsCles ?? []).slice(0, 3);
 $: rang = rangTop10(bouchon);
@@ -61,11 +69,18 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
       {/if}
     </div>
 
-    {#if remplis.length}
-      <ul class="etiquettes" aria-label="Vos critères remplis">
+    {#if remplis.length || infos.length}
+      <!-- D'abord les critères cherchés que le bouchon remplit (roses, cochés),
+           puis ses infos clés (cadre fin, sans coche). -->
+      <ul class="etiquettes" aria-label="Vos critères remplis et les infos clés">
         {#each remplis as { texte, vege }}
           <li class="etiquette">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" /></svg>
+            <span class="sr">Critère rempli : </span>{texte}{#if vege}<FeuilleVege taille={16} />{/if}
+          </li>
+        {/each}
+        {#each infos as { texte, vege }}
+          <li class="etiquette info">
             {texte}{#if vege}<FeuilleVege taille={16} />{/if}
           </li>
         {/each}
@@ -224,6 +239,13 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     font-size: 14px;
     font-weight: 600;
     line-height: 1.4;
+  }
+  /* Une info clé : même forme, mais blanche à cadre fin, pour la distinguer
+     d'un critère rempli. */
+  .etiquette.info {
+    padding: 3px 12px;
+    border: 1px solid #221f20;
+    background: #ffffff;
   }
   .etiquette svg {
     width: 16px;
