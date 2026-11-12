@@ -1,5 +1,5 @@
 <script lang="ts">
-import { tick } from 'svelte';
+import { onMount, tick } from 'svelte';
 import { BOUCHONS } from '../data/bouchons';
 import { resumer } from '../recherche/phrase';
 import {
@@ -97,6 +97,31 @@ $: nbChoix =
     ] as const
   ).filter((k) => affinageEffectif[k]).length;
 
+// Sur téléphone, « Modifier ou affiner » n'apparaît qu'une fois arrivé
+// à la liste des bouchons, en bas de l'écran (à portée du pouce).
+// Sur ordinateur, la classe ne change rien : la barre reste en haut.
+let zoneResultats: HTMLElement;
+let dansLaListe = false;
+onMount(() => {
+  let attente = 0;
+  const verifier = () => {
+    attente = 0;
+    const r = zoneResultats.getBoundingClientRect();
+    dansLaListe = r.top < window.innerHeight * 0.6 && r.bottom > window.innerHeight * 0.4;
+  };
+  const surDefilement = () => {
+    if (!attente) attente = requestAnimationFrame(verifier);
+  };
+  verifier();
+  window.addEventListener('scroll', surDefilement, { passive: true });
+  window.addEventListener('resize', surDefilement);
+  return () => {
+    window.removeEventListener('scroll', surDefilement);
+    window.removeEventListener('resize', surDefilement);
+    cancelAnimationFrame(attente);
+  };
+});
+
 async function fermerPanneau() {
   panneauOuvert = false;
   await tick();
@@ -113,7 +138,10 @@ async function fermerPanneau() {
   on:voir={voirLesResultats}
 />
 
-<div class="rappel" id="resultats">
+<!-- Le point d'arrivée de « Voir les N bouchons ». -->
+<div id="resultats"></div>
+
+<div class="rappel" class:visible={dansLaListe || panneauOuvert}>
   <div class="rappel-int">
     <p class="rappel-texte">
       <span class="rappel-titre">Votre recherche</span>
@@ -151,7 +179,7 @@ async function fermerPanneau() {
   />
 {/if}
 
-<div class="zone-resultats">
+<div class="zone-resultats" bind:this={zoneResultats}>
   <Results {resultats} {criteres} bind:tri />
 </div>
 
@@ -260,12 +288,38 @@ async function fermerPanneau() {
     padding: 24px 32px 48px;
   }
   @media (max-width: 767px) {
-    .rappel-int {
-      gap: 8px;
-      padding: 8px 16px;
+    /* Sur téléphone, la barre passe en bas de l'écran, bouton sur toute la
+       largeur, à portée du pouce. Elle n'apparaît qu'une fois arrivé à la liste des bouchons :
+       le premier écran garde une seule action, « Voir les N bouchons ».
+       Les critères choisis se relisent dans la fenêtre. */
+    .rappel {
+      position: fixed;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-bottom: 0;
+      border-top: 1px solid #e6e2dc;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(24px);
+      transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0s linear 0.25s;
     }
-    /* Sur téléphone, la barre ne garde que le bouton, sur toute la largeur :
-       les critères choisis se relisent dans le panneau. */
+    .rappel.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition:
+        opacity 0.25s ease,
+        transform 0.25s ease,
+        visibility 0s;
+    }
+    .rappel-int {
+      padding: 8px 16px calc(8px + env(safe-area-inset-bottom, 0px));
+    }
     .rappel-texte {
       display: none;
     }
@@ -273,8 +327,15 @@ async function fermerPanneau() {
       flex: 1;
       justify-content: center;
     }
+    /* De la place sous la dernière fiche, pour que le bouton ne la cache pas. */
     .zone-resultats {
-      padding: 16px 16px 32px;
+      padding: 16px 16px 96px;
+    }
+  }
+  @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+    .rappel,
+    .rappel.visible {
+      transform: none;
     }
   }
 </style>
