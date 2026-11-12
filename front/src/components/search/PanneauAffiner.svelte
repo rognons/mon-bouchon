@@ -366,12 +366,15 @@ $: texteVoir =
 // Sur téléphone, accordéon : tout s'ouvre replié. Sur ordinateur, tout est
 // déplié, sauf les familles déjà choisies. Un clic sur l'en-tête (téléphone)
 // ou sur la valeur choisie (ordinateur) déplie ou replie.
-let mobile = false;
+// On sait dès la création si l'on est sur téléphone : sinon les familles
+// s'affichaient d'abord dépliées (comme sur ordinateur), puis se repliaient
+// toutes d'un coup sous les yeux, à l'ouverture de la fenêtre.
+const ECRAN_TELEPHONE = '(max-width: 767px)';
+let mobile = typeof window !== 'undefined' && window.matchMedia(ECRAN_TELEPHONE).matches;
 let ouverts: Record<string, boolean> = {};
 let titre: HTMLElement;
 onMount(() => {
-  const requete = window.matchMedia('(max-width: 767px)');
-  mobile = requete.matches;
+  const requete = window.matchMedia(ECRAN_TELEPHONE);
   const suivre = (e: MediaQueryListEvent) => {
     mobile = e.matches;
   };
