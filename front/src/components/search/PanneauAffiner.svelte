@@ -1,6 +1,6 @@
 <script lang="ts">
-// Le panneau « Affiner » : les critères principaux absents de la recherche,
-// puis les critères secondaires, en pastilles rangées par famille
+// Le panneau « Modifier ou affiner » : tous les critères, principaux puis
+// secondaires, en pastilles rangées par famille
 // (docs/adr/0003). Sur téléphone, plein écran et en accordéon (tout s'ouvre
 // replié, un résumé des choix sous chaque titre) ; sur ordinateur, toutes les
 // familles dépliées. Une pastille qui mènerait à zéro bouchon est indisponible.
@@ -19,13 +19,12 @@ import { JOURS, lieuxProposes, PALIERS, type TypeDeCritere } from '../../recherc
 import type { Affinage, Critere, PalierDePrix, Service } from '../../recherche/regles';
 import FeuilleVege from '../FeuilleVege.svelte';
 import CasesAvecLegende from './CasesAvecLegende.svelte';
-import ChoixDesCriteres, { type Brouillon } from './ChoixDesCriteres.svelte';
+import type { Brouillon } from './ChoixDesCriteres.svelte';
 import { CASES_AMBIANCE, CASES_PROFIL, CASES_TYPE_BOUCHON, type Case } from './cases';
 
-// Les critères déjà choisis dans le bandeau : leurs familles n'apparaissent pas.
-export let criteres: Critere[] = [];
-// Les critères n°1 et n°2 en cours de choix, partagés avec le bandeau :
-// on les modifie directement dans la fenêtre.
+// Les critères n°1 et n°2 choisis dans le bandeau, partagés avec lui. Leur
+// famille s'affiche ici comme les autres, déjà cochée : la modifier change le
+// critère du bandeau (il garde son rang de critère n°1 ou n°2).
 export let brouillons: Brouillon[] = [];
 // Le nombre de bouchons affichés pour un affinage donné.
 export let compter: (affinage: Affinage) => number;
@@ -178,11 +177,14 @@ type Selection = Record<string, Valeur[][]>;
 const vide = (): Selection =>
   Object.fromEntries(FAMILLES.map((f) => [f.id, f.champs.map(() => [] as Valeur[])]));
 
-let sel: Selection = selectionDepuis(affinage);
+let sel: Selection = selectionDepuis(affinage, brouillons);
 
 // Retrouve les pastilles cochées à partir de l’affinage, quand on rouvre le panneau.
-function selectionDepuis(a: Affinage): Selection {
+function selectionDepuis(a: Affinage, bs: Brouillon[]): Selection {
   const s = vide();
+  for (const b of bs) {
+    s[b.type] = b.type === 'vegetarien' ? [['oui']] : b.choix.map((c) => [...c]);
+  }
   for (const c of a.principaux ?? []) {
     if (c.type === 'prix') s.prix[0] = [c.palier];
     if (c.type === 'lieu') s.lieu[0] = [...c.valeurs];
@@ -204,8 +206,25 @@ function selectionDepuis(a: Affinage): Selection {
   return s;
 }
 
-// Les familles proposées : pas celles des critères déjà choisis dans le bandeau.
-$: familles = FAMILLES.filter((f) => !f.principal || !criteres.some((c) => c.type === f.principal));
+// Toutes les familles s'affichent. Celles des critères du bandeau se
+// modifient dans le bandeau (via `brouillons`) ; les autres forment l'affinage.
+const familles = FAMILLES;
+const duBandeau = (f: Famille, bs: Brouillon[]) =>
+  !!f.principal && bs.some((b) => b.type === f.principal);
+$: affinables = FAMILLES.filter((f) => !duBandeau(f, brouillons));
+
+// Reporte dans le bandeau un changement fait sur l'un de ses critères.
+// Une famille entièrement décochée retire le critère du bandeau.
+function versBandeau(f: Famille, s: Selection) {
+  const rang = brouillons.findIndex((b) => b.type === f.principal);
+  if (rang < 0) return;
+  const valeurs = s[f.id];
+  brouillons = valeurs.every((c) => c.length === 0)
+    ? brouillons.filter((_, k) => k !== rang)
+    : brouillons.map((b, k) =>
+        k === rang ? { ...b, choix: f.id === 'vegetarien' ? [] : valeurs.map((c) => [...c]) } : b
+      );
+}
 
 function versAffinage(s: Selection, visibles: Famille[]): Affinage {
   const ids = new Set(visibles.map((f) => f.id));
@@ -241,7 +260,7 @@ function versAffinage(s: Selection, visibles: Famille[]): Affinage {
 const estActive = (f: Famille, s: Selection) =>
   f.id === 'moment' ? s.moment[0].length > 0 && s.moment[1].length > 0 : s[f.id][0].length > 0;
 
-$: affinage = versAffinage(sel, familles);
+$: affinage = versAffinage(sel, affinables);
 $: nbBouchons = compter(affinage);
 
 function avecChoix(s: Selection, f: Famille, j: number, value: Valeur): Selection {
@@ -258,8 +277,11 @@ function avecChoix(s: Selection, f: Famille, j: number, value: Valeur): Selectio
 }
 
 // Une pastille non cochée est indisponible si la cocher ne laissait aucun bouchon.
+// (Les familles du bandeau restent toujours disponibles.)
 const indisponible = (s: Selection, visibles: Famille[], f: Famille, j: number, value: Valeur) =>
-  !s[f.id][j].includes(value) && compter(versAffinage(avecChoix(s, f, j, value), visibles)) === 0;
+  visibles.includes(f) &&
+  !s[f.id][j].includes(value) &&
+  compter(versAffinage(avecChoix(s, f, j, value), visibles)) === 0;
 
 // Après un choix, les options se replient et il ne reste que la valeur
 // choisie, qu'un clic rouvre. Sauf pour les familles où l'on coche plusieurs
@@ -270,7 +292,9 @@ const SE_REPLIENT = ['prix', 'typeBouchon', 'ambiance', 'vegetarien', 'profil', 
 const sereplie = (f: Famille) => SE_REPLIENT.includes(f.id);
 
 function choisir(f: Famille, j: number, value: Valeur) {
+  const duBandeauAvant = duBandeau(f, brouillons);
   sel = avecChoix(sel, f, j, value);
+  if (duBandeauAvant) versBandeau(f, sel);
   if (sereplie(f) && estActive(f, sel)) replierEnDouceur(f);
 }
 
@@ -302,6 +326,7 @@ const glisser = (noeud: Element) => slide(noeud, { duration: mouvementReduit() ?
 
 function reinitialiser() {
   sel = vide();
+  brouillons = [];
   ouverts = {};
 }
 
@@ -390,12 +415,6 @@ const COCHE = 'M5 12l5 5 9-10';
   </div>
 
   <div class="corps">
-    <!-- Les critères n°1 et n°2 se modifient ici, comme dans le bandeau. -->
-    <div class="recherche">
-      <p class="libelle">Votre recherche</p>
-      <ChoixDesCriteres dansFenetre bind:brouillons />
-    </div>
-    <p class="libelle titre-affiner">Affiner</p>
     {#each familles as f (f.id)}
       {@const ouverte = estOuverte(f, sel, ouverts, mobile)}
       {@const choix = resume(f, sel)}
@@ -448,14 +467,14 @@ const COCHE = 'M5 12l5 5 9-10';
                 <CasesAvecLegende
                   options={champ.cases}
                   choisies={sel[f.id][j]}
-                  indisponible={(v) => indisponible(sel, familles, f, j, v)}
+                  indisponible={(v) => indisponible(sel, affinables, f, j, v)}
                   on:choisir={(e) => choisir(f, j, e.detail)}
                 />
               {:else}
               <ul class="puces">
                 {#each champ.options as o (o.value)}
                   {@const on = sel[f.id][j].includes(o.value)}
-                  {@const off = indisponible(sel, familles, f, j, o.value)}
+                  {@const off = indisponible(sel, affinables, f, j, o.value)}
                   <li>
                     <button
                       type="button"
@@ -570,19 +589,6 @@ const COCHE = 'M5 12l5 5 9-10';
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
     gap: 28px 40px;
-  }
-  .recherche {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--gris);
-  }
-  .titre-affiner {
-    grid-column: 1 / -1;
-    margin-bottom: -16px;
   }
   .famille {
     display: flex;
@@ -772,12 +778,6 @@ const COCHE = 'M5 12l5 5 9-10';
     flex-direction: column;
     gap: 0;
     padding: 0 16px 16px;
-  }
-  .mobile .recherche {
-    margin-top: 16px;
-  }
-  .mobile .titre-affiner {
-    margin: 24px 0 0;
   }
   .mobile .famille {
     gap: 0;

@@ -144,7 +144,6 @@ async function fermerPanneau() {
 
 {#if panneauOuvert}
   <PanneauAffiner
-    {criteres}
     {compter}
     bind:brouillons
     bind:affinage
