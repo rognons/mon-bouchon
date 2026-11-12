@@ -262,10 +262,10 @@ const indisponible = (s: Selection, visibles: Famille[], f: Famille, j: number, 
 
 // Après un choix, les options se replient et il ne reste que la valeur
 // choisie, qu'un clic rouvre. Sauf pour les familles où l'on coche plusieurs
-// valeurs à la suite (Lieu, Jour et service, Ambiance…) : elles restent
-// ouvertes. « Type de bouchon » se replie quand même (on en choisit un le
-// plus souvent ; on peut rouvrir pour en ajouter).
-const SE_REPLIENT = ['prix', 'typeBouchon', 'vegetarien', 'profil', 'portions'];
+// valeurs à la suite (Lieu, Jour et service, Distinctions, Options) : elles
+// restent ouvertes. « Type de bouchon » et « Ambiance » se replient quand
+// même (on en choisit un le plus souvent ; on peut rouvrir pour en ajouter).
+const SE_REPLIENT = ['prix', 'typeBouchon', 'ambiance', 'vegetarien', 'profil', 'portions'];
 const sereplie = (f: Famille) => SE_REPLIENT.includes(f.id);
 
 function choisir(f: Famille, j: number, value: Valeur) {
