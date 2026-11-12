@@ -331,10 +331,6 @@ const COCHE = 'M5 12l5 5 9-10';
 
 <svelte:window on:keydown={surTouche} />
 
-<!-- Le voile sombre derrière la fenêtre : un clic dessus la referme (Échap aussi). -->
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions -->
-<div class="voile" aria-hidden="true" on:click={() => dispatch('fermer')}></div>
-
 <div
   id="panneau-affiner"
   class="panneau"
@@ -476,35 +472,23 @@ const COCHE = 'M5 12l5 5 9-10';
     outline: 3px solid var(--noir);
     outline-offset: 3px;
   }
-  /* Ordinateur : une fenêtre au centre de l'écran, par-dessus la page assombrie. */
-  .voile {
+  /* Ordinateur comme téléphone : plein écran, par-dessus la page.
+     Sur ordinateur, le contenu reste centré sur 1200 px de large. */
+  .panneau {
+    --marge: max(32px, calc((100% - 1200px) / 2 + 32px));
     position: fixed;
     inset: 0;
-    z-index: 299;
-    background: rgba(34, 31, 32, 0.5);
-  }
-  .panneau {
-    position: fixed;
     z-index: 300;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: calc(100% - 64px);
-    max-width: 1200px;
-    max-height: calc(100vh - 64px);
     display: flex;
     flex-direction: column;
     border: 0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 12px 40px rgba(34, 31, 32, 0.25);
   }
   .tete {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 16px 32px;
+    padding: 16px var(--marge);
     border-bottom: 1px solid var(--gris);
   }
   .titre {
@@ -522,7 +506,7 @@ const COCHE = 'M5 12l5 5 9-10';
     overflow: auto;
     width: 100%;
     margin: 0;
-    padding: 24px 32px;
+    padding: 24px var(--marge);
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
     gap: 28px 40px;
@@ -681,7 +665,7 @@ const COCHE = 'M5 12l5 5 9-10';
   .pied {
     width: 100%;
     margin: 0;
-    padding: 16px 32px;
+    padding: 16px var(--marge);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -732,12 +716,6 @@ const COCHE = 'M5 12l5 5 9-10';
     position: fixed;
     inset: 0;
     z-index: 300;
-    transform: none;
-    width: auto;
-    max-width: none;
-    max-height: none;
-    border-radius: 0;
-    box-shadow: none;
     display: flex;
     flex-direction: column;
     border: 0;
