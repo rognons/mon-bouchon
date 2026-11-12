@@ -344,12 +344,16 @@ onMount(() => {
   tick().then(() => titre?.focus());
   return () => {
     requete.removeEventListener('change', suivre);
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
   };
 });
 
 // Le panneau s'ouvre par-dessus la page : derrière lui, la page ne défile pas.
+// On bloque <html> et <body> : sinon la barre de défilement de la page reste
+// à côté de celle du panneau (deux barres sur ordinateur).
 onMount(() => {
+  document.documentElement.style.overflow = 'hidden';
   document.body.style.overflow = 'hidden';
 });
 
@@ -542,7 +546,8 @@ const COCHE = 'M5 12l5 5 9-10';
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 16px var(--marge);
+    /* Le titre s'aligne sur le contenu ; la croix va dans le coin haut droit de l'écran. */
+    padding: 16px 24px 16px var(--marge);
     border-bottom: 1px solid var(--gris);
   }
   .titre {
@@ -558,6 +563,7 @@ const COCHE = 'M5 12l5 5 9-10';
     flex: 1;
     min-height: 0;
     overflow: auto;
+    overscroll-behavior: contain;
     width: 100%;
     margin: 0;
     padding: 24px var(--marge);
