@@ -5,6 +5,7 @@
 // replié, un résumé des choix sous chaque titre) ; sur ordinateur, toutes les
 // familles dépliées. Une pastille qui mènerait à zéro bouchon est indisponible.
 import { createEventDispatcher, onMount, tick } from 'svelte';
+import { cubicInOut } from 'svelte/easing';
 import { slide } from 'svelte/transition';
 import { BOUCHONS } from '../../data/bouchons';
 import {
@@ -307,7 +308,8 @@ function choisir(f: Famille, j: number, value: Valeur) {
 // Le focus, qui était sur la case disparue, passe sur l'en-tête de la famille
 // (ou sa pastille sur ordinateur), sans faire défiler.
 const PAUSE_AVANT_REPLI = 350;
-const DUREE_GLISSEMENT = 250;
+// Assez lent pour que l'œil suive, avec un départ et une arrivée en douceur.
+const DUREE_GLISSEMENT = 450;
 let cale = 0;
 const replisEnAttente: Record<string, ReturnType<typeof setTimeout>> = {};
 const groupeDe = (f: Famille) =>
@@ -331,8 +333,14 @@ const mouvementReduit = () =>
 
 // Les options se déplient et se replient en glissant, sauf si la personne a
 // demandé à son appareil de réduire les animations.
-const glisser = (noeud: Element) =>
-  slide(noeud, { duration: mouvementReduit() ? 0 : DUREE_GLISSEMENT });
+// Les options s'estompent en même temps qu'elles se replient.
+const glisser = (noeud: Element) => {
+  const t = slide(noeud, {
+    duration: mouvementReduit() ? 0 : DUREE_GLISSEMENT,
+    easing: cubicInOut,
+  });
+  return { ...t, css: (x: number, u: number) => `${t.css?.(x, u) ?? ''};opacity:${x}` };
+};
 
 function reinitialiser() {
   sel = vide();
