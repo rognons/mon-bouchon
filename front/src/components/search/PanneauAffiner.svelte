@@ -260,13 +260,33 @@ function avecChoix(s: Selection, f: Famille, j: number, value: Valeur): Selectio
 const indisponible = (s: Selection, visibles: Famille[], f: Famille, j: number, value: Valeur) =>
   !s[f.id][j].includes(value) && compter(versAffinage(avecChoix(s, f, j, value), visibles)) === 0;
 
+// Après un choix, les options se replient et il ne reste que la valeur
+// choisie, qu'un clic rouvre. Sauf pour les familles où l'on coche plusieurs
+// valeurs à la suite (Lieu, Jour et service, Ambiance…) : elles restent
+// ouvertes. « Type de bouchon » se replie quand même (on en choisit un le
+// plus souvent ; on peut rouvrir pour en ajouter).
+const SE_REPLIENT = ['prix', 'typeBouchon', 'vegetarien', 'profil', 'portions'];
+const sereplie = (f: Famille) => SE_REPLIENT.includes(f.id);
+
 function choisir(f: Famille, j: number, value: Valeur) {
   sel = avecChoix(sel, f, j, value);
+  if (sereplie(f)) ouverts = { ...ouverts, [f.id]: !estActive(f, sel) };
 }
 
 function reinitialiser() {
   sel = vide();
+  ouverts = {};
 }
+
+// La valeur choisie, ou la première suivie du nombre d'autres (« Terrasse +1 »).
+const resumeCourt = (f: Famille, s: Selection) =>
+  f.champs
+    .map((c, j) => {
+      const labels = c.options.filter((o) => s[f.id][j].includes(o.value)).map((o) => o.label);
+      return labels.length > 1 ? `${labels[0]} +${labels.length - 1}` : labels[0];
+    })
+    .filter(Boolean)
+    .join(' · ');
 
 const resume = (f: Famille, s: Selection) =>
   f.champs
@@ -281,7 +301,9 @@ $: texteVoir =
       ? 'Voir le bouchon'
       : 'Fermer';
 
-// Sur téléphone, accordéon : tout s'ouvre replié.
+// Sur téléphone, accordéon : tout s'ouvre replié. Sur ordinateur, tout est
+// déplié, sauf les familles déjà choisies. Un clic sur l'en-tête (téléphone)
+// ou sur la valeur choisie (ordinateur) déplie ou replie.
 let mobile = false;
 let ouverts: Record<string, boolean> = {};
 let titre: HTMLElement;
@@ -304,8 +326,11 @@ onMount(() => {
   document.body.style.overflow = 'hidden';
 });
 
-function basculer(id: string) {
-  ouverts = { ...ouverts, [id]: !ouverts[id] };
+const estOuverte = (f: Famille, s: Selection, o: Record<string, boolean>, m: boolean) =>
+  o[f.id] ?? (!m && !(sereplie(f) && estActive(f, s)));
+
+function basculer(f: Famille) {
+  ouverts = { ...ouverts, [f.id]: !estOuverte(f, sel, ouverts, mobile) };
 }
 
 function surTouche(e: KeyboardEvent) {
@@ -341,7 +366,7 @@ const COCHE = 'M5 12l5 5 9-10';
     </div>
     <p class="libelle titre-affiner">Affiner</p>
     {#each familles as f (f.id)}
-      {@const ouverte = !mobile || Boolean(ouverts[f.id])}
+      {@const ouverte = estOuverte(f, sel, ouverts, mobile)}
       {@const choix = resume(f, sel)}
       <div class="famille" role="group" aria-labelledby="famille-{f.id}">
         {#if mobile}
@@ -350,7 +375,7 @@ const COCHE = 'M5 12l5 5 9-10';
             class="entete"
             id="famille-{f.id}"
             aria-expanded={ouverte}
-            on:click={() => basculer(f.id)}
+            on:click={() => basculer(f)}
           >
             <span class="entete-texte">
               <span class="entete-titre">{f.titre}</span>
@@ -362,6 +387,26 @@ const COCHE = 'M5 12l5 5 9-10';
           </button>
         {:else}
           <p class="libelle" id="famille-{f.id}">{f.titre}</p>
+          {#if !ouverte}
+            {@const court = resumeCourt(f, sel)}
+            <ul class="puces">
+              <li>
+                <button
+                  type="button"
+                  class="puce puce-on"
+                  aria-expanded="false"
+                  aria-label={`${f.titre} : ${court || 'choisir'}`}
+                  on:click={() => basculer(f)}
+                >
+                  <svg class="ico" aria-hidden="true" viewBox="0 0 24 24"
+                    ><path d={court ? COCHE : PLUS} /></svg
+                  >
+                  {#if f.id === 'vegetarien'}<FeuilleVege />{/if}
+                  {court || f.titre}
+                </button>
+              </li>
+            </ul>
+          {/if}
         {/if}
 
         {#if ouverte}

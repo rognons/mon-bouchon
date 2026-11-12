@@ -153,10 +153,15 @@ $: criteres = (() => {
 // affiche alors la valeur choisie (« Traditionnel » au lieu de « Type de
 // bouchon »). Recliquer la pastille rouvre les valeurs ; la recliquer encore
 // retire le critère. Un critère incomplet garde toujours ses valeurs ouvertes.
+// Lieu et Jour et service, où l'on coche plusieurs valeurs à la suite,
+// restent ouverts. « Type de bouchon » se replie (on peut rouvrir pour en
+// ajouter un autre).
+const SE_REPLIE: TypeDeCritere[] = ['prix', 'typeBouchon'];
 let rouverts: boolean[] = [false, false];
-$: ouverts = [0, 1].map(
-  (rang) => brouillons[rang] !== undefined && (!complet(brouillons[rang]) || rouverts[rang]),
-);
+$: ouverts = [0, 1].map((rang) => {
+  const b = brouillons[rang];
+  return b !== undefined && (!SE_REPLIE.includes(b.type) || !complet(b) || rouverts[rang]);
+});
 
 // Le texte de la pastille une fois le critère complet : la valeur choisie,
 // ou la première suivie du nombre d'autres (« Croix-Rousse +2 »). Pour
@@ -186,7 +191,7 @@ function choisirCritere(rang: number, type: TypeDeCritere) {
   const actuel = brouillons[rang];
   if (actuel?.type === type) {
     // Replié : on rouvre ses valeurs. Ouvert : on le retire.
-    if (complet(actuel) && !rouverts[rang]) rouverts = rouverts.map((r, i) => (i === rang ? true : r));
+    if (!ouverts[rang]) rouverts = rouverts.map((r, i) => (i === rang ? true : r));
     else retirer(rang);
     return;
   }
