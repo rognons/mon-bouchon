@@ -3,6 +3,7 @@
 // note, adresse). Repris des services Deno de l'ancienne API.
 
 import { createSign } from 'node:crypto';
+import { QUARTIERS } from '../src/data/referentiel.ts';
 
 function env(nom: string): string {
   const valeur = process.env[nom];
@@ -67,6 +68,8 @@ export interface DetailsGoogle {
   address_components?: { long_name: string; short_name: string; types: string[] }[];
   url?: string;
   formatted_address?: string;
+  // OPERATIONAL, CLOSED_TEMPORARILY ou CLOSED_PERMANENTLY.
+  business_status?: string;
 }
 
 // Un lieu tel que le renvoie Places API (New).
@@ -82,6 +85,7 @@ interface LieuGoogle {
   addressComponents?: { longText: string; shortText: string; types: string[] }[];
   googleMapsUri?: string;
   formattedAddress?: string;
+  businessStatus?: string;
 }
 
 // « 12 h 30 » s'écrit « 1230 », comme dans l'ancienne API.
@@ -98,7 +102,7 @@ export async function detailsGoogle(recherche: string): Promise<DetailsGoogle | 
       'Content-Type': 'application/json',
       'X-Goog-Api-Key': env('GOOGLE_MAPS_API_KEY'),
       'X-Goog-FieldMask':
-        'places.regularOpeningHours,places.rating,places.nationalPhoneNumber,places.addressComponents,places.googleMapsUri,places.formattedAddress',
+        'places.regularOpeningHours,places.rating,places.nationalPhoneNumber,places.addressComponents,places.googleMapsUri,places.formattedAddress,places.businessStatus',
     },
     body: JSON.stringify({ textQuery: recherche, languageCode: 'fr', regionCode: 'FR' }),
   });
@@ -123,5 +127,26 @@ export async function detailsGoogle(recherche: string): Promise<DetailsGoogle | 
     // Sans le paramètre de suivi « g_mp » ajouté par Places API (New).
     url: lieu.googleMapsUri?.replace(/&g_mp=[^&]*/, ''),
     formatted_address: lieu.formattedAddress?.replace(/, France$/, ''),
+    business_status: lieu.businessStatus,
   };
+}
+
+// Les détails Google d'un bouchon : recherche par nom et quartier, puis par
+// nom seul, puis par lien Maps. null si Google ne le trouve pas.
+export async function detailsDuBouchon(bouchon: {
+  name: string;
+  neighborhood?: unknown;
+  mapsUrl?: unknown;
+}): Promise<DetailsGoogle | null> {
+  const quartier = QUARTIERS.find((q) => q.code === bouchon.neighborhood)?.libelle;
+  const recherches = [
+    quartier ? `${bouchon.name}, ${quartier}, Lyon` : null,
+    `${bouchon.name}, Lyon`,
+    typeof bouchon.mapsUrl === 'string' && bouchon.mapsUrl.trim() ? bouchon.mapsUrl : null,
+  ].filter((r): r is string => r !== null);
+  for (const recherche of recherches) {
+    const details = await detailsGoogle(recherche);
+    if (details?.opening_hours) return details;
+  }
+  return null;
 }

@@ -35,3 +35,21 @@ Ce sont les mêmes variables que pour les anciens scripts Deno de `api/`.
 
 Node 22.18 ou plus récent est nécessaire (les scripts sont en TypeScript et
 Node les lit directement).
+
+## Vérification mensuelle
+
+Le 1er de chaque mois, GitHub lance `npm run donnees:verifier`
+(`.github/workflows/verification-mensuelle.yml`) :
+
+- Google Places : horaires, adresse, note et statut (fermé temporairement ou
+  définitivement) de chaque bouchon ; `bouchons.json` est mis à jour si besoin ;
+- liens du menu, de la réservation et de l'article : repère les liens cassés.
+
+Le rapport arrive dans un ticket GitHub (onglet « Issues »), et la mise à jour
+des données dans une pull request à accepter. En janvier, avril, juillet et
+octobre, le rapport ajoute la liste des prix à revérifier à la main (colonne
+« Vérifié le » du Sheet).
+
+On peut aussi la lancer sur son ordinateur : `npm run donnees:verifier`, puis
+lire `front/rapport-verification.md`. Seule la clé `GOOGLE_MAPS_API_KEY` est
+utile ; sans elle, seuls les liens sont vérifiés.

@@ -16,7 +16,8 @@
     "fix": "npm run format && npm run lint:fix",
     "test": "vitest run",
     "donnees:sheet": "node scripts/mettre-a-jour-depuis-sheet.ts",
-    "donnees:google": "node scripts/mettre-a-jour-depuis-google.ts"
+    "donnees:google": "node scripts/mettre-a-jour-depuis-google.ts",
+    "donnees:verifier": "node scripts/verifier-donnees.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.5",

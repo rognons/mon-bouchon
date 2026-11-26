@@ -1,0 +1,81 @@
+name: 🔎 Vérification mensuelle des bouchons
+
+# Le 1er de chaque mois à 7 h (heure de Paris en hiver), GitHub :
+# 1. revérifie chaque bouchon sur Google (horaires, adresse, note, fermetures)
+#    et teste les liens (menu, réservation, article) ;
+# 2. ouvre un ticket (onglet « Issues ») avec le rapport, assigné à vthiriet ;
+# 3. si Google a changé des informations, propose la mise à jour du site
+#    dans l'onglet « Pull requests », à accepter avec « Merge pull request ».
+# On peut aussi la lancer à la main : onglet « Actions », cette vérification,
+# bouton « Run workflow ».
+#
+# Clé nécessaire (Settings > Secrets and variables > Actions) :
+# GOOGLE_MAPS_API_KEY, la même que dans front/.env.
+
+on:
+  schedule:
+    - cron: '0 6 1 * *'
+  workflow_dispatch:
+    inputs:
+      rappel_prix:
+        description: 'Ajouter la liste des prix à revérifier'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  verifier:
+    name: Vérifier les bouchons
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./front
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v5
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v6.3.0
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: front/package-lock.json
+
+      - name: Vérifier Google et les liens
+        env:
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+          RAPPEL_PRIX: ${{ inputs.rappel_prix && 'oui' || 'non' }}
+        run: npm run donnees:verifier
+
+      - name: Ouvrir le ticket avec le rapport
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          titre="Vérification des bouchons du $(date +%d/%m/%Y)"
+          gh issue create --title "$titre" --body-file rapport-verification.md --assignee vthiriet \
+            || gh issue create --title "$titre" --body-file rapport-verification.md
+
+      - name: Vérifier que les données restent valides
+        run: |
+          npm ci
+          npm run test
+
+      - name: Proposer la mise à jour du site
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: verification-mensuelle
+          base: ${{ github.ref_name }}
+          add-paths: front/src/data/bouchons.json
+          commit-message: 'Données : mise à jour mensuelle depuis Google'
+          title: 'Mise à jour mensuelle des infos Google des bouchons'
+          body: |
+            Horaires, adresses et notes Google mis à jour par la vérification mensuelle.
+            Le détail des changements est dans le ticket de vérification du mois (onglet « Issues »).
+
+            Pour accepter : bouton vert **Merge pull request**, puis **Confirm merge**.
+          assignees: vthiriet
+          delete-branch: true
