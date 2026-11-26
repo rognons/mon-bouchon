@@ -135,11 +135,24 @@ onMount(() => {
   };
 });
 
+// Les critères au moment où la fenêtre s'ouvre, pour savoir à la fermeture
+// si la recherche a changé.
+let rechercheAOuverture = '';
+const rechercheActuelle = () => JSON.stringify([criteres, sansDoublon(affinage, criteres)]);
+
+function ouvrirPanneau() {
+  rechercheAOuverture = rechercheActuelle();
+  panneauOuvert = true;
+}
+
 async function fermerPanneau() {
   panneauOuvert = false;
   await tick();
-  // La fenêtre se referme sur place : la page reste là où on l'avait laissée.
   document.getElementById('bouton-affiner')?.focus({ preventScroll: true });
+  // Recherche modifiée : la liste n'est plus la même, on remonte en douceur
+  // au début de la liste (pas tout en haut de la page) pour la lire depuis
+  // le premier bouchon. Sans changement, la page reste là où on l'avait laissée.
+  if (rechercheActuelle() !== rechercheAOuverture) voirLesResultats();
 }
 </script>
 
@@ -168,7 +181,7 @@ async function fermerPanneau() {
       class="affiner"
       aria-expanded={panneauOuvert}
       aria-controls="panneau-affiner"
-      on:click={() => (panneauOuvert ? fermerPanneau() : (panneauOuvert = true))}
+      on:click={() => (panneauOuvert ? fermerPanneau() : ouvrirPanneau())}
     >
       <svg class="ico" aria-hidden="true" viewBox="0 0 24 24"
         ><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle
