@@ -79,7 +79,7 @@ const CHAMPS: Record<TypeDeCritere, Champ[]> = {
       titre: 'Un menu à',
       options: PALIERS.map((p) => ({ value: p.value, label: p.label })),
       // Texte provisoire, à faire valider par la Compagnie.
-      definitions: [{ texte: 'Prix du menu le moins cher' }],
+      definitions: [{ texte: 'Prix du menu (entrée-plat-dessert) le moins cher' }],
     },
   ],
   lieu: [
