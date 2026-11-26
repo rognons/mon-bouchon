@@ -192,11 +192,24 @@ export function evaluer(bouchon: Bouchon, critere: Critere): Verdict {
   }
 }
 
+// Un prix non renseigné ne retire pas le bouchon : il reste affiché, après les
+// autres, avec une mention « Prix non communiqué » (décidé le 26/11/2026).
+// evaluerSouple compte donc ce cas comme rempli ; sansPrixConnu le repère.
+export function evaluerSouple(bouchon: Bouchon, critere: Critere): Verdict {
+  const verdict = evaluer(bouchon, critere);
+  return critere.type === 'prix' && verdict === 'inconnu' ? 'oui' : verdict;
+}
+
+// Le bouchon n'a pas de prix renseigné alors qu'un critère de prix est choisi.
+export function sansPrixConnu(bouchon: Bouchon, criteres: Critere[]): boolean {
+  return typeof bouchon.menuPrice !== 'number' && criteres.some((c) => c.type === 'prix');
+}
+
 // --- Affinage -----------------------------------------------------------------
 
 export function passeAffinage(bouchon: Bouchon, affinage: Affinage): boolean {
   // Un critère principal en affinage est exigé (information manquante comprise).
-  if (affinage.principaux?.some((c) => evaluer(bouchon, c) !== 'oui')) return false;
+  if (affinage.principaux?.some((c) => evaluerSouple(bouchon, c) !== 'oui')) return false;
   const exigences: [boolean | undefined, boolean][] = [
     [affinage.terrasse, bouchon.terrace],
     [affinage.decorationRemarquable, bouchon.remarkableDecoration],
@@ -295,6 +308,9 @@ export interface AUnCriterePres<B extends Bouchon = Bouchon> {
 
 export interface ResultatsDeRecherche<B extends Bouchon = Bouchon> {
   exacts: B[];
+  // Ceux qui remplissent tout, sauf que leur prix n'est pas renseigné : affichés
+  // après les exacts, avec la mention « Prix non communiqué ».
+  sansPrix?: B[];
   aUnCriterePres: AUnCriterePres<B>[];
 }
 
@@ -328,20 +344,31 @@ export function rechercher<B extends Bouchon>(
 ): ResultatsDeRecherche<B> {
   verifierPhrase(phrase);
   const exacts: B[] = [];
+  const sansPrix: B[] = [];
+  const criteresDePrix = [
+    phrase.principal,
+    ...phrase.complementaires,
+    ...(affinage.principaux ?? []),
+  ].filter((c) => c.type === 'prix');
   const aUnCriterePres: AUnCriterePres<B>[] = [];
 
   for (const bouchon of bouchons) {
     // L'affinage retire partout et n'est jamais relâché.
     if (!passeAffinage(bouchon, affinage)) continue;
     // Le critère principal n'est jamais relâché (information manquante comprise).
-    if (evaluer(bouchon, phrase.principal) !== 'oui') continue;
+    if (evaluerSouple(bouchon, phrase.principal) !== 'oui') continue;
 
     const manques = phrase.complementaires
-      .map((critere) => ({ critere, verdict: evaluer(bouchon, critere) }))
+      .map((critere) => ({ critere, verdict: evaluerSouple(bouchon, critere) }))
       .filter((r) => r.verdict !== 'oui');
+    const prixInconnu = sansPrixConnu(bouchon, criteresDePrix);
 
     if (manques.length === 0) {
-      exacts.push(bouchon);
+      (prixInconnu ? sansPrix : exacts).push(bouchon);
+    } else if (prixInconnu) {
+      // Prix inconnu et un autre critère manquant : trop incertain, on ne
+      // l'affiche pas.
+      continue;
     } else if (manques.length === 1) {
       const [{ critere, verdict }] = manques;
       aUnCriterePres.push({
@@ -355,6 +382,7 @@ export function rechercher<B extends Bouchon>(
   const parBouchon = new Map(aUnCriterePres.map((r) => [r.bouchon.id, r]));
   return {
     exacts: trier(exacts, tri),
+    sansPrix: trier(sansPrix, tri),
     aUnCriterePres: trier(
       aUnCriterePres.map((r) => r.bouchon),
       tri

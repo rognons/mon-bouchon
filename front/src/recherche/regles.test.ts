@@ -244,18 +244,35 @@ describe('Palier de prix (budget maximum)', () => {
     expect(ids(r30.exacts).sort()).toEqual(['a-30']);
   });
 
-  it("un prix non renseigné n'est jamais un résultat exact, mais compte « à un critère près » en complémentaire", () => {
+  it("un prix non renseigné n'est jamais exact : il passe à part, « sans prix » (critère complémentaire)", () => {
     const r = rechercher(bouchons, phrase(surLaPresquile, moinsDe35));
     expect(ids(r.exacts)).not.toContain('prix-inconnu');
-    const pres = r.aUnCriterePres.find((p) => p.bouchon.id === 'prix-inconnu');
-    expect(pres?.raison).toBe('inconnu');
-    expect(pres?.critereManquant).toEqual(moinsDe35);
+    expect(ids(r.sansPrix ?? [])).toEqual(['prix-inconnu']);
+    expect(r.aUnCriterePres.map((p) => p.bouchon.id)).not.toContain('prix-inconnu');
   });
 
-  it("un prix non renseigné n'apparaît nulle part quand le prix est le critère principal", () => {
+  it('un prix non renseigné passe aussi à part quand le prix est le critère principal', () => {
     const r = rechercher(bouchons, phrase(moinsDe35, surLaPresquile));
     expect(ids(r.exacts)).not.toContain('prix-inconnu');
-    expect(r.aUnCriterePres.map((p) => p.bouchon.id)).not.toContain('prix-inconnu');
+    expect(ids(r.sansPrix ?? [])).toEqual(['prix-inconnu']);
+  });
+
+  it('un prix non renseigné passe à part avec le prix en affinage', () => {
+    const r = rechercher(bouchons, phrase(surLaPresquile), { principaux: [moinsDe35] });
+    expect(ids(r.sansPrix ?? [])).toEqual(['prix-inconnu']);
+    expect(ids(r.exacts)).not.toContain('prix-inconnu');
+  });
+
+  it("un prix non renseigné et un autre critère manquant : il n'apparaît nulle part", () => {
+    const loin = [unBouchon('loin-sans-prix', { menuPrice: undefined, neighborhood: null })];
+    const r = rechercher(loin, phrase(moinsDe35, surLaPresquile));
+    expect(r.exacts.length + (r.sansPrix?.length ?? 0) + r.aUnCriterePres.length).toBe(0);
+  });
+
+  it('sans critère de prix, un prix non renseigné reste un résultat exact', () => {
+    const r = rechercher(bouchons, phrase(surLaPresquile));
+    expect(ids(r.exacts)).toContain('prix-inconnu');
+    expect(r.sansPrix).toEqual([]);
   });
 });
 

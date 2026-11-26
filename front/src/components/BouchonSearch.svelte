@@ -5,9 +5,11 @@ import { resumer } from '../recherche/phrase';
 import {
   type Affinage,
   afficherAUnCriterePres,
+  type Bouchon,
   type Critere,
   passeAffinage,
   rechercher,
+  sansPrixConnu,
   type Tri,
   trier,
 } from '../recherche/regles';
@@ -53,11 +55,15 @@ function chercher(a: Affinage, t: Tri = tri, choisis: Critere[] = criteres) {
   const effectif = sansDoublon(a, choisis);
   // Sans critère dans la phrase, tous les bouchons (affinés) sont des résultats.
   if (choisis.length === 0) {
+    const affiches = trier(
+      BOUCHONS.filter((b) => passeAffinage(b, effectif)),
+      t
+    );
+    // Prix choisi dans l'affinage : les prix non renseignés passent après.
+    const sansPrix = (b: Bouchon) => sansPrixConnu(b, effectif.principaux ?? []);
     return {
-      exacts: trier(
-        BOUCHONS.filter((b) => passeAffinage(b, effectif)),
-        t
-      ),
+      exacts: affiches.filter((b) => !sansPrix(b)),
+      sansPrix: affiches.filter(sansPrix),
       aUnCriterePres: [],
     };
   }
@@ -73,7 +79,11 @@ function chercher(a: Affinage, t: Tri = tri, choisis: Critere[] = criteres) {
 // Recalculé quand les critères changent, pour que la fenêtre se mette à jour.
 $: compter = (a: Affinage): number => {
   const r = chercher(a, tri, criteres);
-  return r.exacts.length + (afficherAUnCriterePres(r) ? r.aUnCriterePres.length : 0);
+  return (
+    r.exacts.length +
+    (r.sansPrix?.length ?? 0) +
+    (afficherAUnCriterePres(r) ? r.aUnCriterePres.length : 0)
+  );
 };
 
 $: resultats = chercher(affinage, tri, criteres);
@@ -136,7 +146,7 @@ async function fermerPanneau() {
 <ChoixDesCriteres
   bind:criteres
   bind:brouillons
-  nbExacts={resultats.exacts.length}
+  nbExacts={resultats.exacts.length + (resultats.sansPrix?.length ?? 0)}
   nbProches={afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres.length : 0}
   on:voir={voirLesResultats}
 />

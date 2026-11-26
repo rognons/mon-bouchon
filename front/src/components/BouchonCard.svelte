@@ -16,6 +16,10 @@ export let criteres: Critere[] = [];
 // Ce qui manque au bouchon, s'il est « à un critère près ».
 // biome-ignore lint/style/useConst: Svelte prop
 export let manque = '';
+// Une mise en garde (ex. « Prix non communiqué… ») : le bouchon est affiché
+// mais une information cherchée manque.
+// biome-ignore lint/style/useConst: Svelte prop
+export let vigilance = '';
 // « Votre bouchon idéal » (choisi par bouchonIdeal, dans recherche/regles.ts).
 // Sa fiche passe en rose, avec une pastille noire sur la photo.
 // biome-ignore lint/style/useConst: Svelte prop
@@ -42,6 +46,13 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
 
 <article class="carte" class:ideal aria-labelledby="nom-{bouchon.id}">
   {#if manque}<p class="manque">{manque}</p>{/if}
+  {#if vigilance}
+    <p class="manque vigilance">
+      <svg aria-hidden="true" viewBox="0 0 24 24"
+        ><path d="M12 3 2 21h20L12 3z" /><path d="M12 10v5M12 18v.01" /></svg
+      >{vigilance}
+    </p>
+  {/if}
   <!-- La photo de l'article (souvent la devanture), sinon le sticker du bouchon,
        sinon le cochon de la Compagnie. -->
   <div class="visuel" class:visuel-photo={photo}>
@@ -176,6 +187,24 @@ $: note = bouchon.rating ? String(bouchon.rating).replace('.', ',') : '';
     font-size: 15px;
     font-weight: 600;
     line-height: 1.4;
+  }
+  /* Mise en garde : jaune, pour attirer l'œil sans alarmer. */
+  .vigilance {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fde68a;
+    color: #221f20;
+  }
+  .vigilance svg {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
   .corps {
     display: flex;

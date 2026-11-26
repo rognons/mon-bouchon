@@ -15,13 +15,17 @@ export let criteres: Critere[] = [];
 export let tri: Tri = 'defaut';
 
 $: bouchons = resultats.exacts;
+// Prix non renseigné : affichés juste après, dans la même liste, avec une mention.
+$: sansPrix = resultats.sansPrix ?? [];
 $: proches = afficherAUnCriterePres(resultats) ? resultats.aUnCriterePres : [];
-// « Votre bouchon idéal », parmi tous les bouchons affichés (voir bouchonIdeal).
+// « Votre bouchon idéal », parmi les bouchons affichés (voir bouchonIdeal) ;
+// jamais un bouchon dont le prix n'est pas communiqué.
 $: ideal = bouchonIdeal([...bouchons, ...proches.map((p) => p.bouchon)], criteres)?.id;
+$: total = bouchons.length + sansPrix.length;
 $: titre =
-  bouchons.length > 1
-    ? `${bouchons.length} bouchons trouvés`
-    : bouchons.length === 1
+  total > 1
+    ? `${total} bouchons trouvés`
+    : total === 1
       ? '1 bouchon trouvé'
       : 'Aucun bouchon trouvé';
 </script>
@@ -39,10 +43,13 @@ $: titre =
     </label>
   </div>
 
-  {#if bouchons.length}
+  {#if total}
     <div class="grille">
       {#each bouchons as bouchon (bouchon.id)}
         <BouchonCard {bouchon} {criteres} ideal={bouchon.id === ideal} />
+      {/each}
+      {#each sansPrix as bouchon (bouchon.id)}
+        <BouchonCard {bouchon} {criteres} vigilance="Prix non communiqué : vérifiez-le avant de réserver" />
       {/each}
     </div>
   {:else if proches.length === 0}
