@@ -3163,5 +3163,291 @@
     "commune": "lyon",
     "mapsUrl": "https://maps.google.com/?cid=1034666749526570260",
     "address": "12 Rue Pizay, 69001 Lyon"
+  },
+  {
+    "id": "chez-paul",
+    "name": "Chez Paul",
+    "menuPrice": 19.9,
+    "neighborhood": "presquile",
+    "portionSize": "gargantuesques",
+    "eaterType": "amateur",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "description": "Depuis 1928, Chez Paul régale la rue Major Martin. Saladiers et desserts à volonté, plats canailles et tablées serrées sous les cadres chinés : un bouchon généreux où l'on taille le bout de gras avec ses voisins.",
+    "articleUrl": "https://compagnie-du-rognon.fr/bouchons-lyonnais/chez-paul/",
+    "menuUrl": "https://menus.bouchonchezpaul.fr/",
+    "bookingUrl": "https://app.resa.ninja/booking-new/web/72b4a7a8-8b3f-48df-ade4-9cee85a68c33",
+    "phone": "+ 33 4 78 28 35 83",
+    "pointsCles": [
+      "Les saladiers à volonté, avant même le plat.",
+      "Des cochons de toutes tailles aux murs.",
+      "Des desserts simples au goût d'enfance"
+    ],
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2130"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "postalCode": "69001",
+    "commune": "lyon",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Chez%20Paul%2C%2011%20Rue%20Major%20Martin%2C%2069001%20Lyon",
+    "address": "11 Rue Major Martin, 69001 Lyon"
+  },
+  {
+    "id": "bouchon-tupin",
+    "name": "Bouchon Tupin",
+    "menuPrice": 26.5,
+    "neighborhood": "presquile",
+    "portionSize": "raisonnables",
+    "eaterType": "decouvreur",
+    "atmosphereType": "convivial",
+    "bouchonType": "moderne",
+    "vegetarianOption": false,
+    "terrace": true,
+    "machonOption": false,
+    "remarkableDecoration": true,
+    "remarkableTeam": true,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": false,
+    "description": "Au Bouchon Tupin, les cousins Campus réinventent la formule bouchon sans la trahir. Cuisine bistronomique du chef Jean-Guillaume Desormières, décor baroque de titrailles et service aux petits soins : un bouchon 2.0.",
+    "articleUrl": "https://compagnie-du-rognon.fr/bouchons-lyonnais/bouchon-tupin/",
+    "menuUrl": "https://www.bouchontupin.com/#la-carte",
+    "bookingUrl": "https://www.bouchontupin.com/#reservation",
+    "phone": "+ 33 4 78 37 45 93",
+    "pointsCles": [
+      "L'élégance apportée à la rusticité lyonnaise.",
+      "Une déco qui en met plein les yeux.",
+      "Le riz au lait, caramel et cacahuètes."
+    ],
+    "openingHours": [
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 2,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 3,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 4,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 5,
+        "open": "1930",
+        "close": "2130"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1930",
+        "close": "2130"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.7,
+    "postalCode": "69002",
+    "commune": "lyon",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bouchon%20Tupin%2C%2030%20Rue%20Tupin%2C%2069002%20Lyon",
+    "address": "30 Rue Tupin, 69002 Lyon"
+  },
+  {
+    "id": "comptoir-chabert",
+    "name": "Comptoir Chabert",
+    "menuPrice": 29,
+    "neighborhood": "vieux-lyon",
+    "portionSize": "gargantuesques",
+    "eaterType": "amateur",
+    "atmosphereType": "anime",
+    "bouchonType": "traditionnel",
+    "vegetarianOption": false,
+    "terrace": false,
+    "machonOption": false,
+    "remarkableDecoration": false,
+    "remarkableTeam": false,
+    "compagnieFavorite": false,
+    "wineFavorite": false,
+    "bouchonLyonnaisLabel": false,
+    "authenticSelection": true,
+    "description": "Depuis plus de 60 ans, le Comptoir Chabert perpétue la tradition au cœur du Vieux-Lyon. Saladiers et desserts à volonté, pots de beaujolais et salle voûtée : un vrai bouchon, authentique, convivial et abordable.",
+    "articleUrl": "https://compagnie-du-rognon.fr/bouchons-lyonnais/comptoir-chabert/",
+    "menuUrl": "https://www.chezchabert.com/menus-carte/",
+    "bookingUrl": "https://bookings.zenchef.com/results?rid=354752&pid=1001",
+    "phone": "+ 33 4 78 42 99 65",
+    "pointsCles": [
+      "Saladiers et desserts à volonté pour 29 €.",
+      "La crème caramel au bon goût d'œuf.",
+      "Une salle voûtée très animée"
+    ],
+    "openingHours": [
+      {
+        "day": 0,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 1,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 2,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 2,
+        "open": "1200",
+        "close": "1300"
+      },
+      {
+        "day": 3,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 3,
+        "open": "1200",
+        "close": "1300"
+      },
+      {
+        "day": 4,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 4,
+        "open": "1200",
+        "close": "1300"
+      },
+      {
+        "day": 5,
+        "open": "1900",
+        "close": "2130"
+      },
+      {
+        "day": 5,
+        "open": "1200",
+        "close": "1300"
+      },
+      {
+        "day": 6,
+        "open": "1200",
+        "close": "1400"
+      },
+      {
+        "day": 6,
+        "open": "1900",
+        "close": "2200"
+      }
+    ],
+    "exceptionalOpeningHours": null,
+    "rating": 4.5,
+    "postalCode": "69005",
+    "commune": "lyon",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Comptoir%20Chabert%2C%2014%20Quai%20Romain%20Rolland%2C%2069005%20Lyon",
+    "address": "14 Quai Romain Rolland, 69005 Lyon"
   }
 ]
