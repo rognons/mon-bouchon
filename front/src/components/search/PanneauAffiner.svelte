@@ -53,7 +53,7 @@ interface Famille {
   // Le critère principal que remplace cette famille, s'il y en a un.
   principal?: TypeDeCritere;
   champs: Champ[];
-  definitions?: { terme: string; texte: string }[];
+  definitions?: { terme?: string; texte: string }[];
 }
 
 const majuscule = (texte: string) => texte.charAt(0).toUpperCase() + texte.slice(1);
@@ -120,6 +120,7 @@ const FAMILLES: Famille[] = [
     titre: 'Option végé',
     principal: 'vegetarien',
     champs: [{ options: [{ value: 'oui', label: 'Option végé' }] }],
+    definitions: [{ texte: 'Au moins une entrée et un plat végétariens à la carte' }],
   },
   {
     id: 'ambiance',

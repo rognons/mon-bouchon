@@ -333,6 +333,20 @@ const typesProposes = (rang: number) =>
               {/each}
             </div>
           {/if}
+
+          {#if brouillons[rang]?.type === 'vegetarien'}
+            <!-- « Option végé » n'a pas de valeurs à choisir : sa légende s'affiche dès qu'on la sélectionne. -->
+            <ul class="definitions">
+              <li>
+                <svg class="picto-info" aria-hidden="true" viewBox="0 0 24 24"
+                  ><path
+                    d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"
+                  /></svg
+                >
+                <span>Au moins une entrée et un plat végétariens à la carte</span>
+              </li>
+            </ul>
+          {/if}
         </div>
       {/if}
     {/each}
