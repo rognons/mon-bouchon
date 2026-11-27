@@ -17,7 +17,14 @@ Les textes des listes (profil de mangeur, portions, ambiance, type de bouchon,
 quartier) doivent être écrits dans le Sheet exactement comme dans
 `src/data/referentiel.ts`. Un texte inconnu arrête le script avec la liste
 des cellules à corriger : il faut alors corriger le Sheet, ou ajouter la
-nouvelle valeur dans le référentiel. Même chose pour un bouchon hors de Lyon
+nouvelle valeur dans le référentiel.
+
+Les colonnes du Sheet sont retrouvées par leur titre (2e ligne), pas par leur
+lettre : on peut ajouter, supprimer ou déplacer une colonne sans rien casser,
+du moment que le nom du bouchon reste en colonne A et que les titres utiles
+gardent leur mot-clé (liste `COLONNES` dans `scripts/conversion.ts`). Si une
+colonne utile manque ou si deux colonnes se ressemblent, le script s'arrête
+avant de toucher aux données et dit laquelle. Même chose pour un bouchon hors de Lyon
 dans une commune pas encore connue (`COMMUNES`).
 
 ## Clés Google

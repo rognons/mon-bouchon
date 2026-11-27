@@ -13,101 +13,122 @@ import {
   communeDepuisCodePostal,
   enrichir,
   ligneVersBouchon,
+  positionsDesColonnes,
   sheetVersBouchons,
+  TITRES_SHEET,
   ValeurInconnueError,
 } from './conversion.ts';
 
 const bouchons = bouchonsJson as unknown as BouchonJson[];
 
+const P = positionsDesColonnes(TITRES_SHEET);
+
 // Reconstitue la ligne du Google Sheet d'un bouchon de bouchons.json.
 function ligneDuSheet(b: BouchonJson): string[] {
   const t = (valeurs: { code: string; texteSheet: string }[], code: unknown) =>
     valeurs.find((v) => v.code === code)?.texteSheet ?? '';
-  const ligne = Array(29).fill('');
+  const ligne = Array(TITRES_SHEET.length).fill('');
   ligne[0] = b.name;
-  ligne[1] = typeof b.menuPrice === 'number' ? `${String(b.menuPrice).replace('.', ',')} €` : '';
-  ligne[3] = t(QUARTIERS, b.neighborhood);
-  ligne[4] = t(PORTIONS, b.portionSize);
-  ligne[5] = t(PROFILS_MANGEUR, b.eaterType);
-  ligne[6] = t(AMBIANCES, b.atmosphereType);
-  ligne[7] = t(TYPES_BOUCHON, b.bouchonType);
+  ligne[P.menuPrice] =
+    typeof b.menuPrice === 'number' ? `${String(b.menuPrice).replace('.', ',')} €` : '';
+  ligne[P.neighborhood] = t(QUARTIERS, b.neighborhood);
+  ligne[P.portionSize] = t(PORTIONS, b.portionSize);
+  ligne[P.eaterType] = t(PROFILS_MANGEUR, b.eaterType);
+  ligne[P.atmosphereType] = t(AMBIANCES, b.atmosphereType);
+  ligne[P.bouchonType] = t(TYPES_BOUCHON, b.bouchonType);
   const booleens = [
     'vegetarianOption',
     'terrace',
     'machonOption',
     'remarkableDecoration',
     'remarkableTeam',
-    'dateFriendly',
-    'businessMeal',
     'compagnieFavorite',
     'wineFavorite',
     'bouchonLyonnaisLabel',
     'authenticSelection',
-    'valueForMoney',
-  ];
-  booleens.forEach((champ, i) => {
-    ligne[8 + i] = b[champ] ? 'TRUE' : 'FALSE';
-  });
-  ligne[20] = ((b.specialties as string[]) ?? []).join(', ');
-  ligne[21] = (b.description as string) ?? '';
-  ligne[22] = (b.articleUrl as string) ?? '';
-  ligne[23] = (b.menuUrl as string) ?? '';
-  ligne[24] = (b.bookingUrl as string) ?? '';
-  ligne[25] = (b.phone as string) ?? '';
-  ((b.pointsCles as string[]) ?? []).forEach((point, i) => {
-    ligne[26 + i] = point;
+  ] as const;
+  for (const champ of booleens) ligne[P[champ]] = b[champ] ? 'TRUE' : 'FALSE';
+  for (const champ of ['description', 'articleUrl', 'menuUrl', 'bookingUrl', 'phone'] as const)
+    ligne[P[champ]] = (b[champ] as string) ?? '';
+  const points = (b.pointsCles as string[]) ?? [];
+  (['pointCle1', 'pointCle2', 'pointCle3'] as const).forEach((champ, i) => {
+    ligne[P[champ]] = points[i] ?? '';
   });
   return ligne;
 }
 
+const sheet = (...lignes: string[][]) => [['groupes'], TITRES_SHEET, ...lignes];
+
 describe('Conversion du Google Sheet', () => {
   it('redonne exactement les 38 bouchons actuels à partir de leurs lignes du Sheet', () => {
-    const lignes = [['titres'], ['champs'], ...bouchons.map(ligneDuSheet)];
+    const lignes = sheet(...bouchons.map(ligneDuSheet));
     const convertis = sheetVersBouchons(lignes, bouchons);
     // Les champs vides (undefined) disparaissent, comme dans le fichier JSON.
     expect(JSON.parse(JSON.stringify(convertis))).toEqual(bouchons);
   });
 
   it('garde les informations Google des bouchons déjà connus', () => {
-    const [premier] = sheetVersBouchons([['t'], ['c'], ligneDuSheet(bouchons[0])], bouchons);
+    const [premier] = sheetVersBouchons(sheet(ligneDuSheet(bouchons[0])), bouchons);
     for (const champ of CHAMPS_GOOGLE) expect(premier[champ]).toEqual(bouchons[0][champ]);
   });
 
-  it('prend le téléphone du Sheet (colonne Z), et celui de Google à défaut', () => {
+  it('prend le téléphone du Sheet, et celui de Google à défaut', () => {
     const ligne = ligneDuSheet(bouchons[0]);
-    ligne[25] = '04 72 00 00 00';
-    expect(sheetVersBouchons([['t'], ['c'], ligne], bouchons)[0].phone).toBe('04 72 00 00 00');
-    ligne[25] = '';
-    expect(sheetVersBouchons([['t'], ['c'], ligne], bouchons)[0].phone).toBe(bouchons[0].phone);
+    ligne[P.phone] = '04 72 00 00 00';
+    expect(sheetVersBouchons(sheet(ligne), bouchons)[0].phone).toBe('04 72 00 00 00');
+    ligne[P.phone] = '';
+    expect(sheetVersBouchons(sheet(ligne), bouchons)[0].phone).toBe(bouchons[0].phone);
   });
 
-  it('lit les coups de cœur des colonnes AA à AC, en sautant les cellules vides', () => {
+  it('lit les 3 coups de cœur, en sautant les cellules vides', () => {
     const ligne = ligneDuSheet(bouchons[0]);
-    ligne.splice(26, 3, 'Un', '', 'Trois');
-    expect(sheetVersBouchons([['t'], ['c'], ligne], bouchons)[0].pointsCles).toEqual([
-      'Un',
-      'Trois',
-    ]);
-    expect(sheetVersBouchons([['t'], ['c'], ligne.slice(0, 26)], bouchons)[0].pointsCles).toEqual(
+    ligne.splice(P.pointCle1, 3, 'Un', '', 'Trois');
+    expect(sheetVersBouchons(sheet(ligne), bouchons)[0].pointsCles).toEqual(['Un', 'Trois']);
+    expect(sheetVersBouchons(sheet(ligne.slice(0, P.pointCle1)), bouchons)[0].pointsCles).toEqual(
       []
     );
   });
 
   it('refuse une valeur du Sheet inconnue du référentiel, en la nommant', () => {
     const ligne = ligneDuSheet(bouchons[0]);
-    ligne[4] = '🐷🐷🐷🐷 Portions démesurées';
-    expect(() => sheetVersBouchons([['t'], ['c'], ligne], [])).toThrow(ValeurInconnueError);
-    expect(() => sheetVersBouchons([['t'], ['c'], ligne], [])).toThrow(/Portions démesurées/);
+    ligne[P.portionSize] = '🐷🐷🐷🐷 Portions démesurées';
+    expect(() => sheetVersBouchons(sheet(ligne), [])).toThrow(ValeurInconnueError);
+    expect(() => sheetVersBouchons(sheet(ligne), [])).toThrow(/Portions démesurées/);
   });
 
   it('lit un prix « 32,50 € » et laisse vide un prix absent ou « - »', () => {
     const ligne = ligneDuSheet(bouchons[0]);
-    expect(ligneVersBouchon([...ligne.slice(0, 1), '32,50 €', ...ligne.slice(2)]).menuPrice).toBe(
-      32.5
+    ligne[P.menuPrice] = '32,50 €';
+    expect(ligneVersBouchon(ligne).menuPrice).toBe(32.5);
+    ligne[P.menuPrice] = '-';
+    expect(ligneVersBouchon(ligne).menuPrice).toBeUndefined();
+  });
+});
+
+describe('Colonnes du Sheet retrouvées par leur titre', () => {
+  it('lit le bon champ même si des colonnes sont ajoutées, retirées ou déplacées', () => {
+    const ligne = ligneDuSheet(bouchons[0]);
+    // On ajoute une colonne inconnue en B et on inverse Description et Quartier.
+    const titres = [...TITRES_SHEET];
+    const autre = [...ligne];
+    const [d, q] = [P.description, P.neighborhood];
+    [titres[d], titres[q]] = [titres[q], titres[d]];
+    [autre[d], autre[q]] = [autre[q], autre[d]];
+    titres.splice(1, 0, 'Vérifié le');
+    autre.splice(1, 0, '26/11/2026');
+    const [lu] = sheetVersBouchons([['g'], titres, autre], bouchons);
+    expect(JSON.parse(JSON.stringify(lu))).toEqual(bouchons[0]);
+  });
+
+  it("s'arrête avec un message clair si une colonne manque", () => {
+    const titres = TITRES_SHEET.filter((t) => t !== 'Terrasse');
+    expect(() => positionsDesColonnes(titres)).toThrow(/« terrasse »/);
+  });
+
+  it("s'arrête si deux colonnes ont le même titre", () => {
+    expect(() => positionsDesColonnes([...TITRES_SHEET, 'Terrasse couverte'])).toThrow(
+      /Plusieurs colonnes/
     );
-    expect(
-      ligneVersBouchon([...ligne.slice(0, 1), '-', ...ligne.slice(2)]).menuPrice
-    ).toBeUndefined();
   });
 });
 

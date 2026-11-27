@@ -12,7 +12,6 @@ export interface BouchonComplet extends Bouchon {
   articleUrl?: string;
   menuUrl?: string;
   bookingUrl?: string;
-  specialties?: string[];
   // Les trois points-clés de la Compagnie (CONTEXT.md).
   pointsCles?: string[];
 }
