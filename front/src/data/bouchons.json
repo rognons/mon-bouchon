@@ -23,7 +23,7 @@
     "bookingUrl": "https://www.restaurant-levivarais.fr/",
     "phone": "+ 33 4 78 37 85 15",
     "pointsCles": [
-      "Le porcelet à la broche, en tour de salle.",
+      "Le porcelet à la broche, la star de la maison.",
       "Le pâté en croûte Richelieu de la cheffe.",
       "Un chef MOF qui salue ses convives."
     ],
@@ -87,8 +87,8 @@
     "address": "1 Pl. Gailleton, 69002 Lyon"
   },
   {
-    "id": "comptoir-abel",
-    "name": "Comptoir Abel",
+    "id": "cafe-comptoir-abel",
+    "name": "Café Comptoir Abel",
     "neighborhood": "presquile",
     "portionSize": "genereuses",
     "eaterType": "decouvreur",
@@ -109,7 +109,7 @@
     "bookingUrl": "https://bookings.zenchef.com/results?rid=357745&fullscreen=1",
     "phone": "+ 33 4 78 37 46 18",
     "pointsCles": [
-      "Des boiseries du sol au plafond.",
+      "Un lieu tout de bois, figé dans son époque.",
       "Le poulet aux morilles, flagrant délit de tendresse.",
       "Une cervelle de canut parmi nos meilleures."
     ],
@@ -193,8 +193,8 @@
     "address": "25 Rue Guynemer, 69002 Lyon"
   },
   {
-    "id": "cafe-du-jura",
-    "name": "Café du Jura",
+    "id": "le-cafe-du-jura",
+    "name": "Le Café du Jura",
     "menuPrice": 37.5,
     "neighborhood": "presquile",
     "portionSize": "genereuses",
@@ -281,7 +281,7 @@
   },
   {
     "id": "le-poelon-d-or",
-    "name": "Le Poelon d'Or",
+    "name": "Le Poêlon d'Or",
     "menuPrice": 25,
     "neighborhood": "presquile",
     "portionSize": "raisonnables",
@@ -305,7 +305,7 @@
     "pointsCles": [
       "Un plafond Art déco en bois et stuc.",
       "Le pain perdu aux raisins et au rhum.",
-      "Saumon gravlax et gaufre de pommes de terre."
+      "Un lieu chaleureux aux allures de bouchon d’antan."
     ],
     "openingHours": [
       {
@@ -390,9 +390,9 @@
     "bookingUrl": "https://bookings.zenchef.com/results?rid=353715&pid=1001",
     "phone": "+ 33 4 78 60 66 53",
     "pointsCles": [
+      "La justesse des assaisonnements, de l’entrée au dessert.",
       "Une partie du menu dédiée aux abats.",
-      "Les saladiers lyonnais, précis et assaisonnés.",
-      "La brioche perdue, la vraie surprise."
+      "Le fondant de la brioche perdue à la praline."
     ],
     "openingHours": [
       {
@@ -476,9 +476,9 @@
     "bookingUrl": "https://les-culottes-longues.com/fr/booking",
     "phone": "+ 33 4 78 37 13 00",
     "pointsCles": [
-      "Les culottes longues encadrées au mur.",
-      "Ris de veau et rognons, le plat signature.",
-      "Une carte du jour au gré des envies du chef."
+      "Des portions gargantuesques : un vrai défi.",
+      "Un patron goguenard et généreux.",
+      "Ris de veau et rognons, le plat signature."
     ],
     "openingHours": [
       {
@@ -627,8 +627,8 @@
     "address": "7 Rue du Garet, 69001 Lyon"
   },
   {
-    "id": "cafe-du-peintre",
-    "name": "Café du Peintre",
+    "id": "le-cafe-du-peintre",
+    "name": "Le Café du Peintre",
     "neighborhood": null,
     "portionSize": "raisonnables",
     "eaterType": "amateur",
@@ -650,7 +650,7 @@
     "phone": "+ 33 4 78 52 52 61",
     "pointsCles": [
       "Une verrière ouverte sur la cuisine.",
-      "La tête de veau, panure croustillante.",
+      "La tête de veau et sa panure croustillante.",
       "Les desserts exposés qui narguent la salle."
     ],
     "openingHours": [
@@ -805,8 +805,8 @@
     "address": "23 Rue Claudia, 69002 Lyon"
   },
   {
-    "id": "meuniere",
-    "name": "Meunière",
+    "id": "la-meuniere",
+    "name": "La Meunière",
     "menuPrice": 26.5,
     "neighborhood": "presquile",
     "portionSize": "gargantuesques",
@@ -916,7 +916,7 @@
     "pointsCles": [
       "Un chef reconnaissable à ses lunettes orange.",
       "Une salade lyonnaise cachée sous les lardons.",
-      "Un gratin de ravioles : une part ne suffit pas."
+      "Une terrasse cachée, rarissime pour un bouchon."
     ],
     "openingHours": [
       {
@@ -978,7 +978,7 @@
     "pointsCles": [
       "Le plateau de fromages qui vous accueille.",
       "Un vol-au-vent, vraie corne d’abondance.",
-      "Un pâté en croûte farci au boudin noir."
+      "L’élégance du lieu et des assiettes."
     ],
     "openingHours": [
       {
@@ -1063,9 +1063,9 @@
     "bookingUrl": "https://booking.ureserve.co/shop/external-booking/les-fines-gueules-lyon?fullpage=true&lang_code=fr",
     "phone": "+ 33 4 78 28 99 14",
     "pointsCles": [
-      "La queue de bœuf en terrine.",
-      "Des pieds de cochon désossés et panés.",
-      "Des maximes à la craie sur les murs."
+      "Une valeur sûre dans la jungle touristique.",
+      "Une carte qui fait la part belle aux lyonnaiseries.",
+      "Un décor foisonnant dans un lieu chaleureux."
     ],
     "openingHours": [
       {
@@ -1231,7 +1231,7 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": false,
-    "description": "À La Mère Léa, Christian Têtedoie et son équipe rendent un hommage élégant et gourmand aux bouchons lyonnais. Entre héritage des Mères et exigence de MOF, tradition et finesse se marient sans fausse note.",
+    "description": "À la Maison Léa, Christian Têtedoie et son équipe rendent un hommage élégant et gourmand aux bouchons lyonnais. Entre héritage des Mères et exigence de MOF, tradition et finesse se marient sans fausse note.",
     "articleUrl": "https://compagnie-du-rognon.fr/la-mere-lea/",
     "menuUrl": "https://lamaisonlea.fr/lamaisonlea/",
     "bookingUrl": "https://module.lafourchette.com/fr_FR/module/667581-fefac",
@@ -1498,9 +1498,9 @@
     "bookingUrl": "https://danieletdenise.fr/reserver/",
     "phone": "+ 33 4 78 28 27 44",
     "pointsCles": [
-      "Une table au bord de la cuisine ouverte.",
+      "Un espace intimiste avec cuisine ouverte sur la salle.",
       "La poitrine de cochon crousti-fondante.",
-      "Une tapisserie baroque sous les poutres."
+      "Une tapisserie baroque et des poutres apparentes."
     ],
     "openingHours": [
       {
@@ -1574,7 +1574,7 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": true,
-    "description": "Voisin de La Mère Léa, Le Comptoir de Léa célèbre l’esprit bouchon dans toute sa franchise. Cuisine canaille, portions généreuses et ambiance gouailleuse : un hommage vivant aux Mères lyonnaises.",
+    "description": "Voisin de la Maison Léa, le Bouchon Léa célèbre l’esprit bouchon dans toute sa franchise. Cuisine canaille, portions généreuses et ambiance gouailleuse : un hommage vivant aux Mères lyonnaises.",
     "articleUrl": "https://compagnie-du-rognon.fr/comptoir-de-lea/",
     "menuUrl": "https://lamaisonlea.fr/bouchon-lea/",
     "bookingUrl": "https://widget.thefork.com/fr/4871083e-ed6c-4c35-82ad-d4f8e361213b?step=date&utm_source=lamaisonlea.fr",
@@ -1644,93 +1644,6 @@
     "address": "11 Pl. Antonin Gourju, 69002 Lyon"
   },
   {
-    "id": "le-val-d-isere",
-    "name": "Le Val d'Isère",
-    "menuPrice": 33,
-    "neighborhood": null,
-    "portionSize": "genereuses",
-    "eaterType": "decouvreur",
-    "atmosphereType": "calme",
-    "bouchonType": "moderne",
-    "vegetarianOption": false,
-    "terrace": false,
-    "machonOption": false,
-    "remarkableDecoration": false,
-    "remarkableTeam": false,
-    "compagnieFavorite": false,
-    "wineFavorite": true,
-    "bouchonLyonnaisLabel": true,
-    "authenticSelection": true,
-    "description": "Face aux Halles Bocuse, Le Val d’Isère perpétue les codes du bouchon lyonnais avec sérieux. Sous la houlette d’Édouard Baudin, on y retrouve une cuisine classique et bien exécutée.",
-    "articleUrl": "https://compagnie-du-rognon.fr/val-isere-bouchon-lyonnais/",
-    "menuUrl": "https://www.levaldisere.fr/wp-content/uploads/2026/11/menu-le-val-disere-automne-2026.pdf",
-    "bookingUrl": "",
-    "phone": "+ 33 4 78 71 09 39",
-    "pointsCles": [
-      "Un bar en étain sur son promontoire de bois.",
-      "Le trio cervelle, Saint-Marcellin et rigotte.",
-      "Un patron petit-fils d’un MOF charcutier."
-    ],
-    "openingHours": [
-      {
-        "day": 1,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 1,
-        "open": "1900",
-        "close": "2200"
-      },
-      {
-        "day": 2,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 2,
-        "open": "1900",
-        "close": "2200"
-      },
-      {
-        "day": 3,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 3,
-        "open": "1900",
-        "close": "2200"
-      },
-      {
-        "day": 4,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 4,
-        "open": "1900",
-        "close": "2200"
-      },
-      {
-        "day": 5,
-        "open": "1200",
-        "close": "1400"
-      },
-      {
-        "day": 5,
-        "open": "1900",
-        "close": "2200"
-      }
-    ],
-    "exceptionalOpeningHours": null,
-    "rating": 4.5,
-    "postalCode": "69003",
-    "commune": "lyon",
-    "mapsUrl": "https://maps.google.com/?cid=338603021536063819",
-    "address": "64 Rue de Bonnel, 69003 Lyon"
-  },
-  {
     "id": "la-tete-de-lard",
     "name": "La Tête de Lard",
     "menuPrice": 33,
@@ -1754,9 +1667,9 @@
     "bookingUrl": "https://www.bouchon-latetedelard.fr/",
     "phone": "+ 33 4 78 27 96 80",
     "pointsCles": [
-      "Des têtes de cochon qui trônent aux murs.",
-      "Le hachoir à pain qui rythme le service.",
-      "L’andouillette en croûte, sauce moutarde."
+      "L’andouillette en croûte, sauce moutarde.",
+      "Un décor de brocante, qui remplit chaque mètre carré des murs.",
+      "Le hachoir à pain qui rythme le service."
     ],
     "openingHours": [
       {
@@ -1832,7 +1745,7 @@
     "phone": "+33 4 37 57 92 51",
     "pointsCles": [
       "Velours rouge, poutres et mobilier chiné.",
-      "La bavette au poivre et son gratin de macaronis.",
+      "Le gratin de macaronis, fondant à se damner.",
       "Une formule à partager pour goûter à tout."
     ],
     "openingHours": [
@@ -2005,9 +1918,9 @@
     "bookingUrl": "https://bookings.zenchef.com/results?rid=353717&pid=1001",
     "phone": "+ 33 4 78 42 24 62",
     "pointsCles": [
-      "Des tablées serrées qui rient de bon cœur.",
-      "Des œufs meurette qui frisent le dessert.",
-      "Riz au lait, caramel et cacahuètes."
+      "Des œufs meurette tout en sucrosité.",
+      "Le plaisir régressif du riz au lait, caramel et cacahuètes.",
+      "Des tablées serrées qui rient de bon cœur."
     ],
     "openingHours": [
       {
@@ -2089,7 +2002,7 @@
     "pointsCles": [
       "Le poulet Célestine, classique trop rare.",
       "Le baba arrosé à table du rhum maison.",
-      "Tonneaux, poutres et comptoir sculpté."
+      "Un lieu chaleureux, où s’invitent le bois et la pierre."
     ],
     "openingHours": [
       {
@@ -2160,7 +2073,7 @@
     "phone": "+ 33 4 72 41 78 48",
     "pointsCles": [
       "Un chat, vrai propriétaire des lieux.",
-      "Le bocal de cornichons reste sur la table.",
+      "Des plats rustiques, pittoresques et généreux.",
       "Tarte praline et crème au bidon d’antan."
     ],
     "openingHours": [
@@ -2229,15 +2142,15 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": true,
     "authenticSelection": false,
-    "description": "À deux pas de Lyon, le Bistrot du Marché – Chez Nénette cultive l’esprit bouchon en pleine campagne. Didier Largemain y sert une cuisine franche et gourmande, entre convivialité beaujolaise et tradition lyonnaise.",
+    "description": "À deux pas de Lyon, le Bistrot du Marché – Chez Nénette cultive l’esprit bouchon à la campagne. Didier Largemain y sert une cuisine franche et gourmande, entre convivialité beaujolaise et tradition lyonnaise.",
     "articleUrl": "https://compagnie-du-rognon.fr/chez-nenette/",
     "menuUrl": "",
     "bookingUrl": "",
     "phone": "+ 33 4 72 17 52 88",
     "pointsCles": [
-      "Un patron DJ, des platines aux fourneaux.",
-      "La quenelle dorée sur sa Nantua crépitante.",
-      "Une salade de pieds de veau sauce gribiche."
+      "Un patron amène, à la fois chef et DJ.",
+      "Des beaux plats cocotte servis à même la table.",
+      "La salade de pieds de veau sauce gribiche."
     ],
     "openingHours": [
       {
@@ -2301,15 +2214,15 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": true,
-    "description": "Institution parmi les institutions, le Café des Fédérations reste fidèle à son mythe. Jean-Luc Plasse-Molette perpétue l’esprit bouchon : cuisine franche, ambiance vivante et scrupuleux des traditions lyonnaises.",
+    "description": "Institution parmi les institutions, le Café des Fédérations reste fidèle à son mythe. Jean-Luc Plasse-Molette perpétue l’esprit bouchon : cuisine franche, ambiance vivante, respectueuse des traditions lyonnaises.",
     "articleUrl": "https://compagnie-du-rognon.fr/le-cafe-des-federations/",
     "menuUrl": "https://www.restaurant-cafedesfederations-lyon.fr/wp-content/uploads/menus/carte-soir.pdf",
     "bookingUrl": "https://app.resa.ninja/booking-new/web/30dcc43f-8e20-4a6d-a9cf-d6b5720fdb9d",
     "phone": "+ 33 4 78 28 26 00",
     "pointsCles": [
-      "L’œuf meurette imposé : le patron décide.",
+      "Les saladiers à partager et œuf meurette en bonus.",
       "Une superbe cave en sous-sol pour dîner.",
-      "Un patron fou de poésie lyonnaise."
+      "Un excellent starter-pack du bouchon lyonnais."
     ],
     "openingHours": [
       {
@@ -2502,7 +2415,7 @@
     "phone": "+ 33 4 37 46 56 42",
     "pointsCles": [
       "Un théâtre de guignol au-dessus du bar.",
-      "La quenelle à l’ail des ours.",
+      "Une valeur sûre pour un bon mâchon.",
       "Des tripes à la lyonnaise bien rissolées."
     ],
     "openingHours": [
@@ -2564,7 +2477,7 @@
     "phone": "+ 33 4 78 37 67 35",
     "pointsCles": [
       "Une traboule entre les deux salles.",
-      "Les penne aux truffes et au foie gras.",
+      "L’une des rares valeurs sûres de la rue Mercière.",
       "On finit par piocher dans l’assiette du voisin."
     ],
     "openingHours": [
@@ -2671,7 +2584,7 @@
     "phone": "+ 33 4 78 28 30 46",
     "pointsCles": [
       "Moins de 30 places : on joue des coudes.",
-      "Le Saint-Marcellin, roi de la soirée.",
+      "Le Saint-Marcellin, star de la carte.",
       "Une aile de raie aux câpres, rare en bouchon."
     ],
     "openingHours": [
@@ -2783,8 +2696,8 @@
     "phone": "+ 33 4 78 37 71 54",
     "pointsCles": [
       "On entre par une traboule Renaissance.",
-      "L’assiette Jeanne Mas : mousse et tarte praline.",
-      "Queue de bœuf et joue de porc fondantes."
+      "Les plats en sauce mijotés, fondants et gourmands.",
+      "L’assiette Jeanne Mas : mousse et tarte praline."
     ],
     "openingHours": [
       {
@@ -2865,8 +2778,8 @@
     "phone": "+ 33 4 78 30 40 44",
     "pointsCles": [
       "La quenelle de rouget, coup de théâtre.",
-      "Une brioche au cumin à la place des grattons.",
-      "Des harengs betterave sauce curry."
+      "Des harengs betterave sauce curry.",
+      "L’élégance féminine indéniable du lieu."
     ],
     "openingHours": [
       {
@@ -2952,7 +2865,7 @@
     "phone": "+ 33 4 78 37 79 26",
     "pointsCles": [
       "Le gnafron, recette inventée par Marc Mounier.",
-      "Un bar centenaire et un sol en mosaïque.",
+      "L’un des meilleurs rapports qualité-prix de Lyon.",
       "Une patronne riche en anecdotes de gones."
     ],
     "openingHours": [
@@ -3187,7 +3100,7 @@
     "phone": "+ 33 4 78 28 35 83",
     "pointsCles": [
       "Les saladiers à volonté, avant même le plat.",
-      "Des cochons de toutes tailles aux murs.",
+      "La promiscuité des tables.",
       "Des desserts simples au goût d'enfance"
     ],
     "openingHours": [
@@ -3282,15 +3195,15 @@
     "wineFavorite": false,
     "bouchonLyonnaisLabel": false,
     "authenticSelection": false,
-    "description": "Au Bouchon Tupin, les cousins Campus réinventent la formule bouchon sans la trahir. Cuisine bistronomique du chef Jean-Guillaume Desormières, décor baroque de titrailles et service aux petits soins : un bouchon 2.0.",
+    "description": "Au Bouchon Tupin, les cousins Campus réinventent la formule bouchon sans la trahir. Cuisine bistronomique du chef Jean-Guillaume Desormières, décor baroque et service aux petits soins : un vrai bouchon moderne.",
     "articleUrl": "https://compagnie-du-rognon.fr/bouchons-lyonnais/bouchon-tupin/",
     "menuUrl": "https://www.bouchontupin.com/#la-carte",
     "bookingUrl": "https://www.bouchontupin.com/#reservation",
     "phone": "+ 33 4 78 37 45 93",
     "pointsCles": [
-      "L'élégance apportée à la rusticité lyonnaise.",
+      "L’élégance apportée à la cuisine traditionnelle.",
       "Une déco qui en met plein les yeux.",
-      "Le riz au lait, caramel et cacahuètes."
+      "Une équipe jeune et un service au cordeau."
     ],
     "openingHours": [
       {

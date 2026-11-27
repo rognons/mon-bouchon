@@ -158,7 +158,7 @@ export const TOP_10_COMPAGNIE = [
   'le-garet',
   'le-bouchon-sully',
   'a-ma-vigne',
-  'meuniere',
+  'la-meuniere',
   'l-auberge-des-canuts',
   'cafe-lobut',
   'bistrot-du-marche-chez-nenette',
